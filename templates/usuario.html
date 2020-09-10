@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+<!-- Cabeçalho (que também é usado no título da barra do navegador)-->
+{% block cabecalho %}
+    <h1>Usuário {% block titulo %}{{ nome_usuario }}{% endblock %}</h1>
+{% endblock %}
+
+{% block conteudo_pagina %}
+    <h2>Olá, {{ nome_usuario }}!</h2>
+    <p>Este é um parágrafo</p>
+{% endblock %}
