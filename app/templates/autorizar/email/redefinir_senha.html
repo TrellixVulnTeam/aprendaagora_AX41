@@ -1,0 +1,8 @@
+<p>Olá {{ usuario.nome_usuario }}</p>
+<p>Para redefinir sua senha, <a href="{{ url_for('autorizar.redefinir_senha', token=token, _external=True) }}">clique aqui</a>.</p>
+<p>De forma alternativa, você pode colar o link abaixo na barra de pesquisa do seu navegador:</p>
+<p>{{ url_for('autorizar.redefinir_senha', token=token, _external=True) }}</p>
+<p>Se você não pediu para redefinir sua senha, ignore esta mensagem.</p>
+<p>Atenciosamente,</p>
+<p>A Equipe do Aprenda Agora</p>
+<p><small>Atenção: não é necessário responder a este email.</small></p>

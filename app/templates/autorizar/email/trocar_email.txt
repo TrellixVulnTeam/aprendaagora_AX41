@@ -1,0 +1,13 @@
+Olá {{ usuario.nome_usuario }}
+
+Para confirmar o novo endereço de email, clique no link abaixo:
+
+{{ url_for('autorizar.trocar_email', token=token, _external=True) }}
+
+Se você não pediu para redefinir sua senha, ignore esta mensagem.
+
+Atenciosamente,
+
+A Equipe do Aprenda Agora
+
+Atenção: não é necessário responder a este email.

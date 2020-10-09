@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block cabecalho %}
+<h1>{% block titulo %}Confirme sua conta{% endblock %}</h1>
+{% endblock %}
+
+<!-- Conteúdo da Página-->
+{% block conteudo_pagina %}
+
+    <h1>
+        Hello, {{ current_user.nome_usuario }}!
+    </h1>
+    <h3>Você ainda não confirmou sua conta.</h3>
+    <p>
+        Antes de acessar este conteúdo, você precisa confirmar sua conta.
+        Olhe a caixa de mensagens do seu email, nós te enviamos uma mensagem com o link de confirmação.
+    </p>
+    <p>
+        Precisa de outro email de confirmação?
+        <a href="{{ url_for('autorizar.reenviar_confirmacao') }}">Clique aqui</a>
+    </p>
+
+{% endblock %}
+
+

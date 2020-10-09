@@ -1,0 +1,34 @@
+
+{% macro exibir_campo(campo) %}
+
+<div class="form-group">
+    {{ campo.label(class="text-muted") }}
+
+    {% if campo.errors %}
+        {{ campo(class="form-control is-invalid") }}
+        <div class="invalid-feedback">
+            {% for erro in campo.errors %}
+                <span>{{ erro }}</span>
+            {% endfor %}
+        </div>
+    {% else %}
+        {{ campo(class="form-control") }}
+    {% endif %}
+</div>
+{% endmacro %}
+
+{%  macro exibir_botao(button) %}
+
+{{ button(class="btn btn-success") }}
+{%  endmacro %}
+
+
+
+
+
+
+
+
+
+
+

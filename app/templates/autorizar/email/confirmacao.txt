@@ -1,0 +1,13 @@
+Olá {{ usuario.nome_usuario }},
+
+Bem-vindo ao Aprenda Agora!
+
+Para confirmar sua conta, clique no link abaixo:
+
+{{ url_for('autorizar.confirmar', token=token, _external=True) }}
+
+Atenciosamente,
+
+A Equipe do Aprenda Agora
+
+Atenção: não é necessário responder à este email.

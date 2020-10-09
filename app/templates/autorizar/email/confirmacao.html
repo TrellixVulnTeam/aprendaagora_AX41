@@ -1,0 +1,8 @@
+<p>Olá {{ usuario.nome_usuario }},</p>
+<p>Bem-vindo ao <b>Aprenda Agora</b>!</p>
+<p>Para confirmar sua conta, <a href="{{ url_for('autorizar.confirmar', token=token, _external=True) }}">clique aqui</a>.</p>
+<p>De forma alternativa, você pode acessar o seguinte link no seu navegador:</p>
+<p>{{ url_for('autorizar.confirmar', token=token, _external=True) }}</p>
+<p>Atenciosamente,</p>
+<p>A Equipe do Aprenda Agora</p>
+<p><small>Atenção: não é necessário responder à este email.</small></p>

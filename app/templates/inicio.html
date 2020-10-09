@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+<!-- Cabeçalho (que também é usado no título da barra do navegador)-->
+{% block cabecalho %}
+    <h1>{% block titulo %}Início{% endblock %}</h1>
+{% endblock %}
+
+{% block conteudo_pagina %}
+
+    <h2>Olá, {% if current_user.is_authenticated %}{{ current_user.nome_usuario }}{% else %}Desconhecido{% endif %}!</h2>
+
+    <!-- Se nao houver uma seção gravada-->
+    {% if not current_user.is_authenticated %}
+        <p>Prazer em te conhecer!</p>
+    <!--- Se houver uma seção gravada-->
+    {% else %}
+        <p>Seja bem-vindo novamente!</p>
+    {% endif %}
+    
+    <hr>
+    
+    <p>A data e horário local é {{ moment(current_time).format('LLL') }}.</p>
+    <p>Isso foi {{ moment(current_time).fromNow(refresh=True) }}</p>
+
+{% endblock %}

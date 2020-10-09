@@ -1,0 +1,13 @@
+Olá {{ usuario.nome_usuario }}
+
+Para redefinir sua senha, clique link abaixo:
+
+{{ url_for('autorizar.redefinir_senha', token=token, _external=True) }}
+
+Se você não pediu para redefinir sua senha, ignore esta mensagem.
+
+Atenciosamente,
+
+A Equipe do Aprenda Agora
+
+Atenção: não é necessário responder a este email.

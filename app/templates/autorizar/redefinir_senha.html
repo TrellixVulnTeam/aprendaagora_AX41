@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Redefinir Senha{% endblock %}
+
+{% block cabecalho %}
+<h1>Redefina sua Senha</h1>
+{% endblock %}
+
+<!-- Conteúdo da Página-->
+{% block conteudo_pagina %}
+
+    <!-- Exibe o formulário de login -->
+    <form method="POST" action="" class="form" role="form">
+
+        {{ formulario.hidden_tag() }}
+        
+        {{ exibir_campo(formulario.senha) }}
+
+        {{ exibir_campo(formulario.senha2) }}
+
+        {{ exibir_botao(formulario.enviar) }}
+
+    </form>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+Lista de Funcionalidades a Serem Implementadas
+
+
+Blueprint Autorização
+
+[ ] - Atualizar senha
+[ ] - Recuperar a senha, para quando o usuário esquece a senha
+[ ] - Mudar endereço de email vinculado com a conta
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+
+Blueprint Início
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+
+
+
+
+
