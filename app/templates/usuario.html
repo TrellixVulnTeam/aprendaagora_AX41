@@ -1,11 +1,57 @@
 {% extends 'layout.html' %}
 
-<!-- Cabeçalho (que também é usado no título da barra do navegador)-->
-{% block cabecalho %}
-    <h1>Usuário {% block titulo %}{{ nome_usuario }}{% endblock %}</h1>
-{% endblock %}
-
 {% block conteudo_pagina %}
-    <h2>Olá, {{ nome_usuario }}!</h2>
-    <p>Este é um parágrafo</p>
+    
+    <!-- Cabeçalho (que também é usado no título da barra do navegador)-->
+
+    <div id="infoPerfil" class="page-header bg-light p-3 position-relative">
+
+        
+        <div class="medalha-perfil">
+            <img src="{{ usuario.gravatar(size=100) }}" alt="" class="img-rounded profile-thumbnail">
+            <span class="d-block pt-1"><a href="{{ url_for('inicio.usuario', nome_usuario=usuario.nome_usuario)}}">@{% block titulo %}{{ usuario.nome_usuario }}{% endblock %}</a></span>
+        </div>
+
+
+        <div class="profile-header">
+
+            <h4>{% if usuario.nome %}{{ usuario.nome }}{% endif %} {% if usuario.sobrenome %}{{ usuario.sobrenome }}{% endif %}</h3>
+
+                {% if usuario.localizacao %}
+                <div id="localizacaoInfo" class="mb-2">
+                    <h6 class="text-muted m-0">Localização</h6>
+                    <a href="http://maps.google.com/?q={{ usuario.localizacao }}">
+                        {{ usuario.localizacao }}
+                    </a>
+                </div>
+                {% endif %}
+        
+                {% if current_user.e_administrador() %}
+                <div id="emailInfo" class="mb-2">
+                    <h6 class="text-muted">Email</h6>
+                    <p><a href="mailto:{{ usuario.email }}">{{ usuario.email }}</a></p>
+                </div>
+                {% endif %}
+        
+                
+                {% if usuario.sobre %}
+                <div id="sobreInfo" class="mb-2">
+                    <h6 class="text-muted m-0">Sobre</h6>
+                    <p>{{ usuario.sobre }}</p>
+                </div>
+                {% endif %}
+
+                <p>
+                    Membro desde {{ moment(usuario.membro_desde).format('L') }}.
+                    Último acesso {{ moment(usuario.ultimo_acesso).fromNow() }}
+                </p>
+        </div>
+
+        {% if usuario == current_user %}
+        <a class="btn btn-dark btn-sm position-absolute" style="top:10px; right:10px;" href="{{ url_for('.editar_perfil')}}">Editar meu perfil</a>
+        {% endif %}
+        {% if current_user.e_administrador() %}
+        <a href="{{ url_for('.editar_perfil_admin', id=usuario.id) }}" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;">Editar perfil [Admin]</a>
+        {% endif %}
+    </div>
 {% endblock %}

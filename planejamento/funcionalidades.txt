@@ -1,0 +1,137 @@
+Lista de Funcionalidades a Serem Implementadas
+
+
+Blueprint Autorização
+
+[ ] - Atualizar senha
+[ ] - Recuperar a senha, para quando o usuário esquece a senha
+[ ] - Mudar endereço de email vinculado com a conta
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+
+Blueprint Início
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Blog
+
+[ ] - Criar um template para as páginas dos artigos do Blog
+      Talvez seja necessário criar templates diferentes dependendo do tópico (séries, viagem, entrevistas, brasil, estudo)
+
+[ ] - Implementar ferramenta para criação de artigos para o blog a partir da página de perfil de professores
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Chat
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Inglês
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Francês
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Espanhol
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Italiano
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Alemão
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Japonês
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -
+
+Blueprint Chinês
+
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] - 
+[ ] -

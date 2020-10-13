@@ -1,26 +1,31 @@
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from . import autorizar
+from . import autorizar as bp
 from .. import db
-from ..modelos import Usuario
+from ..modelos import Usuario, Role
 from ..email import enviar_email
 from .formularios import formularioEntrar, formularioInscricao, formularioTrocarSenha, formularioPedirRedefinirSenha, formularioRedefinirSenha, formularioTrocarEmail
+from datetime import datetime
 
-
-# Exige confirmação da conta para acessar páginas fora do blueprint 'autorizar'
-@autorizar.before_app_request
+# Atualiza o campo 'ultimo_acesso' e exige confirmação da conta para acessar páginas fora do blueprint 'autorizar'
+@bp.before_app_request
 def antes_do_pedido():
 
-    # Se o usuário estiver conectado
-    # e não for um usuário com a conta confirmada
-    # e o URL pedido está fora do Blueprint de autorização
-    # e o arquivo pedido não é um arquivo estático
-    if current_user.is_authenticated and not current_user.confirmado and request.blueprint != 'autorizar' and request.endpoint != 'static':
-        return redirect(url_for('autorizar.nao_confirmado'))
+    # Se o usuário atual tiver a conta confirmada
+    if current_user.is_authenticated:
+        # Atualize o campo 'ultimo_acesso' do usuário
+        current_user.ping()
+
+        # Se o usuário estiver conectado
+        # e não for um usuário com a conta confirmada
+        # e o URL pedido está fora do Blueprint de autorização
+        # e o arquivo pedido não é um arquivo estático
+        if current_user.is_authenticated and not current_user.confirmado and request.blueprint != 'autorizar' and request.endpoint != 'static':
+            return redirect(url_for('autorizar.nao_confirmado'))
 
 
 # Página que exige que o usuário confirme a conta antes de prosseguir
-@autorizar.route('/naoconfirmado')
+@bp.route('/naoconfirmado')
 def nao_confirmado():
 
     # Se o usuário atual for anônimo ou já estiver confirmado
@@ -33,7 +38,7 @@ def nao_confirmado():
 
 
 # Página para o usuário acessar sua conta
-@autorizar.route('/entrar', methods=['GET', 'POST'])
+@bp.route('/entrar', methods=['GET', 'POST'])
 def entrar():
 
     # Seleciona o formulário de login
@@ -70,7 +75,7 @@ def entrar():
 
 
 # Rota para o usuário sair da conta
-@autorizar.route('/sair')
+@bp.route('/sair')
 @login_required
 def sair():
     # A função logout_user() remove e reinicia a sessão de usuário
@@ -82,7 +87,7 @@ def sair():
 
 
 # Página para criação de uma nova conta
-@autorizar.route('/inscricao', methods=['GET', 'POST'])
+@bp.route('/inscricao', methods=['GET', 'POST'])
 def inscricao():
 
     # Seleciona o formulário de criação de conta
@@ -118,7 +123,7 @@ def inscricao():
 
 
 # Rota que confirma uma conta dado um token de confirmação
-@autorizar.route('/confirmar/<token>')
+@bp.route('/confirmar/<token>')
 @login_required
 def confirmar(token):
 
@@ -142,7 +147,7 @@ def confirmar(token):
 
 
 # Rota que reenvia o email de confirmação de conta
-@autorizar.route('/confirmar')
+@bp.route('/confirmar')
 @login_required
 def reenviar_confirmacao():
 
@@ -156,7 +161,7 @@ def reenviar_confirmacao():
     return redirect(url_for('inicio.inicio'))
 
 
-@autorizar.route('/trocar_senha', methods=['GET', 'POST'])
+@bp.route('/trocar_senha', methods=['GET', 'POST'])
 @login_required
 def trocar_senha():
 
@@ -184,7 +189,7 @@ def trocar_senha():
 
 
 # Rota que redefine (reseta) a senha do usuário caso ele esqueça qual é a senha
-@autorizar.route('/redefinir_senha', methods=['GET, POST'])
+@bp.route('/redefinir_senha', methods=['GET, POST'])
 @login_required
 def redefinir_senha_pedido():
 
@@ -215,7 +220,7 @@ def redefinir_senha_pedido():
     return render_template('autorizar/redefinir_senha.html', formulario=formulario)
 
 
-@autorizar.route('/redefinir_senha/<token>', methods=['GET, POST'])
+@bp.route('/redefinir_senha/<token>', methods=['GET, POST'])
 def redefinir_senha(token):
 
     # Se o usuário estiver logado e tentar acessar rota
@@ -244,7 +249,7 @@ def redefinir_senha(token):
             return redirect(url_for('inicio.inicio'))
 
 
-@autorizar.route('/trocar_email', methods=['GET', 'POST'])
+@bp.route('/trocar_email', methods=['GET', 'POST'])
 @login_required
 def trocar_email_pedido():
 
@@ -270,7 +275,7 @@ def trocar_email_pedido():
     return render_template('autorizar/trocar_email.html', formulario=formulario)
 
 
-@autorizar.route('/trocar_email/<token>')
+@bp.route('/trocar_email/<token>')
 @login_required
 def trocar_email(token):
 

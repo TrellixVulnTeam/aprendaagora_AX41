@@ -43,4 +43,8 @@ def criar_app(nome_configuracao):
     from .autorizar import autorizar as autorizar_blueprint
     app.register_blueprint(autorizar_blueprint, url_prefix='/autorizar')
 
+    # Registra o blueprint 'ingles'
+    from .ingles import ingles as ingles_blueprint
+    app.register_blueprint(ingles_blueprint, url_prefix='/ingles')
+
     return app

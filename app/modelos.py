@@ -1,9 +1,10 @@
+import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app
+from flask import current_app, request
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
-
+from datetime import datetime
 
 
 # Lista de permissões dos 'roles'
@@ -14,29 +15,33 @@ class Permissao:
     # Comentar em artigos do blog, lições dos cursos e publicações no mural
     COMENTAR = 2
 
+    # Escrever publicações no mural
+    ESCREVER_MURAL = 4
+
     # Apagar comentários, fechar discussões, etiqueta de usuário destacada 
-    MODERAR_INGLES = 4
-    MODERAR_FRANCES = 8
-    MODERAR_ESPANHOL = 16
-    MODERAR_ITALIANO = 32
-    MODERAR_ALEMAO = 64
-    MODERAR_JAPONES = 128
-    MODERAR_CHINES = 256
+    MODERAR_INGLES = 8
+    MODERAR_FRANCES = 16
+    MODERAR_ESPANHOL = 32
+    MODERAR_ITALIANO = 64
+    MODERAR_ALEMAO = 128
+    MODERAR_JAPONES = 256
+    MODERAR_CHINES = 512
 
     # Criar publicações destacadas e eventos no mural
-    PROF_INGLES = 512
-    PROF_FRANCES = 1024
-    PROF_ESPANHOL = 2048
-    PROF_ITALIANO = 4096
-    PROF_ALEMAO = 8192
-    PROF_JAPONES = 16384
-    PROF_CHINES = 32768
+    PROF_INGLES = 1024
+    PROF_FRANCES = 2048
+    PROF_ESPANHOL = 4096
+    PROF_ITALIANO = 8192
+    PROF_ALEMAO = 16384
+    PROF_JAPONES = 32768
+    PROF_CHINES = 65536
 
     # Fazer publicações no blog
-    ESCREVER_BLOG = 65536
+    ESCREVER_BLOG = 131072
 
     # Permissões de administrador
-    ADMIN = 131072
+    ADMIN = 262144
+
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -65,88 +70,104 @@ class Role(db.Model):
         roles = {
             'Estudante': [
                 Permissao.SEGUIR,
-                Permissao.COMENTAR
+                Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL
                 ],
             'ModeradorIngles': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.MODERAR_INGLES
                 ],
             'ModeradorFrances': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.MODERAR_FRANCES
                 ],
             'ModeradorEspanhol': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.MODERAR_ESPANHOL
                 ],
             'ModeradorItaliano': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.MODERAR_ITALIANO
                 ],
             'ModeradorAlemao': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.MODERAR_ALEMAO
                 ],
             'ModeradorJapones': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.MODERAR_JAPONES
                 ],
             'ModeradorChines': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.MODERAR_CHINES
                 ],
             'ProfessorIngles': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ESCREVER_BLOG,
                 Permissao.PROF_INGLES
                 ],
             'ProfessorFrances': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ESCREVER_BLOG,
                 Permissao.PROF_FRANCES
                 ],
             'ProfessorEspanhol': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ESCREVER_BLOG,
                 Permissao.PROF_ESPANHOL
                 ],
             'ProfessorItaliano': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ESCREVER_BLOG,
                 Permissao.PROF_ITALIANO
                 ],
             'ProfessorAlemao': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ESCREVER_BLOG,
                 Permissao.PROF_ALEMAO
                 ],
             'ProfessorJapones': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ESCREVER_BLOG,
                 Permissao.PROF_JAPONES
                 ],
             'ProfessorChines': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ESCREVER_BLOG,
                 Permissao.PROF_CHINES
                 ],
             'Administrador': [
                 Permissao.SEGUIR,
                 Permissao.COMENTAR,
+                Permissao.ESCREVER_MURAL,
                 Permissao.ADMIN
                 ],
         }
@@ -208,14 +229,36 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role %r>' % self.nome
 
+
 class Usuario(UserMixin, db.Model):
     __tablename__ = 'usuarios'
+    
+    # Dados básicos
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True,)
-    nome_usuario = db.Column(db.String(64), unique=True, index=True)
+    nome_usuario = db.Column(db.String(20), unique=True, index=True)
     senha_hash = db.Column(db.String(128))
+    
+    # Informação adicional do usuário
+    nome = db.Column(db.String(64))
+    sobrenome = db.Column(db.String(64))
+    localizacao = db.Column(db.String(64))
+    sobre = db.Column(db.String(100))
+    
+
+    #  Id do 'role' do usuário
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    # Conta confirmada
     confirmado = db.Column(db.Boolean, default=False)
+
+    membro_desde = db.Column(db.DateTime(), default=datetime.utcnow)
+    ultimo_acesso = db.Column(db.DateTime(), default=datetime.utcnow)
+
+    avatar_hash = db.Column(db.String(32))
+
+
+    publicacoes = db.relationship('Publicacao', backref='autor', lazy='dynamic')
+
 
     # Atribui o 'role' 'Estudante' à novos usuários, ou 'Administrador' caso o email do usuário está deinido em APRENDA_AGORA_ADMIN
     def __init__(self, **kwargs):
@@ -234,6 +277,11 @@ class Usuario(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(padrao=True).first()
 
+        # Se o usuário tiver um email vinculado e o 'avatar_hash' não estiver definido
+        if self.email is not None and self.avatar_hash is None:
+            # Crie o 'avatar_hash' do usuário
+            self.avatar_hash = self.gravatar_hash()
+
     @property
     def senha(self):
         raise AttributeError('senha não é um atributo de leitura')
@@ -247,6 +295,7 @@ class Usuario(UserMixin, db.Model):
     def verificar_senha(self, senha):
         return check_password_hash(self.senha_hash, senha)
 
+    # Gera um token para o usuário confirmar sua conta
     def gerar_token_confirmacao(self, expiracao=3600):
 
         s = Serializer(current_app.config['SECRET_KEY'], expiracao)
@@ -274,7 +323,6 @@ class Usuario(UserMixin, db.Model):
         # Retorna o token
         return s.dumps({'id_usuario': self.id}).decode('utf-8')
 
-
     @staticmethod
     def redefinir_senha(token, nova_senha):
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -293,7 +341,6 @@ class Usuario(UserMixin, db.Model):
         db.session.add(usuario)
 
         return True
-
 
     def gerar_token_trocar_email(self, novo_email, expiracao=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiracao)
@@ -321,11 +368,32 @@ class Usuario(UserMixin, db.Model):
 
         if self.query.filter_by(email=novo_email).first() is not None:
             return False
+
         self.email = novo_email
+        # Redefine o 'avatar_hash' baseado no novo email
+        self.avatar_hash = self.gravatar_hash()
         db.session.add(self)
         return True
 
+    # Um dos requisitos do serviço Gravatar é que o endereço de email através do qual o hash MD5 é obtido deve estar em letras minúsculas, por isso usamos a função 'String.lower()'
+    def gravatar_hash(self):
+        return hashlib.md5(self.email.lower().encode('utf-8')).hexdigest()
 
+    def gravatar(self, size=100, default='identicon', rating='g'):
+
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://gravatar.com/avatar'
+        
+        #Se houver uma hash armazenada, use ela, senão, gere uma nova hash 
+        hash = self.avatar_hash or self.gravatar_hash()
+
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
+            url=url, hash=hash,
+            size=size, default=default,
+            rating=rating
+        )
 
     # Checa se o usuário pode fazer determinada ação
     def pode(self, permissao):
@@ -337,8 +405,79 @@ class Usuario(UserMixin, db.Model):
         # Checa se o usuário tem permissão de Adminstrador
         return self.pode(Permissao.ADMIN)
 
+    # Atualiza o campo 'ultimo_acesso' para ser a data de quando a função é chamada
+    def ping(self):
+        self.ultimo_acesso = datetime.utcnow()
+        db.session.add(self)
+        db.session.commit()
+
     def __repr__(self):
         return '<Usuário %r>' % self.nome_usuario
+
+# Relação entre publicações e tags
+publicacoes_tags = db.Table(
+    
+    'publicacoes_tags',
+
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
+
+    db.Column('publicacao_id', db.Integer, db.ForeignKey('publicacoes.id'), primary_key=True)
+)
+
+class Publicacao(db.Model):
+    __tablename__ = 'publicacoes'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    titulo = db.Column(db.String(64))
+    
+    conteudo = db.Column(db.Text)
+    
+    data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    
+    idioma = db.Column(db.String(8))
+
+    autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+
+    tags = db.relationship('Tag', secondary=publicacoes_tags, lazy='subquery', backref=db.backref('publicacoes'))
+
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(16), unique=True)
+
+
+
+
+"""
+
+# Tags do BLOG
+séries
+viagem
+estudo
+entrevistas
+brasil
+
+# Tags do MURAL
+pronuncia
+vocabulario
+gramática
+cultura
+
+# Tags IDIOMAS
+ingles
+espanhol
+italiano
+frances
+alemao
+japones
+chines
+
+"""
+
+
 
 # Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
 class UsuarioAnonimo(AnonymousUserMixin):

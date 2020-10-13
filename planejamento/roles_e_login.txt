@@ -1,0 +1,91 @@
+Funcionalidades dos Roles e Sistema de Login
+
+Roles:
+
+Estudante
+
+Moderador de Inglês
+Moderador de Francês
+Moderador de Espanhol
+Moderador de Italiano
+Moderador de Alemão
+Moderador de Japonês
+Moderador de Chinês
+
+Professor de Inglês
+Professor de Francês
+Professor de Espanhol
+Professor de Italiano
+Professor de Alemão
+Professor de Japonês
+Professor de Chinês
+
+Admin
+
+
+
+
+
+Funcionalidades dos Roles:
+
+
+
+
+Estudantes
+
+- A página de usuário dos Estudantes deve exibir a participação do estudante na comunidade, exibindo lições completadas, publicações em murais, comentários escritos e histórico de participação em salas de bate-papo pelo estudante.
+
+- Podem se inscrever em cursos que são exibidos na página "Meus cursos". Esta página exibe o progresso do usuário nos cursos, progresso dos amigos, pontuação do estudante nos cursos, pontuação dos amigos nos cursos. A exibição da pontuação do usuário juntamente com a pontuação dos amigos é para estimular a competitividade entre os usuários para ver quem aprende mais.
+
+  No Khan Academy, por exemplo, esta página exibe o título do curso e logo abaixo uma lista com os tópicos do curso e uma marcação no ícone do tópico caso o aprendiz tenha estudado/cumprido aquele tópico/requisito. -> Implicações no Back-end?
+
+
+- Podem fazer perguntas no mural
+        comentar em lições dos cursos
+        comentar em publicações do blog
+        participar de salas de bate-papo
+
+    A habilidade de visualizar comentários e publicações deve estar disponível para todos os acessos, mesmo se for um usuário anônimo.
+
+    Já a habilidade de escrever no mural, comentar em publicações do mural e do blog, dar "amei" em publicações e participar das salas de bate-papo deve estar habilitada somente para usuários logados.
+
+   
+
+
+Moderadores
+
+- O role de Moderador será atribuído aos estudantes que tiverem completado todos os cursos e que tenham atingido uma determinada pontuação adquirida através de participação na comunidade:
+
+    participação em salas de bate-papo
+    publicações feitas no mural
+    comentários escritos em artigos, lições e publicações
+    "amor" recebido em publicações no mural e em comentários escritos pelo moderador
+
+- Moderadores possuirão ícones e molduras diferentes em comentários, publicações e mensagens escritas pelo moderador, para indicar o status de moderador do usuário.
+
+- Moderadores podem
+
+    excluir publicações impróprias
+    criar publicações destacadas
+    encerrar debates/discussões
+    orientar os outros alunos
+
+
+
+
+Professores
+
+- O role de Professor é exclusiva para os professores do Aprenda Agora
+
+- No painel do professor, é possível
+
+    escrever novos artigos para o Blog
+    acompanhar desempenho de lições ensinadas pelo professor
+    acompanhar eventos criados pelo professor
+
+
+
+
+Administrador
+
+- Painel com estastísticas e análises

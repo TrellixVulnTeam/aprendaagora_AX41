@@ -36,6 +36,7 @@
 
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
+    {{ moment.lang('pt-br') }}
 {% endblock %}
 
 <!-- Barra de Navegação-->
@@ -72,16 +73,14 @@
     </main>
 </div>
 
+{% endblock %}
+
 <!-- Rodapé (Footer) -->
 {% block rodape %}
     {% include 'componentes/rodape.html' %}
 {% endblock %}
 
-{% endblock %}
-
 <!-- Scripts presentes no final do body -->
 {% block scripts %}
-    {% include 'componentes/scripts.html' %}
-    {{ moment.include_moment() }}
-    {{ moment.lang('pt-br') }}  
+    {% include 'componentes/scripts.html' %}   
 {% endblock %}

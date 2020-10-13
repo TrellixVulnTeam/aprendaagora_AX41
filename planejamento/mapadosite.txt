@@ -1,0 +1,432 @@
+
+
+Início
+/
+
+Página do Usuário
+/usuario/<nome_usuario>
+
+Bate-papo
+/batepapo
+
+Painel do Administrador
+/admin
+
+Equipe
+/equipe
+
+Contato
+/Contato
+
+Sobre
+/sobre
+
+Loja
+/loja
+
+---------------------------------------------------------------------------------
+
+Blog
+/blog
+
+Séries
+/blog/series
+
+Viagem
+/blog/viagem
+
+Entrevistas
+/blog/entrevistas
+
+Brasil
+/blog/brasil
+
+Estudo
+/blog/estudo
+
+---------------------------------------------------------------------------------
+
+Inglês - Página inicial do idioma painel de cursos, mural e materiais de estudo
+/ingles
+
+Guia de Como Aprender Inglês
+/ingles/guia
+
+Curso de Introdução em Livro PDF - Livro complementar ao curso de introdução, com o estilo do livro de japonês da "NHK"
+/ingles/livro.pdf
+
+Curso de Introdução à Língua Inglesa - Vídeos curtos sobre tópicos simples
+/ingles/introducao
+/ingles/introducao/licao1
+/ingles/introducao/licao2
+/ingles/introducao/licao3
+...
+
+Curso de Compreensão Escrita da Língua Inglesa - Textos sobre diferentes assuntos
+/ingles/escrita
+/ingles/escrita/a1
+/ingles/escrita/a2
+/ingles/escrita/b1
+/ingles/escrita/b2
+/ingles/escrita/c1
+/ingles/escrita/c2
+
+Curso de Compreensão Oral da Língua Inglesa - Vídeos e áudios sobre diferentes assuntos
+/ingles/oral
+/ingles/oral/a1
+/ingles/oral/a2
+/ingles/oral/b1
+/ingles/oral/b2
+/ingles/oral/c1
+/ingles/oral/c2
+
+Curso de Gramática da Língua Inglesa - Explicação de tópicos de gramática de forma divertida, dinâmica e produtiva
+/ingles/gramatica
+/ingles/gramatica/conjugacao - Página com explicações e tabelas de conjugação dos diversos verbos
+/ingles/gramatica/a1
+/ingles/gramatica/a2
+/ingles/gramatica/b1
+/ingles/gramatica/b2
+/ingles/gramatica/c1
+/ingles/gramatica/c2
+
+Dicionário de Inglês
+/ingles/dicionario
+/ingles/dicionario/<palavra> - Página de exibição das definições de uma palavra
+/ingles/dicionario/<palavra>/frases - Página com uma lista de frases contendo a palavra em questão
+
+Livro de Frases em Inglês
+/ingles/frases/ - Página do livro de frases. O conteúdo desta página será chave para o desenvolvimento da ferramenta de sugestão de frases no bate-papo
+/ingles/frases/<assunto> - Lista de frases sobre um determinado assunto
+
+---------------------------------------------------------------------------------
+
+Francês - Página inicial do idioma painel de cursos, mural e materiais de estudo
+/frances
+
+Guia de Como Aprender Francês
+/frances/guia
+
+Curso de Introdução em Livro PDF - Livro complementar ao curso de introdução, com o estilo do livro de japonês da "NHK"
+/frances/livro.pdf
+
+Curso de Introdução à Língua Francesa - Vídeos curtos sobre tópicos simples
+/frances/introducao
+/frances/introducao/licao1
+/frances/introducao/licao2
+/frances/introducao/licao3
+...
+
+Curso de Compreensão Escrita da Língua Francesa - Textos sobre diferentes assuntos
+/frances/escrita
+/frances/escrita/a1
+/frances/escrita/a2
+/frances/escrita/b1
+/frances/escrita/b2
+/frances/escrita/c1
+/frances/escrita/c2
+
+Curso de Compreensão Oral da Língua Francesa - Vídeos e áudios sobre diferentes assuntos
+/frances/oral
+/frances/oral/a1
+/frances/oral/a2
+/frances/oral/b1
+/frances/oral/b2
+/frances/oral/c1
+/frances/oral/c2
+
+Curso de Gramática da Língua Francesa - Explicação de tópicos de gramática de forma divertida, dinâmica e produtiva
+/frances/gramatica
+/frances/gramatica/conjugacao - Página com explicações e tabelas de conjugação dos diversos verbos
+/frances/gramatica/a1
+/frances/gramatica/a2
+/frances/gramatica/b1
+/frances/gramatica/b2
+/frances/gramatica/c1
+/frances/gramatica/c2
+
+Dicionário de Francês
+/frances/dicionario
+/frances/dicionario/<palavra> - Página de exibição das definições de uma palavra
+/frances/dicionario/<palavra>/frases - Página com uma lista de frases contendo a palavra em questão
+
+Livro de Frases em Francês
+/frances/frases/ - Página do livro de frases. O conteúdo desta página será chave para o desenvolvimento da ferramenta de sugestão de frases no bate-papo
+/frances/frases/<assunto> - Lista de frases sobre um determinado assunto
+
+---------------------------------------------------------------------------------
+
+Espanhol - Página inicial do idioma painel de cursos, mural e materiais de estudo
+/espanhol
+
+Guia de Como Aprender Espanhol
+/espanhol/guia
+
+Curso de Introdução em Livro PDF - Livro complementar ao curso de introdução, com o estilo do livro de japonês da "NHK"
+/espanhol/livro.pdf
+
+Curso de Introdução à Língua Espanhola - Vídeos curtos sobre tópicos simples
+/espanhol/introducao
+/espanhol/introducao/licao1
+/espanhol/introducao/licao2
+/espanhol/introducao/licao3
+...
+
+Curso de Compreensão Escrita da Língua Espanhola - Textos sobre diferentes assuntos
+/espanhol/escrita
+/espanhol/escrita/a1
+/espanhol/escrita/a2
+/espanhol/escrita/b1
+/espanhol/escrita/b2
+/espanhol/escrita/c1
+/espanhol/escrita/c2
+
+Curso de Compreensão Oral da Língua Espanhola - Vídeos e áudios sobre diferentes assuntos
+/espanhol/oral
+/espanhol/oral/a1
+/espanhol/oral/a2
+/espanhol/oral/b1
+/espanhol/oral/b2
+/espanhol/oral/c1
+/espanhol/oral/c2
+
+Curso de Gramática da Língua Espanhola - Explicação de tópicos de gramática de forma divertida, dinâmica e produtiva
+/espanhol/gramatica
+/espanhol/gramatica/conjugacao - Página com explicações e tabelas de conjugação dos diversos verbos
+/espanhol/gramatica/a1
+/espanhol/gramatica/a2
+/espanhol/gramatica/b1
+/espanhol/gramatica/b2
+/espanhol/gramatica/c1
+/espanhol/gramatica/c2
+
+Dicionário de Espanhol
+/espanhol/dicionario
+/espanhol/dicionario/<palavra> - Página de exibição das definições de uma palavra
+/espanhol/dicionario/<palavra>/frases - Página com uma lista de frases contendo a palavra em questão
+
+Livro de Frases em Espanhol
+/espanhol/frases/ - Página do livro de frases. O conteúdo desta página será chave para o desenvolvimento da ferramenta de sugestão de frases no bate-papo
+/espanhol/frases/<assunto> - Lista de frases sobre um determinado assunto
+
+---------------------------------------------------------------------------------
+
+Italiano - Página inicial do idioma painel de cursos, mural e materiais de estudo
+/italiano
+
+Guia de Como Aprender Italiano
+/italiano/guia
+
+Curso de Introdução em Livro PDF - Livro complementar ao curso de introdução, com o estilo do livro de japonês da "NHK"
+/italiano/livro.pdf
+
+Curso de Introdução à Língua Italiana - Vídeos curtos sobre tópicos simples
+/italiano/introducao
+/italiano/introducao/licao1
+/italiano/introducao/licao2
+/italiano/introducao/licao3
+...
+
+Curso de Compreensão Escrita da Língua Italiana - Textos sobre diferentes assuntos
+/italiano/escrita
+/italiano/escrita/a1
+/italiano/escrita/a2
+/italiano/escrita/b1
+/italiano/escrita/b2
+/italiano/escrita/c1
+/italiano/escrita/c2
+
+Curso de Compreensão Oral da Língua Italiana - Vídeos e áudios sobre diferentes assuntos
+/italiano/oral
+/italiano/oral/a1
+/italiano/oral/a2
+/italiano/oral/b1
+/italiano/oral/b2
+/italiano/oral/c1
+/italiano/oral/c2
+
+Curso de Gramática da Língua Italiana - Explicação de tópicos de gramática de forma divertida, dinâmica e produtiva
+/italiano/gramatica
+/italiano/gramatica/conjugacao - Página com explicações e tabelas de conjugação dos diversos verbos
+/italiano/gramatica/a1
+/italiano/gramatica/a2
+/italiano/gramatica/b1
+/italiano/gramatica/b2
+/italiano/gramatica/c1
+/italiano/gramatica/c2
+
+Dicionário de Italiano
+/italiano/dicionario
+/italiano/dicionario/<palavra> - Página de exibição das definições de uma palavra
+/italiano/dicionario/<palavra>/frases - Página com uma lista de frases contendo a palavra em questão
+
+Livro de Frases em Italiano
+/italiano/frases/ - Página do livro de frases. O conteúdo desta página será chave para o desenvolvimento da ferramenta de sugestão de frases no bate-papo
+/italiano/frases/<assunto> - Lista de frases sobre um determinado assunto
+
+---------------------------------------------------------------------------------
+
+Alemão - Página inicial do idioma painel de cursos, mural e materiais de estudo
+/alemao
+
+Guia de Como Aprender Alemão
+/alemao/guia
+
+Curso de Introdução em Livro PDF - Livro complementar ao curso de introdução, com o estilo do livro de japonês da "NHK"
+/alemao/livro.pdf
+
+Curso de Introdução à Língua Alemã - Vídeos curtos sobre tópicos simples
+/alemao/introducao
+/alemao/introducao/licao1
+/alemao/introducao/licao2
+/alemao/introducao/licao3
+...
+
+Curso de Compreensão Escrita da Língua Alemã - Textos sobre diferentes assuntos
+/alemao/escrita
+/alemao/escrita/a1
+/alemao/escrita/a2
+/alemao/escrita/b1
+/alemao/escrita/b2
+/alemao/escrita/c1
+/alemao/escrita/c2
+
+Curso de Compreensão Oral da Língua Alemã - Vídeos e áudios sobre diferentes assuntos
+/alemao/oral
+/alemao/oral/a1
+/alemao/oral/a2
+/alemao/oral/b1
+/alemao/oral/b2
+/alemao/oral/c1
+/alemao/oral/c2
+
+Curso de Gramática da Língua Alemã - Explicação de tópicos de gramática de forma divertida, dinâmica e produtiva
+/alemao/gramatica
+/alemao/gramatica/conjugacao - Página com explicações e tabelas de conjugação dos diversos verbos
+/alemao/gramatica/a1
+/alemao/gramatica/a2
+/alemao/gramatica/b1
+/alemao/gramatica/b2
+/alemao/gramatica/c1
+/alemao/gramatica/c2
+
+Dicionário de Alemão
+/alemao/dicionario
+/alemao/dicionario/<palavra> - Página de exibição das definições de uma palavra
+/alemao/dicionario/<palavra>/frases - Página com uma lista de frases contendo a palavra em questão
+
+Livro de Frases em Alemão
+/alemao/frases/ - Página do livro de frases. O conteúdo desta página será chave para o desenvolvimento da ferramenta de sugestão de frases no bate-papo
+/alemao/frases/<assunto> - Lista de frases sobre um determinado assunto
+
+---------------------------------------------------------------------------------
+
+Japonês - Página inicial do idioma painel de cursos, mural e materiais de estudo
+/japones
+
+Guia de Como Aprender Japonês
+/japones/guia
+
+Curso de Introdução em Livro PDF - Livro complementar ao curso de introdução, com o estilo do livro de japonês da "NHK"
+/japones/livro.pdf
+
+Curso de Introdução à Língua Japonesa - Vídeos curtos sobre tópicos simples
+/japones/introducao
+/japones/introducao/licao1
+/japones/introducao/licao2
+/japones/introducao/licao3
+...
+
+Curso de Compreensão Escrita da Língua Japonesa - Textos sobre diferentes assuntos
+/japones/escrita
+/japones/escrita/n5
+/japones/escrita/n4
+/japones/escrita/n3
+/japones/escrita/n2
+/japones/escrita/n1
+
+Curso de Compreensão Oral da Língua Japonesa - Vídeos e áudios sobre diferentes assuntos
+/japones/oral
+/japones/oral/n5
+/japones/oral/n4
+/japones/oral/n3
+/japones/oral/n2
+/japones/oral/n1
+
+Curso de Gramática da Língua Japonesa - Explicação de tópicos de gramática de forma divertida, dinâmica e produtiva
+/japones/gramatica
+/japones/gramatica/conjugacao - Página com explicações e tabelas de conjugação dos diversos verbos
+/japones/gramatica/n5
+/japones/gramatica/n4
+/japones/gramatica/n3
+/japones/gramatica/n2
+/japones/gramatica/n1
+
+Dicionário de Japonês
+/japones/dicionario
+/japones/dicionario/<palavra> - Página de exibição das definições de uma palavra
+/japones/dicionario/<palavra>/frases - Página com uma lista de frases contendo a palavra em questão
+
+Livro de Frases em Japonês
+/japones/frases/ - Página do livro de frases. O conteúdo desta página será chave para o desenvolvimento da ferramenta de sugestão de frases no bate-papo
+/japones/frases/<assunto> - Lista de frases sobre um determinado assunto
+
+---------------------------------------------------------------------------------
+
+Chinês - Página inicial do idioma painel de cursos, mural e materiais de estudo
+/chines
+
+Guia de Como Aprender Chinês
+/chines/guia
+
+Curso de Introdução em Livro PDF - Livro complementar ao curso de introdução, com o estilo do livro de japonês da "NHK"
+/chines/livro.pdf
+
+Curso de Introdução à Língua Chinesa - Vídeos curtos sobre tópicos simples
+/chines/introducao
+/chines/introducao/licao1
+/chines/introducao/licao2
+/chines/introducao/licao3
+...
+
+Curso de Compreensão Escrita da Língua Chinesa - Textos sobre diferentes assuntos
+/chines/escrita
+/chines/escrita/hsk1
+/chines/escrita/hsk2
+/chines/escrita/hsk3
+/chines/escrita/hsk4
+/chines/escrita/hsk5
+/chines/escrita/hsk6
+
+Curso de Compreensão Oral da Língua Chinesa - Vídeos e áudios sobre diferentes assuntos
+/chines/oral
+/chines/oral/hsk1
+/chines/oral/hsk2
+/chines/oral/hsk3
+/chines/oral/hsk4
+/chines/oral/hsk5
+/chines/oral/hsk6
+
+Curso de Gramática da Língua Chinesa - Explicação de tópicos de gramática de forma divertida, dinâmica e produtiva
+/chines/gramatica
+/chines/gramatica/conjugacao - Página com explicações e tabelas de conjugação dos diversos verbos
+/chines/gramatica/hsk1
+/chines/gramatica/hsk2
+/chines/gramatica/hsk3
+/chines/gramatica/hsk4
+/chines/gramatica/hsk5
+/chines/gramatica/hsk6
+
+Dicionário de Chinês
+/chines/dicionario
+/chines/dicionario/<palavra> - Página de exibição das definições de uma palavra
+/chines/dicionario/<palavra>/frases - Página com uma lista de frases contendo a palavra em questão
+
+Livro de Frases em Chinês
+/chines/frases/ - Página do livro de frases. O conteúdo desta página será chave para o desenvolvimento da ferramenta de sugestão de frases no bate-papo
+/chines/frases/<assunto> - Lista de frases sobre um determinado assunto
+
+
+
+
+

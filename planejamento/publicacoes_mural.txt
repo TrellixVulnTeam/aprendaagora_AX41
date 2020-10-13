@@ -1,0 +1,33 @@
+Publicações no Mural
+
+
+Informações/dados para exibir na publicação
+
+- Título da publicação
+- Conteúdo da publicação
+- Data da publicação
+- Nome do autor da publicação
+- Foto/Avatar do autor da publicação
+- Tópicos da publicação (tags)
+- Número de "likes" e botão de "like"
+- Número de comentários e botão de comentar
+- Botão de editar publicação (somente para o autor)
+- Botão de apagar a publicação
+
+
+
+Publicações escritas pelo usuário devem ter algum elemento visual que as diferencie das publicações de outros usuários, por exemplo, borda ou cor de fundo diferente.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

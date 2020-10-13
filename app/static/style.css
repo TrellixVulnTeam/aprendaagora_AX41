@@ -110,3 +110,19 @@ footer li.list-group-item {
     color: grey;    
     border-radius: 3px;
 }
+
+
+
+
+/* Avatar do usuário na página de perfil */
+
+
+.medalha-perfil {
+    position: absolute;
+}
+
+
+.profile-header {
+    min-height: 100px;
+    margin-left: 120px;
+}

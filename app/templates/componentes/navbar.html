@@ -28,7 +28,7 @@
         <span class="nav-item-texto">Idiomas <b>語</b></span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="">🇺🇸 Inglês</a>
+        <a class="dropdown-item" href="{{ url_for('ingles.inicio') }}">🇺🇸 Inglês</a>
         <a class="dropdown-item" href="#">🇫🇷 Francês</a>
         <a class="dropdown-item" href="#">🇪🇸 Espanhol</a>
         <a class="dropdown-item" href="#">🇮🇹 Italiano</a>
@@ -68,9 +68,11 @@
 
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="nav-item-texto">Conta <i class="fa fa-user-circle"></i></i></span>
+            <img src="{{ current_user.gravatar(size=18) }}">
+            <span class="nav-item-texto">Conta <i class="fa fa-user-circle"></i></span>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ url_for('inicio.usuario', nome_usuario=current_user.nome_usuario ) }}">Perfil</a>
             <a class="dropdown-item" href="{{ url_for('autorizar.trocar_senha') }}">Trocar Senha</a>
             <a class="dropdown-item" href="{{ url_for('autorizar.trocar_email_pedido') }}">Trocar Email</a>
             </div>
