@@ -1,0 +1,1 @@
+web: gunicorn aprendaagora:app

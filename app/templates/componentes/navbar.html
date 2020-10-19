@@ -1,100 +1,217 @@
 <!-- Barra de navegação -->
-<nav id="barra-navegacao" class="navbar navbar-expand-lg navbar-dark">
-<a class="navbar-brand" href="#">
-    <img src="{{ url_for('static', filename='logo.jpg')}}" width="30" height="30" alt="" loading="lazy">
-</a>
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-</button>
 
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
 
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="nav-item-texto">Blog <i class="fa fa-coffee"></i></span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="#"><i class="fa fa-hashtag text-danger"></i> Séries</a>
-        <a class="dropdown-item" href="#">✈️ Viagem</a>
-        <a class="dropdown-item" href="#"><i class="fa fa-comments text-success"></i> Entrevistas</a>
-        <a class="dropdown-item" href="#">🌎 Brasil</a>
-        <a class="dropdown-item" href="#">📚 Estudo</a>
-        </div>
-    </li>
+<div id="nav-mobile">
+    <nav id="barra-navegacao" class="row navbar text-center">
 
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="nav-item-texto">Idiomas <b>語</b></span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="{{ url_for('ingles.inicio') }}">🇺🇸 Inglês</a>
-        <a class="dropdown-item" href="#">🇫🇷 Francês</a>
-        <a class="dropdown-item" href="#">🇪🇸 Espanhol</a>
-        <a class="dropdown-item" href="#">🇮🇹 Italiano</a>
-        <a class="dropdown-item" href="#">🇩🇪 Alemão</a>
-        <a class="dropdown-item" href="#">🇨🇳 Chinês</a>
-        <a class="dropdown-item" href="#">🇯🇵 Japonês</a>
-        </div>
-    </li>
-
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span class="nav-item-texto">Tech <i class="fa fa-laptop"></i></span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="https://cs50xemportugues.github.io/2020/">🐱 Introdução à Ciências da Computação </a>
-        <a class="dropdown-item" href="https://cs50.harvard.edu/web/2020/">💻 Desenvolvimento Web com Python e JavaScript</a>
-        <a class="dropdown-item" href="https://cs50.harvard.edu/ai/2020/">🧠 Inteligência Artificial com Python</a>
-        <a class="dropdown-item" href="https://cs50.harvard.edu/games/2018/">🎮 Desenvolvimento de Games</a>
-        <a class="dropdown-item" href="https://cs50.harvard.edu/law/2019/">💼 Ciências da Computação para Advogados</a>
-        <a class="dropdown-item" href="https://cs50.harvard.edu/business/2017/">📈 Ciências da Computação para Empresários</a>
-        </div>
-    </li>
-
-    <li class="nav-item nav-item-texto">
-        <a class="nav-link" href="">Equipe <i class="fa fa-users"></i></a>
-    </li>
-
-    <li class="nav-item nav-item-texto">
-        <a class="nav-link" href="">Contato <i class="fa fa-phone"></i></a>
-    </li>
-
-    <li class="nav-item nav-item-texto">
-        <a class="nav-link" href="">Sobre <i class="fa fa-info-circle"></i></a>
-    </li>
-
-    {% if current_user.is_authenticated %}
-
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="{{ current_user.gravatar(size=18) }}">
-            <span class="nav-item-texto">Conta <i class="fa fa-user-circle"></i></span>
+        <div class="col"><!-- Logo na barra de navegação -->
+            <a class="navbar-logo" href="#">
+                <img src="{{ url_for('static', filename='logo.jpg')}}" width="60" height="60" alt="" loading="lazy">
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url_for('inicio.usuario', nome_usuario=current_user.nome_usuario ) }}">Perfil</a>
-            <a class="dropdown-item" href="{{ url_for('autorizar.trocar_senha') }}">Trocar Senha</a>
-            <a class="dropdown-item" href="{{ url_for('autorizar.trocar_email_pedido') }}">Trocar Email</a>
-            </div>
-        </li>
+        </div>
 
-        <li class="nav-item nav-item-texto">
-            <a class="nav-link" href="{{ url_for('autorizar.sair') }}">Sair</a>
-        </li>
-    {% else %}
-        <li class="nav-item nav-item-texto">
-            <a class="nav-link" href="{{ url_for('autorizar.inscricao')}}">Se inscrever</a>
-        </li>
-        <li class="nav-item nav-item-texto">
-            <a class="nav-link" href="{{ url_for('autorizar.entrar') }}">Entrar</a>
-        </li>
-    {% endif %}
-    </ul>
+        <div id="blog-botao" class="col" type="button" data-toggle="collapse" data-target="#blog-lista" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span id="blog-icone" type="button" data-toggle="collapse" data-target="#blog-lista"><i class="fa fa-coffee"></i></span>
+        </div>
 
-    <!-- Caixa de Pesquisa -->
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Pesquise algo..." aria-label="Pesquisa algo...">
-        <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
-    </form>
+        <div id="idiomas-botao" class="col" type="button" data-toggle="collapse" data-target="#idiomas-lista" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span id="idiomas-icone" type="button" data-toggle="collapse" data-target="#idiomas-lista" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-language"></i></span>
+        </div>
+
+        <div id="tech-botao" class="col" type="button" data-toggle="collapse" data-target="#tech-lista" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span id="tech-icone" type="button" data-toggle="collapse" data-target="#tech-lista"><i class="fa fa-laptop"></i></span>
+        </div>
+
+        <div id="menu-botao" class="col" role="button" type="button" data-toggle="collapse" data-target="#menu-lista" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span id="menu-icone" type="button" data-toggle="collapse" data-target="#menu-lista"><i class="fa fa-ellipsis-h"></i></span>
+        </div>
+
+        <div class="collapse navbar-collapse bg-white" id="blog-lista">
+        
+            <ul class="navbar-sub-lista navbar-nav borda-sub-menu">
+                <li><i class="fa fa-coffee"></i> Blog</li>
+                <a href=""><li>🌎 Brasil</li></a>
+                <a href=""><li><i class="fa fa-hashtag text-danger"></i> Séries</li></a>
+                <a href=""><li>📚 Estudo</li></a>
+                <a href=""><li>✈️ Viagem</li></a>
+                <a href=""><li><i class="fa fa-comments text-success"></i> Entrevistas</li></a>
+            </ul>
+        </div>
+    
+        <div class="collapse navbar-collapse bg-white" id="idiomas-lista">
+            <ul class="navbar-sub-lista navbar-nav mr-auto borda-sub-menu">
+                <li><i class="fa fa-language"></i> Idiomas</li>
+                <a href="{{ url_for('ingles.inicio') }}"><li>🇺🇸 Inglês</li></a>
+                <a href="#"><li>🇫🇷 Francês</li></a>
+                <a href="#"><li>🇪🇸 Espanhol</li></a>
+                <a href=""><li>🇮🇹 Italiano</li></a>
+                <a href=""><li>🇩🇪 Alemão</li></a>
+                <a href=""><li>🇨🇳 Chinês</li></a>
+                <a href=""><li>🇯🇵 Japonês</li></a>
+            </ul>
+        </div>
+    
+        <div class="collapse navbar-collapse bg-white borda-sub-menu" id="tech-lista">
+            
+            <ul class="navbar-sub-lista navbar-nav">
+                <li><i class="fa fa-laptop"></i> Tecnologia</li>
+                <a href=""><li>🐱 Introdução à Ciências da Computação</li></a>
+                <a href=""><li>💻 Desenvolvimento Web com Python e JavaScript</li></a>
+                <a href=""><li>🧠 Inteligência Artificial com Python</li></a>
+                <a href=""><li>🎮 Desenvolvimento de Games</li></a>
+                <a href=""><li>📈 Ciências da Computação para Empresários</li></a>
+                <a href=""><li>💼 Ciências da Computação para Advogados</li></a>
+            </ul>
+        </div>
+    
+        <div class="collapse navbar-collapse bg-white borda-sub-menu" id="menu-lista">
+    
+            <ul class="navbar-sub-lista navbar-nav">
+    
+                <!-- Se o cliente estiver logado -->
+                {% if current_user.is_authenticated %}
+                <!-- Exiba o link para a página do cliente
+                                link para o cliente trocar a senha
+                                link para o cliente trocar o email -->
+    
+                <a class="" href="{{ url_for('inicio.usuario', nome_usuario=current_user.nome_usuario ) }}"><li>Perfil <i class="fa fa-user-circle"></i></li></a>
+                <a class="" href=""><li>Conta <i class="fa fa-key"></i></li></a>
+                <a class="" href="{{ url_for('autorizar.trocar_senha') }}"><li>Trocar Senha</li></a>
+                <a class="" href="{{ url_for('autorizar.trocar_email_pedido') }}"><li>Trocar Email</li></a>
+                {% endif %}
+                <a class="" href=""><li>Equipe <i class="fa fa-users"></i></li></a>
+                <a class="" href=""><li>Contato <i class="fa fa-phone"></i></li></a>
+                <a class="" href=""><li>Sobre <i class="fa fa-info-circle"></i></li></a>
+                {% if current_user.is_authenticated %}
+                <a class="" href="{{ url_for('autorizar.sair') }}"><li>Sair</li></a>
+                {% else %}
+                <a href="{{ url_for('autorizar.inscricao')}}">
+                    <li>Se Inscrever</li>
+                </a>
+                <a href="{{ url_for('autorizar.entrar')}}">
+                    <li>Entrar</li>
+                </a>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
 </div>
-</nav>
+
+
+
+
+
+
+<div id="nav-desktop">
+    <nav id="barra-navegacao-desktop" class="navbar navbar-expand-sm ">
+
+        <a class="navbar-brand navbar-brand-desktop p-2" href="http://google.com"><span>A+</span></a>
+        
+        <!-- Botão hamburger -->
+        <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon navbar-toggler-icon-desktop"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav p-0 ">
+        
+                <!-- Links do blog -->
+                <li class="nav-item nav-item-desktop dropdown p-0 btn">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="nav-item-texto">Blog <i class="fa fa-coffee"></i></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#"><i class="fa fa-hashtag text-danger"></i> Séries</a>
+                    <a class="dropdown-item" href="#">✈️ Viagem</a>
+                    <a class="dropdown-item" href="#"><i class="fa fa-comments text-success"></i> Entrevistas</a>
+                    <a class="dropdown-item" href="#">🌎 Brasil</a>
+                    <a class="dropdown-item" href="#">📚 Estudo</a>
+                    </div>
+                </li>
+        
+                <!-- Link dos idiomas -->
+                <li class="nav-item nav-item-desktop dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="nav-item-texto">Idiomas <i class="fa fa-language"></i>></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ url_for('ingles.inicio') }}">🇺🇸 Inglês</a>
+                    <a class="dropdown-item" href="#">🇫🇷 Francês</a>
+                    <a class="dropdown-item" href="#">🇪🇸 Espanhol</a>
+                    <a class="dropdown-item" href="#">🇮🇹 Italiano</a>
+                    <a class="dropdown-item" href="#">🇩🇪 Alemão</a>
+                    <a class="dropdown-item" href="#">🇨🇳 Chinês</a>
+                    <a class="dropdown-item" href="#">🇯🇵 Japonês</a>
+                    </div>
+                </li>
+        
+                <!-- Link para os cursos do CS50 -->
+                <li class="nav-item nav-item-desktop dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="nav-item-texto">Tech <i class="fa fa-laptop"></i></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="https://cs50xemportugues.github.io/2020/">🐱 Introdução à Ciências da Computação </a>
+                    <a class="dropdown-item" href="https://cs50.harvard.edu/web/2020/">💻 Desenvolvimento Web com Python e JavaScript</a>
+                    <a class="dropdown-item" href="https://cs50.harvard.edu/ai/2020/">🧠 Inteligência Artificial com Python</a>
+                    <a class="dropdown-item" href="https://cs50.harvard.edu/games/2018/">🎮 Desenvolvimento de Games</a>
+                    <a class="dropdown-item" href="https://cs50.harvard.edu/law/2019/">💼 Ciências da Computação para Advogados</a>
+                    <a class="dropdown-item" href="https://cs50.harvard.edu/business/2017/">📈 Ciências da Computação para Empresários</a>
+                    </div>
+                </li>
+        
+                <!-- Link para a página da equipe -->
+                <li class="nav-item nav-item-desktop nav-item-texto">
+                    <a class="nav-link" href="">Equipe <i class="fa fa-users"></i></a>
+                </li>
+        
+                <!-- Link para a página de contato -->
+                <li class="nav-item nav-item-desktop nav-item-texto">
+                    <a class="nav-link" href="">Contato <i class="fa fa-phone"></i></a>
+                </li>
+        
+                <!-- Link para a página com informações adicionais -->
+                <li class="nav-item nav-item-desktop nav-item-texto">
+                    <a class="nav-link" href="">Sobre <i class="fa fa-info-circle"></i></a>
+                </li>
+        
+                <!-- Se o cliente estiver logado -->
+                {% if current_user.is_authenticated %}
+                    <!-- Exiba o link para a página do cliente
+                                    link para o cliente trocar a senha
+                                    link para o cliente trocar o email -->
+                    <li class="nav-item nav-item-desktop dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{{ current_user.gravatar(size=18) }}">
+                        <span class="nav-item-texto">Conta <i class="fa fa-user-circle"></i></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ url_for('inicio.usuario', nome_usuario=current_user.nome_usuario ) }}">Perfil</a>
+                        <a class="dropdown-item" href="{{ url_for('autorizar.trocar_senha') }}">Trocar Senha</a>
+                        <a class="dropdown-item" href="{{ url_for('autorizar.trocar_email_pedido') }}">Trocar Email</a>
+                        </div>
+                    </li>
+        
+                    <!-- Link para o cliente conectado sair da conta -->
+                    <li class="nav-item nav-item-desktop nav-item-texto">
+                        <a class="nav-link" href="{{ url_for('autorizar.sair') }}">Sair</a>
+                    </li>
+                {% else %}
+                    <!-- Link para o cliente criar uma conta -->
+                    <li class="nav-item nav-item-desktop nav-item-texto">
+                        <a class="nav-link" href="{{ url_for('autorizar.inscricao')}}">Se inscrever</a>
+                    </li>
+                    <!-- Link para o cliente entrar na sua conta -->
+                    <li class="nav-item nav-item-texto">
+                        <a class="nav-link" href="{{ url_for('autorizar.entrar') }}">Entrar</a>
+                    </li>
+                {% endif %}
+            </ul>
+    
+        </div>
+    </nav>
+</div>
+
+
+

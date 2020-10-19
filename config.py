@@ -14,6 +14,8 @@ class Configuracao:
     APRENDA_AGORA_ADMIN = os.environ.get('APRENDA_AGORA_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    MURAL_PUBLICACOES_POR_PAGINA = 16
+
     @staticmethod
     def init_app(app):
         pass
@@ -31,10 +33,30 @@ class ConfiguracaoProducao(Configuracao):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or 'sqlite:///' + os.path.join(diretoriobase, 'dados.sqlite')
 
 
+class ConfiguracaoHeroku(ConfiguracaoProducao):
+
+    @classmethod
+    def init_app(cls, app):
+
+        ConfiguracaoProducao.init_app(app)
+
+        # log to stderr
+        import logging
+        from logging import StreamHandler
+
+        file_handler = StreamHandler()
+
+        file_handler.setLevel(loggin.INFO)
+
+        app.logger.addHandler(file_handler)
+
+
 configuracao = {
     'desenvolvimento': ConfiguracaoDesenvolvimento,
     'testagem': ConfiguracaoTeste,
     'producao': ConfiguracaoProducao,
+
+    'heroku': ConfiguracaoHeroku,
 
     'padrao': ConfiguracaoDesenvolvimento
 }

@@ -6,7 +6,7 @@ from datetime import datetime
 from . import inicio as bp
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
-from ..modelos import Usuario, Role, Permissao
+from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, UsuarioAnonimo
 from ..email import enviar_email
 from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin
 
@@ -22,22 +22,37 @@ def inicio():
 @bp.route('/perfil', methods=['GET', 'POST'])
 @login_required
 def perfil():
-    return render_template('usuario.html', usuario=current_user._get_current_object())
+
+    # Seleciona o usuário no banco de dados ou retorna um erro 404
+    usuario = Usuario.query.filter_by(nome_usuario=current_user._get_current_object().nome_usuario).first_or_404()
+
+    publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
+
+    return render_template('usuario.html', usuario=current_user._get_current_object(), publicacoes=publicacoes)
 
 # Exibe a página de perfil de um usuário qualquer
 @bp.route('/usuario/<nome_usuario>')
 def usuario(nome_usuario):
 
-    usuario_atual = current_user._get_current_object()
-    
-    if usuario_atual.nome_usuario == nome_usuario:
-        return redirect(url_for('inicio.perfil'))
-
     # Seleciona o usuário no banco de dados ou retorna um erro 404
     usuario = Usuario.query.filter_by(nome_usuario=nome_usuario).first_or_404()
 
-    # Exibe a página de usuário, fornecendo os dados do usuário como argumentoss
-    return render_template('usuario.html', usuario=usuario)
+
+    #usuario_atual = current_user._get_current_object()
+    
+    # Se o usuário atual estiver conectado
+    if current_user.is_authenticated:
+        if current_user._get_current_object().nome_usuario == nome_usuario:
+            return redirect(url_for('inicio.perfil'))
+    else:
+
+        # Seleciona o usuário no banco de dados ou retorna um erro 404
+        usuario = Usuario.query.filter_by(nome_usuario=nome_usuario).first_or_404()
+
+        publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
+
+        # Exibe a página de usuário, fornecendo os dados do usuário como argumentos
+        return render_template('usuario.html', usuario=usuario, publicacoes=publicacoes)
 
 
 @bp.route('/perfil/editar', methods=['GET', 'POST'])

@@ -45,12 +45,19 @@ class Permissao:
 
 class Role(db.Model):
     __tablename__ = 'roles'
+    
     id = db.Column(db.Integer, primary_key=True)
+
+    # Nome do 'role'
     nome = db.Column(db.String(64), unique=True)
+
     # Apenas um "role" pode ter o atributo 'padrao' igual a True. O "role" marcado como "padrao" será o "role" atribuído a novos usuários durante a inscrição. Considerando que o app vai consultar a tabela 'roles' para encontrar o 'role' padrão, esta coluna está configurada para ter um índice, dado que isto faz a consulta ser mais rápida 
     padrao = db.Column(db.Boolean, default=False, index=True)
+
+    # Lista de permissões de um 'role'. As permissões individuais são acessadas através de lógica binária
     permissoes = db.Column(db.Integer)
-    # Relação com a tabea 'usuarios'
+
+    # Relação com a tabela 'usuarios'
     usuarios = db.relationship('Usuario', backref='role', lazy='dynamic')
 
 
@@ -236,7 +243,7 @@ class Usuario(UserMixin, db.Model):
     # Dados básicos
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True,)
-    nome_usuario = db.Column(db.String(20), unique=True, index=True)
+    nome_usuario = db.Column(db.String(25), unique=True, index=True)
     senha_hash = db.Column(db.String(128))
     
     # Informação adicional do usuário
@@ -245,18 +252,18 @@ class Usuario(UserMixin, db.Model):
     localizacao = db.Column(db.String(64))
     sobre = db.Column(db.String(100))
     
-
     #  Id do 'role' do usuário
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     # Conta confirmada
     confirmado = db.Column(db.Boolean, default=False)
 
+    # Dados relacionados à datas
     membro_desde = db.Column(db.DateTime(), default=datetime.utcnow)
     ultimo_acesso = db.Column(db.DateTime(), default=datetime.utcnow)
 
     avatar_hash = db.Column(db.String(32))
 
-
+    # Usuario.publicacoes retorna a lista de publicações escritas pelo usuário
     publicacoes = db.relationship('Publicacao', backref='autor', lazy='dynamic')
 
 
@@ -429,9 +436,11 @@ class Publicacao(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    titulo = db.Column(db.String(64))
+    # Título da publicação em formato string
+    titulo = db.Column(db.String(100))
     
-    conteudo = db.Column(db.Text)
+    # Conteúdo da publicação em formato string
+    conteudo = db.Column(db.Text())
     
     data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     
@@ -439,43 +448,41 @@ class Publicacao(db.Model):
 
     autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
-    tags = db.relationship('Tag', secondary=publicacoes_tags, lazy='subquery', backref=db.backref('publicacoes'))
+    # Publicacao.tags retorna as tags às quais ma publicação está associada
+    tags = db.relationship('Tag',
+            secondary=publicacoes_tags,
+            lazy='subquery',
+            backref=db.backref('publicacoes'))
 
+    # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
+    def json(self):
 
+        # Declara um array vazio
+        publicacao_tags = []
+
+        # Para cada tag atribuída à publicação
+        for tag in self.tags:
+            # Adicione o nome da tag ao array
+            publicacao_tags.append(tag.nome)
+
+        # data = moment.create(self.data)
+
+        # Retorne um objeto contendo as informações da publicação
+        return {
+            'conteudo': self.conteudo,
+            'tags': publicacao_tags,
+            'data': self.data,
+            'idioma': self.idioma,
+            'avatar_autor': self.autor.gravatar(size=50),
+        }
+
+# As tags de uma publicação podem ser acessadas com publicacao.tags
 class Tag(db.Model):
     __tablename__ = 'tags'
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(16), unique=True)
 
-
-
-
-"""
-
-# Tags do BLOG
-séries
-viagem
-estudo
-entrevistas
-brasil
-
-# Tags do MURAL
-pronuncia
-vocabulario
-gramática
-cultura
-
-# Tags IDIOMAS
-ingles
-espanhol
-italiano
-frances
-alemao
-japones
-chines
-
-"""
 
 
 

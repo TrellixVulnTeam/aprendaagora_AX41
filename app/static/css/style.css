@@ -1,0 +1,646 @@
+/*
+
+--- Elementos comuns ---
+
+GLOBAL
+
+UTILIDADES
+
+BARRA DE NAVEGAÇÃO
+
+SEÇÃO PRINCIPAL
+
+RODAPE
+
+
+--- Elementos específicos ---
+
+PÁGINA DE PERFIL DE USUÁRIO
+
+PUBLICAÇÃO-MODAL
+
+PAGINAÇÃO
+
+*/
+
+
+/* --------------------------------------------------------------------------------------- */
+
+/* GLOBAL */
+
+body::-webkit-scrollbar {display:none;}
+
+p {
+    overflow-wrap: break-word;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+ul > li {
+    list-style-type: none;
+}
+
+/* FIM ESTILIZAÇÃO GLOBAL */
+
+/* --------------------------------------------------------------------------------------- */
+
+/* UTILIDADES */
+
+/* Fundo cinza 1 */
+.bg-grey1 {
+    background-color: #f0f0f0;
+}
+
+/* Fundo cinza 2 */
+.bg-grey2 {
+    background-color: #c4c4c4;
+}
+
+/* Fundo cinza 3 */
+.bg-grey3 {
+    background-color: #858585;
+}
+
+
+.bg-green {
+    background-color: rgb(0, 128, 0);
+    border: 1px solid black;
+}
+
+.borda-sub-menu {
+    border-bottom: 1px rgb(107, 107, 107) solid;
+}
+
+.margem-secao-principal {
+    padding-top: 3em;
+}
+
+/* FIM ESTILIZAÇÃO DAS UTILIDADES */
+
+/* --------------------------------------------------------------------------------------- */
+
+/* BARRA DE NAVEGAÇÃO MOBILE */
+
+
+#nav-desktop {
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+
+    #nav-mobile {
+        display: none;
+    }
+    
+
+    #nav-desktop {
+        display: block;
+    }
+}
+
+
+#barra-navegacao {
+    padding: 0px 0px 0 0px;
+    background-color: #29ba13;
+    overflow: visible;
+    color: white;
+    font-size: 2.5em;
+}
+
+#barra-navegacao > div.col {
+    padding: 5px;
+}
+
+#barra-navegacao > div.col:hover {
+    background-color: rgb(11, 110, 11);
+}
+
+#barra-navegacao > * {
+    padding: 0;
+    margin: 0;
+}
+
+.navbar-logo img {
+    border-radius: 30px;
+    margin: 0 auto;
+}
+
+#nav-logo {
+    font-family: 'Merienda One', cursive;
+    font-size: 2em;
+}   
+
+
+.navbar-toggler {
+    border: white 1px solid!important;
+}
+
+.navbar-toggler-icon {
+    border: 0;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.navbar-sub-lista  li {
+    font-family: 'Unica One', cursive;
+    font-size: 2rem; 
+    text-align: center;
+    padding: 0.5em;
+}
+
+.navbar-sub-lista  a {
+    color: black;
+    /*color: rgb(196, 196, 196);*/
+}
+
+.navbar-sub-lista  li {
+    color: black;
+    /*color: rgb(196, 196, 196);*/
+}
+
+.navbar-sub-lista  a:hover {
+    text-decoration: none;
+    background-color: rgb(223, 223, 223);
+}
+
+.navbar {
+    font-family: 'Unica One', cursive;
+}
+
+.nav-item {
+    display: inline-block;
+}
+
+
+.dropdown-menu { 
+    padding: 0;
+}
+
+.dropdown-item {
+    margin: 0;
+    padding: 8px 8px 8px 12px;
+}
+
+#botao-pesquisa {
+    border: 1px white solid;
+}
+
+
+/* FIM BARRA DE NAVEGAÇÃO MOBILE */
+
+/* --------------------------------------------------------------------------------------- */
+
+/*  BARRA DE NAVEGAÇÃO DESKTOP  */
+
+
+#barra-navegacao-desktop {
+    padding: 0px 0px 0 0px;
+    background-color: #29ba13;
+    overflow: visible;
+    font-size: 1em;
+}
+
+#barra-navegacao-desktop > * {
+    padding: 0;
+    margin: 0;
+}
+
+#barra-navegacao-desktop a {
+    color: white;
+}
+
+
+#barra-navegacao-desktop a {
+    color: white;
+}
+
+#barra-navegacao-desktop .dropdown-item {
+    color: rgb(61, 61, 61);
+}
+
+
+.navbar-brand-desktop {
+    font-family: 'Merienda', cursive;
+    text-shadow: black 1px 1px;
+}
+
+.navbar-brand-desktop span {
+    background-color: rgb(30, 172, 2);
+    border:white 1px solid;
+    border-radius: 20px;
+    padding: 3px 5px;
+}
+
+.navbar-brand-desktop span:hover {
+    background-color: rgb(0, 211, 0);
+}
+
+
+.nav-item-desktop {
+    text-align: center;
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 2px #29ba13 solid;
+}
+
+
+.nav-item-desktop:hover {
+    background-color: rgb(255, 255, 255);
+    border-bottom: 2px green solid;
+}
+
+
+.nav-item-desktop:hover a {
+    color: rgb(37, 37, 37)!important;
+}
+
+
+
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  }
+
+.navbar-toggler-icon-desktop {
+   border: white 1px solid;
+}
+
+
+/* FIM ESTILIZAÇÃO BARRA DE NAVEGAÇÃO */
+
+/* --------------------------------------------------------------------------------------- */
+
+/* SEÇÃO PRINCIPAL */
+
+/* Paddin lateral */
+#secao-principal {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Padding lateral em telas grandes */
+@media only screen and (min-width: 768px) {
+   
+    #secao-principal {
+        padding-left: 5rem;
+        padding-right: 5rem;
+    }
+}
+
+/* Imagem no fundo da seção principal */
+#wallpaper {
+    /* Define regras para preencher o fundo */
+    min-height: 100%;
+    min-width: 1024px;
+
+    /* Define redimensionamento proporcional */
+    width: 100%;
+    height: auto;
+
+    /* Define posicionamento */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    /* Garante que o papel de fundo ficará no fundo */
+    z-index: -5;
+}
+
+/* Exibe a imagem de fundo de forma mais atraente em dispositivos com telas menores que 1024 */
+@media screen and (max-width: 1024px) { /* Específico para esta imagem */
+  #wallpaper {
+    left: 50%;
+    margin-left: -512px;   /* 50% */
+  }
+}
+
+/* Margem 0 no Grid */
+.row {
+    margin: 0 auto;
+}
+
+/* FIM ESTILIZAÇÃO SEÇÃO PRINCIPAL */
+
+/* --------------------------------------------------------------------------------------- */
+
+/* PUBLICAÇÃO NO MURAL */
+
+.container-publicacao {
+    padding: 2em;
+}
+
+.publicacao-mural:hover {
+    border: 1px rgb(192, 191, 191) solid!important;
+    cursor: pointer;
+}
+
+/* Botão de editar publicação e botão de apagar publicação */
+.opcoes-publicacao {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Botão para o autor da publicação editar a publicação */
+.icone-editar-publicacao {
+    text-align: center;
+    line-height: 1em;
+    font-size: 1em;
+    color: rgb(75, 75, 75);
+}
+
+/* Muda a cor do botão de editar publicação durante hover */
+.icone-editar-publicacao:hover {
+    color: black;
+}
+
+/* Botão para o autor de uma publicação apagar a publicação */
+.icone-apagar-publicacao {
+    text-align: center;
+    line-height: 1em;
+    font-size: 1.3em;
+    color: rgb(248, 31, 31);
+    border-radius: 3px;
+}
+
+/* Muda a cor do botão de apagar publicação durante hover */
+.icone-apagar-publicacao:hover {
+    color: rgb(255, 0, 0);
+}
+
+.rodape-publicacao {
+    overflow: hidden;
+    /* Display: table; está sendo usado para que a classe .perfil-autor-link possa ter height 100% */
+    display: table;
+}
+
+.perfil-autor-link {
+    /* Display:table-cell; está sendo usado para que o elemento possa ter height 100% */
+    display: table-cell;
+    height: 100%;
+}
+
+.perfil-autor-link a:hover {
+    text-decoration: none;
+}
+
+.bandeira-idioma {
+    position: relative;
+    top: 2px;
+    font-size: 18px;
+}
+
+.opcoes-reagir {
+    position: relative;
+    top: 1px;
+}
+
+/* FIM ESTILIZAÇÃO PUBLICAÇÃO */
+
+/* --------------------------------------------------------------------------------------- */
+
+/* PUBLICAÇÃO-MODAL COM CONTEÚDO COMPLETO E COMENTÁRIOS DE UMA PUBLICAÇÃO */
+
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(60, 153, 42, 0.9);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+
+
+.conteudo-modal {
+    /* Cores */
+    border: 1px rgb(96, 189, 96) solid;
+    background-color: rgb(255, 255, 255);
+    /* Largura, altura, e bordas */
+    width: 2px;
+    height: 2px;
+    
+
+    position: absolute;
+    overflow: auto;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+}
+
+.conteudo-modal::-webkit-scrollbar {display:none;}
+
+/* EM TELAS PEQUENAS */
+@media only screen and (max-width: 767px) {
+
+
+    .conteudo-modal {
+
+        border-radius: 0.5rem;
+        
+        transition: width 0.1s, height 0.1s;
+
+    }
+
+    .padding-modal {
+        padding: 25px 25px;
+    }
+
+
+    .conteudo-modal-expandido {
+
+        width: 95%;
+        height: 95%;
+    }
+    
+    .botao-fechar {
+
+        position: absolute;
+    
+        bottom: 4px;
+        left: 4px;
+
+        width: 2rem;
+        line-height: 2rem;
+        font-size: 2rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 1rem;
+    
+        color: white;
+        background-color: rgb(122, 121, 121);
+        z-index: 100;
+        border: white 1px solid;
+    
+    }
+}
+
+/* EM TELAS LARGAS */
+@media only screen and (min-width: 768px) {
+
+    .conteudo-modal {
+    
+        transition: width 0.1s, height 0.1s;
+    
+        /* Estilização lagura, altura, padding e bordas */
+    
+        border-radius: 0.2rem;
+    }
+
+    .padding-modal {
+        padding: 25px 25px;
+    }
+
+    .conteudo-modal-expandido {
+        width: 80%;
+        height: 80%;
+    }
+
+    .botao-fechar {
+
+        position: absolute;
+    
+
+        top: 10px;
+        right: 10px;
+    
+        width: 1.5rem;
+        line-height: 1.5rem;
+        font-size: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 1rem;
+    
+        color: white;
+        background-color: rgb(122, 121, 121);
+        border: white 1px solid;
+        z-index: 100;
+    
+    }
+}
+
+
+.botao-fechar:hover {
+    background-color: rgb(90, 88, 88);
+}
+
+.exibir-modal {
+    opacity: 1;
+    display: block;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.5s 0s, transform 0.25s;
+}
+
+
+.body-no-scroll {
+    overflow-y: hidden;
+}
+
+.body-scroll {
+    overflow-y: visible;
+}
+
+
+/* FIM ESTILIZAÇÃO PUBLICAÇÃO-MODAL */
+
+/* --------------------------------------------------------------------------------------- */
+
+/* PAGINAÇÃO */
+ul.paginacao {
+    display: table;
+    margin: 0 auto;
+}
+
+ul.paginacao > a:hover {
+    text-decoration: none;
+}
+
+
+.paginacao li {
+
+    font-weight: bold;
+
+    border: grey 1px solid;
+
+    display:table-cell;
+
+    vertical-align: middle;
+
+    text-align: center;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+}
+
+.ativo {
+    color: black;
+    cursor: not-allowed;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+.desabilitado {
+    color: grey;
+    cursor: not-allowed;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+/* FIM ESTILIZAÇÃO PAGINAÇÃO */
+
+/* --------------------------------------------------------------------------------------- */
+
+
+/* PÁGINA DE PERFIL DO USUÁRIO */
+
+/* Medalha do usuário (avatar e nome de usuário) na página de perfil */
+.medalha-perfil {
+    position: absolute;
+}
+
+/* Cabeçalho da informação de perfil */
+.profile-header {
+    min-height: 100px;
+    margin-left: 120px;
+}
+
+/* FIM ESTILIZAÇÃO PERFIL DO USUÁRIO */
+
+/* --------------------------------------------------------------------------------------- */
+
+/* RODAPÉ */
+
+
+footer {
+    margin: 20px;
+    background-color: #555555;
+}
+
+.footer-heading {
+    font-family: 'Roboto Slab', serif;
+    color: grey;
+    font-size: .8em;
+}
+
+footer .fa {
+    margin-right: 10px;
+}
+
+footer li.list-group-item {
+    border: none;
+}
+
+/* FIM ESTILIZAÇÃO DO RODAPÉ */
+
+/* --------------------------------------------------------------------------------------- */
+
+
+
+

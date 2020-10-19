@@ -7,6 +7,7 @@
 
 {% block conteudo_pagina %}
 
+    <!-- Mensagem de boas-vindas personalizada -->
     <h2>Olá, {% if current_user.is_authenticated %}{{ current_user.nome_usuario }}{% else %}Desconhecido{% endif %}!</h2>
 
     <!-- Se nao houver uma seção gravada-->
@@ -19,6 +20,7 @@
     
     <hr>
     
+    <!-- Datas -->
     <p>A data e horário local é {{ moment(current_time).format('LLL') }}.</p>
     <p>Isso foi {{ moment(current_time).fromNow(refresh=True) }}</p>
 

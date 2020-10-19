@@ -3,100 +3,38 @@
 
 {% block conteudo_pagina %}
 
-<div class="container">
+<div id="mural">
 
-    <div class="container mb-5">
-        <h5>Faça uma publicação no mural</h5>
+    <!-- Se o cliente tiver permissão para escrever no mural -->
+    {% if current_user.pode(Permissao.ESCREVER_MURAL) %}
 
+        <!-- Container do formulário do MURAL-->
+        <div class="bg-white border rounded mb-3 p-2">
+            
+            <!-- Título -->
+            <h5 class="text-dark text-shadow">Faça uma publicação no mural</h5>
 
-        <form class="bg-light p-2" method="post" action="">
+            <!-- Exibe o formulário para publicar no mural -->
+            {{ exibir_formulario(formulario) }}
+        </div>
+    {% endif %}
 
-            {{ formulario.hidden_tag() }}
+    <!-- Lista de publicações no MURAL -->
+    <ul id="lista-publicacoes" class="row w-100 posts">
 
-            <div>
-                {{ exibir_campo(formulario.titulo) }}
-                
-                {{ exibir_campo(formulario.conteudo) }}
-                
-                <div class="form-row p-0">
-                    <div class="col-sm-6">
-                        <div class="row m-0 ml-1">
+        <!-- Para cada par publicação-autor -->
+        {% for publicacao, autor in publicacoes %}
 
-                            <div class="col-lg-6 p-0">
-
-                                <div class="form-check p-0 mb-1">
-                                    <input class="form-check-input position-relative align-middle m-0" type="checkbox" value="" id="defaultCheck1">
-                                    <div class="bg-success text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
-                                        <label class="form-check-label" for="defaultCheck1">📚 Vocabulário</label>
-                                    </div> 
-                                </div>
-
-                                <div class="form-check p-0 mb-1">
-                                      <input class="form-check-input position-relative align-middle m-0" type="checkbox" value="" id="defaultCheck1">
-                                    <div class="bg-primary text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
-                                        <label class="form-check-label" for="defaultCheck1"><i class="fa fa-cogs"></i> Gramática</label>
-                                    </div> 
-                                </div>                      
-                            </div>
-                            <div class="col-lg-6 p-0">
-                                <div class="form-check p-0 mb-1 ">
-                                    <input class="form-check-input position-relative align-middle m-0" type="checkbox" value="" id="defaultCheck1">
-                                    <div class="bg-danger text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
-                                        <label class="form-check-label" for="defaultCheck1">🗣️ Pronúncia</label>
-                                    </div> 
-                                </div>
-                                <div class="form-check p-0 mb-1">
-                                    <input class="form-check-input position-relative align-middle m-0" type="checkbox" value="" id="defaultCheck1">
-                                    <div class="bg-secondary text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
-                                        <label class="form-check-label" for="defaultCheck1">🎩 Cultura</label>
-                                    </div> 
-                                </div>
-                            </div>  
-                        </div>                          
-                    </div>
-
-                    <div class="col-sm-6 mt-0 pl-3 mt-2 mt-sm-0">
-                        <button id="btnEnviarPost" type="submit" class="btn btn-primary float-sm-right h-100 w-50">Publicar <i class="fa fa-paper-plane"></i></button>
-                    </div>
-            </div>
-                   
-        </form>  
-    </div>
-
-
-
-    <div class="row">
-        {% for publicacao, usuario in publicacoes %}
-            <div class="col-md-6 p-2">
-
-                <article class="pl-2 pt-2 pl-2 pb-0 bg-light border">
-                        <div class="card-body p-0">
-                            {% if usuario == current_user %}
-                            <div class="postOptions">
-                                <span class="badge badge-secondary editPostIcon">Editar</span>
-                                <span class="removePostIcon"><i class="fa fa-times-circle"></i></span>
-                            </div>
-                            {% endif %}
-                            <h5 class="">{{ publicacao.titulo }}</h5>
-                            <p class="card-text text-secondary">{{ publicacao.conteudo }}</p>                                
-                        </div>
-
-                        <footer class="bg-white m-0">
-                            <small>@{{ usuario.nome_usuario }}</small>
-                            
-                            <div class="inline-block float-right">
-                                <span>
-                                    <span class="">10</span> <i class="fa fa-comments text-secondary"></i>
-                                    <span class="">99</span> <i class="fa fa-heart text-danger"></i> 
-                                </span>
-                                
-                            </div>                                                                        
-                        </footer>
-                </article>
-            </div>
+            <!-- Exiba a publicação -->
+            {{ exibir_publicacao(publicacao, autor) }}
         {% endfor %}
-    </div>
+    </ul>
 
+    <div class="paginacao mt-5">
+        {{ ferramenta_paginacao_mural(paginacao, '.inicio') }}
+    </div>
+    
+    
 </div>
 
 {% endblock %}

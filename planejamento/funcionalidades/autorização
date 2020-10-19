@@ -1,0 +1,48 @@
+Blueprint Autorização
+
+[ ] - Cria uma página com a Política de Privacidade e os Termos de Uso
+
+[ ] -  A habilidade de visualizar publicações e comentários deve estar disponível para todos os acessos, mesmo se o usuário for anônimo.
+
+
+[ ] - Desabilitar a exibição dos formulários de escrever comentário em uma lição, artigo e publicação. No lugar do formulário, exibir uam mensagem pedindo para o usuário anônimo criar uma conta para poder escrever um comentário.
+
+
+[ ] - Cria uma seção na página de perfil do usuário onde ele pode fazer alterações nas sua conta e nas configurações dele.
+      Esse "painel" incluirá as funcionalidades:
+      
+	Mudar nome de usuário
+      
+	Atualizar senha
+	
+	Recuperar a senha, para quando o usuário esquece a senha
+	
+	Mudar endereço de email vinculado com a conta
+	
+	
+[ ] - Um usuário ESTUDANTE deve ter seu 'role' aprimorado para MODERADOR quando atingir uma lista de requisitos.
+
+	Quais requisitos um estudante deve atingir para se tornar um MODERADOR de um idioma?
+		
+		- Completar o curso de INTRODUÇÃO, de COMPREENSÃO ORAL e de COMPREENSÃO ESCRITA
+		- Ter criado 100 publicações no mural do idioma em questão
+		- Ter comentado 500 publicações no mural do idioma em questão
+		- Ter recebido 1000 ameis nos comentários escritos em publicações no mural do idioma em questão
+		- Ter enviado 1000 mensagens nas salas de bate-papo do idioma em questão
+
+[ ] - Alterar COR DA BORDA NO AVATAR de um MODERADOR quando este comentar em publicações no mural do idioma em que ele é moderador
+
+[ ] - Criar uma BADGE para cada idioma e anexar no perfil dos moderadores do idioma
+
+
+[ ] - Implementar lógica e ferramentas para Moderadores poderem
+
+	    Excluir publicações impróprias
+	    Criar publicações destacadas
+	    Encerrar debates/discussões
+	    Orientar os outros alunos
+
+
+
+
+

@@ -54,4 +54,15 @@
         <a href="{{ url_for('.editar_perfil_admin', id=usuario.id) }}" class="btn btn-danger btn-sm position-absolute" style="top:10px; right:10px;">Editar perfil [Admin]</a>
         {% endif %}
     </div>
+
+    <!-- Lista de publicações no MURAL -->
+    <div class="row w-100">
+
+        <!-- Para cada par publicação-autor -->
+        {% for publicacao in publicacoes %}
+
+            <!-- Exiba a publicação -->
+            {{ exibir_publicacao_perfil(publicacao) }}
+        {% endfor %}
+    </div>
 {% endblock %}

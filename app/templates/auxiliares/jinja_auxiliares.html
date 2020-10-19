@@ -1,34 +1,348 @@
 
+
+<!-- Exibe o formulário para publicar nos mural -->
+{% macro exibir_formulario(formulario) %}
+
+<!-- Formulário para criar uma nova publicação no mural de INGLÊS -->
+<form class="bg-light p-2" method="post" action="">
+
+    <!-- ??? (Não sei o que isto faz) -->
+    {{ formulario.hidden_tag() }}
+
+    <div>
+        <!-- Exibe o input do título da publicação -->
+        {{ exibir_campo(formulario.titulo) }}
+
+        <!-- Exibe o input do conteúdo da publicação -->
+        {{ exibir_campo(formulario.conteudo) }}
+
+        <!-- Seção do formulário com caixas de seleção das tags e botão de enviar -->
+        <div class="form-row p-0">
+
+            <!-- Exibe as tags -->
+            {{ exibir_campo_selecao_tag(formulario.tags) }}
+
+            <!-- Exibe o botão enviar -->
+            <div class="col-sm-6 mt-0 pl-3 mt-2 mt-sm-0">
+                <button id="btnEnviarPost" type="submit" class="btn btn-primary float-sm-right h-100 w-50">Publicar <i class="fa fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+{% endmacro %}
+
+
+<!-- Exibe um campo simples de um formulário (e os erros vinculados ao campo) -->
 {% macro exibir_campo(campo) %}
 
 <div class="form-group">
-    {{ campo.label(class="text-muted") }}
 
+    <!-- Exiba o nome do campo -->
+    {{ campo.label(class="text-dark") }}
+
+    <!-- Se houver erros vinculados ao campo -->
     {% if campo.errors %}
+        <!-- Exiba o campo com a marcação de inválido -->
         {{ campo(class="form-control is-invalid") }}
+
+        <!-- Exiba a lista de errros em cor vermelha (classe invalid-feedback) -->
         <div class="invalid-feedback">
+            <!-- Para cada erro na lista de erros do campo -->
             {% for erro in campo.errors %}
                 <span>{{ erro }}</span>
             {% endfor %}
         </div>
+    <!-- Se não houver erros-->
     {% else %}
+        <!-- Exiba o campo normalmente -->
         {{ campo(class="form-control") }}
     {% endif %}
 </div>
+
 {% endmacro %}
 
-{%  macro exibir_botao(button) %}
 
+<!-- Exibe as tags Vocabulário, Gramática, Pronúncia e Cultura no formulário para escrever uma publicação no mural -->
+{% macro exibir_campo_selecao_tag(campo) %}
+
+<div class="col-sm-6">
+
+    {{ campo.label(class="text-dark") }}
+
+
+    <div class="row m-0 ml-1">
+        <!-- Div que contém as tags "Vocabulário" e "Gramática"  -->
+        <div class="col-lg-6 p-0 mb-1">
+            <!-- Para cada opção de tag-->
+            {% for opcao in campo %}
+                <!-- Se for uma das 2 primeiras opções-->
+                {% if loop.index0 < 2 %}
+                    <div class="form-check p-0 mb-1">
+                        <!-- Exiba a caixa de seleção (elemento input) -->
+                        {{ opcao }}
+                        <!-- Se for a primeira opção -->
+                        {% if loop.index0 == 0 %}
+                            <!-- Exiba a etiqueta "Vocabulário" -->
+                            <div class="bg-success text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
+                                <label class="form-check-label" for="{{ opcao.id }}"><i class="fa fa-book"></i> Vocabulário</label>
+                            </div>
+                        <!-- Se for a segunda opção -->
+                        {% else %}
+                            <!-- Exiba a etiqueta "Gramática" -->
+                            <div class="bg-primary text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
+                                <label class="form-check-label" for="{{ opcao.id }}"><i class="fa fa-cogs"></i> Gramática</label>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <!-- Div que contém as tags "Pronúncia" e "Cultura"  -->
+        <div class="col-lg-6 p-0 mb-1">
+            <!-- Para cada opção de tag-->
+            {% for opcao in campo %}
+                <!-- Se for uma das 2 últimas opções-->
+                {% if loop.index0 >= 2 %}
+                    <div class="form-check p-0 mb-1">
+                        <!-- Exiba a caixa de seleção (elemento input) -->
+                        {{ opcao }}
+
+                        <!-- Se for a terceira opção -->
+                        {% if loop.index0 == 2 %}
+                            <!-- Exiba a etiqueta "Pronúncia" -->
+                            <div class="bg-danger text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
+                                <label class="form-check-label" for="{{ opcao.id }}"><i class="fa fa-headphones"></i> Pronúncia</label>
+                            </div>
+                        <!-- Se for a quarta opção -->
+                        {% else %}
+                            <!-- Exiba a etiqueta "Cultura" -->
+                            <div class="bg-dark text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
+                                <label class="form-check-label" for="{{ opcao.id }}"><i class="fa fa-globe"></i> Cultura</label>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endmacro %}
+
+
+
+<!-- Exibe um botão -->
+{%  macro exibir_botao(button) %}
 {{ button(class="btn btn-success") }}
 {%  endmacro %}
 
 
+<!-- Função que exibe uma publicação do mural -->
+{% macro exibir_publicacao(publicacao, autor) %}
+<li class="col-md-6 p-0 post">
+
+    <!-- padding para que os cartões tenham espaço branco entre si, melhorando a visualização -->
+    <div class="container-publicacao p-1">
+        
+        <!-- borda que melhora o reconhecimento do agrupameno de elementos que compõem o cartão -->
+        
+        <!-- data-publicacao e data-autor -->
+        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ autor.nome_usuario }}" data-data="{{ publicacao.data }}" class="publicacao-mural border bg-white w-100">
+
+            <!-- Publicação -->
+            <section class="card-body p-0 pl-2 pr-1">
+
+                <!-- Se o usuario que escreveu a publicação for o usuário atual -->
+                {% if autor == current_user %}
+                <span class="opcoes-publicacao m-0 p-0">
+                    <!-- Botões para o autor da publicação EDITAR ou APAGAR a publicação -->
+                    <span class="btn icone-editar-publicacao pr-1 pl-1"><i class="fa fa-pencil"></i></span>
+                    <span class="btn icone-apagar-publicacao pr-1 pl-1"><i class="fa fa-times-circle"></i></span>
+                </span>
+
+                <!-- Título e conteúdo da publicação -->
+                <h5 class="">{{ publicacao.titulo }}</h5>
+
+                <!-- Se a publicação não for do usuário atual, não exibir botões de editar e apagar -->
+                {% else %}
+
+                <!-- Título e conteúdo da publicação -->
+                <h5 class="mt-2">{{ publicacao.titulo }}</h5>
+                {% endif %}
+                
+                <p class="paragrafo-publicacao card-text">{{ publicacao.conteudo }}</p>                               
+            </section>
+
+            <!-- Rodapé da publicação no mural -->
+            <footer class="rodape-publicacao bg-light m-0 w-100">
+
+                <!-- Link para a página do autor da publicação -->
+                <a class="" href="{{ url_for('inicio.usuario', nome_usuario=autor.nome_usuario) }}">
+                <span class="perfil-autor-link float-left pl-2 pr-1 h-100">
+                    
+                        <!-- Avatar miniatura do autor da publicação -->
+                        <img src="{{ autor.gravatar(size=18) }}" alt="" class="img-rounded profile-thumbnail">
+                        <!-- Nome de usuário do autor da publicação -->
+                        <small>@{{ autor.nome_usuario }}</small>   
+                </span>
+                </a>
+
+                <small class="publicacao-data text-secondary mr-1"><i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow(refresh=True) }}</small>
+                
+                <!-- Para cada tag atribuída à publicação -->
+                {% for tag in publicacao.tags %}
+                    <!-- Exiba a tag miniatura com fundo e texto de acordo com a tag -->
+                    {% if tag.nome == "vocabulario" %}
+                        <span class="badge badge-pill bg-green mr-1"><i class="fa fa-book mr-0 text-white"></i></span>
+                    {% elif tag.nome == "gramatica" %}
+                        <span class="badge badge-pill badge-primary mr-1"><i class="fa fa-cogs mr-0"></i></span>
+                    {% elif tag.nome == "pronuncia" %}
+                        <span class="badge badge-pill badge-danger mr-1"><i class="fa fa-headphones mr-0"></i></span>
+                    {% else %}
+                        <span class="badge badge-pill badge-dark mr-1"><i class="fa fa-globe mr-0"></i></span>
+                    {% endif %}
+                {% endfor %}    
+
+                <!-- Botões de like e comentário -->
+                <!-- !!!
+                     Alterar o botão de "amei" para adicionar essa funcionalidade.
+                     O resto do cartão do post, incluindo o botão de comentário, ativarão a janela modal com o post completa, comentários e formulários para escrever um comentário
+                -->
+                <span class="opcoes-reagir inline-block float-right">
+                    <span class="">0</span> <i class="fa fa-comments text-secondary"></i>
+                    <span class="">0</span> <i class="fa fa-heart text-secondary"></i> 
+                </span>
+                <!---
+                    !!!
+                -->                                                                 
+            </footer>
+        </article>
+    </div>
+</li>
+{% endmacro %}
+
+
+<!-- Função que exibe uma publicação do mural (no perfil do usuário)
+    Nesta variação da função 'exibir_publicacao', 
+-->
+{% macro exibir_publicacao_perfil(publicacao) %}
+<div class="col-md-6 p-0">
+
+    <!-- padding para que os cartões tenham espaço branco entre si, melhorando a visualização -->
+    <div class="p-2">
+        
+        <!-- borda que melhora o reconhecimento do agrupameno de elementos que compõem o cartão -->
+        <article class="border bg-white w-100">
+
+            <!-- Publicação -->
+            <div class="card-body p-0 pl-2 pr-1">
+
+                <!-- Se o usuario que escreveu a publicação for o usuário atual -->
+                {% if publicacao.autor == current_user %}
+                <div class="opcoes-publicacao m-0 p-0">
+                    <!-- Botões para o autor da publicação EDITAR ou APAGAR a publicação -->
+                    <span class="btn icone-editar-publicacao pr-1 pl-1"><i class="fa fa-pencil"></i></span>
+                    <span class="btn icone-apagar-publicacao pr-1 pl-1"><i class="fa fa-times-circle"></i></span>
+                </div>
+
+                <!-- Título e conteúdo da publicação -->
+                <h5 class="">{{ publicacao.titulo }}</h5>
+                {% else %}
+
+                <!-- Título e conteúdo da publicação -->
+                <h5 class="mt-2">{{ publicacao.titulo }}</h5>
+                {% endif %}
+                
+                <p class="card-text text-secondary">{{ publicacao.conteudo }}</p>                               
+            </div>
+
+            <!-- Rodapé da publicação no mural -->
+            <footer class="rodape-publicacao bg-light m-0 pl-2 pb-1">
+
+                <small class="text-secondary"><i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow() }}</small>
+
+                <!-- Define qual emoji usar para representar sobre qual idioma é a publicação -->
+                {% if publicacao.idioma == 'ingles' %}
+                <span class="bandeira-idioma">🇺🇸</span>
+                {% elif publicacao.idioma == 'espanhol' %}
+                <span class="bandeira-idioma">🇪🇸</span>
+                {% elif publicacao.idioma == 'frances' %}
+                <span class="bandeira-idioma">🇫🇷</span>
+                {% elif publicacao.idioma == 'italiano' %}
+                <span class="bandeira-idioma">🇮🇹</span>
+                {% elif publicacao.idioma == 'alemao' %}
+                <span class="bandeira-idioma">🇩🇪</span>
+                {% elif publicacao.idioma == 'japones' %}
+                <span class="bandeira-idioma">🇯🇵</span>
+                {% elif publicacao.idioma == 'chines' %}
+                <span class="bandeira-idioma">🇨🇳</span>
+                {% endif %}
+                
+                <!-- Para cada tag atribuída à publicação -->
+                {% for tag in publicacao.tags %}
+                    <!-- Exiba a tag miniatura com fundo e texto de acordo com a tag -->
+                    {% if tag.nome == "vocabulario" %}
+                        <span class="badge badge-pill badge-success edit-post-icon">Vocabulário</span>
+                    {% elif tag.nome == "gramatica" %}
+                        <span class="badge badge-pill badge-primary edit-post-icon">Gramática</span>
+                    {% elif tag.nome == "pronuncia" %}
+                        <span class="badge badge-pill badge-danger edit-post-icon">Pronúncia</span>
+                    {% else %}
+                        <span class="badge badge-pill badge-dark edit-post-icon">Cultura</span>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Botões de like e comentário -->
+                <!-- !!!
+                     Alterar o botão de "amei" para adicionar essa funcionalidade.
+                     O resto do cartão do post, incluindo o botão de comentário, ativarão a janela modal com o post completa, comentários e formulários para escrever um comentário
+                -->
+                <div class="inline-block float-right">
+                    <span class="">0</span> <i class="fa fa-comments text-secondary"></i>
+                    <span class="">0</span> <i class="fa fa-heart text-secondary"></i> 
+                </div>
+                <!---
+                    !!!
+                -->                                                                 
+            </footer>
+        </article>
+    </div>
+</div>
+{% endmacro %}
 
 
 
 
 
 
+{% macro ferramenta_paginacao_mural(paginacao, ponto_inicial) %}
 
 
+<ul class="paginacao">
+    <a {% if not paginacao.has_prev %} class="desabilitado"{% endif %} href="{% if paginacao.has_prev %}{{ url_for(ponto_inicial, pagina = paginacao.page - 1, **kwargs) }}{% else %}#{% endif %}">
+        <li>&laquo; </li>
+    </a>
+    {% for p in paginacao.iter_pages() %}
+        {% if p %}
+            {% if p == paginacao.page %}
+                <a class="ativo" href="{{ url_for(ponto_inicial, pagina = p, **kwargs) }}">
+                    <li >{{ p }}</li>
+                </a>
+            {% else %}
+                <a href="{{ url_for(ponto_inicial, pagina = p, **kwargs) }}">
+                    <li>{{ p }}</li>
+                </a>
+            {% endif %}
+        {% else %}
+            <a class="desabilitado" href="#">
+                <li >&hellip;</li>
+            </a>
+        {% endif %}
+    {% endfor %}
+    <a {% if not paginacao.has_next %} class="desabilitado"{% endif %} href="{% if paginacao.has_next %}{{ url_for(ponto_inicial, pagina = paginacao.page + 1, **kwargs) }}{% else %}#{% endif %}">
+        <li>&raquo;</li>
+    </a>
+</ul>
 
+{% endmacro %}

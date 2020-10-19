@@ -1,12 +1,22 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SelectField, SelectMultipleField, BooleanField, SubmitField
+from wtforms import StringField, TextAreaField, SelectField, SelectMultipleField, BooleanField, SubmitField, widgets
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from wtforms import ValidationError
 from .modelos import Usuario, Role, Publicacao, Tag
 
 
 
+class MultiCheckboxField(SelectMultipleField):
 
+    """
+    Um elemento de formulário do tipo 'multiple-select', entretanto isto exibe uma lista de caixas de seleção
+    
+    Percorrer o elemento produz os sub-elementos, permitindo exibir as caixas de marcação individuais de forma personalizada
+
+    """
+
+    widget = widgets.ListWidget(prefix_label=False)
+    option_widget = widgets.CheckboxInput()
 
 
 # Formulário genérico para publicações nos murais 
@@ -15,14 +25,20 @@ class formularioPublicacaoMural(FlaskForm):
 
     titulo = StringField("Título da publicação", validators=[DataRequired()])
     conteudo = TextAreaField("Conteúdo da publicação", validators=[DataRequired()])
-    tags = SelectMultipleField("Assuntos", coerce=int)
+    tags = MultiCheckboxField("Assunto da publicação", coerce=int)
 
     def __init__(self, idioma, *args, **kwargs):
 
         super(formularioPublicacaoMural, self).__init__(*args, *kwargs)
 
         # Seleciona as tags (TODAS!)
+
+        """
+        Como selecionar o id e o nome das tags
+        """
+        # tag.id será o valor do input
+        # tag.nome será o label
         self.tags.choices = [(tag.id, tag.nome)
-                              for tag in Tag.query.order_by(Tag.nome).all()]
+                              for tag in Tag.query.order_by(Tag.id).all()]
 
         self.idioma = idioma

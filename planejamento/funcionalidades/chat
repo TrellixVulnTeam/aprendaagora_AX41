@@ -1,0 +1,15 @@
+Blueprint Chat
+
+[ ] - As salas de bate-papo devem ser comuns entre os usuários do Aprenda Agora, Aprenda Ahora e do Apprenez
+
+[ ] - Incluir acesso ao livro de frases dentro do aplicativo de bate-papo
+
+[ ] - Apresentar opções de "autocomplete" baseado no livro de frases quando o usuário começar a escrever uma mensagem na sala de bate papo
+
+[ ] - As mensagens escritas pelos usuários podem ser avaliadas pelos outros usuários para confirmar se a mensagem está correta em termos de gramática, coerência e escrita. Após uma mensagem ser avaliada como estando correta, os usuários devem determinar a quais assuntos a frase pertence. Por exemplo, a frase "eu comi sushi durante as férias" pertence aos assuntos "comida" e "viagem". Após uma mensagem ser avaliada como estando correta e após os assuntos da frase serem determinados, a frase é incluída no livro de frases para que ela possa ser sugerida na funcionalidade de "autocomplete".
+
+[ ] - Cria uma versão gráfica das salas de bate-papo, onde os usuários podem criar e controlar seus avatares (estilo Habbo, The Sims, etc).
+
+
+
+

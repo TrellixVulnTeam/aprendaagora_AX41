@@ -1,0 +1,88 @@
+Blueprint Idiomas/Mural
+
+[ ] - Colocar uma “call to action” para as salas de bate-papo.
+
+[ ] - Publicações escritas pelo usuário devem exibir os ícones de editar e apagar a publicação
+
+[ ] - Quando um estudante começar a escrever uma publicação no mural, checar se já não há uma publicação igual ou semelhante à que o usuário está prestes a escrever, impedir que o usuário escreva sobre uma dúvida que já foi respondida e sugerir que o usuário leia essa publicação já criada antes de escrever uma nova publicação
+
+[ ] - Criar um ranking de "melhores publicações", onde as publicações com maior número de "amei" são exibidas primeiro, com o propósito de chamar a atenção do usuário.
+
+[ ] - Menu de Ordenação e Filtragem de publicações
+
+[ ] - Botão para ordenar publicações do MAIS ANTIGO para o MAIS RECENTE
+
+[ ] - Botão para ordenar publicações do MAIS RECENTE para o MAIS ANTIGO
+
+[ ] - Botão para ordenar publicações da PUBLICAÇÃO COM MAIS "AMEI" para a PUBLICAÇÃO COM MENOS "AMEI"
+
+[ ] - Filtrar publicações sobre VOCABULÁRIO
+
+[ ] - Filtrar publicações sobre GRAMÁTICA
+
+[ ] - Filtrar publicações sobre PRONÚNCIA
+
+[ ] - Filtrar publicações sobre CULTURA 
+
+[ ] - Exibir somente publicações das últimas 24 horas
+
+[ ] - Exibir somente publicações da semana passada (últimos 7 dias)
+
+[ ] - Exibir somente publicações do último mês (últimos 30 dias)
+
+[ ] - Exibir somente publicações dos últimos 12 meses
+
+[ ] - Funcionalidade de "autocompletar" quando um usuário for referenciar um vídeo, uma lição ou outros conteúdos da plataforma como parte de uma publicação ou comentário escrito em uma publicação.
+
+[ ] - Dicionário com ferramentas úteis
+
+[ ] - Livro de Frases com ferramentas úteis
+
+
+Publicações no Mural
+
+Informações/dados para exibir na publicação
+
+	[ ] - Opção de encerrar discussão para moderador
+
+	[ ] - Título da publicação
+
+	[ ] - Conteúdo da publicação
+
+	[ ] - Tags da publicação (incluindo idioma!) (Links nas tags para a lista de publicações daquela tag em particular)
+
+	[ ] - Data da publicação
+
+	[ ] - Nome de usuário do autor da publicação e Avatar do autor da publicação
+
+	[ ] - Número de 'amei' na publicação e Botão de dar 'amei' na publicação
+
+	[ ] - Opção de editar publicação para o autor da publicação
+
+	[ ] - Opção de apagar publicação para o autor da publicação
+
+	[ ] - Lista de publicações semelhantes 
+
+
+	[ ] - Formulário para comentar na publicação
+
+	[ ] - Botão para enviar comentário
+
+
+	[ ] - Comentários escritos na publicação
+
+	[ ] - Nome de usuário e link para página dos autores dos comentários
+
+	[ ] - Avatar dos autores dos comentários
+
+	[ ] - Número de 'amei' dos comentários
+
+	[ ] - Botão de dar 'amei' no comentário
+
+	[ ] - Opção de editar comentário para autor do comentário
+
+	[ ] - Opção de apagar comentário para autor do comentário
+
+
+
+
