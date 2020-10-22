@@ -13,8 +13,90 @@
         <!-- Exibe o input do título da publicação -->
         {{ exibir_campo(formulario.titulo) }}
 
-        <!-- Exibe o input do conteúdo da publicação -->
-        {{ exibir_campo(formulario.conteudo) }}
+
+        <div class="form-group">
+
+            <!-- Exiba o nome do campo -->
+            <label class="text-dark" for="conteudo">Conteúdo da publicação</label>
+        
+            <!-- Se houver erros vinculados ao campo -->
+        
+            <!-- Exiba o campo normalmente -->
+            <div class="flask-pagedown">
+                <textarea class="form-control mb-5 flask-pagedown-input" id="flask-pagedown-conteudo" name="conteudo" required></textarea>
+            </div>
+
+            <div class="flask-pagedown-preview" id="flask-pagedown-conteudo-preview">
+                <h4 id="titulo-preview"></h4>
+                <div id="conteudo-preview"></div>
+            </div>
+
+            <script type="text/javascript">
+
+            f = function() {
+
+                if (typeof flask_pagedown_converter === "undefined")
+                {
+                    flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
+                }
+
+                /* Seleciona o input do titulo da publicação */
+                let titulo_input = document.querySelector('#titulo');
+
+                /* Seleciona o preview da publicacao */
+                let conteudo_input = document.querySelector('#flask-pagedown-conteudo');
+
+                /* Seleciona o preview da publicacao */
+                let conteudo_preview = document.querySelector('#conteudo-preview');
+
+                /* Seleciona o preview da publicacao */
+                let publicacao_preview = document.querySelector('#flask-pagedown-conteudo-preview');
+
+                let titulo_preview = document.querySelector('#titulo-preview');
+
+
+
+                titulo_input.addEventListener('keyup', () => {
+                
+                    titulo_preview.innerHTML = titulo_input.value;
+
+                    if (titulo_input.value == '' && conteudo_input.value == '')
+                    {
+                        publicacao_preview.style.visibility = 'hidden';
+                    }
+                    else
+                    {
+                        publicacao_preview.style.visibility = 'visible';
+                    }
+                })
+
+                conteudo_input.addEventListener('keyup', () => {
+
+                    conteudo_preview.innerHTML = flask_pagedown_converter(conteudo_input.value);
+
+                    if (titulo_input.value == '' && conteudo_input.value == '')
+                    {
+                        publicacao_preview.style.visibility = 'hidden';
+                    }
+                    else
+                    {
+                        publicacao_preview.style.visibility = 'visible';
+                    }
+                })
+            }
+
+            if (document.readyState === 'complete')
+                f();
+            else if (window.addEventListener)
+                window.addEventListener("load", f, false);
+            else if (window.attachEvent)
+                window.attachEvent("onload", f);
+            else
+                f();
+
+            </script>
+        
+        </div>
 
         <!-- Seção do formulário com caixas de seleção das tags e botão de enviar -->
         <div class="form-row p-0">
@@ -29,13 +111,11 @@
         </div>
     </div>
 </form>
-
 {% endmacro %}
 
 
 <!-- Exibe um campo simples de um formulário (e os erros vinculados ao campo) -->
 {% macro exibir_campo(campo) %}
-
 <div class="form-group">
 
     <!-- Exiba o nome do campo -->
@@ -56,21 +136,16 @@
     <!-- Se não houver erros-->
     {% else %}
         <!-- Exiba o campo normalmente -->
-        {{ campo(class="form-control") }}
+        {{ campo(class="form-control mb-5") }}
     {% endif %}
 </div>
-
 {% endmacro %}
 
 
 <!-- Exibe as tags Vocabulário, Gramática, Pronúncia e Cultura no formulário para escrever uma publicação no mural -->
 {% macro exibir_campo_selecao_tag(campo) %}
-
 <div class="col-sm-6">
-
     {{ campo.label(class="text-dark") }}
-
-
     <div class="row m-0 ml-1">
         <!-- Div que contém as tags "Vocabulário" e "Gramática"  -->
         <div class="col-lg-6 p-0 mb-1">
@@ -127,10 +202,7 @@
         </div>
     </div>
 </div>
-
 {% endmacro %}
-
-
 
 <!-- Exibe um botão -->
 {%  macro exibir_botao(button) %}
@@ -155,23 +227,27 @@
 
                 <!-- Se o usuario que escreveu a publicação for o usuário atual -->
                 {% if autor == current_user %}
-                <span class="opcoes-publicacao m-0 p-0">
-                    <!-- Botões para o autor da publicação EDITAR ou APAGAR a publicação -->
-                    <span class="btn icone-editar-publicacao pr-1 pl-1"><i class="fa fa-pencil"></i></span>
-                    <span class="btn icone-apagar-publicacao pr-1 pl-1"><i class="fa fa-times-circle"></i></span>
-                </span>
+                    <span class="opcoes-publicacao m-0 p-0">
+                        <!-- Botões para o autor da publicação EDITAR ou APAGAR a publicação -->
+                        <span class="btn icone-editar-publicacao pr-1 pl-1"><i class="fa fa-pencil"></i></span>
+                        <span class="btn icone-apagar-publicacao pr-1 pl-1"><i class="fa fa-times-circle"></i></span>
+                    </span>
 
-                <!-- Título e conteúdo da publicação -->
-                <h5 class="">{{ publicacao.titulo }}</h5>
-
+                    <!-- Título e conteúdo da publicação -->
+                    <h5 class="">{{ publicacao.titulo }}</h5>
                 <!-- Se a publicação não for do usuário atual, não exibir botões de editar e apagar -->
                 {% else %}
 
-                <!-- Título e conteúdo da publicação -->
-                <h5 class="mt-2">{{ publicacao.titulo }}</h5>
+                    <!-- Título e conteúdo da publicação -->
+                    <h5 class="mt-2">{{ publicacao.titulo }}</h5>
                 {% endif %}
                 
-                <p class="paragrafo-publicacao card-text">{{ publicacao.conteudo }}</p>                               
+                {% if publicacao.conteudo_html %}
+                    <!-- O filtro 'safe' garante que os elementos HTML serão exibidos corretamente -->
+                    <div class="paragrafo-publicacao card-text">{{ publicacao.conteudo_html | safe }}</div> 
+                {% else %}
+                    <div class="paragrafo-publicacao card-text">{{ publicacao.conteudo }}</div> 
+                {% endif %}                          
             </section>
 
             <!-- Rodapé da publicação no mural -->
@@ -188,13 +264,13 @@
                 </span>
                 </a>
 
-                <small class="publicacao-data text-secondary mr-1"><i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow(refresh=True) }}</small>
+                <small class="publicacao-data text-secondary mr-1">&middot; <i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow(refresh=True) }}</small>
                 
                 <!-- Para cada tag atribuída à publicação -->
                 {% for tag in publicacao.tags %}
                     <!-- Exiba a tag miniatura com fundo e texto de acordo com a tag -->
                     {% if tag.nome == "vocabulario" %}
-                        <span class="badge badge-pill bg-green mr-1"><i class="fa fa-book mr-0 text-white"></i></span>
+                        <span class="badge badge-pill bg-success mr-1"><i class="fa fa-book mr-0 text-white"></i></span>
                     {% elif tag.nome == "gramatica" %}
                         <span class="badge badge-pill badge-primary mr-1"><i class="fa fa-cogs mr-0"></i></span>
                     {% elif tag.nome == "pronuncia" %}
@@ -254,6 +330,7 @@
                 <h5 class="mt-2">{{ publicacao.titulo }}</h5>
                 {% endif %}
                 
+                <!-- Conteúdo da publicação (que foi truncado no backend)-->
                 <p class="card-text text-secondary">{{ publicacao.conteudo }}</p>                               
             </div>
 
@@ -262,21 +339,22 @@
 
                 <small class="text-secondary"><i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow() }}</small>
 
+
                 <!-- Define qual emoji usar para representar sobre qual idioma é a publicação -->
                 {% if publicacao.idioma == 'ingles' %}
-                <span class="bandeira-idioma">🇺🇸</span>
+                    <span class="bandeira-idioma">🇺🇸</span>
                 {% elif publicacao.idioma == 'espanhol' %}
-                <span class="bandeira-idioma">🇪🇸</span>
+                    <span class="bandeira-idioma">🇪🇸</span>
                 {% elif publicacao.idioma == 'frances' %}
-                <span class="bandeira-idioma">🇫🇷</span>
+                    <span class="bandeira-idioma">🇫🇷</span>
                 {% elif publicacao.idioma == 'italiano' %}
-                <span class="bandeira-idioma">🇮🇹</span>
+                    <span class="bandeira-idioma">🇮🇹</span>
                 {% elif publicacao.idioma == 'alemao' %}
-                <span class="bandeira-idioma">🇩🇪</span>
+                    <span class="bandeira-idioma">🇩🇪</span>
                 {% elif publicacao.idioma == 'japones' %}
-                <span class="bandeira-idioma">🇯🇵</span>
+                    <span class="bandeira-idioma">🇯🇵</span>
                 {% elif publicacao.idioma == 'chines' %}
-                <span class="bandeira-idioma">🇨🇳</span>
+                    <span class="bandeira-idioma">🇨🇳</span>
                 {% endif %}
                 
                 <!-- Para cada tag atribuída à publicação -->
@@ -312,12 +390,7 @@
 {% endmacro %}
 
 
-
-
-
-
 {% macro ferramenta_paginacao_mural(paginacao, ponto_inicial) %}
-
 
 <ul class="paginacao">
     <a {% if not paginacao.has_prev %} class="desabilitado"{% endif %} href="{% if paginacao.has_prev %}{{ url_for(ponto_inicial, pagina = paginacao.page - 1, **kwargs) }}{% else %}#{% endif %}">

@@ -64,7 +64,6 @@
     <!-- Bloco conteudo_pagina e lista de notificações -->
     <div id="secao-principal">
 
-        
         <!-- Exibe mensagens de erro, avisos, etc (notificações) -->
         <div id="lista-de-avisos" class="">
 
@@ -97,6 +96,17 @@
 
 <!-- Scripts presentes no final do body -->
 {% block scripts %}
+
+    {% include 'componentes/scripts.html' %}
+
+    {{ pagedown.include_pagedown() }}  
+
+    <!--
+    Script personalizado que contém
+
+    1. Configuração da barra de navegação mobila
+    2. Configuração das publicações e seus modais no mural
+
+    -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-    {% include 'componentes/scripts.html' %}   
 {% endblock %}

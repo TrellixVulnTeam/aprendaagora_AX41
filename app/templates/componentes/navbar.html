@@ -4,11 +4,11 @@
 <div id="nav-mobile">
     <nav id="barra-navegacao" class="row navbar text-center">
 
-        <div class="col"><!-- Logo na barra de navegação -->
-            <a class="navbar-logo" href="#">
-                <img src="{{ url_for('static', filename='logo.jpg')}}" width="60" height="60" alt="" loading="lazy">
-            </a>
-        </div>
+        <a class="navbar-brand navbar-brand-desktop p-2" href="http://google.com">
+            <div class="col"><!-- Logo na barra de navegação -->
+                <span class="logo-span">A+</span>
+            </div>
+        </a>
 
         <div id="blog-botao" class="col" type="button" data-toggle="collapse" data-target="#blog-lista" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span id="blog-icone" type="button" data-toggle="collapse" data-target="#blog-lista"><i class="fa fa-coffee"></i></span>
@@ -106,7 +106,8 @@
 <div id="nav-desktop">
     <nav id="barra-navegacao-desktop" class="navbar navbar-expand-sm ">
 
-        <a class="navbar-brand navbar-brand-desktop p-2" href="http://google.com"><span>A+</span></a>
+
+        <a class="navbar-brand navbar-brand-desktop ml-1 mr-1" href="http://google.com"><span class="logo-span">A+</span></a>
         
         <!-- Botão hamburger -->
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,7 +118,7 @@
             <ul class="navbar-nav p-0 ">
         
                 <!-- Links do blog -->
-                <li class="nav-item nav-item-desktop dropdown p-0 btn">
+                <li class="nav-item nav-item-desktop dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="nav-item-texto">Blog <i class="fa fa-coffee"></i></span>
                     </a>
@@ -133,7 +134,7 @@
                 <!-- Link dos idiomas -->
                 <li class="nav-item nav-item-desktop dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-item-texto">Idiomas <i class="fa fa-language"></i>></span>
+                    <span class="nav-item-texto">Idiomas <i class="fa fa-language"></i></span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="{{ url_for('ingles.inicio') }}">🇺🇸 Inglês</a>

@@ -1,25 +1,45 @@
 /*
 
---- Elementos comuns ---
+--- SEÇÕES COMUNS ---
 
 GLOBAL
+Configurações Globais
 
 UTILIDADES
+Cores, Bordas, Padding, Margens, Fonte, Tamanho da Fonte, 
 
 BARRA DE NAVEGAÇÃO
+Barra de navegação Mobile e Desktop
 
 SEÇÃO PRINCIPAL
+Container da Seção Principal do Site
 
 RODAPE
+Rodapé com Informações Adicionais
 
-
---- Elementos específicos ---
+--- SEÇÕES ESPECÍFICAS ---
 
 PÁGINA DE PERFIL DE USUÁRIO
 
-PUBLICAÇÃO-MODAL
+MURAL DE PUBLICAÇÕES
 
-PAGINAÇÃO
+PUBLICAÇÃO NO MURAL
+
+MODAL DE PUBLICAÇÃO
+
+PAGINAÇÃO DO MURAL
+
+PÁGINA DA PUBLICAÇÃO
+
+*/
+
+
+/*
+
+Tarefas:
+
+[ ] - Comentar seção Navbar Mobile
+[ ] - Comentar seção Navbar Desktop
 
 */
 
@@ -28,6 +48,7 @@ PAGINAÇÃO
 
 /* GLOBAL */
 
+/* Esconde a barra de scroll (mas scroll ainda fica habilitado) */
 body::-webkit-scrollbar {display:none;}
 
 p {
@@ -39,13 +60,37 @@ ul {
     margin: 0;
 }
 
-ul > li {
-    list-style-type: none;
+
+.tags-container {
+    position: relative;
+    bottom: 1px;
+    margin-left: 5px;
+}
+
+#container-pagina-publicacao {
+    margin: 1em auto;
+}
+
+@media only screen and (min-width: 768px) {
+
+    #container-pagina-publicacao {
+        width: 80%;
+        margin: 3em auto;
+    }
+}
+
+.tags-envelope-publicacao {
+    position: relative;
+    bottom: 1px;
 }
 
 /* FIM ESTILIZAÇÃO GLOBAL */
 
+
+
 /* --------------------------------------------------------------------------------------- */
+
+
 
 /* UTILIDADES */
 
@@ -65,11 +110,6 @@ ul > li {
 }
 
 
-.bg-green {
-    background-color: rgb(0, 128, 0);
-    border: 1px solid black;
-}
-
 .borda-sub-menu {
     border-bottom: 1px rgb(107, 107, 107) solid;
 }
@@ -80,7 +120,11 @@ ul > li {
 
 /* FIM ESTILIZAÇÃO DAS UTILIDADES */
 
+
+
 /* --------------------------------------------------------------------------------------- */
+
+
 
 /* BARRA DE NAVEGAÇÃO MOBILE */
 
@@ -89,6 +133,7 @@ ul > li {
     display: none;
 }
 
+/* Em telas a partir do tamanho médio, a barra de navegação desktop é exibida */
 @media only screen and (min-width: 768px) {
 
     #nav-mobile {
@@ -118,20 +163,22 @@ ul > li {
     background-color: rgb(11, 110, 11);
 }
 
+#barra-navegacao a {
+    color: white;
+}
+
 #barra-navegacao > * {
     padding: 0;
     margin: 0;
 }
 
-.navbar-logo img {
-    border-radius: 30px;
-    margin: 0 auto;
+#barra-navegacao .logo-span {
+    padding: 6px 8px;
+    font-weight: bold;
+    text-shadow: black 1px 1px;
+    font-size: 1.7rem;
+    border-radius: 50px;
 }
-
-#nav-logo {
-    font-family: 'Merienda One', cursive;
-    font-size: 2em;
-}   
 
 
 .navbar-toggler {
@@ -152,12 +199,10 @@ ul > li {
 
 .navbar-sub-lista  a {
     color: black;
-    /*color: rgb(196, 196, 196);*/
 }
 
 .navbar-sub-lista  li {
     color: black;
-    /*color: rgb(196, 196, 196);*/
 }
 
 .navbar-sub-lista  a:hover {
@@ -171,6 +216,11 @@ ul > li {
 
 .nav-item {
     display: inline-block;
+}
+
+.nav-link {
+    padding-left: 1rem!important;
+    padding-right: 1rem!important;
 }
 
 
@@ -190,13 +240,17 @@ ul > li {
 
 /* FIM BARRA DE NAVEGAÇÃO MOBILE */
 
+
+
 /* --------------------------------------------------------------------------------------- */
+
+
 
 /*  BARRA DE NAVEGAÇÃO DESKTOP  */
 
 
 #barra-navegacao-desktop {
-    padding: 0px 0px 0 0px;
+    padding: 0px;
     background-color: #29ba13;
     overflow: visible;
     font-size: 1em;
@@ -211,14 +265,19 @@ ul > li {
     color: white;
 }
 
-
-#barra-navegacao-desktop a {
-    color: white;
+#barra-navegacao-desktop .logo-span {
+    padding: 3px 5px;
+    font-weight: bold;
+    text-shadow: black 1px 1px;
+    font-size: 1.3rem;
+    border-radius: 50px;
 }
+
 
 #barra-navegacao-desktop .dropdown-item {
     color: rgb(61, 61, 61);
 }
+
 
 
 .navbar-brand-desktop {
@@ -232,11 +291,6 @@ ul > li {
     border-radius: 20px;
     padding: 3px 5px;
 }
-
-.navbar-brand-desktop span:hover {
-    background-color: rgb(0, 211, 0);
-}
-
 
 .nav-item-desktop {
     text-align: center;
@@ -266,27 +320,43 @@ ul > li {
    border: white 1px solid;
 }
 
+/* FIM BARRA DE NAVEGAÇÃO DESKTOP */
 
-/* FIM ESTILIZAÇÃO BARRA DE NAVEGAÇÃO */
+
 
 /* --------------------------------------------------------------------------------------- */
 
+
+
 /* SEÇÃO PRINCIPAL */
 
-/* Paddin lateral */
+/* Padding lateral em telas pequenas */
 #secao-principal {
     padding-left: 1rem;
     padding-right: 1rem;
+
 }
 
 /* Padding lateral em telas grandes */
 @media only screen and (min-width: 768px) {
    
     #secao-principal {
+        
         padding-left: 5rem;
         padding-right: 5rem;
     }
 }
+
+/* Margem 0 no Grid */
+.row {
+    margin: 0 auto;
+}
+
+
+
+/* ESTILIZAÇÃO DA IMAGEM DE FUNDO DO SITE */
+
+/* A imagem de fundo foi removida, portanto as configurações abaixo não estão sendo usadas */
 
 /* Imagem no fundo da seção principal */
 #wallpaper {
@@ -315,24 +385,112 @@ ul > li {
   }
 }
 
-/* Margem 0 no Grid */
-.row {
-    margin: 0 auto;
-}
+/* FIM SEÇÃO PRINCIPAL */
 
-/* FIM ESTILIZAÇÃO SEÇÃO PRINCIPAL */
+
 
 /* --------------------------------------------------------------------------------------- */
 
-/* PUBLICAÇÃO NO MURAL */
 
-.container-publicacao {
-    padding: 2em;
+
+/* RODAPÉ */
+
+
+footer {
+    margin: 20px;
+    background-color: #555555;
 }
 
+.footer-heading {
+    font-family: 'Roboto Slab', serif;
+    color: grey;
+    font-size: .8em;
+}
+
+footer .fa {
+    margin-right: 10px;
+}
+
+footer li.list-group-item {
+    border: none;
+}
+
+/* FIM RODAPÉ */
+
+
+
+/* --------------------------------------------------------------------------------------- */
+
+
+
+/* PÁGINA DE PERFIL DO USUÁRIO */
+
+/* Crachá do usuário (avatar e nome de usuário) na página de perfil */
+.chacha-perfil {
+    position: absolute;
+}
+
+/* Cabeçalho da informação de perfil */
+.profile-header {
+    min-height: 100px;
+    margin-left: 120px;
+}
+
+/* FIM PÁGINA DE PERFIL DO USUÁRIO */
+
+
+
+/* --------------------------------------------------------------------------------------- */
+
+
+/* MURAL DE PUBLICAÇÕES */
+
+
+/* Visualização de uma publicação sendo escrita */
+.flask-pagedown-preview {
+
+    /* O preview do conteúdo é inicializado como 'hidden' para que ele não seja exibido se conteúdo quando a página carregar */
+    visibility: hidden;
+
+    /* Bordas, fundo, curvatura das bordas e padding estilizados de forma aparecer-se com o modal   */
+    border: 1px rgb(5, 192, 5) solid;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0.2rem;
+    padding: 1em;
+}
+
+
+#conteudo-preview ul {
+    padding-left: 2em;
+}
+
+
+#conteudo-preview blockquote {
+    padding-left: 3em;
+    font-size: 1em;
+}
+
+
+#lista-publicacoes {
+    /* Remove a estilização de ponto das publicações da lista */
+    list-style-type: none;
+}
+
+/* FIM MURAL DE PUBLICAÇÕES */
+
+
+
+/* --------------------------------------------------------------------------------------- */
+
+
+
+/* PUBLICAÇÃO NO MURAL */
+
+
 .publicacao-mural:hover {
-    border: 1px rgb(192, 191, 191) solid!important;
+    /* Para indicar que a publicação é clicável*/
     cursor: pointer;
+    
 }
 
 /* Botão de editar publicação e botão de apagar publicação */
@@ -341,7 +499,7 @@ ul > li {
     justify-content: flex-end;
 }
 
-/* Botão para o autor da publicação editar a publicação */
+/* Botão que indica que o cliente é o autor da publicação */
 .icone-editar-publicacao {
     text-align: center;
     line-height: 1em;
@@ -349,10 +507,6 @@ ul > li {
     color: rgb(75, 75, 75);
 }
 
-/* Muda a cor do botão de editar publicação durante hover */
-.icone-editar-publicacao:hover {
-    color: black;
-}
 
 /* Botão para o autor de uma publicação apagar a publicação */
 .icone-apagar-publicacao {
@@ -363,15 +517,18 @@ ul > li {
     border-radius: 3px;
 }
 
-/* Muda a cor do botão de apagar publicação durante hover */
-.icone-apagar-publicacao:hover {
-    color: rgb(255, 0, 0);
+/* Reduz o tamanho dos Headings presentes no certão da publicação para que a exibição dos Headings no mural não fiquem com um tamanho grande  */
+.paragrafo-publicacao h1, h2, h3 {
+    font-size: 1.5rem;
 }
 
+
 .rodape-publicacao {
-    overflow: hidden;
+    
     /* Display: table; está sendo usado para que a classe .perfil-autor-link possa ter height 100% */
     display: table;
+
+    /*overflow: hidden;*/
 }
 
 .perfil-autor-link {
@@ -381,157 +538,59 @@ ul > li {
 }
 
 .perfil-autor-link a:hover {
+    /* Remove o sublinhado no link do autor da publicação durante evento 'hover' */
     text-decoration: none;
 }
 
 .bandeira-idioma {
+
+    /* Bandeira posicionada 2 pixels acima abaixo */
     position: relative;
     top: 2px;
     font-size: 18px;
 }
 
 .opcoes-reagir {
+
+    /* Opções de "comentário" e "amei" posicionado 1 pixel abaixo */
     position: relative;
     top: 1px;
 }
 
-/* FIM ESTILIZAÇÃO PUBLICAÇÃO */
+/* FIM PUBLICAÇÃO NO MURAL*/
+
 
 /* --------------------------------------------------------------------------------------- */
 
-/* PUBLICAÇÃO-MODAL COM CONTEÚDO COMPLETO E COMENTÁRIOS DE UMA PUBLICAÇÃO */
+
+/* MODAL DA PUBLICAÇÃO COM CONTEÚDO COMPLETO E COMENTÁRIOS DE UMA PUBLICAÇÃO */
 
 .modal {
+
+    /*
+        Posição, referência ao lado esquerdo, referência ao lado direito, largura e altura definidas de forma que o modal preencha a tela toda
+    */
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
+
+    /*
+        Cor de fundo verde e levemente transparente para que o modal da publicação não perca o contexto em que está inserido (o usuário ainda consegue ver parte das publicações atrás do modal)
+    */
     background-color: rgba(60, 153, 42, 0.9);
-    opacity: 0;
+    
     visibility: hidden;
     transform: scale(1.1);
     transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
 }
 
 
-
-.conteudo-modal {
-    /* Cores */
-    border: 1px rgb(96, 189, 96) solid;
-    background-color: rgb(255, 255, 255);
-    /* Largura, altura, e bordas */
-    width: 2px;
-    height: 2px;
-    
-
-    position: absolute;
-    overflow: auto;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-}
-
-.conteudo-modal::-webkit-scrollbar {display:none;}
-
-/* EM TELAS PEQUENAS */
-@media only screen and (max-width: 767px) {
-
-
-    .conteudo-modal {
-
-        border-radius: 0.5rem;
-        
-        transition: width 0.1s, height 0.1s;
-
-    }
-
-    .padding-modal {
-        padding: 25px 25px;
-    }
-
-
-    .conteudo-modal-expandido {
-
-        width: 95%;
-        height: 95%;
-    }
-    
-    .botao-fechar {
-
-        position: absolute;
-    
-        bottom: 4px;
-        left: 4px;
-
-        width: 2rem;
-        line-height: 2rem;
-        font-size: 2rem;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 1rem;
-    
-        color: white;
-        background-color: rgb(122, 121, 121);
-        z-index: 100;
-        border: white 1px solid;
-    
-    }
-}
-
-/* EM TELAS LARGAS */
-@media only screen and (min-width: 768px) {
-
-    .conteudo-modal {
-    
-        transition: width 0.1s, height 0.1s;
-    
-        /* Estilização lagura, altura, padding e bordas */
-    
-        border-radius: 0.2rem;
-    }
-
-    .padding-modal {
-        padding: 25px 25px;
-    }
-
-    .conteudo-modal-expandido {
-        width: 80%;
-        height: 80%;
-    }
-
-    .botao-fechar {
-
-        position: absolute;
-    
-
-        top: 10px;
-        right: 10px;
-    
-        width: 1.5rem;
-        line-height: 1.5rem;
-        font-size: 1.5rem;
-        text-align: center;
-        cursor: pointer;
-        border-radius: 1rem;
-    
-        color: white;
-        background-color: rgb(122, 121, 121);
-        border: white 1px solid;
-        z-index: 100;
-    
-    }
-}
-
-
-.botao-fechar:hover {
-    background-color: rgb(90, 88, 88);
-}
-
 .exibir-modal {
-    opacity: 1;
+
+    /* Classe adicionada ao modal (através do script JS) para que ele seja exibido após as configurações forem definidas */
+    
     display: block;
     visibility: visible;
     transform: scale(1.0);
@@ -539,20 +598,159 @@ ul > li {
 }
 
 
+.publicacao-modal {
+    /* Cores */
+    border: 1px rgb(0, 245, 0) solid;
+    background-color: rgb(255, 255, 255);
+    /* Largura e altura */
+    width: 2px;
+    height: 2px;
+
+    overflow: auto;
+    
+    /* Estas definições dos atributos position, top, left, e transform garantem que o container da publicação seja centralizado no modal*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    transition: width 0.1s, height 0.1s;
+}
+
+/* Remove a barra de scroll (mas funcionalidade de scroll ainda fica habilitada) */
+.publicacao-modal::-webkit-scrollbar {display:none;}
+
+
+/* Configurações dos elementos secundários da publicação no modal */
+.publicacao-modal img.avatar-autor {
+
+    width: 18px;
+    display: inline-block;
+}
+
+.publicacao-modal ul {
+    padding-left: 3em;
+}
+
+.publicacao-modal blockquote {
+    padding-left: 3em;
+    font-size: 0.9em;
+}
+/* FIM Configurações secundárias da publicação no modal */
+
+
+.padding-publicacao-modal {
+    /*
+        Padding adiciona à publicação no modal após a animação de redimensionamento iniciar
+        Dessa forma, a animação inicia com a publicação sem padding (o que influenciaria nas dimensões da publicação)    
+    */
+    padding: 25px;
+}
+
+.icone-idioma-modal {
+    /* Margem à esquerda para que a bandeira não fique colada à data da publicação */
+    margin-left: 5px;
+}
+
+.botao-fechar {
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    
+    z-index: 100;
+
+    border-radius: 1rem;
+}
+
+.botao-fechar:hover {
+    background-color: rgb(90, 88, 88);
+}
+
+
+
+/* EM TELAS PEQUENAS */
+@media only screen and (max-width: 767px) {
+
+
+    .publicacao-modal {
+        /* Curvatura das bordas */
+        border-radius: 0.5rem;
+    }
+
+    .publicacao-modal-expandido {
+        /* Publicação ocupa quase a tela toda */
+        width: 95%;
+        height: 95%;
+    }
+    
+    .botao-fechar {
+
+        /* Cores */
+        background-color: rgb(122, 121, 121);
+        border: white 1px solid;
+
+        /* Botão posicionado no canto inferior esquerdo */
+        bottom: 4px;
+        left: 4px;
+
+        /* Tamanho do botão */
+        width: 2rem;
+        line-height: 2rem;
+        font-size: 2rem;
+    }
+}
+
+/* EM TELAS LARGAS */
+@media only screen and (min-width: 768px) {
+
+    .publicacao-modal {
+        /* Curvatura das bordas */
+        border-radius: 0.2rem;
+    }
+
+    .publicacao-modal-expandido {
+        /* Publicação com largura igual a "metade" do modal */
+        width: 60%;
+        height: 95%;
+    }
+
+    .botao-fechar {
+
+        position: absolute;
+
+        /* Botão posicionado no canto superior direito */
+        top: 10px;
+        right: 10px;
+
+        /* Tamanho 0.5rem menor do que em telas pequenas */
+        width: 1.5rem;
+        line-height: 1.5rem;
+        font-size: 1.5rem;  
+    }
+}
+
+/* Remove a funcionalidade de scroll */
 .body-no-scroll {
     overflow-y: hidden;
 }
 
+/* Devolve a funcionalidade de scroll (entretanto a barra de scroll não é exibida pois ela foi "escondida" na seção GLOBAL) */
 .body-scroll {
     overflow-y: visible;
 }
 
 
-/* FIM ESTILIZAÇÃO PUBLICAÇÃO-MODAL */
+/* FIM MODAL DE PUBLICAÇÃO */
+
+
 
 /* --------------------------------------------------------------------------------------- */
 
-/* PAGINAÇÃO */
+
+
+/* PAGINAÇÃO DO MURAL */
+
 ul.paginacao {
     display: table;
     margin: 0 auto;
@@ -593,54 +791,6 @@ ul.paginacao > a:hover {
     pointer-events: none;
 }
 
-/* FIM ESTILIZAÇÃO PAGINAÇÃO */
-
-/* --------------------------------------------------------------------------------------- */
-
-
-/* PÁGINA DE PERFIL DO USUÁRIO */
-
-/* Medalha do usuário (avatar e nome de usuário) na página de perfil */
-.medalha-perfil {
-    position: absolute;
-}
-
-/* Cabeçalho da informação de perfil */
-.profile-header {
-    min-height: 100px;
-    margin-left: 120px;
-}
-
-/* FIM ESTILIZAÇÃO PERFIL DO USUÁRIO */
-
-/* --------------------------------------------------------------------------------------- */
-
-/* RODAPÉ */
-
-
-footer {
-    margin: 20px;
-    background-color: #555555;
-}
-
-.footer-heading {
-    font-family: 'Roboto Slab', serif;
-    color: grey;
-    font-size: .8em;
-}
-
-footer .fa {
-    margin-right: 10px;
-}
-
-footer li.list-group-item {
-    border: none;
-}
-
-/* FIM ESTILIZAÇÃO DO RODAPÉ */
-
-/* --------------------------------------------------------------------------------------- */
-
-
+/* FIM PAGINAÇÃO MURAL */
 
 

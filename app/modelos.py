@@ -1,4 +1,6 @@
 import hashlib
+from markdown import markdown
+import bleach
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app, request
@@ -440,7 +442,9 @@ class Publicacao(db.Model):
     titulo = db.Column(db.String(100))
     
     # Conteúdo da publicação em formato string
-    conteudo = db.Column(db.Text())
+    conteudo = db.Column(db.Text)
+
+    conteudo_html = db.Column(db.Text)
     
     data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     
@@ -453,6 +457,21 @@ class Publicacao(db.Model):
             secondary=publicacoes_tags,
             lazy='subquery',
             backref=db.backref('publicacoes'))
+
+
+    # Converte texto em Markdown para HTML
+    # Primeiro, a função markdown() faz uma conversão inicial para HTML
+    # O resultado da conversão inicial é passado para a função clean(), juntamente com a lista de tags permitidas. A função clean() remove todas as tags não permitidas
+    # A conversão final é feita com a função linkify(), uma função oferecida pelo Bleach que converte todos os URL escritos em texto-claro em tags âncora <a>
+    # Este último passo é necessário por que geração automática de links não é uma ferramenta oficial do Markdown, mas é uma funcionalidade muito conveniente
+    @staticmethod
+    def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
+        tags_permitidas = ['a', 'abbr', 'b', 'blockquote', 'code', 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h3', 'p']
+
+        target.conteudo_html = bleach.linkify(bleach.clean(
+            markdown(conteudo, output_format='html'),
+            tags=tags_permitidas, strip=True))
+
 
     # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
     def json(self):
@@ -470,6 +489,7 @@ class Publicacao(db.Model):
         # Retorne um objeto contendo as informações da publicação
         return {
             'conteudo': self.conteudo,
+            'conteudo_html': self.conteudo_html,
             'tags': publicacao_tags,
             'data': self.data,
             'idioma': self.idioma,
@@ -482,8 +502,6 @@ class Tag(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(16), unique=True)
-
-
 
 
 # Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
@@ -502,6 +520,7 @@ class UsuarioAnonimo(AnonymousUserMixin):
 def carregar_usuario(usuario_id):
     return Usuario.query.get(int(usuario_id))
 
-
-
 login_manager.anonymous_user = UsuarioAnonimo
+
+# Esta função é invocada sempre que o campo 'conteudo' de uma publicação for alterado
+db.event.listen(Publicacao.conteudo, 'set', Publicacao.conteudo_alterado)

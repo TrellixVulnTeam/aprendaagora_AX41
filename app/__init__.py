@@ -6,6 +6,7 @@ from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_pagedown import PageDown
 from config import configuracao
 
 
@@ -14,12 +15,14 @@ mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 
-
 login_manager = LoginManager()
 # Define qual a rota para login
 login_manager.login_view = 'autorizar.entrar'
 # Mensagem exibida quando o erro 403 (Proibido) for causado
 login_manager.login_message = "Entre na sua conta para acessar esta página"
+
+pagedown = PageDown()
+
 
 def criar_app(nome_configuracao):
 
@@ -32,6 +35,7 @@ def criar_app(nome_configuracao):
     moment.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
+    pagedown.init_app(app)
 
     """ Rotas """
 

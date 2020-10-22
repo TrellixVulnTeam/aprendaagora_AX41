@@ -1,13 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block conteudo_pagina %}
-    
-    <!-- Cabeçalho (que também é usado no título da barra do navegador)-->
 
     <div id="infoPerfil" class="page-header bg-light p-3 position-relative">
 
         
-        <div class="medalha-perfil">
+        <div class="cracha-perfil">
             <img src="{{ usuario.gravatar(size=100) }}" alt="" class="img-rounded profile-thumbnail">
             <span class="d-block pt-1"><a href="{{ url_for('inicio.usuario', nome_usuario=usuario.nome_usuario)}}">@{% block titulo %}{{ usuario.nome_usuario }}{% endblock %}</a></span>
         </div>

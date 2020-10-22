@@ -1,9 +1,10 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SelectField, SelectMultipleField, BooleanField, SubmitField, widgets
+from wtforms import StringField, SelectField, SelectMultipleField, BooleanField, SubmitField, widgets
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from wtforms import ValidationError
 from .modelos import Usuario, Role, Publicacao, Tag
 
+from flask_pagedown.fields import PageDownField
 
 
 class MultiCheckboxField(SelectMultipleField):
@@ -24,8 +25,10 @@ class MultiCheckboxField(SelectMultipleField):
 class formularioPublicacaoMural(FlaskForm):
 
     titulo = StringField("Título da publicação", validators=[DataRequired()])
-    conteudo = TextAreaField("Conteúdo da publicação", validators=[DataRequired()])
+    conteudo = PageDownField("Conteúdo da publicação", validators=[DataRequired()])
     tags = MultiCheckboxField("Assunto da publicação", coerce=int)
+
+    enviar = SubmitField("Enviar")
 
     def __init__(self, idioma, *args, **kwargs):
 

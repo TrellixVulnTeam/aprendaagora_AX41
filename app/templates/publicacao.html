@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+
+{% block conteudo_pagina %}
+
+<div id="container-pagina-publicacao">
+
+    <div id="container-publicacao" class="border bg-light p-3">
+        <div id="cabecalho-publicacao" class="mb-4">
+
+            <small class="text-secondary mb-1">publicação #{{ publicacao.id }}</small>
+    
+            <h1 id="titulo-publicacao">{{ publicacao.titulo }}</h1>
+    
+            <div id="info-publicacao">
+        
+                <a href="{{ url_for('inicio.usuario', nome_usuario=publicacao.autor.nome_usuario) }}">
+                    <!-- Avatar miniatura do autor da publicação -->
+                    <img src="{{ publicacao.autor.gravatar(size=18) }}" alt="" class="img-rounded profile-thumbnail">
+                    <span>{{ publicacao.autor.nome_usuario }}</span>
+                </a>
+                
+                <span class="text-secondary">&middot; <i class="fa fa-history"></i> escrito {{ moment(publicacao.data).fromNow(refresh=True) }}</span>
+          
+                {% if publicacao.idioma == 'ingles' %}
+                <span>🇺🇸</span>
+                {% elif publicacao.idioma == 'espanhol' %}
+                <span>🇪🇸</span>
+                {% elif publicacao.idioma == 'frances' %}
+                <span>🇫🇷</span>
+                {% elif publicacao.idioma == 'italiano' %}
+                <span>🇮🇹</span>
+                {% elif publicacao.idioma == 'alemao' %}
+                <span>🇩🇪</span>
+                {% elif publicacao.idioma == 'japones' %}
+                <span>🇯🇵</span>
+                {% elif publicacao.idioma == 'chines' %}
+                <span>🇨🇳</span>
+                {% endif %}
+    
+                <span class="tags-envelope-publicacao">
+                <!-- Para cada tag na lista de tags  -->
+                {% for tag in publicacao.tags %}
+                    {% if tag.nome == 'vocabulario' %}
+                    <span class="badge badge-pill badge-success"><i class="fa fa-book mr-0"></i></span>
+                    {% elif tag.nome == 'gramatica' %}
+                    <span class="badge badge-pill badge-primary"><i class="fa fa-cogs mr-0"></i></span>
+                    {% elif tag.nome == 'pronuncia' %}
+                    <span class="badge badge-pill badge-danger"><i class="fa fa-headphones mr-0"></i></span>
+                    {% elif tag.nome == 'cultura' %}
+                    <span class="badge badge-pill badge-dark"><i class="fa fa-globe mr-0"></i></span>
+                    {% endif %}
+                {% endfor %}
+                </span>
+    
+                
+    
+    
+                
+            </div>
+        </div>
+    
+    
+        {% if publicacao.conteudo_html %}
+            <div>{{ publicacao.conteudo_html | safe }}</div>
+        {% else %}
+            <div>{{ publicacao.conteudo }}</div>
+        {% endif %}
+    </div>
+
+    <div id="lista-comentarios-publicacao">
+        <p class="text-secondary">50 Comentários</p>
+
+    </div>
+</div>
+
+{% endblock %}

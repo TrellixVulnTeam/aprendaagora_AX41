@@ -37,22 +37,15 @@ def usuario(nome_usuario):
     # Seleciona o usuário no banco de dados ou retorna um erro 404
     usuario = Usuario.query.filter_by(nome_usuario=nome_usuario).first_or_404()
 
-
-    #usuario_atual = current_user._get_current_object()
-    
     # Se o usuário atual estiver conectado
     if current_user.is_authenticated:
-        if current_user._get_current_object().nome_usuario == nome_usuario:
+        if (current_user._get_current_object().nome_usuario == nome_usuario):
             return redirect(url_for('inicio.perfil'))
-    else:
+    
+    publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
 
-        # Seleciona o usuário no banco de dados ou retorna um erro 404
-        usuario = Usuario.query.filter_by(nome_usuario=nome_usuario).first_or_404()
-
-        publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
-
-        # Exibe a página de usuário, fornecendo os dados do usuário como argumentos
-        return render_template('usuario.html', usuario=usuario, publicacoes=publicacoes)
+    # Exibe a página de usuário, fornecendo os dados do usuário como argumentos
+    return render_template('usuario.html', usuario=usuario, publicacoes=publicacoes)
 
 
 @bp.route('/perfil/editar', methods=['GET', 'POST'])

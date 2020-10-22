@@ -1,5 +1,13 @@
 Blueprint Idiomas/Mural
 
+[ ] - Montar o esqueleto do site
+
+	- Slideshow de Últimos artigos/lições
+	- Painel de cursos
+	- "Call to action" para as salas de bate-papo, "Sneak peak" das salas de bate papo
+	- Mural de perguntas e respostas
+	
+
 [ ] - Colocar uma “call to action” para as salas de bate-papo.
 
 [ ] - Publicações escritas pelo usuário devem exibir os ícones de editar e apagar a publicação
@@ -43,29 +51,42 @@ Publicações no Mural
 
 Informações/dados para exibir na publicação
 
+
+
+
 	[ ] - Opção de encerrar discussão para moderador
-
-	[ ] - Título da publicação
-
-	[ ] - Conteúdo da publicação
-
-	[ ] - Tags da publicação (incluindo idioma!) (Links nas tags para a lista de publicações daquela tag em particular)
-
-	[ ] - Data da publicação
-
-	[ ] - Nome de usuário do autor da publicação e Avatar do autor da publicação
-
-	[ ] - Número de 'amei' na publicação e Botão de dar 'amei' na publicação
 
 	[ ] - Opção de editar publicação para o autor da publicação
 
 	[ ] - Opção de apagar publicação para o autor da publicação
 
+
+
+
+
+	
+
+	[ ] - Título da publicação
+	
+	[ ] - Tags da publicação (incluindo idioma!) (Links nas tags para a lista de publicações daquela tag em particular)
+
+	[ ] - Data da publicação
+
+	[ ] - Conteúdo da publicação
+	
+
+	[ ] - Nome de usuário do autor da publicação e Avatar do autor da publicação
+
+
+	[ ] - Número de 'amei' na publicação e Botão de dar 'amei' na publicação
+
+	
+
 	[ ] - Lista de publicações semelhantes 
 
 
 	[ ] - Formulário para comentar na publicação
-
+	
 	[ ] - Botão para enviar comentário
 
 

@@ -36,47 +36,63 @@ def inicio():
         return redirect(url_for('ingles.inicio'))
 
 
+    # Seleciona o número da página a partir do pedido
     pagina = request.args.get('pagina', 1, type=int)
 
+    # Seleciona as publicações do mural (ao mesmo tempo vinculando o autor de cada publicação) e pagina elas (divide em porções)
+    # A consulta ao banco de dados retorna uma lista de elementos do tipo 'sqlalchemy.util._collections.result' (?). Cada um destes, por sua vez, possuem duas instâncias, uma do modelo Publicacao e outra do modelo Usuario 
     paginacao = db.session.query(Publicacao, Usuario).join(Usuario).order_by(Publicacao.data.desc()).paginate(
         pagina, per_page=current_app.config['MURAL_PUBLICACOES_POR_PAGINA'],
         error_out=False)
     
-    
 
+    # Seleciona as publicações da página selecionada
+    # paginacao.items representa os itens da página atual na paginação
+    # Os itens da paginação são do tipo 'sqlalchemy.util._collections.result' (?). Cada um destes, por sua vez, possuem duas instâncias, uma do modelo Publicacao e outra do modelo Usuario 
     publicacoes = paginacao.items
 
-
-    def truncarTexto(texto):
-
+    # Limita a quantidade de caracteres de uma string em 200 caracteres
+    def truncar_texto(texto):
+        # Se a string possuir mais de 200 caracteres
         if len(texto) > 200:
+            # Fatie os primeiros 200 caracteres da string e adicione "..." no final
             texto = texto[0:200] + '...'
+        
+        # Remove as tabulações do texto
+        texto = texto.replace('\t', ' ')
 
+        # Retorne a string truncado
         return texto
 
-
-
+    # Para cada publicação na lista de publicações, trunque o texto
     for publicacao in publicacoes:
 
-        texto = publicacao[0].conteudo
-
-        publicacao[0].conteudo = truncarTexto(texto)
-
-        print(publicacao[0].conteudo)
-
-
-    # Seleciona todas as publicações (ao mesmo tempo vinculando o autor de cada publicação)
-    # A consulta ao banco de dados retorna uma lista de elementos do tipo 'sqlalchemy.util._collections.result' (?). Cada um destes, por sua vez, possuem duas instâncias, uma do modelo Publicacao e outra do modelo Usuario 
-    
-    
-    #publicacoes = db.session.query(Publicacao, Usuario).join(Usuario).order_by(Publicacao.data.desc()).all()
+        if publicacao[0].conteudo_html:
+            texto = publicacao[0].conteudo_html
+            publicacao[0].conteudo_html = truncar_texto(texto)
+        else:
+            texto = publicacao[0].conteudo
+            publicacao[0].conteudo = truncar_texto(texto)
 
     # Exibe a página do idioma INGLÊS, enviando o formulário do mural e a lista de publicações
     return render_template('ingles.html', formulario=formulario, publicacoes=publicacoes, paginacao=paginacao)
 
 
+# Página de uma publicação
+@bp.route('/publicacao/<int:id>')
+def publicacao(id):
+
+    # Seleciona uma publicação com o id informado
+    publicacao = Publicacao.query.get_or_404(id)
+
+    # Exibe a página da publicação
+    return render_template('publicacao.html', publicacao=publicacao)
+
+
+# Rota que retorna um objeto JSON representando as informações (que o usuário não consegue acessar localmente) da publicação
+# Esta rota é usada pela funcionalidade de modal
 @bp.route('/publicacao/json', methods=['GET', 'POST'])
-def modal_publicacao():
+def json_publicacao():
 
     try:
         # Seleciona o JSON enviado através do pedido do cliente
