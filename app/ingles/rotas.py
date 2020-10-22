@@ -58,8 +58,6 @@ def inicio():
             # Fatie os primeiros 200 caracteres da string e adicione "..." no final
             texto = texto[0:200] + '...'
         
-        # Remove as tabulações do texto
-        texto = texto.replace('\t', ' ')
 
         # Retorne a string truncado
         return texto
