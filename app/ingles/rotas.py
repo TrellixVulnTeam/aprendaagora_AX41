@@ -105,6 +105,10 @@ def json_publicacao():
         # Seleciona o representação da publicação em formato JSON
         publicacao_json = publicacao.json()
 
+        print(current_user.id)
+        publicacao_json['autor_cliente'] = (current_user.id == publicacao_json['id_autor'])
+        print(publicacao_json)
+
         # Responde o cliente, enviando a publicação em formato JSON
         return jsonify(publicacao_json)
 

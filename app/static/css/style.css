@@ -46,6 +46,79 @@ Tarefas:
 
 /* --------------------------------------------------------------------------------------- */
 
+
+
+.div-formulario {
+
+    overflow: hidden;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 1%;
+    height: 1%;
+    transition: width 0.3s, height 0.3s;
+}
+
+.div-formulario-expandido {
+    width: 100%;
+    height: 100%;
+}
+
+
+.container-edicao {
+    position: relative;
+    display: block;
+    height: 0%;
+    visibility: hidden;
+}
+
+
+@keyframes container-edicao-expandido {
+
+    0% {height: 0%;}
+    25% {height: 5%;}
+    50% {height: 18%}
+    99% {visibility: hidden;}
+    100% {height: 100%; visibility: visible;}
+
+}
+
+.container-edicao-expandido {
+    animation-name: container-edicao-expandido;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+}
+
+
+
+
+
+
+
+
+
+.checkbox-tag-edicao {
+    position: relative;
+    top: 3px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* GLOBAL */
 
 /* Esconde a barra de scroll (mas scroll ainda fica habilitado) */
@@ -644,7 +717,7 @@ footer li.list-group-item {
         Padding adiciona à publicação no modal após a animação de redimensionamento iniciar
         Dessa forma, a animação inicia com a publicação sem padding (o que influenciaria nas dimensões da publicação)    
     */
-    padding: 25px;
+    padding: 15px;
 }
 
 .icone-idioma-modal {

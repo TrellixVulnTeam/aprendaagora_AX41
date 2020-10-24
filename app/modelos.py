@@ -494,6 +494,7 @@ class Publicacao(db.Model):
             'data': self.data,
             'idioma': self.idioma,
             'avatar_autor': self.autor.gravatar(size=50),
+            'id_autor': self.autor.id
         }
 
 # As tags de uma publicação podem ser acessadas com publicacao.tags

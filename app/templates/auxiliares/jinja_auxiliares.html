@@ -2,7 +2,6 @@
 
 <!-- Exibe o formulário para publicar nos mural -->
 {% macro exibir_formulario(formulario) %}
-
 <!-- Formulário para criar uma nova publicação no mural de INGLÊS -->
 <form class="bg-light p-2" method="post" action="">
 
@@ -391,7 +390,6 @@
 
 
 {% macro ferramenta_paginacao_mural(paginacao, ponto_inicial) %}
-
 <ul class="paginacao">
     <a {% if not paginacao.has_prev %} class="desabilitado"{% endif %} href="{% if paginacao.has_prev %}{{ url_for(ponto_inicial, pagina = paginacao.page - 1, **kwargs) }}{% else %}#{% endif %}">
         <li>&laquo; </li>
@@ -417,5 +415,4 @@
         <li>&raquo;</li>
     </a>
 </ul>
-
 {% endmacro %}
