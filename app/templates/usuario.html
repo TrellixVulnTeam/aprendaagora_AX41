@@ -54,7 +54,7 @@
     </div>
 
     <!-- Lista de publicações no MURAL -->
-    <div class="row w-100">
+    <ul id="lista-publicacoes" class="row w-100 posts">
 
         <!-- Para cada par publicação-autor -->
         {% for publicacao in publicacoes %}
@@ -62,5 +62,5 @@
             <!-- Exiba a publicação -->
             {{ exibir_publicacao_perfil(publicacao) }}
         {% endfor %}
-    </div>
+    </ul>
 {% endblock %}

@@ -305,40 +305,48 @@
 <div class="col-md-6 p-0">
 
     <!-- padding para que os cartões tenham espaço branco entre si, melhorando a visualização -->
-    <div class="p-2">
+    <div class="container-publicacao p-1">
         
         <!-- borda que melhora o reconhecimento do agrupameno de elementos que compõem o cartão -->
-        <article class="border bg-white w-100">
+        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ publicacao.autor.nome_usuario }}" data-data="{{ publicacao.data }}" class="border bg-white w-100">
 
             <!-- Publicação -->
-            <div class="card-body p-0 pl-2 pr-1">
+            <section class="card-body p-0 pl-2 pr-1">
 
                 <!-- Se o usuario que escreveu a publicação for o usuário atual -->
                 {% if publicacao.autor == current_user %}
-                <div class="opcoes-publicacao m-0 p-0">
-                    <!-- Botões para o autor da publicação EDITAR ou APAGAR a publicação -->
-                    <span class="btn icone-editar-publicacao pr-1 pl-1"><i class="fa fa-pencil"></i></span>
-                    <span class="btn icone-apagar-publicacao pr-1 pl-1"><i class="fa fa-times-circle"></i></span>
-                </div>
+                    <div class="opcoes-publicacao m-0 p-0">
+                        <!-- Botões para o autor da publicação EDITAR ou APAGAR a publicação -->
+                        <span class="btn icone-editar-publicacao pr-1 pl-1"><i class="fa fa-pencil"></i></span>
+                        <span class="btn icone-apagar-publicacao pr-1 pl-1"><i class="fa fa-times-circle"></i></span>
+                    </div>
 
-                <!-- Título e conteúdo da publicação -->
-                <h5 class="">{{ publicacao.titulo }}</h5>
+                    <!-- Título e conteúdo da publicação -->
+                    <h5 class="">{{ publicacao.titulo }}</h5>
+                <!-- Se a publicação não for do usuário atual, não exibir botões de editar e apagar -->
                 {% else %}
 
-                <!-- Título e conteúdo da publicação -->
-                <h5 class="mt-2">{{ publicacao.titulo }}</h5>
+                    <!-- Título e conteúdo da publicação -->
+                    <h5 class="mt-2">{{ publicacao.titulo }}</h5>
                 {% endif %}
                 
-                <!-- Conteúdo da publicação (que foi truncado no backend)-->
-                <p class="card-text text-secondary">{{ publicacao.conteudo }}</p>                               
-            </div>
+
+
+                {% if publicacao.conteudo_html %}
+                    <!-- O filtro 'safe' garante que os elementos HTML serão exibidos corretamente -->
+                    <div class="paragrafo-publicacao card-text">{{ publicacao.conteudo_html | safe }}</div> 
+                {% else %}
+                    <div class="paragrafo-publicacao card-text">{{ publicacao.conteudo }}</div> 
+                {% endif %}                                
+            </section>
 
             <!-- Rodapé da publicação no mural -->
-            <footer class="rodape-publicacao bg-light m-0 pl-2 pb-1">
+            <footer class="rodape-publicacao bg-light m-0 w-100">
 
-                <small class="text-secondary"><i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow() }}</small>
+                <small class="publicacao-data text-secondary mr-1">&middot; <i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow() }}</small>
 
 
+                <span class="mr-1">
                 <!-- Define qual emoji usar para representar sobre qual idioma é a publicação -->
                 {% if publicacao.idioma == 'ingles' %}
                     <span class="bandeira-idioma">🇺🇸</span>
@@ -355,18 +363,19 @@
                 {% elif publicacao.idioma == 'chines' %}
                     <span class="bandeira-idioma">🇨🇳</span>
                 {% endif %}
+                </span> 
                 
                 <!-- Para cada tag atribuída à publicação -->
                 {% for tag in publicacao.tags %}
                     <!-- Exiba a tag miniatura com fundo e texto de acordo com a tag -->
                     {% if tag.nome == "vocabulario" %}
-                        <span class="badge badge-pill badge-success edit-post-icon">Vocabulário</span>
+                        <span class="badge badge-pill bg-success mr-1"><i class="fa fa-book mr-0 text-white"></i></span>
                     {% elif tag.nome == "gramatica" %}
-                        <span class="badge badge-pill badge-primary edit-post-icon">Gramática</span>
+                        <span class="badge badge-pill badge-primary mr-1"><i class="fa fa-cogs mr-0"></i></span>
                     {% elif tag.nome == "pronuncia" %}
-                        <span class="badge badge-pill badge-danger edit-post-icon">Pronúncia</span>
+                        <span class="badge badge-pill badge-danger mr-1"><i class="fa fa-headphones mr-0"></i></span>
                     {% else %}
-                        <span class="badge badge-pill badge-dark edit-post-icon">Cultura</span>
+                        <span class="badge badge-pill badge-dark mr-1"><i class="fa fa-globe mr-0"></i></span>
                     {% endif %}
                 {% endfor %}
 
@@ -375,7 +384,7 @@
                      Alterar o botão de "amei" para adicionar essa funcionalidade.
                      O resto do cartão do post, incluindo o botão de comentário, ativarão a janela modal com o post completa, comentários e formulários para escrever um comentário
                 -->
-                <div class="inline-block float-right">
+                <div class="opcoes-reagir inline-block float-right">
                     <span class="">0</span> <i class="fa fa-comments text-secondary"></i>
                     <span class="">0</span> <i class="fa fa-heart text-secondary"></i> 
                 </div>

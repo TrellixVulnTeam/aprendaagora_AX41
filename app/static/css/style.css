@@ -46,6 +46,28 @@ Tarefas:
 
 /* --------------------------------------------------------------------------------------- */
 
+#ultimas-publicacoes {
+    font-family: "Unica One", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#ultimas-publicacoes h3 {
+    text-transform: uppercase;
+}
+
+.div-imagem-curso {
+    text-align: center;
+    border: 1px rgb(207, 207, 207) solid;
+}
+
+.imagem-curso {
+    width: 100%;
+}
+
+
+.altura-50 {
+    height: 50%;
+}
+
 
 .elemento-1px-abaixo {
     position: relative;

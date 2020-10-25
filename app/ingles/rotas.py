@@ -94,20 +94,9 @@ def editar_publicacao():
             # Seleciona o JSON enviado através do pedido do cliente
             json_enviado = request.get_json()
 
-            """
-            # Converte e armazena a propriedade 'publicacao_id' para um int
-            publicacao_id = int(json_enviado['publicacao_id'])
-            """
-
-            
             publicacao_id = json_enviado["publicacao_id"]
             publicacao_titulo = json_enviado["publicacao_titulo"]
             publicacao_conteudo = json_enviado["publicacao_conteudo"]
-
-            print(publicacao_id)
-            print(publicacao_titulo)
-            print(publicacao_conteudo)
-
 
             publicacao = Publicacao.query.get_or_404(publicacao_id)
 
@@ -121,7 +110,6 @@ def editar_publicacao():
             db.session.add(publicacao)
 
             db.session.commit()
-
 
             confirmar_comunicacao = {"confirmado": True}
             return  jsonify(confirmar_comunicacao)
@@ -153,9 +141,8 @@ def json_publicacao():
         # Seleciona o representação da publicação em formato JSON
         publicacao_json = publicacao.json()
 
-        print(current_user.id)
+        # Se o cliente for o autor da publicação, autor_cliente será True
         publicacao_json['autor_cliente'] = (current_user.id == publicacao_json['id_autor'])
-        print(publicacao_json)
 
         # Responde o cliente, enviando a publicação em formato JSON
         return jsonify(publicacao_json)
