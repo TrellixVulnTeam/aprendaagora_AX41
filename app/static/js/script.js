@@ -365,15 +365,17 @@ function criar_modal(publicacao) {
     */
     let container_modal = document.createElement('div');
 
+    container_modal.setAttribute('id', 'container-modal');
+
 
     /* Exibe o modal */
     ativarModal();
 
     /* Cria o container da publicação no modal (que será a área de fundo branco) */
-    let container_publicacao = document.createElement('div');
+    let publicacao_modal = document.createElement('div');
 
     /* Adiciona o container da publicação ao container do modal criado */
-    container_modal.append(container_publicacao);
+    container_modal.append(publicacao_modal);
 
     /* Anexa o container do modal ao modal */
     modal.append(container_modal);
@@ -388,13 +390,13 @@ function criar_modal(publicacao) {
             overflow auto
             position, top, left, e transform definidos de forma que o container da publicação seja centralizado modal
     */
-    container_publicacao.classList.add('publicacao-modal');
+    publicacao_modal.classList.add('publicacao-modal');
 
     /* A classe .publicacao-modal-expandido ativa a animação de redimensionamento */
-    setTimeout( () => {container_publicacao.classList.add('publicacao-modal-expandido');}, 50 );
+    setTimeout( () => {publicacao_modal.classList.add('publicacao-modal-expandido');}, 50 );
 
     /* Adiciona padding ao container da publicação 1 milésimo após a animação de expansão for ativada */
-    setTimeout( () => {container_publicacao.classList.add('padding-publicacao-modal');}, 100 );
+    setTimeout( () => {publicacao_modal.classList.add('padding-publicacao-modal');}, 100 );
     
     /* Cria o botão de fechar a publicação */
     let botao_fechar = document.createElement('span');
@@ -405,11 +407,11 @@ function criar_modal(publicacao) {
     setTimeout( () => {container_modal.append(botao_fechar);}, 150);
     
     /* Preenche o container com os elementos da publicação */
-    container_publicacao = criar_publicacao_modal(container_publicacao, publicacao);
+    publicacao_modal = criar_publicacao_modal(publicacao_modal, publicacao);
 
 
     /* Crie os elementos da publicação e preencha o container com as informações */
-    function criar_publicacao_modal(container_publicacao, publicacao) {
+    function criar_publicacao_modal(publicacao_modal, publicacao) {
 
         
 
@@ -556,28 +558,35 @@ function criar_modal(publicacao) {
         /* --------------------------------------------------------------------------- */
 
 
-        /* Anexe os elementos da publicação ao conteúdo do modal */
+        let div_publicacao = document.createElement('div');
+        div_publicacao.setAttribute('id', 'container-publicacao');
+        div_publicacao.classList.add('border', 'border-danger', 'p-3');
 
-
-
-
+        /* Se o cliente for o AUTOR da publicação */
         if (publicacao.autor_cliente)
         {
+            /* Cria os opções de autor (BOTÃO EDITAR E BOTÃO APAGAR) */
             let opcoes_autor = document.createElement('div');
             let botao_editar = document.createElement('span');
             let botao_apagar = document.createElement('span');
     
+            /* Preenche os botões com a legenda */
             botao_editar.innerHTML = 'Editar <i class="fa fa-pencil"></i>';
             botao_apagar.innerHTML = 'Apagar <i class="fa fa-times-circle"></i>';
 
-            botao_editar.classList.add('btn', 'badge', 'badge-primary');
-            botao_apagar.classList.add('btn', 'badge', 'badge-danger', 'ml-1');
+            /* Adiciona as classes de estilização aos botões */
+            botao_editar.classList.add('badge', 'badge-primary');
+            botao_apagar.classList.add('badge', 'badge-danger', 'ml-1');
     
+            /* Adiciona as classes de estilização ao container das opções de autor */
             opcoes_autor.classList.add('text-right', 'mb-3');
+
+            /* Anexa os botões de opções de autor ao container das opções */
             opcoes_autor.append(botao_editar);
             opcoes_autor.append(botao_apagar);
 
-            container_publicacao.append(opcoes_autor);
+            /* Anexa o container das opções de autor ao container da publicação */
+            div_publicacao.append(opcoes_autor);
 
 
             /*
@@ -595,29 +604,34 @@ function criar_modal(publicacao) {
                 conteudo_publicacao.style.display = 'none';
                 */
 
+                /* Crie o container do formulário de edição */
                 let container_formulario = document.createElement('div');
 
 
-
-                /* Cria o container e as opções (botões) disponíveis para o autor */
+                /* Cria o container e os botões das opções disponíveis durante a edição  */
                 let opcoes_autor_edicao = document.createElement('div');
                 let botao_salvar = document.createElement('span');
                 let botao_cancelar = document.createElement('span');
 
-                botao_salvar.innerHTML = 'Salvar <i class="fa fa-save"></i>';
-                botao_cancelar.innerHTML = 'Cancelar <i class="fa fa-times-circle"></i>';
+                /* Preenche os botões com a legenda */
+                botao_salvar.innerHTML = 'Salvar Alterações <i class="fa fa-save"></i>';
+                botao_cancelar.innerHTML = 'Cancelar Edição <i class="fa fa-times-circle"></i>';
 
-                botao_salvar.classList.add('btn', 'badge', 'badge-success');
-                botao_cancelar.classList.add('btn', 'badge', 'badge-secondary', 'ml-1');
+                /* Adiciona as classes de estilização aos botões */
+                botao_salvar.classList.add('badge', 'badge-success');
+                botao_cancelar.classList.add('badge', 'badge-secondary', 'ml-1');
 
+                /* Adiciona as classes de estilização ao container das opções de autor */
                 opcoes_autor_edicao.classList.add('text-right', 'mb-3');
 
+                /* Anexa os botões de opções de autor ao container das opções */
                 opcoes_autor_edicao.append(botao_salvar);
                 opcoes_autor_edicao.append(botao_cancelar);
 
                 
-                /* Crie o formulário */
+                /* Crie o FORMULÁRIO de EDIÇÃO da PUBLICAÇÃO */
                 let formulario_edicao = document.createElement('form');
+
                 /* Adicione bordas e margem no topo do formulário */
                 formulario_edicao.classList.add('mt-3', 'mb-3');
 
@@ -644,10 +658,11 @@ function criar_modal(publicacao) {
 
                 /* ------------------------------------------------ */
 
-                /* Cria o container que conterá as CAIXAS DE SELEÇÃO para as opções TAGS */
+                /* Cria o container que conterá as opções de TAGS */
                 let container_tags = document.createElement('div');
                 container_tags.classList.add('row', 'row-cols-2', 'mb-3');
 
+                /* Crie os containers que conterão a CAIXA DE SELEÇÃO e a LABEL da tag */
                 let container_vocabulario = document.createElement('div');
                 let container_gramatica = document.createElement('div');
                 let container_pronuncia = document.createElement('div');
@@ -788,45 +803,81 @@ function criar_modal(publicacao) {
                 
                 /* ------------------------------------------------ */
 
+
                 formulario_edicao.append(container_input);  
                 formulario_edicao.append(container_tags);
                 formulario_edicao.append(container_textarea);
                 
 
+                /* Crie o div que vai expandir nos eixos X,Y para exibir o formulário */
                 let div_formulario = document.createElement('div');
-                div_formulario.classList.add('div-formulario', 'border', 'p-3');
+                div_formulario.classList.add('div-formulario', 'bg-light');
 
                 div_formulario.append(opcoes_autor_edicao);
                 div_formulario.append(formulario_edicao);
 
+
                 container_formulario.append(div_formulario);
 
+                container_formulario.classList.add('container-formulario-edicao');
 
-                container_formulario.classList.add('container-edicao', 'mt-1', 'mb-5');
+                /* Pré-anexa o CONTAINER DO FORMULÁRIO no CONTAINER DA PUBLICAÇÃO (efeticamente, anexado o container do formulário antes do container com a publicação em si) */
+                publicacao_modal.prepend(container_formulario);
 
-                container_publicacao.prepend(container_formulario);
+                /* Expanda as dimensões do div_formulario após 1000 milésimos */
+                setTimeout(function () {div_formulario.classList.add('div-formulario-expandindo');}, 100);
 
-                setTimeout(function () {div_formulario.classList.add('div-formulario-expandido');}, 100);
 
-                container_formulario.classList.add('container-edicao-expandido');
+                container_formulario.classList.add('container-formulario-edicao-expandindo');
 
+                container_formulario.classList.remove('container-formulario-edicao');
+
+                setTimeout(function () {
+
+                    container_formulario.classList.add('container-formulario-edicao-expandido');
+
+                    container_formulario.classList.remove('container-formulario-edicao-expandindo');
+
+                }, 100);
+                
+
+
+
+                botao_cancelar.addEventListener('click', () => {
+
+                    div_formulario.classList.remove('div-formulario-expandindo');
+                    
+                    setTimeout(function () {
+                        container_formulario.classList.add('container-formulario-edicao-encolhendo');
+                    }, 100);
+
+                    /*
+                    setTimeout(function () {container_formulario.classList.remove('mt-1', 'mb-5');}, 1000);
+                    */
+
+                    /*
+                    container_formulario.classList.remove('container-formulario-edicao-expandido');*/
+
+
+                    /* Destroi o container do formulário após a animação de encolhimento terminar */
+                    setTimeout(function () {
+                        container_formulario.remove();
+                    }, 1000)
+                    
+                });
             });
         }
 
 
-
-        let div_publicacao = document.createElement('div');
-        div_publicacao.classList.add('border', 'p-3');
-
-       
+        /* Anexa o TÍTULO, INFORMAÇÕES e CONTEÚDO da publicação SOMENTE APÓS definir se as OPÇÕES de AUTOR serão anexadas */
         div_publicacao.append(titulo_publicacao);
         div_publicacao.append(info_publicacao);
         div_publicacao.append(conteudo_publicacao);
 
-        container_publicacao.append(div_publicacao);
+        publicacao_modal.append(div_publicacao);
 
 
-        return container_publicacao;
+        return publicacao_modal;
     }
 
     /* Exibe o Modal de uma publicação que foi clicada*/
@@ -839,13 +890,13 @@ function criar_modal(publicacao) {
     function fecharModal() {
 
         /* Remove o conteúdo */
-        container_publicacao.textContent = '';
+        publicacao_modal.textContent = '';
 
         /* Remove o padding */
-        container_publicacao.classList.remove('padding-publicacao-modal');
+        publicacao_modal.classList.remove('padding-publicacao-modal');
 
         /* Ativa animação de encolhimento 0.25 milésimos após o padding e o conteúdo forem removidos*/
-        setTimeout( () => {container_publicacao.classList.remove('publicacao-modal-expandido');}, 25 );
+        setTimeout( () => {publicacao_modal.classList.remove('publicacao-modal-expandido');}, 25 );
 
         /* Remove (destroi) o modal do DOM (1.25 milésimos após a publicação começar a encolher) */
         setTimeout( () => {modal.remove();}, 150 );
