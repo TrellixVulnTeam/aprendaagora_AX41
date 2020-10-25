@@ -9,10 +9,16 @@
     {% if current_user.pode(Permissao.ESCREVER_MURAL) %}
 
         <!-- Container do formulário do MURAL-->
-        <div class="bg-white border rounded mb-3 p-2">
+        <div class="bg-white border rounded mt-5 mb-3 p-2">
             
-            <!-- Título -->
-            <h5 class="text-dark text-shadow">Faça uma publicação no mural</h5>
+            <!-- Título 
+            
+
+            Escreva sobre sua última sessão de estudos
+            Escreva sobre a regra gramatical mais difícil para você
+
+            -->
+            <h5 class="text-dark text-shadow">Faça uma publicação no mural </h5>
 
             <!-- Exibe o formulário para publicar no mural -->
             {{ exibir_formulario(formulario) }}

@@ -87,6 +87,54 @@ def publicacao(id):
     return render_template('publicacao.html', publicacao=publicacao)
 
 
+@bp.route('/publicacao/editar', methods=['POST'])
+def editar_publicacao():
+
+    try:
+            # Seleciona o JSON enviado através do pedido do cliente
+            json_enviado = request.get_json()
+
+            """
+            # Converte e armazena a propriedade 'publicacao_id' para um int
+            publicacao_id = int(json_enviado['publicacao_id'])
+            """
+
+            
+            publicacao_id = json_enviado["publicacao_id"]
+            publicacao_titulo = json_enviado["publicacao_titulo"]
+            publicacao_conteudo = json_enviado["publicacao_conteudo"]
+
+            print(publicacao_id)
+            print(publicacao_titulo)
+            print(publicacao_conteudo)
+
+
+            publicacao = Publicacao.query.get_or_404(publicacao_id)
+
+            if current_user != publicacao.autor:
+                abort(404)
+
+            publicacao.titulo = publicacao_titulo
+
+            publicacao.conteudo = publicacao_conteudo
+
+            db.session.add(publicacao)
+
+            db.session.commit()
+
+
+            confirmar_comunicacao = {"confirmado": True}
+            return  jsonify(confirmar_comunicacao)
+
+    except Exception as e:
+
+        print("AJAX exceção " + str(e))
+        return(str(e))
+
+
+    #Publicacao.query.get_or_404(id).
+
+
 # Rota que retorna um objeto JSON representando as informações (que o usuário não consegue acessar localmente) da publicação
 # Esta rota é usada pela funcionalidade de modal
 @bp.route('/publicacao/json', methods=['GET', 'POST'])

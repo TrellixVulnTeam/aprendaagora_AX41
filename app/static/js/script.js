@@ -413,7 +413,12 @@ function criar_modal(publicacao) {
     /* Crie os elementos da publicação e preencha o container com as informações */
     function criar_publicacao_modal(publicacao_modal, publicacao) {
 
+
+        /* ID DA PUBLICAÇÃO */
         
+        let id_publicacao = document.createElement('small');
+        id_publicacao.classList.add('text-secondary', 'mb-1');
+        id_publicacao.innerText = `publicação #${publicacao.id}`;
 
         /* TÍTULO DA PUBLICAÇÃO */
 
@@ -560,7 +565,16 @@ function criar_modal(publicacao) {
 
         let div_publicacao = document.createElement('div');
         div_publicacao.setAttribute('id', 'container-publicacao');
-        div_publicacao.classList.add('border', 'border-danger', 'p-3');
+        div_publicacao.classList.add('border', 'border-secondary', 'p-3');
+
+
+        /* Anexa o TÍTULO, INFORMAÇÕES e CONTEÚDO da publicação SOMENTE APÓS definir se as OPÇÕES de AUTOR serão anexadas */
+        div_publicacao.append(id_publicacao);
+        div_publicacao.append(titulo_publicacao);
+        div_publicacao.append(info_publicacao);
+        div_publicacao.append(conteudo_publicacao);
+
+        publicacao_modal.append(div_publicacao);
 
         /* Se o cliente for o AUTOR da publicação */
         if (publicacao.autor_cliente)
@@ -586,26 +600,35 @@ function criar_modal(publicacao) {
             opcoes_autor.append(botao_apagar);
 
             /* Anexa o container das opções de autor ao container da publicação */
-            div_publicacao.append(opcoes_autor);
+            div_publicacao.prepend(opcoes_autor);
 
+            
 
             /*
                 Quando o botão de editar for clicado,
                 empurre a publicação para baixo e exiba o formulário.
             */
             botao_editar.addEventListener('click', () => {
-                
-                /* Remova as opções de autor, o título, as informações da publicação e o conteúdo da publicação */
 
-                /*
-                opcoes_autor.style.display = 'none';
-                titulo_publicacao.style.display = 'none';
-                info_publicacao.style.display = 'none';
-                conteudo_publicacao.style.display = 'none';
-                */
+                /* Esconde as opções do autor para que o cliente não crie formulários a mais ou apague a publicação durante edição (clicando no ícone) */
+                opcoes_autor.style.visibility = 'hidden';
+
 
                 /* Crie o container do formulário de edição */
                 let container_formulario = document.createElement('div');
+
+            
+                /* ------------------------------------------------ */
+
+                
+                /* Crie o FORMULÁRIO de EDIÇÃO da PUBLICAÇÃO */
+                let formulario_edicao = document.createElement('form');
+
+                /* Adicione bordas e margem no topo do formulário */
+                formulario_edicao.classList.add('mt-3', 'mb-3');
+
+
+                /* ------------------------------------------------ */
 
 
                 /* Cria o container e os botões das opções disponíveis durante a edição  */
@@ -619,6 +642,8 @@ function criar_modal(publicacao) {
 
                 /* Adiciona as classes de estilização aos botões */
                 botao_salvar.classList.add('badge', 'badge-success');
+                botao_salvar.setAttribute('type', 'submit');
+
                 botao_cancelar.classList.add('badge', 'badge-secondary', 'ml-1');
 
                 /* Adiciona as classes de estilização ao container das opções de autor */
@@ -628,35 +653,37 @@ function criar_modal(publicacao) {
                 opcoes_autor_edicao.append(botao_salvar);
                 opcoes_autor_edicao.append(botao_cancelar);
 
+
+                /* ------------------------------------------------ */
                 
-                /* Crie o FORMULÁRIO de EDIÇÃO da PUBLICAÇÃO */
-                let formulario_edicao = document.createElement('form');
-
-                /* Adicione bordas e margem no topo do formulário */
-                formulario_edicao.classList.add('mt-3', 'mb-3');
-
 
                 /* Crie o container que conterá o INPUT do TÍTULO da publicação */
                 let container_input = document.createElement('div');
+                
                 /* Cria um elemento LABEL, adiciona cor escura à fonte, define como sendo a label do campo 'titulo_input_edicao', e define a string a ser exibida no label */
                 let label_input = document.createElement('label');
+                
                 /* Cria um elemento INPUT, adiciona a classe .form-control (classe Bootstrap para formulários), define o id e o nome do campo, define o tipo do campo, e por fim preenche o campo com o título da publicação a ser editada */
                 let titulo_input = document.createElement('input');
                 
                 /* Adicione a classe .form-group (que adiciona margem abaixo do elemento) */
                 container_input.classList.add('form-group');
 
-                label_input.classList.add('text-dark');
+                /* Formata o label como no formulario WTF */
+                label_input.classList.add('text-secondary');
                 label_input.setAttribute('for', 'titulo-input-edicao');
                 label_input.innerText = "Título da publicação";
 
+                /* Formata o input como no formulário WTF */
                 titulo_input.classList.add('form-control');
                 titulo_input.setAttribute('id', 'titulo-input-edicao');
                 titulo_input.setAttribute('name', 'titulo-input-edicao');
                 titulo_input.setAttribute('type', 'text');
-                titulo_input.value = publicacao.titulo;
+                titulo_input.value = titulo_publicacao.innerText;
+
 
                 /* ------------------------------------------------ */
+
 
                 /* Cria o container que conterá as opções de TAGS */
                 let container_tags = document.createElement('div');
@@ -760,17 +787,22 @@ function criar_modal(publicacao) {
                 /* Adicione a classe .form-group (que adiciona margem abaixo do elemento) */
                 container_textarea.classList.add('form-group');
 
-                label_textarea.classList.add('text-dark');
+                label_textarea.classList.add('text-secondary');
                 label_textarea.setAttribute('for', 'conteudo-textarea-edicao');
-                label_textarea.innerText = "Conteudo da publicação";
+                label_textarea.innerHTML = "Conteudo da publicação <small class='text-primary'>(prévia da publicação abaixo)</small>";
 
                 conteudo_textarea.classList.add('form-control');
                 conteudo_textarea.setAttribute('id', 'conteudo-textarea-edicao');
                 conteudo_textarea.setAttribute('name', 'conteudo-textarea--edicao');
                 conteudo_textarea.setAttribute('type', 'text');
                 conteudo_textarea.setAttribute('rows', '10');
-                conteudo_textarea.value = publicacao.conteudo;
 
+                /* Transforma o HTML em Markdown para o autor poder editar com mais controle. */
+                var turndownService = new TurndownService();
+                var markdown = turndownService.turndown(conteudo_publicacao.innerHTML);
+
+                /* Textarea é preenchido com o MARKDOWN da publicação */
+                conteudo_textarea.value = markdown;
 
                 /* ------------------------------------------------ */
 
@@ -804,25 +836,36 @@ function criar_modal(publicacao) {
                 /* ------------------------------------------------ */
 
 
+
+
+                /* Anexa os elementos do formulário de edição  */
+                formulario_edicao.append(opcoes_autor_edicao);
                 formulario_edicao.append(container_input);  
                 formulario_edicao.append(container_tags);
                 formulario_edicao.append(container_textarea);
                 
 
+
+
+
                 /* Crie o div que vai expandir nos eixos X,Y para exibir o formulário */
                 let div_formulario = document.createElement('div');
-                div_formulario.classList.add('div-formulario', 'bg-light');
+                div_formulario.classList.add('div-formulario', 'bg-light', 'border');
 
-                div_formulario.append(opcoes_autor_edicao);
                 div_formulario.append(formulario_edicao);
-
 
                 container_formulario.append(div_formulario);
 
                 container_formulario.classList.add('container-formulario-edicao');
 
+
+
+
                 /* Pré-anexa o CONTAINER DO FORMULÁRIO no CONTAINER DA PUBLICAÇÃO (efeticamente, anexado o container do formulário antes do container com a publicação em si) */
                 publicacao_modal.prepend(container_formulario);
+
+
+
 
                 /* Expanda as dimensões do div_formulario após 1000 milésimos */
                 setTimeout(function () {div_formulario.classList.add('div-formulario-expandindo');}, 100);
@@ -831,6 +874,7 @@ function criar_modal(publicacao) {
                 container_formulario.classList.add('container-formulario-edicao-expandindo');
 
                 container_formulario.classList.remove('container-formulario-edicao');
+
 
                 setTimeout(function () {
 
@@ -843,7 +887,44 @@ function criar_modal(publicacao) {
 
 
 
-                botao_cancelar.addEventListener('click', () => {
+
+                /* Salva as alterações na publicação, remove o formulário de edição e exibe as opções de autor */
+                botao_salvar.addEventListener('click', () => {
+
+
+                    /*
+                    
+                    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    Salvar alterações no banco de dados
+                    
+                    */
+
+
+                    /* Crie um novo pedido HTTP*/
+                    let pedido = new XMLHttpRequest();
+
+                    /* Pega o id da publicação cujo div foi clicado.
+                    'publicacao_id' é uma string mas pode ser convertido
+                    para int antes de ser enviado para o servidor.
+                    Para isso, a função parseInt() está sendo usada*/
+                    let json_enviado = {"publicacao_id": publicacao.id,"publicacao_titulo": titulo_input.value,"publicacao_conteudo": conteudo_textarea.value} ;
+
+                    /* Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
+                    pedido.open('POST', '/ingles/publicacao/editar');
+
+                    /* ??? */
+                    pedido.setRequestHeader('Content-Type', 'application/json');
+
+                    /* Quando o pedido for respondido */
+                    pedido.onload = function (e) {
+
+                    }
+
+                    /* Envie o pedido para o servidor, juntamento com o id da publicação */
+                    pedido.send(JSON.stringify(json_enviado));
+
+
+
 
                     div_formulario.classList.remove('div-formulario-expandindo');
                     
@@ -851,31 +932,75 @@ function criar_modal(publicacao) {
                         container_formulario.classList.add('container-formulario-edicao-encolhendo');
                     }, 100);
 
-                    /*
-                    setTimeout(function () {container_formulario.classList.remove('mt-1', 'mb-5');}, 1000);
-                    */
 
-                    /*
-                    container_formulario.classList.remove('container-formulario-edicao-expandido');*/
-
-
-                    /* Destroi o container do formulário após a animação de encolhimento terminar */
                     setTimeout(function () {
                         container_formulario.remove();
                     }, 1000)
                     
+                    /* Exibe as opções de autor que foi escondida quando a edição começou */
+                    opcoes_autor.style.visibility = 'visible';
                 });
+
+
+
+
+                /* Cancela a edição da publicação */
+                botao_cancelar.addEventListener('click', () => {
+
+                    /* Restaura o título original da publicação */
+                    titulo_publicacao.innerText = publicacao.titulo;
+
+                    /* Se a versão HTML do conteúdo da publicação estiver definido */
+                    if (publicacao.conteudo_html != undefined)
+                    {
+                        conteudo_publicacao.innerHTML = publicacao.conteudo_html;
+                    }
+                    /* Senão, utilize o conteúdo em texto-plano */
+                    else
+                    {
+                        conteudo_publicacao.innerHTML = publicacao.conteudo;
+                    }
+
+
+                    /* Remova a classe que expande o formulário */
+                    div_formulario.classList.remove('div-formulario-expandindo');
+                    
+                    setTimeout(function () {
+                        container_formulario.classList.add('container-formulario-edicao-encolhendo');
+                    }, 100);
+
+
+                    setTimeout(function () {
+                        container_formulario.remove();
+                    }, 1000)
+                    
+                    /* Exibe as opções de autor que foi escondida quando a edição começou */
+                    opcoes_autor.style.visibility = 'visible';
+                });
+
+
+
+
+                /* PRÉVIA DA EDIÇÃO */
+
+                if (typeof flask_pagedown_converter === "undefined")
+                {
+                    flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
+                }
+
+                titulo_input.addEventListener('keyup', () => {
+                    
+                    titulo_publicacao.innerHTML = titulo_input.value;
+                })
+
+
+                conteudo_textarea.addEventListener('keyup', () => {
+    
+                    conteudo_publicacao.innerHTML = flask_pagedown_converter(conteudo_textarea.value);
+                })
+
             });
         }
-
-
-        /* Anexa o TÍTULO, INFORMAÇÕES e CONTEÚDO da publicação SOMENTE APÓS definir se as OPÇÕES de AUTOR serão anexadas */
-        div_publicacao.append(titulo_publicacao);
-        div_publicacao.append(info_publicacao);
-        div_publicacao.append(conteudo_publicacao);
-
-        publicacao_modal.append(div_publicacao);
-
 
         return publicacao_modal;
     }
