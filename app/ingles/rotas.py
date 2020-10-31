@@ -87,40 +87,66 @@ def publicacao(id):
     return render_template('publicacao.html', publicacao=publicacao)
 
 
+# Rota acessada quando o usuário clica no botão de salvar edição na publicação
 @bp.route('/publicacao/editar', methods=['POST'])
 def editar_publicacao():
 
     try:
-            # Seleciona o JSON enviado através do pedido do cliente
-            json_enviado = request.get_json()
+        # Seleciona o JSON enviado através do pedido do cliente
+        json_enviado = request.get_json()
 
-            publicacao_id = json_enviado["publicacao_id"]
-            publicacao_titulo = json_enviado["publicacao_titulo"]
-            publicacao_conteudo = json_enviado["publicacao_conteudo"]
+        # Seleciona o id, o título e o conteúdo que foram EDITADOS
+        publicacao_id = json_enviado["publicacao_id"]
+        publicacao_titulo = json_enviado["publicacao_titulo"]
+        publicacao_conteudo = json_enviado["publicacao_conteudo"]
+        publicacao_tags = json_enviado["publicacao_tags"];
 
-            publicacao = Publicacao.query.get_or_404(publicacao_id)
+        # Seleciona a publicação através do ID
+        publicacao = Publicacao.query.get_or_404(publicacao_id)
 
-            if current_user != publicacao.autor:
-                abort(404)
+        # Se o usuário que fez o pedido de alteração (current_user) não for o autor da publicação
+        if current_user != publicacao.autor:
+            # Abortar operação
+            abort(404)
 
-            publicacao.titulo = publicacao_titulo
+        # Armazena o título alterado
+        publicacao.titulo = publicacao_titulo
 
-            publicacao.conteudo = publicacao_conteudo
+        # Armazena o conteúdo alterado
+        publicacao.conteudo = publicacao_conteudo
 
-            db.session.add(publicacao)
 
-            db.session.commit()
+        # Esvazia a lista de tags associadas à publicação para que as tags desmarcadas sejam apagadas do banco de dados
+        publicacao.tags.clear()
 
-            confirmar_comunicacao = {"confirmado": True}
-            return  jsonify(confirmar_comunicacao)
+        # Para cada tag selecionada no formulário
+        for tag in publicacao_tags:
 
+            # Seleciona a tag no banco de dados de acordo com o que foi selecionado
+            t = Tag.query.filter_by(id=tag).first()
+
+            # Adiciona a tag selecionada à lista de tags da publicação
+            publicacao.tags.append(t)
+
+
+
+        # Adiciona a publicação alterada ao banco de dados
+        db.session.add(publicacao)
+
+        # Salva as alterações no banco de dados
+        db.session.commit()
+
+        # Define o objeto JSON que será enviado de volta ao cliente
+        confirmar_comunicacao = {"confirmado": True}
+        
+        # Envia o objeto JSON ao cliente
+        return  jsonify(confirmar_comunicacao)
+
+    # Se houver uma excessão
     except Exception as e:
 
         print("AJAX exceção " + str(e))
         return(str(e))
-
-
-    #Publicacao.query.get_or_404(id).
 
 
 # Rota que retorna um objeto JSON representando as informações (que o usuário não consegue acessar localmente) da publicação

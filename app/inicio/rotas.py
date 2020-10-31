@@ -1,6 +1,6 @@
 # Blueprint INÍCIO
 
-from flask import render_template, session, redirect, url_for, current_app, flash
+from flask import render_template, session, redirect, url_for, current_app, flash, request, jsonify
 from flask_login import login_required, current_user
 from datetime import datetime
 from . import inicio as bp
@@ -78,6 +78,49 @@ def editar_perfil():
     return render_template('editar_perfil.html', formulario=formulario)
 
 
+
+
+
+
+@bp.route('/publicacao/apagar', methods=['POST'])
+@login_required
+def apagar_publicacao():
+
+    try:
+        # Seleciona o JSON enviado através do pedido do cliente
+        json_enviado = request.get_json()
+
+        # Seleciona o id da publicação
+        publicacao_id = json_enviado["publicacao_id"]
+
+        # Seleciona a publicação através do ID
+        publicacao = Publicacao.query.get_or_404(publicacao_id)
+
+        # Se o usuário que fez o pedido de exclusão (current_user) não for o autor da publicação
+        if current_user != publicacao.autor:
+            # Abortar operação
+            abort(404)
+
+        # Apaga a publicação
+        db.session.delete(publicacao)
+
+        # Salva as alterações
+        db.session.commit()
+
+        print("Publicação apagada")
+
+        # Define o objeto JSON que será enviado de volta ao cliente
+        confirmar_exclusao = {"apagado": True}
+        
+        # Envia o objeto JSON ao cliente
+        return  jsonify(confirmar_exclusao)
+
+
+    # Se houver uma excessão
+    except Exception as e:
+
+        print("AJAX exceção " + str(e))
+        return(str(e))
 
 
 """  ROTAS DOS PROFESSORES E DOS ADMINS  """

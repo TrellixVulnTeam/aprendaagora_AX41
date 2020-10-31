@@ -268,14 +268,14 @@
                 <!-- Para cada tag atribuída à publicação -->
                 {% for tag in publicacao.tags %}
                     <!-- Exiba a tag miniatura com fundo e texto de acordo com a tag -->
-                    {% if tag.nome == "vocabulario" %}
-                        <span class="badge badge-pill bg-success mr-1"><i class="fa fa-book mr-0 text-white"></i></span>
+                    {% if tag.nome == "vocabulario" %} 
+                        <span class="badge badge-pill bg-success mr-1" data-toggle="tooltip" data-placement="top" title="Vocabulário"><i class="fa fa-book mr-0 text-white"></i></span>
                     {% elif tag.nome == "gramatica" %}
-                        <span class="badge badge-pill badge-primary mr-1"><i class="fa fa-cogs mr-0"></i></span>
+                        <span class="badge badge-pill badge-primary mr-1" data-toggle="tooltip" data-placement="top" title="Gramática"><i class="fa fa-cogs mr-0"></i></span>
                     {% elif tag.nome == "pronuncia" %}
-                        <span class="badge badge-pill badge-danger mr-1"><i class="fa fa-headphones mr-0"></i></span>
+                        <span class="badge badge-pill badge-danger mr-1" data-toggle="tooltip" data-placement="top" title="Pronúncia"><i class="fa fa-headphones mr-0"></i></span>
                     {% else %}
-                        <span class="badge badge-pill badge-dark mr-1"><i class="fa fa-globe mr-0"></i></span>
+                        <span class="badge badge-pill badge-dark mr-1" data-toggle="tooltip" data-placement="top" title="Cultura"><i class="fa fa-globe mr-0"></i></span>
                     {% endif %}
                 {% endfor %}    
 
