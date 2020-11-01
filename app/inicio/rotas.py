@@ -79,9 +79,6 @@ def editar_perfil():
 
 
 
-
-
-
 @bp.route('/publicacao/apagar', methods=['POST'])
 @login_required
 def apagar_publicacao():

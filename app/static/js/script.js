@@ -106,6 +106,7 @@ function detectar_clique_publicacoes(publicacoes) {
                     */
                     let publicacao_dados = JSON.parse(pedido.responseText);
 
+
                     /*
                         O título e o autor da publicação já estão disponíveis no dataset do elemento HTML,
                         portanto eles não precisam ser enviados pelo servidor pois podem ser acessados diretamente aqui.
@@ -315,23 +316,12 @@ function criar_modal(publicacao) {
         /* Cria os opções de autor (BOTÃO EDITAR E BOTÃO APAGAR) */
         let opcoes_autor = document.createElement('div');
 
-        let botao_editar = document.createElement('span');
-        botao_editar.setAttribute('id', 'botao-editar-publicacao');
-        
-        let botao_apagar = document.createElement('span');
-        botao_apagar.setAttribute('id', 'botao-apagar-publicacao');
-
-
-        /* Preenche os botões com a legenda */
-        botao_editar.innerHTML = 'Editar <i class="fa fa-pencil"></i>';
-        botao_apagar.innerHTML = 'Apagar <i class="fa fa-times-circle"></i>';
-
-        /* Adiciona as classes de estilização aos botões */
-        botao_editar.classList.add('badge', 'badge-primary', 'cursor-pointer');
-        botao_apagar.classList.add('badge', 'badge-danger', 'cursor-pointer', 'ml-1');
-
         /* Adiciona as classes de estilização ao container das opções de autor */
         opcoes_autor.classList.add('text-right', 'mb-3');
+
+        let botao_editar = criar_botao_editar();
+        
+        let botao_apagar = criar_botao_apagar();
 
         /* Anexa os botões de opções de autor ao container das opções */
         opcoes_autor.append(botao_editar);
@@ -347,255 +337,302 @@ function criar_modal(publicacao) {
             opcoes_autor.style.visibility = 'hidden';
 
 
-            /* Crie o container do formulário de edição */
+            // Crie o container do formulário de edição
             let container_formulario = document.createElement('div');
 
+            // Crie o div que vai expandir nos eixos X,Y para exibir o formulário
+            let div_formulario = document.createElement('div');
 
-            /* ------------------------------------------------ */
-
-            
-            /* Crie o FORMULÁRIO de EDIÇÃO da PUBLICAÇÃO */
+            // Crie o FORMULÁRIO de EDIÇÃO da PUBLICAÇÃO
             let formulario_edicao = document.createElement('form');
 
-            /* Adicione bordas e margem no topo do formulário */
+
+            // Adicione bordas e margem no topo do formulário 
             formulario_edicao.classList.add('mt-3', 'mb-3');
 
+            div_formulario.classList.add('div-formulario', 'bg-light', 'border');
 
-            /* ------------------------------------------------ */
-
-
-            /* Cria o container e os botões das opções disponíveis durante a edição  */
-            let opcoes_autor_edicao = document.createElement('div');
-            let botao_salvar = document.createElement('span');
-            let botao_cancelar = document.createElement('span');
-
-            /* Preenche os botões com a legenda */
-            botao_salvar.innerHTML = 'Salvar Alterações <i class="fa fa-save"></i>';
-            botao_cancelar.innerHTML = 'Cancelar Edição <i class="fa fa-times-circle"></i>';
-
-            /* Adiciona as classes de estilização aos botões */
-            botao_salvar.classList.add('badge', 'badge-success', 'cursor-pointer');
-
-            botao_cancelar.classList.add('badge', 'badge-secondary', 'cursor-pointer', 'ml-1');
-
-            /* Adiciona as classes de estilização ao container das opções de autor */
-            opcoes_autor_edicao.classList.add('text-right', 'mb-3');
-
-            /* Anexa os botões de opções de autor ao container das opções */
-            opcoes_autor_edicao.append(botao_salvar);
-            opcoes_autor_edicao.append(botao_cancelar);
+            container_formulario.classList.add('container-formulario-edicao');
 
 
-            /* ------------------------------------------------ */
-            
 
-            /* Crie o container que conterá o INPUT do TÍTULO da publicação */
-            let container_input = document.createElement('div');
-            
-            /* Cria um elemento LABEL, adiciona cor escura à fonte, define como sendo a label do campo 'titulo_input_edicao', e define a string a ser exibida no label */
-            let label_input = document.createElement('label');
-            
-            /* Cria um elemento INPUT, adiciona a classe .form-control (classe Bootstrap para formulários), define o id e o nome do campo, define o tipo do campo, e por fim preenche o campo com o título da publicação a ser editada */
-            let titulo_input = document.createElement('input');
-            
-            /* Adicione a classe .form-group (que adiciona margem abaixo do elemento) */
-            container_input.classList.add('form-group');
+            div_formulario.append(formulario_edicao);
 
-            /* Formata o label como no formulario WTF */
-            label_input.classList.add('text-secondary');
-            label_input.setAttribute('for', 'titulo-input-edicao');
-            label_input.innerText = "Título da publicação";
+            container_formulario.append(div_formulario);
 
-            /* Formata o input como no formulário WTF */
-            titulo_input.classList.add('form-control');
-            titulo_input.setAttribute('id', 'titulo-input-edicao');
-            titulo_input.setAttribute('name', 'titulo-input-edicao');
-            titulo_input.setAttribute('type', 'text');
-            titulo_input.value = titulo_publicacao.innerText;
+            // Pré-anexa o CONTAINER DO FORMULÁRIO no CONTAINER DA PUBLICAÇÃO (efetivamente, anexado o container do formulário antes do container com a publicação em si)
+            publicacao_modal.prepend(container_formulario);
+
 
 
             /* ------------------------------------------------ */
 
+            // Função que cria as OPÇÕES DO AUTOR DURANTE EDIÇÃO no formulário
+            function criar_container_opcoes_autor_edicao () {
 
-            /* Cria o container que conterá as opções de TAGS */
-            let container_tags = document.createElement('div');
-            container_tags.classList.add('row', 'row-cols-2', 'mb-3');
-            container_tags.setAttribute('id', 'container-tags-edicao');
+                // Cria o container e os botões das opções disponíveis durante a edição 
+                let opcoes_autor_edicao = document.createElement('div');
+                opcoes_autor_edicao.classList.add('text-right', 'mb-3');
 
-            /* Crie os containers que conterão a CAIXA DE SELEÇÃO e a LABEL da tag */
-            let container_vocabulario = document.createElement('div');
-            let container_gramatica = document.createElement('div');
-            let container_pronuncia = document.createElement('div');
-            let container_cultura = document.createElement('div');
+                let botao_salvar = document.createElement('span');
+                botao_salvar.innerHTML = 'Salvar Alterações <i class="fa fa-save"></i>';
+                botao_salvar.classList.add('badge', 'badge-success', 'cursor-pointer');
+                botao_salvar.setAttribute('id', 'botao-salvar-edicao');
 
-            /* Cria as CAIXAS DE SELEÇÃO para as opções de TAGS */
-            let tag_vocabulario = document.createElement('input');
-            let tag_gramatica = document.createElement('input');
-            let tag_pronuncia = document.createElement('input');
-            let tag_cultura = document.createElement('input');
+                let botao_cancelar = document.createElement('span');
+                botao_cancelar.innerHTML = 'Cancelar Edição <i class="fa fa-times-circle"></i>';
+                botao_cancelar.classList.add('badge', 'badge-secondary', 'cursor-pointer', 'ml-1');
+                botao_cancelar.setAttribute('id', 'botao-cancelar-edicao');
 
-            /* Cria as LABELS das opções de TAGS */
-            let label_vocabulario = document.createElement('label');
-            let label_gramatica = document.createElement('label');
-            let label_pronuncia = document.createElement('label');
-            let label_cultura = document.createElement('label');
+                /* Anexa os botões de opções de autor ao container das opções */
+                opcoes_autor_edicao.append(botao_salvar);
+                opcoes_autor_edicao.append(botao_cancelar);
 
-            container_vocabulario.classList.add('col', 'p-0');
-            container_gramatica.classList.add('col', 'p-0');
-            container_pronuncia.classList.add('col', 'p-0');
-            container_cultura.classList.add('col', 'p-0');
-
-            container_vocabulario.style.display = 'inline-block';
-            container_gramatica.style.display = 'inline-block';
-            container_pronuncia.style.display = 'inline-block';
-            container_cultura.style.display = 'inline-block';
-
-            tag_vocabulario.classList.add('checkbox-tag-edicao');
-            tag_vocabulario.setAttribute('id', 'tags-0-edicao');
-            tag_vocabulario.setAttribute('name', 'tags');
-            tag_vocabulario.setAttribute('type', 'checkbox');
-            tag_vocabulario.setAttribute('value', '1');
-
-            tag_gramatica.classList.add('checkbox-tag-edicao');
-            tag_gramatica.setAttribute('id', 'tags-1-edicao');
-            tag_gramatica.setAttribute('name', 'tags');
-            tag_gramatica.setAttribute('type', 'checkbox');
-            tag_gramatica.setAttribute('value', '2');
-
-            tag_pronuncia.classList.add('checkbox-tag-edicao');
-            tag_pronuncia.setAttribute('id', 'tags-2-edicao');
-            tag_pronuncia.setAttribute('name', 'tags');
-            tag_pronuncia.setAttribute('type', 'checkbox');
-            tag_pronuncia.setAttribute('value', '3');
-
-            tag_cultura.classList.add('checkbox-tag-edicao');
-            tag_cultura.setAttribute('id', 'tags-3-edicao');
-            tag_cultura.setAttribute('name', 'tags');
-            tag_cultura.setAttribute('type', 'checkbox');
-            tag_cultura.setAttribute('value', '4');
-
-
-            label_vocabulario.classList.add('form-check-label', 'badge', 'badge-success', 'ml-1');
-            label_vocabulario.setAttribute('for', 'tags-0-edicao');
-            label_vocabulario.innerHTML = "<i class='fa fa-book'></i> Vocabulário";
-
-            label_gramatica.classList.add('form-check-label', 'badge', 'badge-primary', 'ml-1');
-            label_gramatica.setAttribute('for', 'tags-1-edicao');
-            label_gramatica.innerHTML = "<i class='fa fa-cogs'></i> Gramática";
-
-            label_pronuncia.classList.add('form-check-label', 'badge', 'badge-danger', 'ml-1');
-            label_pronuncia.setAttribute('for', 'tags-2-edicao');
-            label_pronuncia.innerHTML = "<i class='fa fa-headphones'></i> Pronúncia";
-
-            label_cultura.classList.add('form-check-label', 'badge', 'badge-dark', 'ml-1');
-            label_cultura.setAttribute('for', 'tags-3-edicao');
-            label_cultura.innerHTML = "<i class='fa fa-globe'></i> Cultura";
-
-
-            /* Seleciona o array de tags da publicação */
-            let tags_publicacao = publicacao.tags;
-
-            /* Marca as CAIXAS DE SELEÇÃO de acordo com as tags atribuídas à publicação */
-            if (tags_publicacao.includes('vocabulario')) {
-                tag_vocabulario.checked = true;
-            }
-            if (tags_publicacao.includes('gramatica')) {
-                tag_gramatica.checked = true;
-            }
-            if (tags_publicacao.includes('pronuncia')) {
-                tag_pronuncia.checked = true;
-            }
-            if (tags_publicacao.includes('cultura')) {
-                tag_cultura.checked = true;
+                return opcoes_autor_edicao;
             }
 
+            // Crie o container que conterá as OPÇÕES DO AUTOR DURANTE EDIÇÃO
+            let opcoes_autor_edicao = criar_container_opcoes_autor_edicao();
+
+            /* ------------------------------------------------ */
+
+            // Função que cria o INPUT DO TÍTULO no formulário
+            function criar_container_titulo_edicao (titulo_publicacao) {
+
+                // Crie o container que conterá o INPUT do TÍTULO da publicação
+                let container_input = document.createElement('div');
+                                        
+                /* Cria um elemento LABEL, adiciona cor escura à fonte, define como sendo a label do campo 'titulo_input_edicao', e define a string a ser exibida no label */
+                let label_input = document.createElement('label');
+
+                /* Cria um elemento INPUT, adiciona a classe .form-control (classe Bootstrap para formulários), define o id e o nome do campo, define o tipo do campo, e por fim preenche o campo com o título da publicação a ser editada */
+                let titulo_input = document.createElement('input');
+
+
+                /* Adicione a classe .form-group (que adiciona margem abaixo do elemento) */
+                container_input.classList.add('form-group');
+
+                /* Formata o label como no formulario WTF */
+                label_input.classList.add('text-secondary');
+                label_input.setAttribute('for', 'titulo-input-edicao');
+                label_input.innerText = "Título da publicação";
+
+                /* Formata o input como no formulário WTF */
+                titulo_input.classList.add('form-control');
+                titulo_input.setAttribute('id', 'titulo-input-edicao');
+                titulo_input.setAttribute('name', 'titulo-input-edicao');
+                titulo_input.setAttribute('type', 'text');
+                titulo_input.value = titulo_publicacao;
+
+
+                /* Anexa a LEGENDA do INPUT e o INPUT do TÍTULO  da publicação */
+                container_input.append(label_input);
+                container_input.append(titulo_input);
+
+                return container_input;
+            }
+
+            // Crie o container que conterá o INPUT do TÍTULO da publicação
+            let container_input = criar_container_titulo_edicao(titulo_publicacao.innerText);
+
+            /* ------------------------------------------------ */
+
+            // Função que cria as TAGS no formulário
+            function criar_container_tags_edicao (publicacao_tags) {
+
+                // Cria o CONTAINER que conterá as opções de TAGS
+                let container_tags = document.createElement('div');
+                container_tags.classList.add('row', 'row-cols-2', 'mb-3');
+                container_tags.setAttribute('id', 'container-tags-edicao');
+
+
+                // Crie os CONTAINERS que conterão a CAIXA DE SELEÇÃO e a LABEL da tag
+
+                function criar_container_tag () {
+
+                    let container = document.createElement('div');
+
+                    container.classList.add('col', 'p-0');
+
+                    container.style.display = 'inline-block';
+
+                    return container;
+                }
+
+                let container_vocabulario = criar_container_tag();
+                let container_gramatica = criar_container_tag();
+                let container_pronuncia = criar_container_tag();
+                let container_cultura = criar_container_tag();
+
+
+                // Cria as CAIXAS DE SELEÇÃO para as opções de TAGS
+            
+                function criar_input_tag () {
+
+                    let input = document.createElement('input');
+
+                    input.classList.add('checkbox-tag-edicao');
+
+                    input.setAttribute('name', 'tags');
+
+                    input.setAttribute('type', 'checkbox');
+
+                    return input;
+                }
+
+                let tag_vocabulario = criar_input_tag();
+                let tag_gramatica = criar_input_tag();
+                let tag_pronuncia = criar_input_tag();
+                let tag_cultura = criar_input_tag();
+
+                tag_vocabulario.setAttribute('id', 'tags-0-edicao');
+                tag_vocabulario.setAttribute('value', '1');
+
+                tag_gramatica.setAttribute('id', 'tags-1-edicao');
+                tag_gramatica.setAttribute('value', '2');
+
+                tag_pronuncia.setAttribute('id', 'tags-2-edicao');
+                tag_pronuncia.setAttribute('value', '3');
+
+                tag_cultura.setAttribute('id', 'tags-3-edicao');
+                tag_cultura.setAttribute('value', '4');
+
+
+                // Cria as LABELS das opções de TAGS
+
+                function criar_label_tag () {
+
+                    let label = document.createElement('label');
+
+                    label.classList.add('form-check-label', 'badge', 'ml-1');
+
+                    return label;
+                }
+
+                let label_vocabulario = criar_label_tag();
+                let label_gramatica = criar_label_tag();
+                let label_pronuncia = criar_label_tag();
+                let label_cultura = criar_label_tag();
+
+                label_vocabulario.classList.add('badge-success');
+                label_vocabulario.setAttribute('for', 'tags-0-edicao');
+                label_vocabulario.innerHTML = "<i class='fa fa-book'></i> Vocabulário";
+
+                label_gramatica.classList.add('badge-primary');
+                label_gramatica.setAttribute('for', 'tags-1-edicao');
+                label_gramatica.innerHTML = "<i class='fa fa-cogs'></i> Gramática";
+
+                label_pronuncia.classList.add('badge-danger');
+                label_pronuncia.setAttribute('for', 'tags-2-edicao');
+                label_pronuncia.innerHTML = "<i class='fa fa-headphones'></i> Pronúncia";
+
+                label_cultura.classList.add('badge-dark');
+                label_cultura.setAttribute('for', 'tags-3-edicao');
+                label_cultura.innerHTML = "<i class='fa fa-globe'></i> Cultura";
+
+
+                // Marca as CAIXAS DE SELEÇÃO de acordo com as tags atribuídas à publicação
+                if (publicacao_tags.includes('vocabulario')) {
+                    tag_vocabulario.checked = true;
+                }
+                if (publicacao_tags.includes('gramatica')) {
+                    tag_gramatica.checked = true;
+                }
+                if (publicacao_tags.includes('pronuncia')) {
+                    tag_pronuncia.checked = true;
+                }
+                if (publicacao_tags.includes('cultura')) {
+                    tag_cultura.checked = true;
+                }
+
+
+                // Anexa os CHECKBOXES TAGS e os LABELS das TAGS
+                container_vocabulario.append(tag_vocabulario);
+                container_vocabulario.append(label_vocabulario);
+
+                container_gramatica.append(tag_gramatica);
+                container_gramatica.append(label_gramatica);
+
+                container_pronuncia.append(tag_pronuncia);
+                container_pronuncia.append(label_pronuncia);
+
+                container_cultura.append(tag_cultura);
+                container_cultura.append(label_cultura);
+
+                // Anexa as tags ao container de tags
+                container_tags.append(container_vocabulario);
+                container_tags.append(container_gramatica);
+                container_tags.append(container_pronuncia);
+                container_tags.append(container_cultura);
+
+
+                return container_tags;
+            }
+
+            // Cria o container que conterá as opções de TAGS 
+            let container_tags = criar_container_tags_edicao(publicacao.tags);
+        
+            /* ------------------------------------------------ */
+
+            // Função que cria o TEXTAREA DO CONTEÚDO no formulário
+            function criar_container_conteudo_edicao (conteudo_publicacao_html) {
+
+                // Crie o container que conterá o TEXTAREA do CONTEÚDO da publicação
+                let container_textarea = document.createElement('div');
+            
+                // Cria um elemento LABEL
+                let label_textarea = document.createElement('label');
+            
+                // Cria um elemento TEXTAREA
+                let conteudo_textarea = document.createElement('textarea');
+            
+                // Adicione a classe .form-group (que adiciona margem abaixo do elemento)
+                container_textarea.classList.add('form-group');
+            
+            
+                label_textarea.classList.add('text-secondary');
+                label_textarea.setAttribute('for', 'conteudo-textarea-edicao');
+                label_textarea.innerHTML = "Conteudo da publicação <small class='text-primary'>(prévia da publicação abaixo)</small>";
+            
+            
+                conteudo_textarea.classList.add('form-control');
+                conteudo_textarea.setAttribute('id', 'conteudo-textarea-edicao');
+                conteudo_textarea.setAttribute('name', 'conteudo-textarea-edicao');
+                conteudo_textarea.setAttribute('type', 'text');
+                conteudo_textarea.setAttribute('rows', '10');
+            
+                // Transforma o HTML em Markdown para o autor poder editar com mais controle.
+                var turndownService = new TurndownService();
+                var markdown = turndownService.turndown(conteudo_publicacao_html);
+            
+                // Textarea é preenchido com o MARKDOWN da publicação
+                conteudo_textarea.value = markdown;
+            
+                // Anexa a LEGENDA do TEXTAREA e o TEXTAREA do CONTEÚDO da publicação
+                container_textarea.append(label_textarea);
+                container_textarea.append(conteudo_textarea);
+            
+                return container_textarea;
+            
+            }
+
+            let container_textarea = criar_container_conteudo_edicao(conteudo_publicacao.innerHTML);
             
             /* ------------------------------------------------ */
 
 
-            /* Crie o container que conterá o TEXTAREA do CONTEÚDO da publicação */
-            let container_textarea = document.createElement('div');
-            /* Cria um elemento LABEL,  */
-            let label_textarea = document.createElement('label');
-
-            let conteudo_textarea = document.createElement('textarea');
-
-            /* Adicione a classe .form-group (que adiciona margem abaixo do elemento) */
-            container_textarea.classList.add('form-group');
-
-            label_textarea.classList.add('text-secondary');
-            label_textarea.setAttribute('for', 'conteudo-textarea-edicao');
-            label_textarea.innerHTML = "Conteudo da publicação <small class='text-primary'>(prévia da publicação abaixo)</small>";
-
-            conteudo_textarea.classList.add('form-control');
-            conteudo_textarea.setAttribute('id', 'conteudo-textarea-edicao');
-            conteudo_textarea.setAttribute('name', 'conteudo-textarea-edicao');
-            conteudo_textarea.setAttribute('type', 'text');
-            conteudo_textarea.setAttribute('rows', '10');
-
-            /* Transforma o HTML em Markdown para o autor poder editar com mais controle. */
-            var turndownService = new TurndownService();
-            var markdown = turndownService.turndown(conteudo_publicacao.innerHTML);
-
-            /* Textarea é preenchido com o MARKDOWN da publicação */
-            conteudo_textarea.value = markdown;
-
-            /* ------------------------------------------------ */
-
-
-            /* Anexa a LEGENDA do INPUT e o INPUT do TÍTULO  da publicação */
-            container_input.append(label_input);
-            container_input.append(titulo_input);
-
-            /* Anexa os CHECKBOXES TAGS e os LABELS das TAGS */
-            container_vocabulario.append(tag_vocabulario);
-            container_vocabulario.append(label_vocabulario);
-
-            container_gramatica.append(tag_gramatica);
-            container_gramatica.append(label_gramatica);
-
-            container_pronuncia.append(tag_pronuncia);
-            container_pronuncia.append(label_pronuncia);
-
-            container_cultura.append(tag_cultura);
-            container_cultura.append(label_cultura);
-
-            container_tags.append(container_vocabulario);
-            container_tags.append(container_gramatica);
-            container_tags.append(container_pronuncia);
-            container_tags.append(container_cultura);
-
-            /* Anexa a LEGENDA do TEXTAREA e o TEXTAREA do CONTEÚDO da publicação */
-            container_textarea.append(label_textarea);
-            container_textarea.append(conteudo_textarea)
-            
-            /* ------------------------------------------------ */
-
-
-            /* Anexa os elementos do formulário de edição  */
+            // Anexa os elementos do formulário de edição  
             formulario_edicao.append(opcoes_autor_edicao);
             formulario_edicao.append(container_input);  
             formulario_edicao.append(container_tags);
             formulario_edicao.append(container_textarea);
             
 
-            /* Crie o div que vai expandir nos eixos X,Y para exibir o formulário */
-            let div_formulario = document.createElement('div');
 
-            div_formulario.classList.add('div-formulario', 'bg-light', 'border');
+        
+            /* ANIMAÇÃO DA ABERTURA DO FORMULÁRIO DE EDIÇÃO */
 
-            div_formulario.append(formulario_edicao);
-
-            container_formulario.append(div_formulario);
-
-            container_formulario.classList.add('container-formulario-edicao');
-
-
-            /* Pré-anexa o CONTAINER DO FORMULÁRIO no CONTAINER DA PUBLICAÇÃO (efetivamente, anexado o container do formulário antes do container com a publicação em si) */
-            publicacao_modal.prepend(container_formulario);
-
-
-            /* Expanda as dimensões do div_formulario após 1000 milésimos */
+            // Expanda as dimensões do div_formulario após 1000 milésimos
             setTimeout(function () {
 
                 div_formulario.classList.add('div-formulario-expandindo');
@@ -616,11 +653,120 @@ function criar_modal(publicacao) {
 
             }, 100);
             
+            /* FIM DA ANIMAÇÃO DA ABERTURA DO FORMULÁRIO DE EDIÇÃO */
 
 
-            /* Salva as alterações na publicação, remove o formulário de edição e exibe as opções de autor */
+            /* PRÉVIA DA EDIÇÃO */
+
+            if (typeof flask_pagedown_converter === "undefined")
+            {
+                flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
+            }
+
+            // Seleciona o input do título
+            let titulo_input = container_input.querySelector('#titulo-input-edicao');
+
+            // Atualiza o título da prévia quando o input do formulário de edição for alterado
+            titulo_input.addEventListener('keyup', () => {
+                
+                titulo_publicacao.innerHTML = titulo_input.value;
+            });
+
+            // Seleciona o textarea do conteúdo  
+            let conteudo_textarea = container_textarea.querySelector('#conteudo-textarea-edicao');
+
+            // Atualiza o conteúdo da prévia quando o textarea do formulário de edição for alterado
+            conteudo_textarea.addEventListener('keyup', () => {
+
+                conteudo_publicacao.innerHTML = flask_pagedown_converter(conteudo_textarea.value);
+            });
+
+            // Seleciona as caixas de seleção das tags
+            let checkbox_tags_edicao = container_tags.querySelectorAll('input');
+        
+            // Tags na prévia da publicação
+            let tags_container =  publicacao_modal.querySelector('#tags-container');
+
+            // Para cada caixa de seleção das tags
+            for (let checkbox of checkbox_tags_edicao)
+            {
+
+                // Quando a caixa de seleção for alterada
+                checkbox.addEventListener('change', ()  => {
+
+                    // Se a caixa de seleção estiver marcada, anexar a tag
+                    if (checkbox.checked == true)
+                    {
+                        // Adicionar a tag à prévia da publicação
+
+                        // Se a tag for 'vocabulário'
+                        if (checkbox.value == 1)
+                        {
+                            let tag = criar_tag_vocabulario();
+                            // Anexe a tag ao container
+                            tags_container.append(tag);
+                        }
+                        // Se a tag for 'gramática'
+                        else if (checkbox.value == 2)
+                        {
+                            let tag = criar_tag_gramatica();
+                            // Anexe a tag ao container
+                            tags_container.append(tag);
+                        }
+                        // Se a tag for 'pronúncia'
+                        else if (checkbox.value == 3)
+                        {
+                            let tag = criar_tag_pronuncia();
+                            // Anexe a tag ao container
+                            tags_container.append(tag);
+                        }
+                        // Se a tag for 'cultura'
+                        else if (checkbox.value == 4)
+                        {
+                            let tag = criar_tag_cultura();
+                            // Anexe a tag ao container
+                            tags_container.append(tag);
+                        }
+                    }
+                    // Se a caixa de seleção NÃO estiver marcada, remover a tag
+                    else
+                    {
+                        // Remover a tag da prévia da publicação
+
+                        // Se a tag for 'vocabulário'
+                        if (checkbox.value == 1)
+                        {
+                            tags_container.querySelector('[title="Vocabulário"]').remove();
+                        }
+                        // Se a tag for 'gramática'
+                        else if (checkbox.value == 2)
+                        {
+                            tags_container.querySelector('[title="Gramática"]').remove();
+                        }
+                        // Se a tag for 'pronúncia'
+                        else if (checkbox.value == 3)
+                        {
+                            tags_container.querySelector('[title="Pronúncia"]').remove();
+                        }
+                        // Se a tag for 'cultura'
+                        else if (checkbox.value == 4)
+                        {
+                            tags_container.querySelector('[title="Cultura"]').remove();
+                        }
+                    }
+                });
+            }
+
+            /* FIM PRÉVIA DA EDIÇÃO */
+
+
+            /* CONFIGURAÇÃO DAS OPÇÕES DO AUTOR DURANTE A EDIÇÃO */
+
+            let botao_salvar = opcoes_autor_edicao.querySelector('#botao-salvar-edicao');
+            // Salva as alterações na publicação, remove o formulário de edição e exibe as opções de autor
             botao_salvar.addEventListener('click', () => {
 
+                // Array vazio que armazenará o valor das tags
                 let tags_marcadas = [];
 
                 // Para cada caixa de seleção de tag da lista de tags no formulário de edição
@@ -629,6 +775,7 @@ function criar_modal(publicacao) {
                     // Se a caixa de seleção estiver marcada
                     if (tag.checked == true)
                     {
+                        // Adiciona a tag (tecnicamente, o número inteiro que representa a tag)
                         tags_marcadas.push(tag.value);
                     }                    
                 }
@@ -640,7 +787,7 @@ function criar_modal(publicacao) {
                 /* Pega o id da publicação cujo div foi clicado.
                 'publicacao_id' é uma string mas pode ser convertido
                 para int antes de ser enviado para o servidor.
-                Para isso, a função parseInt() está sendo usada*/
+                Para isso, a função parseInt() está sendo usada */
                 let json_enviado = {"publicacao_id": publicacao.id,"publicacao_titulo": titulo_input.value,"publicacao_conteudo": conteudo_textarea.value, "publicacao_tags": tags_marcadas};
 
                 /* Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
@@ -649,15 +796,68 @@ function criar_modal(publicacao) {
                 /* ??? */
                 pedido.setRequestHeader('Content-Type', 'application/json');
 
-                /* Quando o pedido for respondido */
+                // Quando o pedido for respondido
                 pedido.onload = function (e) {
-                    console.log("Alterações na publicação foram salvas.")
+
+                    // Seleciona o artigo da publicação no mural
+                    let publicacao_no_mural = document.querySelector(`article[data-id='${publicacao.id}']`);
+
+                    // Seleciona o título da publicação no mural
+                    let titulo_publicacao_no_mural = publicacao_no_mural.querySelector('.titulo-publicacao-mural');
+
+                    // Atualiza o título da publicação no mural
+                    titulo_publicacao_no_mural.innerText = `${titulo_input.value}`;
+
+                    // Atualiza o dataset 'titulo' da publicação
+                    publicacao_no_mural.dataset.titulo = `${titulo_input.value}`;
+
+                    // Seleciona a div que contém o conteúdo da publicação no mural
+                    let conteudo_publicacao_no_mural = publicacao_no_mural.querySelector('.paragrafo-publicacao');
+
+                    // Atualiza o conteúdo da publicação no mural
+                    conteudo_publicacao_no_mural.innerHTML = `${flask_pagedown_converter(conteudo_textarea.value)}`;
+
+                    // Seleciona a lista de tags da publicação no mural
+                    let tags_publicacao_no_mural = publicacao_no_mural.querySelector('.tags-publicacao-mural');
+
+                    // Esvazia a lista de tags
+                    tags_publicacao_no_mural.innerHTML = '';
+
+                    // Se a edição marcar a tag VOCABULÁRIO, adicione a tag à publicação no mural
+                    if (tags_marcadas.includes('1'))
+                    {
+                        let span_tag = criar_tag_vocabulario();
+
+                        tags_publicacao_no_mural.append(span_tag);
+                    }
+
+                    // Se a edição marcar a tag GRAMÁTICA, adicione a tag à publicação no mural
+                    if (tags_marcadas.includes('2'))
+                    {
+                        let span_tag = criar_tag_gramatica();
+
+                        tags_publicacao_no_mural.append(span_tag);
+                    }
+
+                    // Se a edição marcar a tag PRONÚNCIA, adicione a tag à publicação no mural
+                    if (tags_marcadas.includes('3'))
+                    {
+                        let span_tag = criar_tag_pronuncia();
+
+                        tags_publicacao_no_mural.append(span_tag);
+                    }
+
+                    // Se a edição marcar a tag CULTURA, adicione a tag à publicação no mural
+                    if (tags_marcadas.includes('4'))
+                    {
+                        let span_tag = criar_tag_cultura();
+
+                        tags_publicacao_no_mural.append(span_tag);
+                    }
                 }
 
                 /* Envie o pedido para o servidor, juntamento com o id da publicação */
                 pedido.send(JSON.stringify(json_enviado));
-
-
 
 
                 div_formulario.classList.remove('div-formulario-expandindo');
@@ -677,7 +877,8 @@ function criar_modal(publicacao) {
             });
 
 
-            /* Cancela a edição da publicação */
+            let botao_cancelar = opcoes_autor_edicao.querySelector('#botao-cancelar-edicao');
+            // Cancela a edição da publicação
             botao_cancelar.addEventListener('click', () => {
 
                 /* Restaura o título original da publicação */
@@ -711,118 +912,10 @@ function criar_modal(publicacao) {
                 opcoes_autor.style.visibility = 'visible';
 
             });
-
-
-            /* PRÉVIA DA EDIÇÃO */
-
-            if (typeof flask_pagedown_converter === "undefined")
-            {
-                flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
-            }
-
-            titulo_input.addEventListener('keyup', () => {
-                
-                titulo_publicacao.innerHTML = titulo_input.value;
-            });
-
-            conteudo_textarea.addEventListener('keyup', () => {
-
-                conteudo_publicacao.innerHTML = flask_pagedown_converter(conteudo_textarea.value);
-            });
-
-
-            // Seleciona as caixas de seleção das tags
-            let checkbox_tags_edicao = container_tags.querySelectorAll('input');
         
-            // Tags na prévia da publicação
-            let tags_container =  publicacao_modal.querySelector('#tags-container');
+            /* FIM DA CONFIGURAÇÃO DAS OPÇÕES DO AUTOR DURANTE A EDIÇÃO */
 
-            // Para cada caixa de seleção das tags
-            for (let checkbox of checkbox_tags_edicao)
-            {
-
-                // Quando a caixa de seleção for alterada
-                checkbox.addEventListener('change', ()  => {
-
-                    // Se a caixa de seleção estiver marcada
-                    if (checkbox.checked == true)
-                    {
-                        // Adicionar a tag à prévia da publicação
-
-
-                        /* Crie um elemento <span> que representará a tag */
-                        let t = document.createElement('span');
-                        t.classList.add('badge', 'badge-pill', 'mr-1');
-                        // Atributos necessários para exibição do 'tooltip' com o nome da tag
-                        t.setAttribute('data-toggle', 'tooltip');
-                        t.setAttribute('data-placement', 'top');
-
-
-
-                         /* Define a cor e o conteúdo da tags */
-        
-                        /* Se a tag for 'vocabulário' */
-                        if (checkbox.value == 1)
-                        {
-                            t.classList.add('badge-success');
-                            t.innerHTML = '<i class="fa fa-book mr-0 text-white"></i>';
-                            t.setAttribute('title', 'Vocabulário');
-                        }
-                        /* Se a tag for 'gramática' */
-                        else if (checkbox.value == 2)
-                        {
-                            t.classList.add('badge-primary');
-                            t.innerHTML = '<i class="fa fa-cogs mr-0"></i>';
-                            t.setAttribute('title', 'Gramática');
-                        }
-                        /* Se a tag for 'pronúncia' */
-                        else if (checkbox.value == 3)
-                        {
-                            t.classList.add('badge-danger');
-                            t.innerHTML = '<i class="fa fa-headphones mr-0"></i>';
-                            t.setAttribute('title', 'Pronúncia');
-                        }
-                        /* Se a tag for 'cultura' */
-                        else if (checkbox.value == 4)
-                        {
-                            t.classList.add('badge-dark');
-                            t.innerHTML = '<i class="fa fa-globe mr-0"></i>';
-                            t.setAttribute('title', 'Cultura');
-                        }
-
-                        /* Anexe a tag ao container */
-                        tags_container.append(t);
-                    }
-                    else
-                    {
-                        // Remover a tag da prévia da publicação
-                        // Se a tag for 'vocabulário'
-                        if (checkbox.value == 1)
-                        {
-                            tags_container.querySelector('[title="Vocabulário"]').remove();
-                        }
-                        // Se a tag for 'gramática'
-                        else if (checkbox.value == 2)
-                        {
-                            tags_container.querySelector('[title="Gramática"]').remove();
-                        }
-                        // Se a tag for 'pronúncia'
-                        else if (checkbox.value == 3)
-                        {
-                            tags_container.querySelector('[title="Pronúncia"]').remove();
-                        }
-                        // Se a tag for 'cultura'
-                        else if (checkbox.value == 4)
-                        {
-                            tags_container.querySelector('[title="Cultura"]').remove();
-                        }
-                    }
-                });
-            }
-
-            /* FIM PRÉVIA DA EDIÇÃO */
         });
-
 
     
         /*
@@ -874,9 +967,110 @@ function criar_modal(publicacao) {
             pedido.send(JSON.stringify(json_enviado));
         });
 
+
+        // Função que cria o botão de editar publicação
+        function criar_botao_editar () {
+
+            // Cria o botão "editar publicação"
+        
+            let botao_editar = document.createElement('span');
+        
+            botao_editar.setAttribute('id', 'botao-editar-publicacao');
+        
+            botao_editar.innerHTML = 'Editar <i class="fa fa-pencil"></i>';
+        
+            botao_editar.classList.add('badge', 'badge-primary', 'cursor-pointer');
+        
+            return botao_editar;
+        }
+    
+        // Função que cria o botão de apagar publicação
+        function criar_botao_apagar () {
+
+            let botao_apagar = document.createElement('span');
+        
+            botao_apagar.setAttribute('id', 'botao-apagar-publicacao');
+        
+            botao_apagar.innerHTML = 'Apagar <i class="fa fa-times-circle"></i>';
+        
+            botao_apagar.classList.add('badge', 'badge-danger', 'cursor-pointer', 'ml-1');
+        
+            return botao_apagar;
+        }
+
+
         return opcoes_autor;
     }
 
+
+
+    // Funções que criam tags estilo "pílula"
+    function criar_tag_vocabulario () {
+
+        let span_tag = document.createElement('span');
+        span_tag.classList.add('badge', 'badge-pill', 'badge-success', 'mr-1');
+        span_tag.setAttribute('data-toggle', 'tooltip');
+        span_tag.setAttribute('data-placement', 'top');
+        span_tag.setAttribute('title', 'Vocabulário');
+
+        let icone_tag = document.createElement('i');
+        icone_tag.classList.add('fa', 'fa-book', 'mr-0');
+
+        span_tag.append(icone_tag);
+
+        return span_tag;
+    }
+
+    function criar_tag_gramatica () {
+
+        let span_tag = document.createElement('span');
+        span_tag.classList.add('badge', 'badge-pill', 'badge-primary', 'mr-1');
+        span_tag.setAttribute('data-toggle', 'tooltip');
+        span_tag.setAttribute('data-placement', 'top');
+        span_tag.setAttribute('title', 'Gramática');
+
+        let icone_tag = document.createElement('i');
+        icone_tag.classList.add('fa', 'fa-cogs', 'mr-0');
+
+        span_tag.append(icone_tag);
+
+        return span_tag;
+    }
+
+    function criar_tag_pronuncia () {
+
+        let span_tag = document.createElement('span');
+        span_tag.classList.add('badge', 'badge-pill', 'badge-danger', 'mr-1');
+        span_tag.setAttribute('data-toggle', 'tooltip');
+        span_tag.setAttribute('data-placement', 'top');
+        span_tag.setAttribute('title', 'Pronúncia');
+
+        let icone_tag = document.createElement('i');
+        icone_tag.classList.add('fa', 'fa-headphones', 'mr-0');
+
+        span_tag.append(icone_tag);
+
+        return span_tag;
+    }
+
+    function criar_tag_cultura () {
+
+        let span_tag = document.createElement('span');
+        span_tag.classList.add('badge', 'badge-pill', 'badge-dark', 'mr-1');
+        span_tag.setAttribute('data-toggle', 'tooltip');
+        span_tag.setAttribute('data-placement', 'top');
+        span_tag.setAttribute('title', 'Cultura');
+
+        let icone_tag = document.createElement('i');
+        icone_tag.classList.add('fa', 'fa-globe', 'mr-0');
+
+        span_tag.append(icone_tag);
+
+        return span_tag;
+    }
+
+    
+    // Funções que criam os componentes de uma publicação no modal
     function criar_container_id_publicacao (publicacao) {
 
         let id_publicacao = document.createElement('small');
@@ -1051,9 +1245,6 @@ function criar_modal(publicacao) {
     }
 
 }
-
-
-
 
 
 /* Previne que o evento de clicar no link do autor de uma publicação abra o modal da publicação */

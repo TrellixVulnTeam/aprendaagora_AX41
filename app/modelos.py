@@ -489,6 +489,7 @@ class Publicacao(db.Model):
         # Retorne um objeto contendo as informações da publicação
         return {
             'id': self.id,
+            'titulo': self.titulo,
             'conteudo': self.conteudo,
             'conteudo_html': self.conteudo_html,
             'tags': publicacao_tags,
