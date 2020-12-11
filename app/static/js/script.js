@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-/* Detecta clique nas publicações do mural e chama a função criar_modal */
+// Detecta clique nas publicações do mural e chama a função criar_modal
 function detectar_clique_publicacoes(publicacoes) {
 
     /* Para cada elemento 'publicacao' */
@@ -137,7 +137,7 @@ function detectar_clique_publicacoes(publicacoes) {
 
 }
 
-/* Cria e exibe o modal de uma publicação que foi clicada. */
+// Cria e exibe o modal de uma publicação que foi clicada.
 function criar_modal(publicacao) {
 
     /* Cria o div do modal (que será a área escura) */
@@ -1244,10 +1244,10 @@ function criar_modal(publicacao) {
         return conteudo_publicacao;
     }
 
-}
+} // FIM FUNÇÃO CRIAR_MODAL()
 
 
-/* Previne que o evento de clicar no link do autor de uma publicação abra o modal da publicação */
+// Previne que o evento de clicar no link do autor de uma publicação abra o modal da publicação
 function previnir_propagacao_clique_link(links_usuarios) {
 
     /* Para cada elemento 'link', evite abrir o modal da publicação antes de redirecionar para a página do autor da publicação */
@@ -1265,7 +1265,7 @@ function previnir_propagacao_clique_link(links_usuarios) {
     });
 }
 
-/* Retorna o emoji da bandeira do idioma */
+// Retorna o emoji da bandeira do idioma
 function selecionar_icone_idioma(idioma) {
 
     if (idioma == 'ingles')
@@ -1298,7 +1298,7 @@ function selecionar_icone_idioma(idioma) {
     }
 }
 
-/* (Esta função não está sendo usada)Destaca a publicação clicada ao transparecer as outras publicações */
+// (Esta função não está sendo usada)Destaca a publicação clicada ao transparecer as outras publicações
 function destacar_publicacao_clicada(todas_publicacoes, publicacao) {
 
     /* Para cada publicação na lista de publicações */
