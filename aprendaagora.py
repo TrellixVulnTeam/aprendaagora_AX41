@@ -42,19 +42,18 @@ def profile(length, profile_dir):
     app.run()
 
 
+
 @app.cli.command()
 def deploy():
-
-    # Executa tarefas de implementaçao (deploy)
-    # migrar banco de dados para a última revisão
+    """Run deployment tasks."""
+    # migrate database to latest revision
     upgrade()
 
-    # criar ou atualizar os roles dos usuários
-    Role.inserir_roles()
+    # create or update user roles
+    Role.inserir_roles())
 
-    # garantir que todos os usuários estão seguindo a si mesmos
-    # NÃO IMPLEMENTADO AINDA
-    # Usuario.adicionar_seguir_si_mesmo()
+    # ensure all users are following themselves
+    #User.add_self_follows()
 
 
 
