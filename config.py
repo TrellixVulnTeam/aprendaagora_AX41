@@ -29,8 +29,40 @@ class ConfiguracaoTeste(Configuracao):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_TEST_URI') or 'sqlite://'
 
+
 class ConfiguracaoProducao(Configuracao):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or 'sqlite:///' + os.path.join(diretoriobase, 'dados.sqlite')
+
+    """
+    @classmethod
+    def init_app(cls, app):
+        Configuracao.init_app(app)
+
+        # enviar erros para os administradores
+        import logging
+        from logging.handlers import SMTPHandler
+        credentials = None
+        secure = None
+
+        if getattr(cls, 'MAIL_USERNAME', None) is not None:
+
+            credentials = (cls.MAIL_USERNAME, cls.MAIL_PASSWORD)
+
+            if getattr(cls, 'MAIL_USE_TLS', None):
+                secure = ()
+
+        mail_handler = SMTPHandler(
+            mailhost = (cls.MAIL_SERVER, cls.MAIL_PORT),
+            fromaddr = cls.APRENDA_AGORA_EMAIL_AUTOR,
+            toaddrs = [cls.APRENDA_AGORA_ADMIN],
+            subject = cls.APRENDA_AGORA_EMAIL_PREFIXO_ASSUNTO + 'Erro do Aplicativo',
+            credentials = credentials,
+            secure = secure
+            )
+
+        mail_handler.setLevel(logging.ERROR)
+        app.logger.addHandler(mail_handler)
+    """
 
 
 class ConfiguracaoHeroku(ConfiguracaoProducao):

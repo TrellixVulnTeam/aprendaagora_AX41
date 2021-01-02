@@ -15,8 +15,11 @@ from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin
 # Página de Login
 @bp.route('/', methods=['GET', 'POST'])
 def inicio():
+
     # Se o método for GET
-    return render_template('inicio.html', current_time=datetime.utcnow())
+    #return render_template('inicio.html', current_time=datetime.utcnow())
+
+    return render_template('temporario.html')
 
 # Exibe a página de perfil do usuário conectado
 @bp.route('/perfil', methods=['GET', 'POST'])
@@ -41,7 +44,7 @@ def usuario(nome_usuario):
     if current_user.is_authenticated:
         if (current_user._get_current_object().nome_usuario == nome_usuario):
             return redirect(url_for('inicio.perfil'))
-    
+
     publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
 
     # Exibe a página de usuário, fornecendo os dados do usuário como argumentos
@@ -68,7 +71,7 @@ def editar_perfil():
         flash("As alterações no seu perfil foram salvas.")
 
         return redirect(url_for('inicio.perfil'))
-    
+
     formulario.nome_usuario.data = current_user.nome_usuario
     formulario.nome.data = current_user.nome
     formulario.sobrenome.data = current_user.sobrenome
@@ -108,7 +111,7 @@ def apagar_publicacao():
 
         # Define o objeto JSON que será enviado de volta ao cliente
         confirmar_exclusao = {"apagado": True}
-        
+
         # Envia o objeto JSON ao cliente
         return  jsonify(confirmar_exclusao)
 
@@ -152,12 +155,12 @@ def editar_perfil_admin(id):
 
     # Se o método for POST
     if formulario.validate_on_submit():
-        
+
         usuario.email =  formulario.email.data
         usuario.nome_usuario = formulario.nome_usuario.data
         usuario.confirmado = formulario.confirmado.data
 
-        # Quando o formulário é enviado, o id é extraído do atributo 'data' e é usado em uma consulta ao banco de dados para carregar o objeto 'role' selecionado através de seu id. O argumento coerce=int usado 
+        # Quando o formulário é enviado, o id é extraído do atributo 'data' e é usado em uma consulta ao banco de dados para carregar o objeto 'role' selecionado através de seu id. O argumento coerce=int usado
         usuario.role = Role.query.get(formulario.role.data)
         usuario.nome = formulario.nome.data
         usuario.sobrenome = formulario.sobrenome.data
@@ -166,13 +169,13 @@ def editar_perfil_admin(id):
 
         db.session.add(usuario)
         db.session.commit()
-        
+
         flash("As alterações no perfil foram salvas.")
 
         print("Método POST")
 
         return redirect(url_for('.usuario', nome_usuario=usuario.nome_usuario))
-    
+
     # Se o método for GET
     # Preencha o formulário com as informações do usuário cujo perfil deve ser editado
     formulario.email.data = usuario.email
