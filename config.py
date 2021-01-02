@@ -33,9 +33,9 @@ class ConfiguracaoTeste(Configuracao):
 
 
 class ConfiguracaoProducao(Configuracao):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI') or 'sqlite:///' + os.path.join(diretoriobase, 'dados.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_DEV_URI') or 'sqlite:///' + os.path.join(diretoriobase, 'dados.sqlite')
 
-    """
+    
     @classmethod
     def init_app(cls, app):
         Configuracao.init_app(app)
@@ -64,7 +64,7 @@ class ConfiguracaoProducao(Configuracao):
 
         mail_handler.setLevel(logging.ERROR)
         app.logger.addHandler(mail_handler)
-    """
+    
 
 
 class ConfiguracaoHeroku(ConfiguracaoProducao):
@@ -80,7 +80,7 @@ class ConfiguracaoHeroku(ConfiguracaoProducao):
 
         file_handler = StreamHandler()
 
-        file_handler.setLevel(loggin.INFO)
+        file_handler.setLevel(logging.INFO)
 
         app.logger.addHandler(file_handler)
 

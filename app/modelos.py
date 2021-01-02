@@ -178,7 +178,7 @@ class Role(db.Model):
                 Permissao.COMENTAR,
                 Permissao.ESCREVER_MURAL,
                 Permissao.ADMIN
-                ],
+                ],       
         }
 
         # Define um 'role' padrão

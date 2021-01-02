@@ -28,8 +28,21 @@ def teste(testes_nomes):
     unittest.TextTestRunner(verbosity=2).run(testes)
 
 
-"""
-@manager.command
+
+@app.cli.command()
+@click.option('--length', default=25,
+              help='Number of functions to include in the profiler report.')
+@click.option('--profile-dir', default=None,
+              help='Directory where profiler data files are saved.')
+def profile(length, profile_dir):
+    """Start the application under the code profiler."""
+    from werkzeug.contrib.profiler import ProfilerMiddleware
+    app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[length],
+                                      profile_dir=profile_dir)
+    app.run()
+
+
+@app.cli.command()
 def deploy():
 
     # Executa tarefas de implementaçao (deploy)
@@ -42,7 +55,7 @@ def deploy():
     # garantir que todos os usuários estão seguindo a si mesmos
     # NÃO IMPLEMENTADO AINDA
     # Usuario.adicionar_seguir_si_mesmo()
-"""
+
 
 
 
