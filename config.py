@@ -25,16 +25,15 @@ class Configuracao:
 
 class ConfiguracaoDesenvolvimento(Configuracao):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_DEV_URI') or 'sqlite:///' + os.path.join(diretoriobase, 'dados-dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_DEV_URI')
 
 class ConfiguracaoTeste(Configuracao):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_TEST_URI') or 'sqlite://'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_TEST_URI')
 
 
 class ConfiguracaoProducao(Configuracao):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_DEV_URI') or 'sqlite:///' + os.path.join(diretoriobase, 'dados.sqlite')
-
+    SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_DEV_URI')
     
     @classmethod
     def init_app(cls, app):
@@ -97,7 +96,7 @@ configuracao = {
 
     'heroku': ConfiguracaoHeroku,
 
-    'padrao': ConfiguracaoDesenvolvimento
+    'padrao': ConfiguracaoHeroku
 }
 
 
