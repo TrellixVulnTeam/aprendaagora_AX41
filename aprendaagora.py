@@ -50,7 +50,7 @@ def deploy():
     upgrade()
 
     # create or update user roles
-    Role.inserir_roles())
+    Role.inserir_roles()
 
     # ensure all users are following themselves
     #User.add_self_follows()
