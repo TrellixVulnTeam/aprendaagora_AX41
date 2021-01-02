@@ -16,6 +16,8 @@ class Configuracao:
 
     MURAL_PUBLICACOES_POR_PAGINA = 16
 
+    SSL_REDIRECT = False
+
     @staticmethod
     def init_app(app):
         pass
@@ -81,6 +83,11 @@ class ConfiguracaoHeroku(ConfiguracaoProducao):
         file_handler.setLevel(loggin.INFO)
 
         app.logger.addHandler(file_handler)
+
+        SSL_REDIRECT = True if os.environ.get('DYNO') else False
+
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 configuracao = {

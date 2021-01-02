@@ -37,6 +37,11 @@ def criar_app(nome_configuracao):
     login_manager.init_app(app)
     pagedown.init_app(app)
 
+
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
+
     """ Rotas """
 
     # Registra o blueprint 'inicio'
