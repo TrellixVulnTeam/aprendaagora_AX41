@@ -33,6 +33,7 @@ class ConfiguracaoTeste(Configuracao):
 
 
 class ConfiguracaoProducao(Configuracao):
+    
     SQLALCHEMY_DATABASE_URI = os.environ.get('BANCODEDADOS_DEV_URI')
     
     @classmethod
@@ -86,12 +87,16 @@ class ConfiguracaoHeroku(ConfiguracaoProducao):
         SSL_REDIRECT = True if os.environ.get('DYNO') else False
 
         from werkzeug.contrib.fixers import ProxyFix
+
         app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 configuracao = {
+
     'desenvolvimento': ConfiguracaoDesenvolvimento,
+
     'testagem': ConfiguracaoTeste,
+
     'producao': ConfiguracaoProducao,
 
     'heroku': ConfiguracaoHeroku,
