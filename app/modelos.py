@@ -506,6 +506,45 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(16), unique=True)
 
+    @staticmethod
+    def inserir_tags():
+
+        # Lista de tags em formato chave-valor. O valor é o nome da tag que será armazenado
+        tags = {
+            'Vocabulario': 'Vocabulário',
+            'Gramatica': 'Gramática',
+            'Pronuncia': 'Pronúncia',
+            'Cultura': 'Cultura',
+            'Ingles': 'Inglês',
+            'Frances': 'Francês',
+            'Espanhol': 'Espanhol',
+            'Italiano': 'Italiano',
+            'Alemao': 'Alemão',
+            'Japones': 'Japonês',
+            'Chines': 'Chinês',
+            'Series': 'Séries',
+            'Viagem': 'Viagem',
+            'Entrevistas': 'Entrevistas',
+            'Brasil': 'Brasil',
+            'Estudo': 'Estudo',
+        }
+
+        for t, nome in tags.items():
+
+            # Consulte o banco de dados procurando por uma 'tag' que tenha o nome igual ao de uma das 'tags' definidas no dicionnário 'tags'
+            tag = Tag.query.filter_by(nome=nome).first()
+
+            # Se NÃO existir uma 'tag' com o nome informado
+            if tag is None:
+                # Crie uma nova 'tag'
+                tag = Tag(nome=nome)
+
+            db.session.add(tag)
+
+        db.session.commit()
+
+
+
 
 # Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
 class UsuarioAnonimo(AnonymousUserMixin):

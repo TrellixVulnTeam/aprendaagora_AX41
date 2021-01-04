@@ -189,7 +189,7 @@
                                 <label class="form-check-label" for="{{ opcao.id }}"><i class="fa fa-headphones"></i> Pronúncia</label>
                             </div>
                         <!-- Se for a quarta opção -->
-                        {% else %}
+                        {% elif loop.index0 == 3 %}
                             <!-- Exiba a etiqueta "Cultura" -->
                             <div class="bg-dark text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
                                 <label class="form-check-label" for="{{ opcao.id }}"><i class="fa fa-globe"></i> Cultura</label>
