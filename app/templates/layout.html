@@ -62,31 +62,37 @@
 {% block content %}
 
     <!-- Imagem de fundo-->
-    <!--<img id="wallpaper" src="{{ url_for('static', filename='wallpaper4.jpg')}}" alt="">
+    <!--<img id="wallpaper" src="{{ url_for('static', filename='wallpaper4.jpg')}}" alt=""> -->
 
     <!-- Bloco conteudo_pagina e lista de notificações -->
-    <div id="secao-principal">
+    
 
-        <!-- Exibe mensagens de erro, avisos, etc (notificações) -->
-        <div id="lista-de-avisos" class="">
+    <!-- Exibe mensagens de erro, avisos, etc (notificações) -->
+    <div id="lista-de-avisos" class="">
 
-            <!-- Para cada mensagem declarada -->
-            {% for mensagem in get_flashed_messages() %}
-            <div class="alert alert-warning">
-                <!-- Exiba a mensagem em um alerta -->
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ mensagem }}
-            </div>
-            {% endfor %}
+        <!-- Para cada mensagem declarada -->
+        {% for mensagem in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <!-- Exiba a mensagem em um alerta -->
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ mensagem }}
         </div>
-        
+        {% endfor %}
+    </div>
+    
 
-        <main class="m-0">
+    <main class="m-0">
+
+        {% block carrossel_cabecalho %}
+        {% endblock %}
+
+
+        <div id="secao-principal">
             <!-- Conteúdo da Página-->
             {% block conteudo_pagina %}
             {% endblock %}
-        </main>
-    </div>
+        </div>
+    </main>
 
     <!-- Rodapé (Footer) -->
     {% block rodape %}

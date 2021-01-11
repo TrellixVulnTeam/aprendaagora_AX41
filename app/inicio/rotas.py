@@ -21,6 +21,17 @@ def inicio():
 
     return render_template('temporario.html')
 
+
+# Página de Login
+@bp.route('/youtube')
+def canal_youtube():
+    return redirect("https://www.youtube.com/channel/UCo-122KSpoYersHovXL3Tow")
+
+# Página de Login
+@bp.route('/facebook')
+def grupo_youtube():
+    return redirect("https://www.facebook.com/groups/aprendaagora")
+
 # Exibe a página de perfil do usuário conectado
 @bp.route('/perfil', methods=['GET', 'POST'])
 @login_required

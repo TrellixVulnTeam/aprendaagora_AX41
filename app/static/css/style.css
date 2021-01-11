@@ -187,10 +187,6 @@ Tarefas:
 
 
 
-
-
-
-
 /* FONTES */
 
 @font-face {
@@ -518,6 +514,14 @@ div.paragrafo-publicacao > ul {
 
 /* SEÇÃO PRINCIPAL */
 
+#carrossel_cabecalho {
+    overflow: hidden;
+    max-height: 10rem;
+}
+
+
+
+
 /* Padding lateral em telas pequenas */
 #secao-principal {
     /*
@@ -531,7 +535,6 @@ div.paragrafo-publicacao > ul {
 @media only screen and (min-width: 768px) {
    
     #secao-principal {
-        
         padding-left: 5rem;
         padding-right: 5rem;
     }
