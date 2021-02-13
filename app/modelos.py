@@ -266,7 +266,14 @@ class Usuario(UserMixin, db.Model):
     avatar_hash = db.Column(db.String(32))
 
     # Usuario.publicacoes retorna a lista de publicações escritas pelo usuário
-    publicacoes = db.relationship('Publicacao', backref='autor', lazy='dynamic')
+    publicacoes = db.relationship('Publicacao',
+                                  backref='autor',
+                                  lazy='dynamic')
+
+    # Usuario.comentarios retorna a lista de comentários escritos pelo usuário
+    comentarios = db.relationship('Comentario',
+                                  backref='autor',
+                                  lazy='dynamic')
 
 
     # Atribui o 'role' 'Estudante' à novos usuários, ou 'Administrador' caso o email do usuário está deinido em APRENDA_AGORA_ADMIN
@@ -454,10 +461,15 @@ class Publicacao(db.Model):
 
     # Publicacao.tags retorna as tags às quais ma publicação está associada
     tags = db.relationship('Tag',
-            secondary=publicacoes_tags,
-            lazy='subquery',
-            backref=db.backref('publicacoes'))
+                           secondary=publicacoes_tags,
+                           lazy='subquery',
+                           backref=db.backref('publicacoes'))
 
+    
+    comentarios = db.relationship('Comentario',
+                                  backref='publicacao',
+                                  lazy='dynamic')
+    
 
     # Converte texto em Markdown para HTML
     # Primeiro, a função markdown() faz uma conversão inicial para HTML
@@ -498,6 +510,31 @@ class Publicacao(db.Model):
             'avatar_autor': self.autor.gravatar(size=50),
             'id_autor': self.autor.id
         }
+
+
+class Comentario(db.Model):
+    __tablename__ = 'comentarios'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    conteudo = db.Column(db.Text)
+    conteudo_html = db.Column(db.Text)
+    data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    desativado = db.Column(db.Boolean)
+
+    # id do autor do comentário
+    autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+
+    # id da publicação onde o comentário foi feito
+    publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
+
+    @staticmethod
+    def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
+        tags_permitidas = ['a', 'abbr', 'b', 'code', 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',]
+
+        target.conteudo_html = bleach.linkify(bleach.clean(
+            markdown(conteudo, output_format='html'),
+            tags=tags_permitidas, strip=True))
+
 
 # As tags de uma publicação podem ser acessadas com publicacao.tags
 class Tag(db.Model):
@@ -544,8 +581,6 @@ class Tag(db.Model):
         db.session.commit()
 
 
-
-
 # Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
 class UsuarioAnonimo(AnonymousUserMixin):
 
@@ -566,3 +601,7 @@ login_manager.anonymous_user = UsuarioAnonimo
 
 # Esta função é invocada sempre que o campo 'conteudo' de uma publicação for alterado
 db.event.listen(Publicacao.conteudo, 'set', Publicacao.conteudo_alterado)
+
+
+# Esta função é invocada sempre que o campo 'conteudo' de um comentário for alterado
+db.event.listen(Comentario.conteudo, 'set', Comentario.conteudo_alterado)

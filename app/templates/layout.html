@@ -31,14 +31,14 @@
 
 
     <!-- Bootstrap CSS-->
-
-    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Fonte Roboto Slab -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
 
     <!-- Fonte Unica One -->
     <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet">
+    
     <!-- Fonte Merienda-->
     <link href="https://fonts.googleapis.com/css2?family=Merienda&display=swap" rel="stylesheet">
 
@@ -47,10 +47,46 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
+    <script>
+
+        {% if current_user is defined and current_user.id %}
+            
+            var usuario_conectado = true;
+
+            var usuario_id = {{ current_user.id }};
+            
+            var usuario_gravatar = "{{ current_user.gravatar(size=18) }}";
+
+            console.log(usuario_gravatar)
+
+            var usuario_nome = "{{ current_user.nome_usuario }}";
+
+
+            console.log(usuario_id);
+            console.log(usuario_gravatar);
+            console.log(usuario_nome);
+
+        {% else %}
+            
+            var usuario_conectado = false;
+        {% endif %}
+
+        // LOG
+        if (usuario_conectado)
+        {
+            console.log("O usuário está conectado.");
+        }
+        else
+        {
+            console.log("O usuário não está conectado (usuário anônimo). ")
+        }
+    </script>
+
 
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
     {{ moment.lang('pt-br') }}
+
 {% endblock %}
 
 <!-- Barra de Navegação-->
@@ -61,12 +97,7 @@
 <!-- Bloco de Conteúdo (entre a barra de navegação e o rodapé) -->
 {% block content %}
 
-    <!-- Imagem de fundo-->
-    <!--<img id="wallpaper" src="{{ url_for('static', filename='wallpaper4.jpg')}}" alt=""> -->
-
-    <!-- Bloco conteudo_pagina e lista de notificações -->
     
-
     <!-- Exibe mensagens de erro, avisos, etc (notificações) -->
     <div id="lista-de-avisos" class="">
 
@@ -94,11 +125,12 @@
         </div>
     </main>
 
+
+
     <!-- Rodapé (Footer) -->
     {% block rodape %}
         {% include 'componentes/rodape.html' %}
     {% endblock %}
-
 {% endblock %}
 
 
@@ -107,8 +139,6 @@
 {% block scripts %}
 
     {% include 'componentes/scripts.html' %}
-
-    {{ pagedown.include_pagedown() }}  
-
     
+    {{ pagedown.include_pagedown() }}  
 {% endblock %}

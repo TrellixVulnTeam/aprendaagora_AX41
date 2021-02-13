@@ -1,10 +1,31 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SelectField, BooleanField, SubmitField
+from wtforms import StringField, TextAreaField, SelectField, BooleanField, SubmitField, RadioField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from wtforms import ValidationError
 from ..modelos import Usuario, Role, Publicacao, Role
 
 
+class formularioInscricaoFeuRosa(FlaskForm):
+
+    nome = StringField("Nome e sobrenome",
+                       validators=[DataRequired(),
+                                   Length(0, 40)])
+    
+    email = StringField("Email",
+                        validators=[DataRequired(),
+                                    Length(1, 64),
+                                    Email()])
+
+    numero_telefone = StringField("Número de Telefone",
+                                  validators=[DataRequired(),
+                                              Length(1, 64)])
+
+    opcao_curso = RadioField("Opções de Curso",
+                             choices=[('ingles','Inglês'),
+                                      ('frances','Francês'),
+                                      ('computacao', 'Computação')])
+
+    enviar = SubmitField("Se Inscrever")
 
 class formularioEditarPerfil(FlaskForm):
 

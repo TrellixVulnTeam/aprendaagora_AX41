@@ -1,13 +1,11 @@
 <!-- Scripts no final do documento -->
 
-<script src="../../static/js/jquery-3.5.1.js"></script>
-
-<script src="../../static/js/popper.min.js"></script>
-
-<script src="../../static/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 <!--  Módulo para converter HTML para Markdown durante edição de uma publicação no mural -->
-<script src="../../static/js/turndown.js"></script>
+<script src="https://unpkg.com/turndown/dist/turndown.js"></script>
 
 <!--
     Script personalizado que contém
@@ -15,6 +13,7 @@
     1. Configuração da barra de navegação mobila
     2. Configuração das publicações e seus modais no mural
 -->
+<script src="{{ url_for('static', filename='js/componentes.js') }}"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 <script src="{{ url_for('static', filename='js/navbar-mobile.js') }}"></script>

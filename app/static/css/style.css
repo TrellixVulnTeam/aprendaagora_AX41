@@ -21,6 +21,8 @@ Rodapé com Informações Adicionais
 
 PÁGINA DE PERFIL DE USUÁRIO
 
+LIÇÕES DE GRAMÁTICA
+
 MURAL DE PUBLICAÇÕES
 
 PUBLICAÇÃO NO MURAL
@@ -318,7 +320,7 @@ div.paragrafo-publicacao > ul {
 }
 
 /* Em telas a partir do tamanho médio, a barra de navegação desktop é exibida */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 845px) {
 
     #nav-mobile {
         display: none;
@@ -589,23 +591,27 @@ div.paragrafo-publicacao > ul {
 /* RODAPÉ */
 
 
-footer {
+#secao-rodape {
     margin: 20px;
-    background-color: #555555;
+    background-color: #9c9c9c;
+    border-top: 5px rgb(223, 223, 223) solid;
 }
 
 .footer-heading {
-    font-family: 'Roboto Slab', serif;
-    color: grey;
+    font-family: 'Merienda One', cursive;
     font-size: .8em;
 }
 
-footer .fa {
+#secao-rodape .fa {
     margin-right: 10px;
 }
 
-footer li.list-group-item {
+#secao-rodape li.list-group-item {
     border: none;
+}
+
+#botao-batepapo {
+    font-family: 'Merienda One', cursive;
 }
 
 /* FIM RODAPÉ */
@@ -635,6 +641,91 @@ footer li.list-group-item {
 
 /* --------------------------------------------------------------------------------------- */
 
+/* LIÇÕES DE GRAMÁTICA */
+
+
+#secao-licoes div {
+    /*border: black solid 1px;*/
+    margin-bottom: 1em;
+    padding: 5px;
+}
+
+#secao-licoes li {
+    list-style-type: square;
+    list-style-position: inside;
+    font-size: large;
+    padding-left: 10px;
+}
+
+
+
+
+
+#secao-licoes-nivel-a1 li:hover {
+    color: white;
+    background-color: rgb(0, 127, 255);
+}
+
+
+/*
+#secao-licoes-nivel-a2 li:hover {
+    color: white;
+    background-color:  rgb(0, 0, 255);
+}
+
+#secao-licoes-nivel-b1 li:hover {
+    color: white;
+    background-color: rgb(127, 0, 255);
+}
+
+#secao-licoes-nivel-b2 li:hover {
+    color: white;
+    background-color: rgb(255, 0, 255);
+}
+
+#secao-licoes-nivel-c1 li:hover {
+    color: white;
+    background-color: rgb(255, 0, 127);
+}
+
+#secao-licoes-nivel-c2 li:hover {
+    color: white;
+    background-color: rgb(255, 0, 0);
+}
+
+*/
+
+
+#secao-licoes-nivel-a1 {
+    color: rgb(0, 127, 255);
+}
+
+#secao-licoes-nivel-a2 {
+    color: rgb(0, 0, 255);
+}
+
+#secao-licoes-nivel-b1 {
+    color: rgb(127, 0, 255);
+}
+
+#secao-licoes-nivel-b2 {
+    color: rgb(255, 0, 255);
+}
+
+#secao-licoes-nivel-c1 {
+    color: rgb(255, 0, 127);
+}
+
+#secao-licoes-nivel-c2 {
+    color: rgb(255, 0, 0);
+}
+
+
+
+
+
+
+/* --------------------------------------------------------------------------------------- */
 
 /* MURAL DE PUBLICAÇÕES */
 

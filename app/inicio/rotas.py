@@ -8,7 +8,10 @@ from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
 from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, UsuarioAnonimo
 from ..email import enviar_email
-from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin
+from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin, formularioInscricaoFeuRosa
+
+
+
 
 """  ROTAS COMUNS  """
 
@@ -16,10 +19,24 @@ from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin
 @bp.route('/', methods=['GET', 'POST'])
 def inicio():
 
-    # Se o método for GET
-    #return render_template('inicio.html', current_time=datetime.utcnow())
+    formulario = formularioInscricaoFeuRosa()
 
-    return render_template('temporario.html')
+    # Se o método for POST
+    if formulario.validate_on_submit():
+        # Seleciona os campos da inscrição e envia para o banco de dados
+        print("Formulário validado")
+
+    # Se o método for GET
+    return render_template('temporario.html', formulario=formulario)
+
+
+
+
+
+
+
+
+
 
 # Página no Instagram
 @bp.route('/instagram')
@@ -35,6 +52,16 @@ def canal_youtube():
 @bp.route('/facebook')
 def grupo_youtube():
     return redirect("https://www.facebook.com/groups/aprendaagora")
+
+
+
+
+
+
+
+
+
+
 
 # Exibe a página de perfil do usuário conectado
 @bp.route('/perfil', methods=['GET', 'POST'])

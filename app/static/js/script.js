@@ -1,6 +1,7 @@
 /* Selecione a página inteira */
 const pagina = document.querySelector('body');
 
+
 /* Quando o DOM for carregado */
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -53,13 +54,6 @@ function detectar_clique_publicacoes(publicacoes) {
             pagina.classList.remove('body-scroll');
             pagina.classList.add('body-no-scroll');
             
-            /* Seleciona todos as publicacoes na lista de publicações do mural */
-            let todas_publicacoes = document.querySelectorAll('.publicacao-mural');
-
-            /* Destaque a publicação clicada ao transparecer as outras publicações 
-               Desabilitei esta funcionalidade por que ela atrasada a abertura do modal e a transparência 
-               destacarPublicacaoClicada(todas_publicacoes, publicacao);
-            */
 
             /* Crie um novo pedido HTTP*/
             let pedido = new XMLHttpRequest();
@@ -106,7 +100,6 @@ function detectar_clique_publicacoes(publicacoes) {
                     */
                     let publicacao_dados = JSON.parse(pedido.responseText);
 
-
                     /*
                         O título e o autor da publicação já estão disponíveis no dataset do elemento HTML,
                         portanto eles não precisam ser enviados pelo servidor pois podem ser acessados diretamente aqui.
@@ -114,12 +107,13 @@ function detectar_clique_publicacoes(publicacoes) {
                     publicacao_dados.titulo = publicacao.dataset.titulo;
                     publicacao_dados.autor = publicacao.dataset.autor;
 
+                    console.log(publicacao_dados);
+
                     /* Crie o Modal do publicação */
                     criar_modal(publicacao_dados);
 
                     /* Remova a restrição de eventos 'click' na página */
                     pagina.removeEventListener('click', previnirClick, true);
-
 
                 /* Se o pedido não ocorrer corretamente */
                 } else {
@@ -208,6 +202,12 @@ function criar_modal(publicacao) {
     publicacao_modal = criar_publicacao_modal(publicacao_modal, publicacao);
 
 
+
+    let lista_de_comentarios = criar_lista_de_comentarios(publicacao.comentarios);
+
+    publicacao_modal.append(lista_de_comentarios);
+
+
     
     /* Exibe o Modal de uma publicação que foi clicada*/
     function ativarModal() {
@@ -290,9 +290,32 @@ function criar_modal(publicacao) {
         container_publicacao.append(container_info_publicacao);
         container_publicacao.append(container_conteudo_publicacao);
 
+
+        let formulario_comentario = criar_formulario_comentario();  
+        
+
+
+
+        let container_interacao = document.createElement('div');
+
+        let icone_coracao = document.createElement('i');
+        icone_coracao.classList.add('fa', 'fa-heart');
+
+        let icone_comentario = document.createElement('i');
+        icone_comentario.classList.add('fa', 'fa-comments');
+
+        container_interacao.append(icone_coracao);
+        container_interacao.append(icone_comentario);
+
+
+
         /* Anexa o container da publicação (container_publicacao) ao modal (publicacao_modal) */
         publicacao_modal.append(container_publicacao);
-        
+
+        publicacao_modal.append(container_interacao);
+
+        publicacao_modal.append(formulario_comentario);
+
         /* Retorna o MODAL da PUBLICAÇÃO */
         return publicacao_modal;
     }
@@ -310,6 +333,8 @@ function criar_modal(publicacao) {
         return container_publicacao;
     }
 
+    /* Opções do autor */
+    // Esta função é extensa pois lida com as complexidades da funcionalidade de edição de publicação
     function criar_container_opcoes_autor (publicacao_modal, publicacao, titulo_publicacao, conteudo_publicacao) {
 
 
@@ -1002,249 +1027,265 @@ function criar_modal(publicacao) {
         return opcoes_autor;
     }
 
+    // Retorna o formulário de escrever comentário
+    function criar_formulario_comentario () {
+
+        /* Declaração dos elementos */
+
+        // Container para o formulário
+        let div_formulario_comentario = document.createElement('div');
+
+        // Formulário de novo comentário
+        let formulario_comentario = document.createElement('form');
+
+        // Campo de texto do formulário
+        let textarea_comentario = document.createElement('textarea');
+
+        // Container para armazenar e posicionar botão de enviar
+        let container_botao_enviar = document.createElement('div');
+
+        // Botão para enviar formulário
+        let botao_enviar = document.createElement('span');
 
 
-    // Funções que criam tags estilo "pílula"
-    function criar_tag_vocabulario () {
 
-        let span_tag = document.createElement('span');
-        span_tag.classList.add('badge', 'badge-pill', 'badge-success', 'mr-1');
-        span_tag.setAttribute('data-toggle', 'tooltip');
-        span_tag.setAttribute('data-placement', 'top');
-        span_tag.setAttribute('title', 'Vocabulário');
+        textarea_comentario.classList.add('w-100', 'border', 'bg-white');
 
-        let icone_tag = document.createElement('i');
-        icone_tag.classList.add('fa', 'fa-book', 'mr-0');
+        container_botao_enviar.classList.add('text-right', 'mb-1');
 
-        span_tag.append(icone_tag);
+        botao_enviar.classList.add('text-white', 'bg-success', 'p-2', 'd-inline-block', 'font-weight-bold');
+        botao_enviar.innerHTML = "Enviar";
 
-        return span_tag;
-    }
 
-    function criar_tag_gramatica () {
 
-        let span_tag = document.createElement('span');
-        span_tag.classList.add('badge', 'badge-pill', 'badge-primary', 'mr-1');
-        span_tag.setAttribute('data-toggle', 'tooltip');
-        span_tag.setAttribute('data-placement', 'top');
-        span_tag.setAttribute('title', 'Gramática');
 
-        let icone_tag = document.createElement('i');
-        icone_tag.classList.add('fa', 'fa-cogs', 'mr-0');
+        /* Anexação dos elementos */
+        formulario_comentario.append(textarea_comentario);
+        container_botao_enviar.append(botao_enviar);
 
-        span_tag.append(icone_tag);
+        div_formulario_comentario.append(formulario_comentario);
+        div_formulario_comentario.append(container_botao_enviar);
 
-        return span_tag;
-    }
 
-    function criar_tag_pronuncia () {
+        /* Configuração do botão de enviar comentário */
+        botao_enviar.addEventListener('click', (e) => {
+            
+            e.preventDefault();
+            e.preventDefault();
 
-        let span_tag = document.createElement('span');
-        span_tag.classList.add('badge', 'badge-pill', 'badge-danger', 'mr-1');
-        span_tag.setAttribute('data-toggle', 'tooltip');
-        span_tag.setAttribute('data-placement', 'top');
-        span_tag.setAttribute('title', 'Pronúncia');
 
-        let icone_tag = document.createElement('i');
-        icone_tag.classList.add('fa', 'fa-headphones', 'mr-0');
+            /* Crie um novo pedido HTTP*/
+            let pedido = new XMLHttpRequest();
 
-        span_tag.append(icone_tag);
+            /* Pega o id da publicação onde o comentário foi escrito.
+            'publicacao_id' é uma string mas pode ser convertido
+            para int antes de ser enviado para o servidor.
+            Para isso, a função parseInt() está sendo usada*/
 
-        return span_tag;
-    }
 
-    function criar_tag_cultura () {
+            let json_enviado = {"publicacao_id": publicacao.id, "conteudo": textarea_comentario.value};
 
-        let span_tag = document.createElement('span');
-        span_tag.classList.add('badge', 'badge-pill', 'badge-dark', 'mr-1');
-        span_tag.setAttribute('data-toggle', 'tooltip');
-        span_tag.setAttribute('data-placement', 'top');
-        span_tag.setAttribute('title', 'Cultura');
 
-        let icone_tag = document.createElement('i');
-        icone_tag.classList.add('fa', 'fa-globe', 'mr-0');
 
-        span_tag.append(icone_tag);
+            /* Abra o pedido com método 'POST' na rota '/ingles/publicacao/comentar' */
+            pedido.open('POST', '/ingles/publicacao/comentar');
 
-        return span_tag;
+            /* ??? */
+            pedido.setRequestHeader('Content-Type', 'application/json');
+
+            /* Quando o pedido for respondido */
+            pedido.onload = function (e) {
+
+                /* 
+
+                    'pedido.readyState' representa o estado do pedido
+                    
+                    0 representa o estado UNSENT (Um cliente foi criado. Mas o método open() não foi chamado ainda).
+                    1 representa o estado OPENED (O método open() foi chamado).
+                    2 representa o estado HEADERS_RECEIVED (O método send() foi chamado e os cabeçalhos e status estão disponíveis.
+                    3 representa o estado LOADING (Baixando e pedido.responseText contém os dados parciais).
+                    4 representa o estado DONE (Operação concluída).
+
+                    'pedido.status' é o código de status de uma resposta HTTP. Ele indica se uma requisição HTTP foi concluída corretamente. Um status 200 indica que a operação foi concluída corretamente.
+                */
+
+                /* 
+                    Se o estado do pedido for DONE e o status da resposta for 200 (OK)
+                    O script terá acesso à resposta em formato JSON enviado pelo servidor    
+                */
+                if (pedido.readyState === 4 && pedido.status === 200) {
+
+                    /*
+                        A resposta do servidor, chamado de 'pedido.responseText',  é uma string que representa um objeto (em outras palavras, pedido.responseText é o json que o servidor enviou).
+                        A função JSON.parse() pode ser usada para converter essa string em um objeto JSON propriamente dito.
+
+                        O objeto recebido representa a publicação clicada
+                    */
+
+                    console.log(pedido);
+                    console.log(pedido.responseText);
+
+                    let resposta = JSON.parse(pedido.responseText);
+
+                    console.log(resposta);
+
+                    let novo_comentario = criar_elemento_comentario (textarea_comentario.value, usuario_nome, moment());
+
+                    document.querySelector('#lista_de_comentarios').append(novo_comentario);
+
+                /* Se o pedido não ocorrer corretamente */
+                } else {
+
+                    alert("Não foi possível criar o comentário");
+                }
+            }
+
+            /* Envie o pedido para o servidor, juntamento com o id da publicação, o conteúdo do comentário e o id do autor */
+            console.log(json_enviado);
+            pedido.send(JSON.stringify(json_enviado));
+
+        });
+
+        /* Retorna o formulário de envio de comentário */
+        return div_formulario_comentario;
     }
 
     
-    // Funções que criam os componentes de uma publicação no modal
-    function criar_container_id_publicacao (publicacao) {
-
-        let id_publicacao = document.createElement('small');
-
-        id_publicacao.classList.add('text-secondary', 'mb-1');
-
-        id_publicacao.innerText = `publicação #${publicacao.id}`;
-
-        return id_publicacao;
-    }
-
-    function criar_container_titulo_publicacao (publicacao) {
-
-        let titulo_publicacao = document.createElement('h4');
-
-        titulo_publicacao.innerText = publicacao.titulo;
-
-        return titulo_publicacao;
-    }
-
-    function criar_container_info_publicacao (publicacao) {
-
-        /* Cria o container para abrigar as informações */
-        let info_publicacao = document.createElement('div');
-
-        /* Adiciona MARGEM ABAIXO */
-        info_publicacao.classList.add('mb-5')
-
-        /* Cria um elemento 'âncora' que será o link para o perfil do autor */
-        let link_perfil_autor = document.createElement('a');
-
-        /* Cria a imagem do autor */
-        let avatar_autor_publicacao = document.createElement('img');
-
-        /* Adiciona a classe 'avatar-autor' */
-        avatar_autor_publicacao.classList.add('avatar-autor');
-
-        /* URL do avatar do autor da publicação */
-        avatar_autor_publicacao.src = publicacao.avatar_autor;
-
-        /* Cria um <span> que abrigará o nome do autor */
-        let autor_publicacao = document.createElement('span');
-
-        /* Concatena um '@' no início do nome do autor */
-        autor_publicacao.innerText = '@'.concat(publicacao.autor);
-
-        /* Adiciona MARGEM À ESQUERDA do nome do autor */
-        autor_publicacao.classList.add('ml-1');
-
-        /* Anexa o avatar do autor ao elemento âncora */
-        link_perfil_autor.append(avatar_autor_publicacao);
-
-        /* Anexa o nome do autor ao elemento âncora */
-        link_perfil_autor.append(autor_publicacao);
-
-        /* Define o link que leva à página de perfil do autor */
-        /* 'publicacao.autor' é usado ao invés de 'autor_publicacao' pois 'autor_publicacao' teve um @ inserido no início da string */
-        link_perfil_autor.href = '/usuario/'.concat(publicacao.autor);
-
-        /* Anexa o link do perfil do autor no container 'info_publicacao' */
-        info_publicacao.append(link_perfil_autor);
-
-        /* Crie um <span> que conterá a data da publicação */
-        let data_publicacao = document.createElement('span');
-
-        /* Defina a string que indicará a data da publicação */
-        data_publicacao.innerHTML = '&middot; <i class="fa fa-history"></i> escrito '.concat(moment(publicacao.data).fromNow());
-
-        /* Crie o container que conterá a data da publicação */
-        data_publicacao_envelope = document.createElement('span');
-
-        /* Define a cor da fonte como sendo cinza e com margem à esquerda */
-        data_publicacao_envelope.classList.add('text-secondary', 'ml-1');
-
-        /* Anexa a data ao container da data */
-        data_publicacao_envelope.append(data_publicacao);
-
-        /* Seleciona a string que representa o nome do idioma */
-        let idioma_publicacao = publicacao.idioma;
-
-        /* Cria um <span> que representará o ícone do idioma */
-        let icone_idioma = document.createElement('span');
-
-        /* Preenche o <span> com a bandeira correta */
-        icone_idioma.innerText = selecionar_icone_idioma(idioma_publicacao);
-
-        /* Adiciona a classe para corrigir posicionamento do ícone */
-        icone_idioma.classList.add('icone-idioma-modal');
-
-        /* Seleciona as tags da publicacao */
-        let tags_publicacao = publicacao.tags;
-
-        /* Elemento que vai envolver as tags da publicação */
-        let tags_container = document.createElement('span');
-
-        /* A classe .tags-container adiciona margem à esquerda e posiciona o elemento relativamente 1px do bottom */
-        tags_container.classList.add('tags-container');
-        tags_container.setAttribute('id', 'tags-container');
-
-        /* Para cada tag na lista de tags da publicação, crie a tag no DOM e anexe ao container*/
-        for (tag of tags_publicacao) {
-            
-            /* Crie um elemento <span> que representará a tag */
-            let t = document.createElement('span');
-            t.classList.add('badge', 'badge-pill', 'mr-1');
-            // Atributos necessários para exibição do 'tooltip' com o nome da tag
-            t.setAttribute('data-toggle', 'tooltip');
-            t.setAttribute('data-placement', 'top');
-
-
-            /* Define a cor e o conteúdo da tags */
-        
-            /* Se a tag for 'vocabulário' */
-            if (tag == 'vocabulario')
-            {
-                t.classList.add('badge-success');
-                t.innerHTML = '<i class="fa fa-book mr-0 text-white"></i>';
-                t.setAttribute('title', 'Vocabulário');
-            }
-            /* Se a tag for 'gramática' */
-            else if (tag == 'gramatica')
-            {
-                t.classList.add('badge-primary');
-                t.innerHTML = '<i class="fa fa-cogs mr-0"></i>';
-                t.setAttribute('title', 'Gramática');
-            }
-            /* Se a tag for 'pronúncia' */
-            else if (tag == 'pronuncia')
-            {
-                t.classList.add('badge-danger');
-                t.innerHTML = '<i class="fa fa-headphones mr-0"></i>';
-                t.setAttribute('title', 'Pronúncia');
-            }
-            /* Se a tag for 'cultura' */
-            else if (tag == 'cultura')
-            {
-                t.classList.add('badge-dark');
-                t.innerHTML = '<i class="fa fa-globe mr-0"></i>';
-                t.setAttribute('title', 'Cultura');
-            }
-            
-            /* Anexe a tag ao container */
-            tags_container.append(t);
-        }
-
-        /* Anexa a DATA, o ÍCONE DO IDIOMA e as TAGs da publicação */
-        info_publicacao.append(data_publicacao_envelope);
-        info_publicacao.append(icone_idioma);
-        info_publicacao.append(tags_container);
-
-        /* Retorna o elemento */
-        return info_publicacao;
-    }
-
-    function criar_container_conteudo_publicacao (publicacao) {
-
-        /* Preencha os elemenos da publicação com seus respectivos dados */
-        let conteudo_publicacao = document.createElement('div');
-
-        /* Se a versão HTML do conteúdo da publicação estiver definido */
-        if (publicacao.conteudo_html != undefined)
-        {
-            conteudo_publicacao.innerHTML = publicacao.conteudo_html;
-        }
-        /* Senão, utilize o conteúdo em texto-plano */
-        else
-        {
-            conteudo_publicacao.innerHTML = publicacao.conteudo;
-        }
-
-        return conteudo_publicacao;
-    }
 
 } // FIM FUNÇÃO CRIAR_MODAL()
+
+
+// Retorna um elemento que representa o comentário
+function criar_elemento_comentario (comentario_conteudo, comentario_autor, comentario_data) {
+
+
+    /* ----- Criação dos Elementos HTML ----- */
+
+    // Div que conterá todos os elementos que compõe o comentário
+    let comentario = document.createElement('div');
+
+    // Se o autor do comentário for o usuário logado
+    if (comentario_autor == usuario_nome) 
+    {
+        // Opções do autor do comentário
+        let opcoes_autor = document.createElement('span');
+        opcoes_autor.classList.add('opcoes-publicacao', 'm-0', 'p-0');
+
+        let botao_editar = document.createElement('span');
+        botao_editar.classList.add('btn', 'icone-editar-publicacao', 'p-0', 'pl-1');
+
+        let botao_apagar = document.createElement('span');
+        botao_apagar.classList.add('btn', 'icone-apagar-publicacao', 'p-0', 'pl-1');
+
+        let icone_editar = document.createElement('i');
+        icone_editar.classList.add('fa', 'fa-pencil');
+
+        let icone_apagar = document.createElement('i');
+        icone_apagar.classList.add('fa', 'fa-times-circle');
+
+
+        botao_editar.append(icone_editar);
+        botao_apagar.append(icone_apagar);
+
+        opcoes_autor.append(botao_editar);
+        opcoes_autor.append(botao_apagar);
+
+        comentario.append(opcoes_autor);
+
+    }
+
+    
+    // Div que conterá o conteúdo do comentário em si
+    let conteudo = document.createElement('div');
+
+    // Div que conterá informações adicionais do comentário (autor, data, número de likes no comentário)
+    let rodape = document.createElement('div');
+
+    // Tag 'a' que será o link para o perfil do autor
+    let link_autor = document.createElement('a');
+
+    // Nome de usuário do autor do comentário
+    let autor_nome_usuario = document.createElement('span');
+
+    // Data de criação do comentário
+    let data = document.createElement('span');
+
+    // Botão "amei" do comentário
+    let n_amei = document.createElement('span');
+    let botao_amei = document.createElement('span');
+    let icone_coracao = document.createElement('i');
+
+
+    /* ----- Estilização do Elementos HTML ----- */
+    
+    // Estilização do comentário
+    comentario.classList.add('border', 'bg-white', 'mb-2', 'pl-1');
+
+    // Conteúdo do comentário formatado com Pagedown
+    conteudo.innerHTML = flask_pagedown_converter(comentario_conteudo);
+
+
+    rodape.classList.add('small');
+
+    // Link para a página do autor do comentário
+    link_autor.href = "";
+    link_autor.href = `/usuario/${comentario_autor}`;
+
+    // Nome de usuário do autor do comentário
+    autor_nome_usuario.innerHTML = '@'.concat(comentario_autor);
+
+    // Data da publicação
+    data.innerHTML = '&middot; <i class="fa fa-history"></i> escrito '.concat(moment(comentario_data).fromNow());
+    
+    // Botão de like
+
+    n_amei.innerText = '99';
+
+    icone_coracao.classList.add('fa', 'fa-heart', 'ml-1', 'pr-1');
+
+    botao_amei.classList.add('float-right', 'text-danger');
+
+
+    /* ----- Anexação do Elementos ----- */
+
+
+    
+
+
+    link_autor.append(autor_nome_usuario);
+
+    botao_amei.append(n_amei);
+    botao_amei.append(icone_coracao);
+
+
+    rodape.append(link_autor);
+    rodape.append(data);
+    rodape.append(botao_amei);
+
+
+    
+    comentario.append(conteudo);
+    comentario.append(rodape);
+
+    return comentario;
+}
+
+function criar_lista_de_comentarios(comentarios) {
+
+    let lista_de_comentarios = document.createElement('div');
+
+    lista_de_comentarios.id = 'lista_de_comentarios';
+
+    for (let comentario of comentarios)
+    {
+
+        let c = criar_elemento_comentario(comentario.conteudo, comentario.autor, comentario.data);
+
+        lista_de_comentarios.append(c);
+    }
+
+    return lista_de_comentarios;
+}
 
 
 // Previne que o evento de clicar no link do autor de uma publicação abra o modal da publicação
@@ -1263,39 +1304,6 @@ function previnir_propagacao_clique_link(links_usuarios) {
             e.stopPropagation();
         })
     });
-}
-
-// Retorna o emoji da bandeira do idioma
-function selecionar_icone_idioma(idioma) {
-
-    if (idioma == 'ingles')
-    {
-        return '🇺🇸';
-    }
-    else if (idioma == 'espanhol')
-    {
-        return '🇪🇸';
-    }
-    else if (idioma == 'frances')
-    {
-        return '🇫🇷';
-    }
-    else if (idioma == 'italiano')
-    {
-        return '🇮🇹';
-    }
-    else if (idioma == 'alemao')
-    {
-        return '🇩🇪';
-    }
-    else if (idioma == 'japones')
-    {
-        return '🇯🇵';
-    }
-    else if (idioma == 'chines')
-    {
-        return '🇨🇳';
-    }
 }
 
 // (Esta função não está sendo usada)Destaca a publicação clicada ao transparecer as outras publicações
