@@ -6,7 +6,7 @@ from datetime import datetime
 from . import inicio as bp
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
-from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, UsuarioAnonimo
+from ..modelos import InscricaoFeuRosa, Usuario, Role, Permissao, Publicacao, Tag, UsuarioAnonimo
 from ..email import enviar_email
 from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin, formularioInscricaoFeuRosa
 
@@ -23,8 +23,16 @@ def inicio():
 
     # Se o método for POST
     if formulario.validate_on_submit():
-        # Seleciona os campos da inscrição e envia para o banco de dados
-        print("Formulário validado")
+
+        # Cria uma nova inscrição e envia para o banco de dados
+
+        nova_inscricao = InscricaoFeuRosa(nome=formulario.nome.data, email=formulario.email.data, numero_telefone=formulario.numero_telefone.data, curso=formulario.opcao_curso.data, horario=formulario.horario.data)
+
+        db.session.add(nova_inscricao)
+        db.session.commit()
+
+        return render_template('confirmar_inscricao.html')
+
 
     # Se o método for GET
     return render_template('temporario.html', formulario=formulario)

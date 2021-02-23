@@ -45,6 +45,25 @@ class Permissao:
     ADMIN = 262144
 
 
+
+class InscricaoFeuRosa(db.Model):
+    __tablename__ = 'inscricoes_feu_rosa'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nome = db.Column(db.String(64))
+
+    email = db.Column(db.String(32))
+
+    numero_telefone = db.Column(db.String(32))
+
+    curso = db.Column(db.String(16))
+
+    horario = db.Column(db.String(16))
+
+
+
+
 class Role(db.Model):
     __tablename__ = 'roles'
     

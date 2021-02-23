@@ -48,6 +48,39 @@ Tarefas:
 
 /* --------------------------------------------------------------------------------------- */
 
+
+
+
+
+#opcao_curso li {
+    list-style-type: none;
+}
+
+#horario li {
+    list-style-type: none;
+}
+
+@media (min-width: 600px) {
+
+    #formulario-curso {
+        width: 70%;
+    }
+}
+
+
+#container-formulario-inscricao-curso {
+    margin: 1em;
+}
+
+
+
+
+
+
+
+
+
+
 #ultimas-publicacoes {
     font-family: "Unica One", "Helvetica Neue", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
@@ -200,7 +233,6 @@ Tarefas:
          url('fontes/merienda/Merienda-Bold.svg#svgMerienda') format('svg'); /* Legacy iOS */
 }
 
-
 @font-face {
     font-family: 'Unica One';
     src: url('fontes/unica_one/UnicaOne-Regular.eot'); /* IE9 Compat Modes */
@@ -218,9 +250,6 @@ Tarefas:
          url('fontes/roboto_slab/RobotoSlab-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
          url('fontes/roboto_slab/RobotoSlab-Regular.svg#svgFontName') format('svg'); /* Legacy iOS */
 }
-
-
-
 
 /* FIM DEFINIÇÃO DAS FONTES */
 

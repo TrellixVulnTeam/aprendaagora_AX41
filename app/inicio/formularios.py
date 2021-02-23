@@ -8,22 +8,23 @@ from ..modelos import Usuario, Role, Publicacao, Role
 class formularioInscricaoFeuRosa(FlaskForm):
 
     nome = StringField("Nome e sobrenome",
-                       validators=[DataRequired(),
+                       validators=[DataRequired(message='É necessário informar seu nome e sobrenome'),
                                    Length(0, 40)])
     
     email = StringField("Email",
-                        validators=[DataRequired(),
+                        validators=[DataRequired(message='É necessário informar seu email (que será usado para envio de materiais de estudo).'),
                                     Length(1, 64),
-                                    Email()])
+                                    Email(message='Endereço de email inválido. Digite seu email corretamente.')])
 
-    numero_telefone = StringField("Número de Telefone",
-                                  validators=[DataRequired(),
+    numero_telefone = StringField("Número de Telefone (WhatsApp)",
+                                  validators=[DataRequired(message='É necessário informar seu número de telefone (WhatsApp) para podermos entrar em contato com você.'),
                                               Length(1, 64)])
 
-    opcao_curso = RadioField("Opções de Curso",
-                             choices=[('ingles','Inglês'),
-                                      ('frances','Francês'),
-                                      ('computacao', 'Computação')])
+    opcao_curso = RadioField("Opção de Curso (escolha apenas um curso)", choices=[('ingles','Inglês 🇺🇸'),
+                                      ('frances','Francês 🇫🇷'),
+                                      ('programacao', 'Programação 💻')])
+
+    horario = RadioField("Horário do Curso (escolha apenas um horário)", choices=[('segunda', 'Segunda-Feira, de 20:00 até 22:00'), ('terça-feira', 'Terça-Feira, de 20:00 até 22:00'), ('quarta', 'Quarta-Feira, de 20:00 até 22:00'), ('quinta', 'Quinta-Feira, de 20:00 até 22:00'), ('domingo1', 'Domingo, de 14:00 até 16:00'), ('domingo2', 'Domingo, de 16:30 até 18:30')])
 
     enviar = SubmitField("Se Inscrever")
 

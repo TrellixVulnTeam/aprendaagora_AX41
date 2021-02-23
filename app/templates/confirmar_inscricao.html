@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Inscrição para cursos presenciais em Feu Rosa{% endblock %}
+
+{% block head %}
+{{ super() }}
+
+<style>
+    body {
+        background-color: #229c2e;
+        color: white;
+        text-align: center;
+        font-family: 'Lato', sans-serif;
+    }
+
+    #titulo {
+        text-shadow: black 2px 2px;
+        font-family: 'Merienda One', cursive;
+    }
+
+    a {
+        color: white;
+    }
+
+    a:visited {
+        color: white;
+    }
+
+    h1 {
+        font-size: 64pt;
+    }
+
+    h2 {
+        font-size: 32pt;
+    }
+</style>
+
+{% endblock %}
+
+
+
+<!-- Barra de Navegação-->
+{% block navbar %}
+{% endblock %}
+
+{% block conteudo_pagina %}
+
+
+<h1 id="titulo" class="mb-4">Aprenda Agora</h1>
+
+
+<div class="container-formulario mb-4">
+
+    <h2 class="text-white mx-auto mb-2">Sua inscrição para o curso foi confirmada! Em breve entraremos em contato com você 😉</h3>
+</div>
+
+
+<h3><a href="https://www.youtube.com/channel/UCo-122KSpoYersHovXL3Tow">Canal no Youtube <i class="fa fa-youtube"></i></a></h2>
+<h3><a href="https://www.instagram.com/aprendaagora">Instagram <i class="fa fa-instagram"></i></a></h2>
+
+
+
+{% endblock %}
+
+
+<!-- Rodapé (Footer) -->
+{% block rodape %}
+{% endblock %}
