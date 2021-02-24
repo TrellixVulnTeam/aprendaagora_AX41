@@ -24,7 +24,7 @@ class formularioInscricaoFeuRosa(FlaskForm):
                                       ('frances','Francês 🇫🇷'),
                                       ('programacao', 'Programação 💻')])
 
-    horario = RadioField("Horário do Curso (escolha apenas um horário)", choices=[('segunda', 'Segunda-Feira, de 20:00 até 22:00'), ('terça-feira', 'Terça-Feira, de 20:00 até 22:00'), ('quarta', 'Quarta-Feira, de 20:00 até 22:00'), ('quinta', 'Quinta-Feira, de 20:00 até 22:00'), ('domingo1', 'Domingo, de 14:00 até 16:00'), ('domingo2', 'Domingo, de 16:30 até 18:30')])
+    horario = RadioField("Horário do Curso (escolha apenas um horário)", choices=[('segunda', 'Segunda-Feira, de 20:00 até 22:00'), ('terça', 'Terça-Feira, de 20:00 até 22:00'), ('quarta', 'Quarta-Feira, de 20:00 até 22:00'), ('quinta', 'Quinta-Feira, de 20:00 até 22:00'), ('domingo1', 'Domingo, de 14:00 até 16:00'), ('domingo2', 'Domingo, de 16:30 até 18:30')])
 
     enviar = SubmitField("Se Inscrever")
 
