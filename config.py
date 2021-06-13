@@ -2,6 +2,20 @@ import os
 diretoriobase = os.path.abspath(os.path.dirname(__file__))
 
 
+
+"""
+BANCODEDADOS_DEV_URI=postgres://ikyqqimlkzcwij:388c8055e649660d2662ba2e53c1bef1d1b8c80a6f9830b8e90a5e934408cd45@ec2-54-235-116-235.compute-1.amazonaws.com:5432/dejne5d303q1sh
+
+
+
+FLASK_ENV=development
+FLASK_APP=aprendaagora.py
+FLASK_DEBUG=1
+MAIL_USERNAME=aprenda.agora.contato@gmail.com
+FLASK_ADMIN=aprenda.agora.contato@gmail.com
+
+"""
+
 class Configuracao:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'string dificil de descobrir'
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
