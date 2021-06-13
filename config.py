@@ -103,8 +103,3 @@ configuracao = {
 
     'padrao': ConfiguracaoHeroku
 }
-
-
-
-
-
