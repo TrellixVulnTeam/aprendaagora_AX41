@@ -45,3 +45,9 @@ class formularioPublicacaoMural(FlaskForm):
                               for tag in Tag.query.order_by(Tag.id).all()]
 
         self.idioma = idioma
+
+
+class formularioComentarioPublicacao(FlaskForm):
+
+    conteudo = StringField('', validators=[DataRequired()])
+    enviar = SubmitField('Enviar')

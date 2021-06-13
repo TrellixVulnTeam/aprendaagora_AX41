@@ -7,7 +7,7 @@ from flask_login import login_required, current_user
 from . import ingles as bp
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
-from ..modelos import Usuario, Role, Permissao, Publicacao, Tag
+from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario
 from ..email import enviar_email
 from ..formularios import formularioPublicacaoMural
 from ..funcoes_auxiliares import criar_publicacao
@@ -168,8 +168,27 @@ def json_publicacao():
         # Seleciona o representação da publicação em formato JSON
         publicacao_json = publicacao.json()
 
+        publicacao_json['comentarios'] = []
+
+        comentarios = publicacao.comentarios
+
+        for c in comentarios:
+
+            comentario = {'conteudo': c.conteudo,
+                          'data': c.data,
+                          'autor': Usuario.query.filter_by(id=c.autor_id).first().nome_usuario}
+
+            publicacao_json['comentarios'].append(comentario)
+
         # Se o cliente for o autor da publicação, autor_cliente será True
-        publicacao_json['autor_cliente'] = (current_user.id == publicacao_json['id_autor'])
+        try:
+            # Tente imprimir o id do usuário atual
+            print(current_user.id)
+        except Exception as e:
+            publicacao_json['autor_cliente'] = False
+        else:
+            publicacao_json['autor_cliente'] = (current_user.id == publicacao_json['id_autor'])
+
 
         # Responde o cliente, enviando a publicação em formato JSON
         return jsonify(publicacao_json)
@@ -178,3 +197,53 @@ def json_publicacao():
 
         print("AJAX exceção " + str(e))
         return(str(e))
+
+
+def registrar_comentario(publicacao_id, autor_id, conteudo):
+
+    novo_comentario = Comentario(
+        publicacao_id=publicacao_id,
+        autor_id=autor_id,
+        conteudo=conteudo
+    )
+
+    db.session.add(novo_comentario)
+
+    db.session.commit()
+
+
+@bp.route('/publicacao/comentar', methods=['GET', 'POST'])
+def comentar_publicacao():
+    
+    try:
+        # Seleciona o JSON enviado através do pedido do cliente
+        json_enviado = request.get_json()
+        print(json_enviado)
+
+        # Converte e armazena a propriedade 'publicacao_id' para um int
+        publicacao_id = int(json_enviado['publicacao_id'])
+        print(publicacao_id)
+
+        conteudo = json_enviado['conteudo']
+        print(conteudo)
+
+        print(f"O usuário atual é: {current_user.id}")
+
+
+        usuario = Usuario.query.filter_by(id=current_user.id).first()
+        print(usuario)
+        print(usuario.nome_usuario)
+
+
+        registrar_comentario(publicacao_id, current_user.id, conteudo)
+
+        return jsonify({"confirma": True})
+
+    except Exception as e:
+
+        print("AJAX exceção " + str(e))
+        return(str(e))
+
+
+
+
