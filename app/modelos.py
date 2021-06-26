@@ -45,7 +45,6 @@ class Permissao:
     ADMIN = 262144
 
 
-
 class InscricaoFeuRosa(db.Model):
     __tablename__ = 'inscricoes_feu_rosa'
 
@@ -60,8 +59,6 @@ class InscricaoFeuRosa(db.Model):
     curso = db.Column(db.String(16))
 
     horario = db.Column(db.String(16))
-
-
 
 
 class Role(db.Model):
@@ -295,6 +292,11 @@ class Usuario(UserMixin, db.Model):
                                   lazy='dynamic')
 
 
+    publicacoes_amei = db.relationship('PublicacaoAmei',
+                                       foreign_keys='PublicacaoAmei.usuario_id',
+                                       backref='usuario',
+                                       lazy='dynamic')
+
     # Atribui o 'role' 'Estudante' à novos usuários, ou 'Administrador' caso o email do usuário está deinido em APRENDA_AGORA_ADMIN
     def __init__(self, **kwargs):
 
@@ -324,6 +326,33 @@ class Usuario(UserMixin, db.Model):
     @senha.setter
     def senha(self, senha):
         self.senha_hash = generate_password_hash(senha)
+
+
+
+    # FUNÇÕES DE AMAR PUBLICAÇÃO
+
+    def amar_publicacao(self, publicacao):
+
+        if not self.amou_publicacao(publicacao):
+
+            amou = PublicacaoAmei(usuario_id=self.id, publicacao_id=publicacao.id)
+            
+            db.session.add(amou)
+
+    def desfazer_amar_publicacao(self, publicacao):
+
+        if self.amou_publicacao(publicacao):
+
+            PublicacaoAmei.query.filter_by(
+                usuario_id=self.id,
+                publicacao_id=publicacao.id).delete()
+
+    def amou_publicacao(self, publicacao):
+
+        return PublicacaoAmei.query.filter(
+                PublicacaoAmei.usuario_id == self.id,
+                PublicacaoAmei.publicacao_id == publicacao.id).count() > 0
+
 
     # Este método recebe a senha e passa ela na função check_password_hash() para a comparar com a hash armazenada no modelo 'Usuario'.
     # Se retornar True, a senha está correta
@@ -460,6 +489,7 @@ publicacoes_tags = db.Table(
 )
 
 class Publicacao(db.Model):
+
     __tablename__ = 'publicacoes'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -489,6 +519,10 @@ class Publicacao(db.Model):
                                   backref='publicacao',
                                   lazy='dynamic')
     
+
+    ameis = db.relationship('Usuario',
+                            secondary='publicacoes_amei',
+                            backref=db.backref('publicacao', lazy='dynamic'))
 
     # Converte texto em Markdown para HTML
     # Primeiro, a função markdown() faz uma conversão inicial para HTML
@@ -527,11 +561,14 @@ class Publicacao(db.Model):
             'data': self.data,
             'idioma': self.idioma,
             'avatar_autor': self.autor.gravatar(size=50),
-            'id_autor': self.autor.id
+            'id_autor': self.autor.id,
+            'comentarios': self.comentarios,
+            #'ameis': self.ameis
         }
 
 
 class Comentario(db.Model):
+
     __tablename__ = 'comentarios'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -555,8 +592,22 @@ class Comentario(db.Model):
             tags=tags_permitidas, strip=True))
 
 
+class PublicacaoAmei(db.Model):
+
+    __tablename__ = 'publicacoes_amei'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+
+    publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
+
+
+
+
 # As tags de uma publicação podem ser acessadas com publicacao.tags
 class Tag(db.Model):
+    
     __tablename__ = 'tags'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -567,22 +618,22 @@ class Tag(db.Model):
 
         # Lista de tags em formato chave-valor. O valor é o nome da tag que será armazenado
         tags = {
-            'Vocabulario': 'Vocabulário',
-            'Gramatica': 'Gramática',
-            'Pronuncia': 'Pronúncia',
-            'Cultura': 'Cultura',
-            'Ingles': 'Inglês',
-            'Frances': 'Francês',
-            'Espanhol': 'Espanhol',
-            'Italiano': 'Italiano',
-            'Alemao': 'Alemão',
-            'Japones': 'Japonês',
-            'Chines': 'Chinês',
-            'Series': 'Séries',
-            'Viagem': 'Viagem',
-            'Entrevistas': 'Entrevistas',
-            'Brasil': 'Brasil',
-            'Estudo': 'Estudo',
+            'Vocabulario': 'vocabulario',
+            'Gramatica': 'gramatica',
+            'Pronuncia': 'pronuncia',
+            'Cultura': 'cultura',
+            'Ingles': 'ingles',
+            'Frances': 'frances',
+            'Espanhol': 'espanhol',
+            'Italiano': 'italiano',
+            'Alemao': 'alemao',
+            'Japones': 'japones',
+            'Chines': 'chines',
+            'Series': 'series',
+            'Viagem': 'viagem',
+            'Entrevistas': 'entrevistas',
+            'Brasil': 'brasil',
+            'Estudo': 'estudo',
         }
 
         for t, nome in tags.items():
@@ -616,7 +667,9 @@ class UsuarioAnonimo(AnonymousUserMixin):
 def carregar_usuario(usuario_id):
     return Usuario.query.get(int(usuario_id))
 
+
 login_manager.anonymous_user = UsuarioAnonimo
+
 
 # Esta função é invocada sempre que o campo 'conteudo' de uma publicação for alterado
 db.event.listen(Publicacao.conteudo, 'set', Publicacao.conteudo_alterado)

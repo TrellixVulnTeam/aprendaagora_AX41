@@ -7,10 +7,10 @@ from flask_login import login_required, current_user
 from . import ingles as bp
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
-from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario
+from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
 from ..email import enviar_email
 from ..formularios import formularioPublicacaoMural
-from ..funcoes_auxiliares import criar_publicacao
+from ..funcoes_auxiliares import criar_publicacao, truncar_texto
 
 
 # Página inicial de INGLÊS
@@ -50,21 +50,58 @@ def inicio():
     # paginacao.items representa os itens da página atual na paginação
     # Os itens da paginação são do tipo 'sqlalchemy.util._collections.result' (?). Cada um destes, por sua vez, possuem duas instâncias, uma do modelo Publicacao e outra do modelo Usuario 
     publicacoes = paginacao.items
+    
 
-    # Limita a quantidade de caracteres de uma string em 200 caracteres
-    def truncar_texto(texto):
-
-        # Se a string possuir mais de 200 caracteres
-        if len(texto) > 200:
-            
-            # Fatie os primeiros 200 caracteres da string e adicione "..." no final
-            texto = texto[0:200] + '...'
-
-        # Retorne a string truncado
-        return texto
-
+    
     # Para cada publicação na lista de publicações, trunque o texto
+    print("---------------------------------------------")
     for publicacao in publicacoes:
+
+        print("Objeto publicação e autor:")
+        print(publicacao)
+        print()
+
+        print("Objeto publicação:")
+        print(publicacao[0])
+        print()
+
+        print("Objeto autor:")
+        print(publicacao[1])
+        print()
+
+        print("Id da Publicação:")
+        print(publicacao[0].id)
+        print()
+
+        print("Tags da Publicação:")
+        print(publicacao[0].tags)
+        print()
+
+        print("Comentários da publicação:")
+        print(publicacao[0].comentarios)
+        print()
+
+        n_comentarios = 0
+        for c in publicacao[0].comentarios:
+            n_comentarios += 1
+        
+
+
+        print("Número de comentários:")
+        print(n_comentarios)
+        print()
+
+        print("Número da ameis:")
+        print(len(publicacao[0].ameis))
+
+
+
+        publicacao[0].n_comentarios = n_comentarios
+        publicacao[0].n_ameis = len(publicacao[0].ameis)
+
+        print()
+        print("---------------------------------------------")
+        print()
 
         if publicacao[0].conteudo_html:
             texto = publicacao[0].conteudo_html
@@ -168,11 +205,24 @@ def json_publicacao():
         # Seleciona o representação da publicação em formato JSON
         publicacao_json = publicacao.json()
 
+        print("Publicação JSON: ")
+        print(publicacao_json)
+        print()
+
         publicacao_json['comentarios'] = []
 
+        print("Comentários da publicação: ")
+        print(publicacao.comentarios)
+
         comentarios = publicacao.comentarios
+        
+        print(type(comentarios))
+
+        publicacao_json['n_comentarios'] = 0
 
         for c in comentarios:
+
+            print(c)
 
             comentario = {'conteudo': c.conteudo,
                           'data': c.data,
@@ -197,6 +247,42 @@ def json_publicacao():
 
         print("AJAX exceção " + str(e))
         return(str(e))
+
+
+# Rota para registrar uma interacao com uma publicacao (rota acessado por FETCH)
+@bp.route('/publicacao/<int:publicacao_id>/interacao/<acao>', methods=['GET', 'POST'])
+@login_required
+def interagir_publicacao(publicacao_id, acao):
+    
+    # Seleciona a publicação
+    publicacao = Publicacao.query.filter_by(id=publicacao_id).first_or_404()
+
+    # Se a ação enviada for 'amar'
+    if acao == 'amar':
+
+        current_user.amar_publicacao(publicacao)
+
+        db.session.commit()
+    
+    # Se a ação enviada for 'desfazer_amar'
+    if acao == 'desfazer_amar':
+
+        current_user.desfazer_amar_publicacao(publicacao)
+
+        db.session.commit()
+    
+
+    print("Publicação amada")
+
+    # Inicializa um dicionário
+    resposta = {}
+
+    # Define 'confirma' como sendo verdadeiro
+    resposta['confirma'] = True
+
+    # Retorna reposta
+    return jsonify(resposta)
+
 
 
 def registrar_comentario(publicacao_id, autor_id, conteudo):

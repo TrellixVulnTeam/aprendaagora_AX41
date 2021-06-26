@@ -10,10 +10,11 @@ if os.path.exists(dotenv_path):
 
 
 from flask_migrate import Migrate, upgrade
-from app import criar_app, db
+from app import criar_app, db, socketio
 from app.modelos import Permissao, Role, Usuario, Publicacao, Tag
 
 app = criar_app(os.getenv('FLASK_CONFIG') or 'padrao')
+
 migrate = Migrate(app, db)
 
 
@@ -44,11 +45,16 @@ def teste(testes_nomes):
 @click.option('--profile-dir', default=None,
               help='Directory where profiler data files are saved.')
 def profile(length, profile_dir):
+
     """Start the application under the code profiler."""
+
     from werkzeug.contrib.profiler import ProfilerMiddleware
+    
     app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[length],
                                       profile_dir=profile_dir)
-    app.run()
+    
+    socketio.run(app)
+    #app.run()
 
 
 

@@ -1,8 +1,8 @@
-/* Selecione a página inteira */
+// Selecione a página inteira */
 const pagina = document.querySelector('body');
 
 
-/* Quando o DOM for carregado */
+// Quando o DOM for carregado */
 document.addEventListener('DOMContentLoaded', () => {
     
     
@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
         Esta funcionalidade é usada nos murais dos idiomas
     */
 
-    /* Seleciona todos os elementos com a classe '.publicacao-mural' */
+    // Seleciona todos os elementos com a classe '.publicacao-mural' */
     let publicacoes = document.querySelectorAll(".publicacao-mural");
 
-    /* Adiciona um EventListener a cada publicação para que o modal da mesma seja ativado quando ela for clicada */
+    // Adiciona um EventListener a cada publicação para que o modal da mesma seja ativado quando ela for clicada */
     detectar_clique_publicacoes(publicacoes);
     
     /* --- FIM FUNCIONALIDADE MODAL --- */
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* --- PREVINIR QUE CLICK NO LINK DO AUTOR DA PUBLICAÇÃO ABRA O MODAL DA PUBLICACAO --- */
 
-    /* Seleciona todos os links para as páginas dos autores das publicações */
+    // Seleciona todos os links para as páginas dos autores das publicações */
     let links_usuarios = document.querySelectorAll(".perfil-autor-link");
 
     previnir_propagacao_clique_link(links_usuarios);
@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // Detecta clique nas publicações do mural e chama a função criar_modal
 function detectar_clique_publicacoes(publicacoes) {
 
-    /* Para cada elemento 'publicacao' */
+    // Para cada elemento 'publicacao' */
     publicacoes.forEach(publicacao => {
 
-        /* Quando a publicação for clicada */
+        // Quando a publicação for clicada */
         publicacao.addEventListener('click', event => {
 
-            /* Impeça a página de aceitar pedidos vindos de cliques em outros elementos até que o modal da primeira publicação clicada seja carregado */
+            // Impeça a página de aceitar pedidos vindos de cliques em outros elementos até que o modal da primeira publicação clicada seja carregado */
             pagina.addEventListener('click', previnirClick, true);
 
             function previnirClick(e) {
@@ -50,27 +50,28 @@ function detectar_clique_publicacoes(publicacoes) {
                 e.preventDefault();
             }
             
-            /* Impeça a página de rolar o conteúdo (scroll)*/
+            // Impeça a página de rolar o conteúdo (scroll)*/
             pagina.classList.remove('body-scroll');
             pagina.classList.add('body-no-scroll');
             
 
-            /* Crie um novo pedido HTTP*/
+            // Crie um novo pedido HTTP*/
             let pedido = new XMLHttpRequest();
 
             /* Pega o id da publicação cujo div foi clicado.
             'publicacao_id' é uma string mas pode ser convertido
             para int antes de ser enviado para o servidor.
             Para isso, a função parseInt() está sendo usada*/
+
             let json_enviado = {"publicacao_id": parseInt(publicacao.dataset.id)} ;
 
-            /* Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
+            // Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
             pedido.open('POST', '/ingles/publicacao/json');
 
-            /* ??? */
+            // ??? */
             pedido.setRequestHeader('Content-Type', 'application/json');
 
-            /* Quando o pedido for respondido */
+            // Quando o pedido for respondido */
             pedido.onload = function (e) {
 
                 /* 
@@ -109,22 +110,22 @@ function detectar_clique_publicacoes(publicacoes) {
 
                     console.log(publicacao_dados);
 
-                    /* Crie o Modal do publicação */
+                    // Crie o Modal do publicação */
                     criar_modal(publicacao_dados);
 
-                    /* Remova a restrição de eventos 'click' na página */
+                    // Remova a restrição de eventos 'click' na página */
                     pagina.removeEventListener('click', previnirClick, true);
 
-                /* Se o pedido não ocorrer corretamente */
+                // Se o pedido não ocorrer corretamente */
                 } else {
 
-                    /* Remova a restrição de eventos 'click */
+                    // Remova a restrição de eventos 'click */
                     pagina.removeEventListener('click', previnirClick, true);
 
                 }
             }
 
-            /* Envie o pedido para o servidor, juntamento com o id da publicação */
+            // Envie o pedido para o servidor, juntamento com o id da publicação */
             pedido.send(JSON.stringify(json_enviado));
         });
     });
@@ -134,7 +135,9 @@ function detectar_clique_publicacoes(publicacoes) {
 // Cria e exibe o modal de uma publicação que foi clicada.
 function criar_modal(publicacao) {
 
-    /* Cria o div do modal (que será a área escura) */
+    //console.log("Número de momentários: " + publicacao['comentarios'].length);
+
+    // Cria o div do modal (que será a área escura) */
     let modal = document.createElement('div');
 
     /*
@@ -145,10 +148,10 @@ function criar_modal(publicacao) {
     modal.setAttribute('id', 'modal-publicacao');
     
 
-    /* Seleciona a lista de publicações do mural */
+    // Seleciona a lista de publicações do mural */
     let lista_publicacoes = document.querySelector('#lista-publicacoes');
 
-    /* Anexa o modal no início da lista de publicações */
+    // Anexa o modal no início da lista de publicações */
     lista_publicacoes.prepend(modal);
 
     /*
@@ -160,16 +163,16 @@ function criar_modal(publicacao) {
     container_modal.setAttribute('id', 'container-modal');
 
 
-    /* Exibe o modal */
+    // Exibe o modal */
     ativarModal();
 
-    /* Cria o container da publicação no modal (que será a área de fundo branco) */
+    // Cria o container da publicação no modal (que será a área de fundo branco) */
     let publicacao_modal = document.createElement('div');
 
-    /* Adiciona o container da publicação ao container do modal criado */
+    // Adiciona o container da publicação ao container do modal criado */
     container_modal.append(publicacao_modal);
 
-    /* Anexa o container do modal ao modal */
+    // Anexa o container do modal ao modal */
     modal.append(container_modal);
 
     /*
@@ -184,21 +187,21 @@ function criar_modal(publicacao) {
     */
     publicacao_modal.classList.add('publicacao-modal');
 
-    /* A classe .publicacao-modal-expandido ativa a animação de redimensionamento */
+    // A classe .publicacao-modal-expandido ativa a animação de redimensionamento */
     setTimeout( () => {publicacao_modal.classList.add('publicacao-modal-expandido');}, 50 );
 
-    /* Adiciona padding ao container da publicação 1 milésimo após a animação de expansão for ativada */
+    // Adiciona padding ao container da publicação 1 milésimo após a animação de expansão for ativada */
     setTimeout( () => {publicacao_modal.classList.add('padding-publicacao-modal');}, 100 );
     
-    /* Cria o botão de fechar a publicação */
+    // Cria o botão de fechar a publicação */
     let botao_fechar = document.createElement('span');
     botao_fechar.classList.add('botao-fechar');
     botao_fechar.innerHTML = "&times";
 
-    /* Anexa o botão de fechar ao conteúdo do modal (APÓS 1.5 MILÉSIMO) */
+    // Anexa o botão de fechar ao conteúdo do modal (APÓS 1.5 MILÉSIMO) */
     setTimeout( () => {container_modal.append(botao_fechar);}, 150);
     
-    /* Preenche o container com os elementos da publicação */
+    // Preenche o container com os elementos da publicação */
     publicacao_modal = criar_publicacao_modal(publicacao_modal, publicacao);
 
 
@@ -209,82 +212,85 @@ function criar_modal(publicacao) {
 
 
     
-    /* Exibe o Modal de uma publicação que foi clicada*/
+    // Exibe o Modal de uma publicação que foi clicada*/
     function ativarModal() {
-        /* A classe .exibir-modal possui as configurações que tornam o modal visível */
+        // A classe .exibir-modal possui as configurações que tornam o modal visível */
         modal.classList.add('exibir-modal');
     }
 
-    /* Fecha o Modal de uma publicação que foi clicada */
+    // Fecha o Modal de uma publicação que foi clicada */
     function fecharModal() {
 
-        /* Remove o conteúdo */
+        // Remove o conteúdo */
         publicacao_modal.textContent = '';
 
-        /* Remove o padding */
+        // Remove o padding */
         publicacao_modal.classList.remove('padding-publicacao-modal');
 
-        /* Ativa animação de encolhimento 0.25 milésimos após o padding e o conteúdo forem removidos*/
+        // Ativa animação de encolhimento 0.25 milésimos após o padding e o conteúdo forem removidos*/
         setTimeout( () => {publicacao_modal.classList.remove('publicacao-modal-expandido');}, 25 );
 
-        /* Remove (destroi) o modal do DOM (1.25 milésimos após a publicação começar a encolher) */
+        // Remove (destroi) o modal do DOM (1.25 milésimos após a publicação começar a encolher) */
         setTimeout( () => {modal.remove();}, 150 );
 
-        /* Remove a caracteristica no-scroll */
+        // Remove a caracteristica no-scroll */
         pagina.classList.remove('body-no-scroll');
 
-        /* Adiciona a funcionalidade de scroll */
+        // Adiciona a funcionalidade de scroll */
         pagina.classList.add('body-scroll');
     }
 
-    /* Função ativada quando a janela é clicada durante a exibição de um modal */
+    // Função ativada quando a janela é clicada durante a exibição de um modal */
     function janelaClicada(event) {
 
-        /* Se o elemento que ativou o evento for o modal (fundo escuro) */
+        // Se o elemento que ativou o evento for o modal (fundo escuro) */
         if (event.target === modal) {
 
-            /* Feche o modal da publicação */
+            // Feche o modal da publicação */
             fecharModal();
         }
     }
 
-    /* Se o botão ou a janela for clicada */
+    // Se o botão ou a janela for clicada */
     botao_fechar.addEventListener('click', fecharModal);
     window.addEventListener('click', janelaClicada);
     
 
 
-    /* Crie os elementos da publicação e preencha o container com as informações */
+    // Crie os elementos da publicação e preencha o container com as informações */
     function criar_publicacao_modal(publicacao_modal, publicacao) {
 
-        /* CONTAINER DA PUBLICAÇÃO */
+        console.log(publicacao);
+        console.log("Número de comentários" + publicacao.comentarios.length);
+
+        // CONTAINER DA PUBLICAÇÃO */
         let container_publicacao = criar_container_publicacao();
 
-        /* ID DA PUBLICAÇÃO */
+        // ID DA PUBLICAÇÃO */
         let container_id_publicacao = criar_container_id_publicacao(publicacao);
 
-        /* TÍTULO DA PUBLICAÇÃO */
+        // TÍTULO DA PUBLICAÇÃO */
         let container_titulo_publicacao = criar_container_titulo_publicacao(publicacao);
 
-        /* SEÇÃO COM INFORMAÇÕES SOBRE A PUBLICAÇÃO (LINK DO ATOR, NOME DO AUTOR, AVATAR DO AUTOR, DATA, IDIOMA E TAGS) */
+        // SEÇÃO COM INFORMAÇÕES SOBRE A PUBLICAÇÃO (LINK DO ATOR, NOME DO AUTOR, AVATAR DO AUTOR, DATA, IDIOMA E TAGS) */
         let container_info_publicacao = criar_container_info_publicacao(publicacao);
 
-        /* SEÇÃO DO CONTEÚDO DA PUBLICAÇÃO */
+        // SEÇÃO DO CONTEÚDO DA PUBLICAÇÃO */
         let container_conteudo_publicacao = criar_container_conteudo_publicacao(publicacao);
 
 
 
-        /* Se o cliente for o AUTOR da publicação, exibir as opções de autor */
+        // Se o cliente for o AUTOR da publicação, exibir as opções de autor */
         if (publicacao.autor_cliente)
         {
-            /* Cria as opções de autor (BOTÃO EDITAR E BOTÃO APAGAR) */
+            // Cria as opções de autor (BOTÃO EDITAR E BOTÃO APAGAR) */
             let container_opcoes_autor = criar_container_opcoes_autor(publicacao_modal, publicacao, container_titulo_publicacao, container_conteudo_publicacao);
 
-            /* Anexa o container das opções de autor ao container da publicação */
+            // Anexa o container das opções de autor ao container da publicação */
             container_publicacao.append(container_opcoes_autor);
         }
 
-        /* Anexa o TÍTULO, INFORMAÇÕES e CONTEÚDO da publicação SOMENTE APÓS definir se as OPÇÕES de AUTOR serão anexadas */
+        // Anexa o TÍTULO, INFORMAÇÕES e CONTEÚDO da publicação SOMENTE APÓS definir se as OPÇÕES de AUTOR serão anexadas */
         container_publicacao.append(container_id_publicacao);
         container_publicacao.append(container_titulo_publicacao);
         container_publicacao.append(container_info_publicacao);
@@ -296,31 +302,69 @@ function criar_modal(publicacao) {
 
 
 
+        /* CONTAINER DO BOTÃO AMEI <3 */
+
         let container_interacao = document.createElement('div');
+        container_interacao.classList.add('container-interacao');
+
+        let botao_amei = document.createElement('span');
+        botao_amei.classList.add('botao-amei-modal');
+
+        let n_ameis = document.createElement('span');
+        n_ameis.innerText = 0;
 
         let icone_coracao = document.createElement('i');
         icone_coracao.classList.add('fa', 'fa-heart');
 
-        let icone_comentario = document.createElement('i');
-        icone_comentario.classList.add('fa', 'fa-comments');
+        botao_amei.append(n_ameis);
+        botao_amei.append(icone_coracao);
 
-        container_interacao.append(icone_coracao);
-        container_interacao.append(icone_comentario);
+        // Quando o botão amei for clicado
+        botao_amei.addEventListener('click', () => {
+
+            console.log("Iniciando FETCH");
+
+            //'/publicacao/<int: publicacao_id>/interacao/<acao>'
+            // assuming the backend is hosted on the same server
+
+            fetch('/ingles/publicacao/' +  publicacao.id + '/interacao/amar', {  
+
+                method: 'GET',
+
+            }).then(function(resposta) {
+
+                return resposta.json();
+
+            }).then(function(dados) {
+
+                console.log(dados);
+
+            });
+        });
+        
+
+
+        container_interacao.append(botao_amei);
 
 
 
-        /* Anexa o container da publicação (container_publicacao) ao modal (publicacao_modal) */
+
+
+
+
+
+        // Anexa o container da publicação (container_publicacao) ao modal (publicacao_modal) */
         publicacao_modal.append(container_publicacao);
 
         publicacao_modal.append(container_interacao);
 
         publicacao_modal.append(formulario_comentario);
 
-        /* Retorna o MODAL da PUBLICAÇÃO */
+        // Retorna o MODAL da PUBLICAÇÃO */
         return publicacao_modal;
     }
 
-    /* FUNÇÕES USADAS NA CRIAÇÃO DOS COMPONENTES DO MODAL */
+    // FUNÇÕES USADAS NA CRIAÇÃO DOS COMPONENTES DO MODAL */
 
     function criar_container_publicacao () {
 
@@ -333,22 +377,22 @@ function criar_modal(publicacao) {
         return container_publicacao;
     }
 
-    /* Opções do autor */
+    // Opções do autor */
     // Esta função é extensa pois lida com as complexidades da funcionalidade de edição de publicação
     function criar_container_opcoes_autor (publicacao_modal, publicacao, titulo_publicacao, conteudo_publicacao) {
 
 
-        /* Cria os opções de autor (BOTÃO EDITAR E BOTÃO APAGAR) */
+        // Cria os opções de autor (BOTÃO EDITAR E BOTÃO APAGAR) */
         let opcoes_autor = document.createElement('div');
 
-        /* Adiciona as classes de estilização ao container das opções de autor */
+        // Adiciona as classes de estilização ao container das opções de autor */
         opcoes_autor.classList.add('text-right', 'mb-3');
 
         let botao_editar = criar_botao_editar();
         
         let botao_apagar = criar_botao_apagar();
 
-        /* Anexa os botões de opções de autor ao container das opções */
+        // Anexa os botões de opções de autor ao container das opções */
         opcoes_autor.append(botao_editar);
         opcoes_autor.append(botao_apagar);
 
@@ -358,7 +402,7 @@ function criar_modal(publicacao) {
         */
         botao_editar.addEventListener('click', () => {
 
-            /* Esconde as opções do autor para que o cliente não crie formulários a mais ou apague a publicação durante edição (clicando no ícone) */
+            // Esconde as opções do autor para que o cliente não crie formulários a mais ou apague a publicação durante edição (clicando no ícone) */
             opcoes_autor.style.visibility = 'hidden';
 
 
@@ -409,7 +453,7 @@ function criar_modal(publicacao) {
                 botao_cancelar.classList.add('badge', 'badge-secondary', 'cursor-pointer', 'ml-1');
                 botao_cancelar.setAttribute('id', 'botao-cancelar-edicao');
 
-                /* Anexa os botões de opções de autor ao container das opções */
+                // Anexa os botões de opções de autor ao container das opções */
                 opcoes_autor_edicao.append(botao_salvar);
                 opcoes_autor_edicao.append(botao_cancelar);
 
@@ -427,22 +471,22 @@ function criar_modal(publicacao) {
                 // Crie o container que conterá o INPUT do TÍTULO da publicação
                 let container_input = document.createElement('div');
                                         
-                /* Cria um elemento LABEL, adiciona cor escura à fonte, define como sendo a label do campo 'titulo_input_edicao', e define a string a ser exibida no label */
+                // Cria um elemento LABEL, adiciona cor escura à fonte, define como sendo a label do campo 'titulo_input_edicao', e define a string a ser exibida no label */
                 let label_input = document.createElement('label');
 
-                /* Cria um elemento INPUT, adiciona a classe .form-control (classe Bootstrap para formulários), define o id e o nome do campo, define o tipo do campo, e por fim preenche o campo com o título da publicação a ser editada */
+                // Cria um elemento INPUT, adiciona a classe .form-control (classe Bootstrap para formulários), define o id e o nome do campo, define o tipo do campo, e por fim preenche o campo com o título da publicação a ser editada */
                 let titulo_input = document.createElement('input');
 
 
-                /* Adicione a classe .form-group (que adiciona margem abaixo do elemento) */
+                // Adicione a classe .form-group (que adiciona margem abaixo do elemento) */
                 container_input.classList.add('form-group');
 
-                /* Formata o label como no formulario WTF */
+                // Formata o label como no formulario WTF */
                 label_input.classList.add('text-secondary');
                 label_input.setAttribute('for', 'titulo-input-edicao');
                 label_input.innerText = "Título da publicação";
 
-                /* Formata o input como no formulário WTF */
+                // Formata o input como no formulário WTF */
                 titulo_input.classList.add('form-control');
                 titulo_input.setAttribute('id', 'titulo-input-edicao');
                 titulo_input.setAttribute('name', 'titulo-input-edicao');
@@ -450,7 +494,7 @@ function criar_modal(publicacao) {
                 titulo_input.value = titulo_publicacao;
 
 
-                /* Anexa a LEGENDA do INPUT e o INPUT do TÍTULO  da publicação */
+                // Anexa a LEGENDA do INPUT e o INPUT do TÍTULO  da publicação */
                 container_input.append(label_input);
                 container_input.append(titulo_input);
 
@@ -678,10 +722,10 @@ function criar_modal(publicacao) {
 
             }, 100);
             
-            /* FIM DA ANIMAÇÃO DA ABERTURA DO FORMULÁRIO DE EDIÇÃO */
+            // FIM DA ANIMAÇÃO DA ABERTURA DO FORMULÁRIO DE EDIÇÃO */
 
 
-            /* PRÉVIA DA EDIÇÃO */
+            // PRÉVIA DA EDIÇÃO */
 
             if (typeof flask_pagedown_converter === "undefined")
             {
@@ -782,10 +826,10 @@ function criar_modal(publicacao) {
                 });
             }
 
-            /* FIM PRÉVIA DA EDIÇÃO */
+            // FIM PRÉVIA DA EDIÇÃO */
 
 
-            /* CONFIGURAÇÃO DAS OPÇÕES DO AUTOR DURANTE A EDIÇÃO */
+            // CONFIGURAÇÃO DAS OPÇÕES DO AUTOR DURANTE A EDIÇÃO */
 
             let botao_salvar = opcoes_autor_edicao.querySelector('#botao-salvar-edicao');
             // Salva as alterações na publicação, remove o formulário de edição e exibe as opções de autor
@@ -806,7 +850,7 @@ function criar_modal(publicacao) {
                 }
 
 
-                /* Crie um novo pedido HTTP*/
+                // Crie um novo pedido HTTP*/
                 let pedido = new XMLHttpRequest();
 
                 /* Pega o id da publicação cujo div foi clicado.
@@ -815,10 +859,10 @@ function criar_modal(publicacao) {
                 Para isso, a função parseInt() está sendo usada */
                 let json_enviado = {"publicacao_id": publicacao.id,"publicacao_titulo": titulo_input.value,"publicacao_conteudo": conteudo_textarea.value, "publicacao_tags": tags_marcadas};
 
-                /* Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
+                // Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
                 pedido.open('POST', '/ingles/publicacao/editar');
 
-                /* ??? */
+                // ??? */
                 pedido.setRequestHeader('Content-Type', 'application/json');
 
                 // Quando o pedido for respondido
@@ -881,7 +925,7 @@ function criar_modal(publicacao) {
                     }
                 }
 
-                /* Envie o pedido para o servidor, juntamento com o id da publicação */
+                // Envie o pedido para o servidor, juntamento com o id da publicação */
                 pedido.send(JSON.stringify(json_enviado));
 
 
@@ -896,7 +940,7 @@ function criar_modal(publicacao) {
                     container_formulario.remove();
                 }, 1000)
                 
-                /* Exibe as opções de autor que foi escondida quando a edição começou */
+                // Exibe as opções de autor que foi escondida quando a edição começou */
                 opcoes_autor.style.visibility = 'visible';
 
             });
@@ -906,22 +950,22 @@ function criar_modal(publicacao) {
             // Cancela a edição da publicação
             botao_cancelar.addEventListener('click', () => {
 
-                /* Restaura o título original da publicação */
+                // Restaura o título original da publicação */
                 titulo_publicacao.innerText = publicacao.titulo;
 
-                /* Se a versão HTML do conteúdo da publicação estiver definido */
+                // Se a versão HTML do conteúdo da publicação estiver definido */
                 if (publicacao.conteudo_html != undefined)
                 {
                     conteudo_publicacao.innerHTML = publicacao.conteudo_html;
                 }
-                /* Senão, utilize o conteúdo em texto-plano */
+                // Senão, utilize o conteúdo em texto-plano */
                 else
                 {
                     conteudo_publicacao.innerHTML = publicacao.conteudo;
                 }
 
 
-                /* Remova a classe que expande o formulário */
+                // Remova a classe que expande o formulário */
                 div_formulario.classList.remove('div-formulario-expandindo');
                 
                 setTimeout(function () {
@@ -933,23 +977,20 @@ function criar_modal(publicacao) {
                     container_formulario.remove();
                 }, 1000)
                 
-                /* Exibe as opções de autor que foi escondida quando a edição começou */
+                // Exibe as opções de autor que foi escondida quando a edição começou */
                 opcoes_autor.style.visibility = 'visible';
 
             });
         
-            /* FIM DA CONFIGURAÇÃO DAS OPÇÕES DO AUTOR DURANTE A EDIÇÃO */
+            // FIM DA CONFIGURAÇÃO DAS OPÇÕES DO AUTOR DURANTE A EDIÇÃO */
 
         });
 
     
-        /*
-            Quando o botão de apagar for clicado,
-            apagar publicação
-        */
+        // Quando o botão de apagar for clicado, apagar publicação
         botao_apagar.addEventListener('click', () => {
 
-            /* Crie um novo pedido HTTP*/
+            // Crie um novo pedido HTTP*/
             let pedido = new XMLHttpRequest();
 
             /* Pega o id da publicação cujo div foi clicado.
@@ -958,13 +999,13 @@ function criar_modal(publicacao) {
             Para isso, a função parseInt() está sendo usada*/
             let json_enviado = {"publicacao_id": parseInt(publicacao.id)} ;
 
-            /* Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
+            // Abra o pedido com método 'POST' na rota '/ingles/publicacao/json' */
             pedido.open('POST', '/publicacao/apagar');
 
-            /* ??? */
+            // ??? */
             pedido.setRequestHeader('Content-Type', 'application/json');
 
-            /* Quando o pedido for respondido */
+            // Quando o pedido for respondido */
             pedido.onload = function (e) {
 
 
@@ -981,14 +1022,14 @@ function criar_modal(publicacao) {
                     document.querySelector(`article[data-id='${publicacao.id}']`).parentNode.parentNode.remove();
 
 
-                /* Se o pedido não ocorrer corretamente */
+                // Se o pedido não ocorrer corretamente */
                 } else {
 
                     console.log("Publicação não foi apagada");
                 }
             }
 
-            /* Envie o pedido para o servidor, juntamento com o id da publicação */
+            // Envie o pedido para o servidor, juntamento com o id da publicação */
             pedido.send(JSON.stringify(json_enviado));
         });
 
@@ -1030,7 +1071,7 @@ function criar_modal(publicacao) {
     // Retorna o formulário de escrever comentário
     function criar_formulario_comentario () {
 
-        /* Declaração dos elementos */
+        // Declaração dos elementos */
 
         // Container para o formulário
         let div_formulario_comentario = document.createElement('div');
@@ -1059,7 +1100,7 @@ function criar_modal(publicacao) {
 
 
 
-        /* Anexação dos elementos */
+        // Anexação dos elementos */
         formulario_comentario.append(textarea_comentario);
         container_botao_enviar.append(botao_enviar);
 
@@ -1067,14 +1108,14 @@ function criar_modal(publicacao) {
         div_formulario_comentario.append(container_botao_enviar);
 
 
-        /* Configuração do botão de enviar comentário */
+        // Configuração do botão de enviar comentário */
         botao_enviar.addEventListener('click', (e) => {
             
             e.preventDefault();
             e.preventDefault();
 
 
-            /* Crie um novo pedido HTTP*/
+            // Crie um novo pedido HTTP*/
             let pedido = new XMLHttpRequest();
 
             /* Pega o id da publicação onde o comentário foi escrito.
@@ -1087,13 +1128,13 @@ function criar_modal(publicacao) {
 
 
 
-            /* Abra o pedido com método 'POST' na rota '/ingles/publicacao/comentar' */
+            // Abra o pedido com método 'POST' na rota '/ingles/publicacao/comentar' */
             pedido.open('POST', '/ingles/publicacao/comentar');
 
-            /* ??? */
+            // ??? */
             pedido.setRequestHeader('Content-Type', 'application/json');
 
-            /* Quando o pedido for respondido */
+            // Quando o pedido for respondido */
             pedido.onload = function (e) {
 
                 /* 
@@ -1133,20 +1174,20 @@ function criar_modal(publicacao) {
 
                     document.querySelector('#lista_de_comentarios').append(novo_comentario);
 
-                /* Se o pedido não ocorrer corretamente */
+                // Se o pedido não ocorrer corretamente */
                 } else {
 
                     alert("Não foi possível criar o comentário");
                 }
             }
 
-            /* Envie o pedido para o servidor, juntamento com o id da publicação, o conteúdo do comentário e o id do autor */
+            // Envie o pedido para o servidor, juntamento com o id da publicação, o conteúdo do comentário e o id do autor */
             console.log(json_enviado);
             pedido.send(JSON.stringify(json_enviado));
 
         });
 
-        /* Retorna o formulário de envio de comentário */
+        // Retorna o formulário de envio de comentário */
         return div_formulario_comentario;
     }
 
@@ -1276,6 +1317,13 @@ function criar_lista_de_comentarios(comentarios) {
 
     lista_de_comentarios.id = 'lista_de_comentarios';
 
+    let n_comentarios = document.createElement('p');
+
+    n_comentarios.innerHTML = "<i class='fa fa-comments text-secondary'></i> " + comentarios.length + " comentários";
+
+    lista_de_comentarios.append(n_comentarios)
+
+
     for (let comentario of comentarios)
     {
 
@@ -1291,10 +1339,10 @@ function criar_lista_de_comentarios(comentarios) {
 // Previne que o evento de clicar no link do autor de uma publicação abra o modal da publicação
 function previnir_propagacao_clique_link(links_usuarios) {
 
-    /* Para cada elemento 'link', evite abrir o modal da publicação antes de redirecionar para a página do autor da publicação */
+    // Para cada elemento 'link', evite abrir o modal da publicação antes de redirecionar para a página do autor da publicação */
     links_usuarios.forEach(link => {
 
-        /* Quando o link for clicado */
+        // Quando o link for clicado */
         link.addEventListener('click', e => {
             
             /*
@@ -1309,15 +1357,15 @@ function previnir_propagacao_clique_link(links_usuarios) {
 // (Esta função não está sendo usada)Destaca a publicação clicada ao transparecer as outras publicações
 function destacar_publicacao_clicada(todas_publicacoes, publicacao) {
 
-    /* Para cada publicação na lista de publicações */
+    // Para cada publicação na lista de publicações */
     for (let p of todas_publicacoes)
     {
-        /*destacarPublicacao(p, publicacao);*/
+        //destacarPublicacao(p, publicacao);*/
 
-        /* Se a publicação for a publicação clicada */
+        // Se a publicação for a publicação clicada */
         if (p.getAttribute('data-id') === publicacao.getAttribute('data-id'))
         {
-            /* A publicação e todos seus elementos ficarão VISÍVEIS */
+            // A publicação e todos seus elementos ficarão VISÍVEIS */
             p.style.opacity = 1;
 
                 let elementos = p.querySelectorAll('*')
@@ -1327,11 +1375,10 @@ function destacar_publicacao_clicada(todas_publicacoes, publicacao) {
                     elemento.style.opacity = 1;
                 }
         }
-        /* Se a publicação NÃO for a publicação clicada */
+        // Se a publicação NÃO for a publicação clicada */
         else
         {
-            /* A publicação e todos seus elementos ficarão TRANSPARENTES
-            (até o modal for fechado) */
+            /* A publicação e todos seus elementos ficarão TRANSPARENTES(até o modal for fechado) */
             p.style.opacity = 0.85;
 
                 let elementos = p.querySelectorAll('*')

@@ -100,9 +100,14 @@ class ConfiguracaoHeroku(ConfiguracaoProducao):
 
         SSL_REDIRECT = True if os.environ.get('DYNO') else False
 
-        from werkzeug.contrib.fixers import ProxyFix
+        from werkzeug.middleware.proxy_fix import ProxyFix
 
-        app.wsgi_app = ProxyFix(app.wsgi_app)
+
+        #app.wsgi_app = ProxyFix(app.wsgi_app)
+
+        app = ProxyFix(app, x_for=1, x_host=1)
+
+        #app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1)
 
 
 configuracao = {

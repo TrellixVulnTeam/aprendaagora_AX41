@@ -1,0 +1,445 @@
+/*
+--- Lista de estilização para implementar
+[ ] - Fazer com que o botão de enviar mensagem ocupe o espaço em branco à sua direita
+--- Observações
+1. Existem propriedades z-index comentadas (desativadas). Não sei em que essas desativações
+implicarão na exibição dos elementos.
+*/
+
+
+
+
+
+body {
+    height: 100%;
+    
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+
+
+/*
+    CAMADA DE INÍCIO
+    (apresentada quando o usuário acessa o app pela primeira vez,
+    contém formulário para escolher nome de usuário e sala)
+*/
+
+#camadaInicio {
+    /* Estica o div na tela */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    
+    /* !  Checar z-index de outros elementos para definir números mais fáceis de controlar */
+    z-index: 30;
+
+    background-color: green;
+}
+
+#containerCamadaInicio {
+    /* Vazio */
+}
+
+/* Título de boas-vindas */
+#headerInicio {
+    color: white;
+    text-shadow: 1px 1px black;
+    text-align: center;
+}
+
+/* Span com o nome do Aprenda Agora */
+.aprendaagora {
+    font-family: 'Merienda One', cursive;
+}
+
+/* Formulário para informar nome de usuário e escolher sala */
+#formAcessoInicio {
+    margin: 0 auto;
+    width: 50%;
+}
+
+/* Em dispositivos pequenos */
+@media (max-width: 576px) {
+
+    /* Formulário ocupa (quase) toda largura disponível */ 
+    #formAcessoInicio {
+        width: 90%;
+    }
+}
+
+/* Div que contém botão para entrar no app */
+#divBotaoEntrarInicio {
+    text-align: center;
+}
+
+/* Botão para entrar no app */
+#botaoEntrarInicio {
+    background-color: white;
+    color: green;
+    font-weight: bold;
+}
+
+/* Estilização do botão quando houver hover */
+#botaoEntrarInicio:hover {
+    background-color: green;
+    color: white;
+    border: 1px solid white;
+}
+
+/* FIM DA ESTILIZAÇÃO DA CAMADA DE INÍCIO */
+
+
+
+
+
+
+
+/* 
+	INTERFACE DO CHAT,
+	LISTA DE MENSAGENS,
+	FORMULÁRIO DE ENVIO DE MENSAGEM
+*/
+
+/* interfaceChat inclui chat com lista de mensagens e formulário para enviar mensagem */
+#interfaceChat {
+
+    /* 1vh equivale a 1/100 da altura do viewport, 100vh equivale à altura total do viewport*/
+    height: 100vh;
+
+    /* !  Estilização abaixo influencia no posicionamento dos elementos-filhos, mas não sei ao certo como funcionam */
+    position: relative;
+    display: flex;
+    flex-flow: column;
+
+
+    width: 100%;
+    padding: 0;
+    margin: 0 auto;
+}
+
+/* Container para a lista de mensagens */
+#chat {
+
+    /* Posiciona div na parte inferior do elemento pai (#interfaceChat) */
+    position: relative;
+    bottom: 0;
+
+    height: 100%;
+
+    /* Estica para ocupar a largura (width) do elemento pai (#interfaceChat) */
+    left: 0;
+    right: 0;
+
+    /* Impede que a lista de mensagens fique colada no formulário de envio de mensagem */
+    margin-bottom: 5px;
+
+    /* Não faço ideia de como a estilização abaixo funciona */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#listaMensagens {
+    
+    /* ? Posiciona lista no rodapé do #chat */
+    position: absolute;
+    bottom: 0;
+
+    /* Largura */
+    width: 100%;
+    /* Altura pode ser menor mas não ultrapassa 100% */
+    max-height: 100%;
+
+    /* Adiciona barra de scroll quando necessário */
+    overflow: auto;
+}
+
+/* formulário contendo o input da mensagem e o botão de envio*/
+#formMensagem {
+    /* Faz com que o divInputMensagem não fique colado na extremidade da janela */
+    padding-left: 25px;   
+}
+
+/* container para o input da mensagem */
+#divInputMensagem {
+    padding: 0;
+}
+
+#inputMensagem {
+    width: 100%;
+}
+
+/* container para o botão de enviar a mensagem */
+#divBotaoEnviarMensagem {
+    /* Faz com que o botão de enviar mensagem não fique colado no input da mensagem */
+    padding-left: 5px;
+}
+
+#botaoEnviarMensagem {
+    display: inline-block;
+}
+
+/* div usado para posicionar a mensagem */
+.containerMensagem {
+
+    overflow: auto;
+
+    position: relative;
+    bottom: 0;
+
+    width: 100%;
+
+    display: block;
+
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+/* balão com a mensagem do cliente */
+.balaoMensagemUsuario {
+
+    /* Raio das pontas curvados */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 0;
+    background-color: grey;
+    
+    /* Posicionado do lado direito se a mensagem for do usuário (cliente)  */
+    float: right;
+
+    width: 50%;
+    padding: 10px;
+    
+}
+
+/* balão com a mensagem de outro usuário (que não seja o cliente) */
+.balaoMensagemOutroUsuario {
+
+    /* Raio das pontas curvados */
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 15px;
+    background-color: blue;
+
+    /* Posicionado do lado esquerdo se a mensagem for de outro usuário */
+    float: left;
+
+    width: 50%;
+    padding: 10px;
+    
+}
+
+/* span com o conteúdo da mensagem */
+.conteudoMensagem {
+    color: white;
+    font-size: medium;
+    display: block;
+}
+
+/* span com o nome do usuário */
+.usuarioMensagem {
+    color: white;
+    font-size: small;
+}
+
+/* span com a data da mensagem */
+.dataMensagem {
+    color: white;
+    font-size: x-small;
+    /* Impede que a data da mensagem fique colada no nome do usuário */
+    margin-left: 5px;
+}
+
+/* FIM DA ESTILIZAÇÃO DA INTERFACE DO CHAT, LISTA DE MENSAGENS E FORMULÁRIO DE ENVIO DE MENSAGEM */
+
+
+
+
+
+
+
+
+/*
+    BARRA DE NAVEGAÇÃO
+*/
+
+#navbar {
+    /* display, posição, posicionamento */
+    position: static;
+    display: table;
+	top: 0;
+    padding: 0;
+    
+    /*z-index: 20;*/
+    
+    /* largura */
+    width: 100%;
+    /* conteúdo */
+    overflow: auto;
+    text-align: center;
+
+   	/* cor */
+    background-color: green;
+    color: white;
+}
+
+#iconeMenu {
+    /* Modo de exibição */
+    display: table-cell;
+
+    /* Impede ícone de ficar com width grande */
+    width: 1px;
+
+    padding: 3px;
+
+    background-color: green;
+
+    border: 1px solid white; 
+
+    /*z-index: 0;*/
+}
+
+.hamburger {
+
+	/* Altura e largura das barras */
+    width: 35px;
+    height: 5px;
+
+    /* Cor das barras */
+    background-color: white;
+
+    /* Margem entre as barras */
+    margin: 6px 0;
+}
+
+/* Animação que muda a cor do fundo e das barras gradativamente( quando houver hover */
+@keyframes hoverIconeMenu {
+	from {background-color: green;}
+	to {background-color: white;}
+}
+
+@keyframes hoverHamburger {
+	from {background-color: white;}
+	to {background-color: green;}
+}
+
+#iconeMenu:hover {
+
+    /* Muda estilo do ponteiro do mouse */
+    cursor: pointer;
+    
+    /* Ativa animação */
+	animation-name: hoverIconeMenu;
+    animation-duration: 0.3s;
+    
+    background-color: white;
+    
+    border: 1px solid green;
+}
+
+#iconeMenu:hover .hamburger {
+
+    /* Ativa animação */
+	animation-name: hoverHamburger;
+    animation-duration: 0.3s;
+    
+	background-color: green;
+}
+
+#nomeDaSala {
+
+    /* !   Não sei como a estilização abaixo funciona */
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#nomeDaSala:hover {
+    /* Muda o estilo do ponteiro do mouse */
+    cursor: pointer;
+    /* Sublinha o nome da sala */
+	text-decoration: underline;
+}
+
+/* FIM DA ESTILIZAÇÃO DA BARRA DE NAVEGAÇÃO */
+
+
+
+
+
+
+
+/*
+    MENU LATERAL
+*/
+
+
+ /* Menu lateral */
+.menulateral {
+    height: 100%; /* 100% Altura total */
+    width: 0; /* 0 width - altere isto com JavaScript */
+    position: fixed; /* Permanece no lugar */
+
+    /* Sem esta propriedade z-index, o menu lateral ainda é exibido quando
+    se clica no ícone hamburger, mas o botão de fechar o menu lateral não funciona  */
+    z-index: 10; /* Permanece no topo em relação às outras camadas */
+
+    top: 0; /* Permanece no topo em relação à janela */
+    left: 0; /* Posiciona colado à esquerda da janela */
+    background-color: #006903; /* Verde*/
+    overflow-x: hidden; /* Desativa scroll horizontal */
+    
+    padding-top: 60px; /* Posiciona conteúdo 60px do topo*/
+    transition: 0.5s; /* 0.5 segundo no efeito de transição quando o menu desliza */
+}
+
+/* Links do menu lateral */
+.menulateral a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* Quando o cliente passar o mouse nos links de navegação, mude a cor */
+.menulateral a:hover {
+    color: #f1f1f1;
+}
+
+/* Posicionamento e estilo do botão de fechar o meno, localizado no canto superior direito */
+.menulateral .botaoFechar {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Lista com as salas de bate-papo */
+#listaDeSalas {
+    background-color: white;
+    color: #555555;
+}
+
+/* o id #main não esta sendo usado na página */ 
+/* Estilização do conteúdo da págoina - use isto se quiser empurrar o conteúdo da página para a direita quando o menu lateral for aberto */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* Em telas menores, onde a altura é menor do que 450px, mude o estilo do menu lateral (menos padding e um tamanho de fonte menor) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+} 
+
+/* FIM DA ESTILIZAÇÃO DO MENU LATERAL  */

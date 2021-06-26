@@ -982,6 +982,20 @@ div.paragrafo-publicacao > ul {
 
 
 
+.botao-amei-modal {
+    color: red;
+    float: right;
+    font-size: 2em;
+}
+
+.botao-amei-modal:hover {
+    cursor: pointer;
+}
+
+
+
+
+
 /* EM TELAS PEQUENAS */
 @media only screen and (max-width: 767px) {
 
