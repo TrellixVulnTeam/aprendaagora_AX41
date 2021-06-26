@@ -17,7 +17,7 @@ Flask-Mail==0.9.1
 Flask-Migrate==2.0.4
 Flask-Moment==0.5.1
 Flask-PageDown==0.2.2
-Flask-Script==2.0.6
+git+https://github.com/ramonrodriguesomero/flask-script.git
 Flask-Session==0.3.2
 Flask-SocketIO==5.1.0
 Flask-SQLAlchemy==2.2
