@@ -1,1 +1,1 @@
-web: gunicorn --worker-class eventlet -w 1 aprendaagora:app
+web: gunicorn aprendaagora:app
