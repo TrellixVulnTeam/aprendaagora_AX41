@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Configura o chat */
 
     // Conecta sockets
-    const socket = io("/chat");
+    const socket = io();
 
 
     socket.on('connect', () => {
