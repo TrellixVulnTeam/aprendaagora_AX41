@@ -20,12 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Conecta sockets
     var socket = io();
 
-    socket.on('connect', () => {
 
-        socket.emit('my event', {dados: 'Conectado'});
-    });
 
-    /*
+    
+
+    
     socket.on('connect', () => {
 
         // Confirma socket conectado
@@ -190,5 +189,5 @@ document.addEventListener('DOMContentLoaded', () => {
     	document.body.style.backgroundColor = "white";
     	
     };
-    */
+    
 });

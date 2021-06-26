@@ -31,17 +31,9 @@ salas = {
 def inicio():
     return render_template("chat.html")
 
-@socketio.on('my event')
-def funcao_event(dados):
-    
-    print()
-    print()
-    print(dados)
-    print()
-    print()
 
 
-"""
+
 # Confirma conexão
 @socketio.on('socket conectado')
 def handle_my_custom_event():
@@ -112,4 +104,3 @@ def enviar_mensagem(dados):
     # Emite evento para todos os clientes
     emit('exibir mensagem', {'mensagem': mensagem, 'usuario': usuario, 'dataMensagem': dataMensagem}, broadcast=True)
 
-"""
