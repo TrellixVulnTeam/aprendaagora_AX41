@@ -19,10 +19,7 @@ from ..funcoes_auxiliares import criar_publicacao, truncar_texto
 
 
 salas = {
-    'ingles': [],
-    'espanhol': [],
-    'frances': [],
-    'portugues': []
+    'ingles': []
 }
 
 

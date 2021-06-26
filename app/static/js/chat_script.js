@@ -18,13 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     /* Configura o chat */
 
     // Conecta sockets
-    var socket = io();
+    const socket = io("/chat");
 
 
-
-    
-
-    
     socket.on('connect', () => {
 
         // Confirma socket conectado
