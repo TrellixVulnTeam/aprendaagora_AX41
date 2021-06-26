@@ -32,14 +32,6 @@ def inicio():
     return render_template("chat.html")
 
 
-
-
-# Confirma conexão
-@socketio.on('socket conectado')
-def handle_my_custom_event():
-    print("Socket conectado.")
-
-
 # Confirma conexão
 @socketio.on('socket conectado')
 def handle_my_custom_event():
