@@ -19,7 +19,7 @@ mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 
-socketio = SocketIO(logger=True, engine_logger=True, async_handlers=True, cors_allowed_origins="*")
+socketio = SocketIO(logger=True, engine_logger=True)
 
 login_manager = LoginManager()
 # Define qual a rota para login

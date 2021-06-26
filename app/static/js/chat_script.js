@@ -37,7 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const formMensagem = document.querySelector('#formMensagem');
 
         // Quando o formulário da mensagem for enviado
-        formMensagem.onsubmit = () => {
+        formMensagem.onsubmit = (evento) => {
+
+            evento.preventDefault();
+
+            console.log("Boão de enviar mensagem clicado.");
 
             // Seleciona o conteúdo da mensagem
             const mensagem = document.querySelector('#inputMensagem').value;
