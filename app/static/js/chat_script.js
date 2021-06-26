@@ -22,6 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('connect', () => {
 
+        socket.emit('my event', {dados: 'Conectado'});
+    });
+
+    /*
+    socket.on('connect', () => {
+
         // Confirma socket conectado
         socket.emit('socket conectado');
 
@@ -153,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    /* Configura menu lateral */
+    // Configura menu lateral 
 
     // Define o nome de usuário e armazena no localStorage
     const botaoNomeUsuario = document.querySelector('#botaoNomeUsuario');
@@ -184,4 +190,5 @@ document.addEventListener('DOMContentLoaded', () => {
     	document.body.style.backgroundColor = "white";
     	
     };
+    */
 });
