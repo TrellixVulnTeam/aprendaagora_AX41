@@ -1,0 +1,23 @@
+
+Elementos/Informações/Dados para exibir nas publicações no mural
+
+	[x] - Título da publicação
+	[x] - Tags da publicação
+	[x] - Data da publicação
+	[x] - Conteúdo da publicação	
+	[x] - Nome de usuário do autor da publicação	
+	[x] - Avatar do autor da publicação
+	[x] - Botão de dar 'amei' na publicação
+	[x] - Número de 'ameis' na publicação	
+	[x] - Opção de editar publicação para o autor da publicação
+	[x] - Opção de apagar publicação para o autor da publicação
+
+	
+
+Funcionalidades para implementar na publicações no mural
+
+	[ ] - Exibir um modal/popup para confirmar exclusão da publicação quando o usuário clicar em apagar a publicação
+
+	[ ] - Links nas tags para a lista de publicações daquela tag em particular
+
+

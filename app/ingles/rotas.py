@@ -10,7 +10,7 @@ from ..decoradores import admin_necessario, permissao_necessaria
 from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
 from ..email import enviar_email
 from ..formularios import formularioPublicacaoMural
-from ..funcoes_auxiliares import criar_publicacao, truncar_texto
+from ..funcoes_auxiliares import criar_publicacao, registrar_comentario, truncar_texto
 
 
 # Página inicial de INGLÊS
@@ -283,19 +283,6 @@ def interagir_publicacao(publicacao_id, acao):
     # Retorna reposta
     return jsonify(resposta)
 
-
-
-def registrar_comentario(publicacao_id, autor_id, conteudo):
-
-    novo_comentario = Comentario(
-        publicacao_id=publicacao_id,
-        autor_id=autor_id,
-        conteudo=conteudo
-    )
-
-    db.session.add(novo_comentario)
-
-    db.session.commit()
 
 
 @bp.route('/publicacao/comentar', methods=['GET', 'POST'])

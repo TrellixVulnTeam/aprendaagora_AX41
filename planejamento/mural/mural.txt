@@ -1,0 +1,61 @@
+
+Elementos/Informações/Dados para exibir no Mural
+
+	[ ] - Menu de Ordenação e Filtragem de publicações
+
+		[ ] - Botão para ordenar publicações do MAIS ANTIGO para o MAIS RECENTE
+
+		[ ] - Botão para ordenar publicações do MAIS RECENTE para o MAIS ANTIGO
+
+		[ ] - Botão para ordenar publicações da PUBLICAÇÃO COM MAIS "AMEI" para a PUBLICAÇÃO COM MENOS "AMEI"
+
+		[ ] - Botão para filtrar publicações sobre VOCABULÁRIO
+
+		[ ] - Botão para filtrar publicações sobre GRAMÁTICA
+
+		[ ] - Botão para filtrar publicações sobre PRONÚNCIA
+
+		[ ] - Botão para filtrar publicações sobre CULTURA 
+
+		[ ] - Botão para exibir somente publicações das últimas 24 horas
+
+		[ ] - Botão para exibir somente publicações da semana passada (últimos 7 dias)
+
+		[ ] - Botão para exibir somente publicações do último mês (últimos 30 dias)
+
+		[ ] - Botão para exibir somente publicações dos últimos 12 meses
+
+	[ ] - Ranking de melhores publicações, onde as publicações com maior número de "amei" são exibidas primeiro, com o propósito de chamar a atenção do usuário
+
+
+
+Funcionalidades para implementar no Mural
+
+	[ ] - Quando um estudante começar a escrever uma publicação no mural, através do formulário, checar se já não há uma publicação igual ou semelhante à que o usuário está prestes a escrever, impedir que o usuário escreva sobre uma dúvida que já foi respondida e sugerir que o usuário leia essa publicação já criada antes de escrever uma nova publicação
+
+	[ ] - Funcionalidade de "autocompletar" quando um usuário for referenciar um vídeo, uma lição ou outros conteúdos da plataforma como parte de uma publicação ou comentário escrito em uma publicação.
+
+	[ ] - Filtrar e Ordenar lista de publicações
+
+		[ ] - Ordenar publicações do MAIS ANTIGO para o MAIS RECENTE quando botão correspondente for clicado
+
+		[ ] - Ordenar publicações do MAIS RECENTE para o MAIS ANTIGO quando botão correspondente for clicado
+
+		[ ] - Ordenar publicações da PUBLICAÇÃO COM MAIS "AMEI" para a PUBLICAÇÃO COM MENOS "AMEI" quando botão correspondente for clicado
+
+		[ ] - Filtrar publicações sobre VOCABULÁRIO quando botão correspondente for clicado
+
+		[ ] - Filtrar publicações sobre GRAMÁTICA quando botão correspondente for clicado
+
+		[ ] - Filtrar publicações sobre PRONÚNCIA quando botão correspondente for clicado
+
+		[ ] - Filtrar publicações sobre CULTURA  quando botão correspondente for clicado
+
+		[ ] - Exibir somente publicações das últimas 24 horas quando botão correspondente for clicado
+
+		[ ] - Exibir somente publicações da semana passada (últimos 7 dias) quando botão correspondente for clicado
+
+		[ ] - Exibir somente publicações do último mês (últimos 30 dias) quando botão correspondente for clicado
+
+		[ ] - Exibir somente publicações dos últimos 12 meses quando botão correspondente for clicado
+

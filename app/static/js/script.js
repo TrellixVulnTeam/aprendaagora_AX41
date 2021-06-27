@@ -943,6 +943,17 @@ function criar_modal(publicacao) {
                 // Exibe as opções de autor que foi escondida quando a edição começou */
                 opcoes_autor.style.visibility = 'visible';
 
+                let aviso_alteracoes_salvas = "<div class='alert alert-success alert-dismissible fade show' role='alert'><strong>As alterações foram salvas!</strong><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>";
+
+                let container_aviso = document.createElement('div');
+
+                container_aviso.innerHTML = aviso_alteracoes_salvas;
+
+                publicacao_modal.insertBefore(container_aviso, publicacao_modal.firstChild);
+
+
+                //$('.alert').alert()
+
             });
 
 
@@ -1091,11 +1102,13 @@ function criar_modal(publicacao) {
 
 
         textarea_comentario.classList.add('w-100', 'border', 'bg-white');
+        textarea_comentario.placeholder = "Escreva um comentário";
+
 
         container_botao_enviar.classList.add('text-right', 'mb-1');
 
         botao_enviar.classList.add('text-white', 'bg-success', 'p-2', 'd-inline-block', 'font-weight-bold');
-        botao_enviar.innerHTML = "Enviar";
+        botao_enviar.innerHTML = "Comentar <i class='fa fa-comment'></i>";
 
 
 
@@ -1111,7 +1124,6 @@ function criar_modal(publicacao) {
         // Configuração do botão de enviar comentário */
         botao_enviar.addEventListener('click', (e) => {
             
-            e.preventDefault();
             e.preventDefault();
 
 
@@ -1314,11 +1326,10 @@ function criar_elemento_comentario (comentario_conteudo, comentario_autor, comen
 function criar_lista_de_comentarios(comentarios) {
 
     let lista_de_comentarios = document.createElement('div');
-
     lista_de_comentarios.id = 'lista_de_comentarios';
 
     let n_comentarios = document.createElement('p');
-
+    n_comentarios.style.fontSize = '18pt';
     n_comentarios.innerHTML = "<i class='fa fa-comments text-secondary'></i> " + comentarios.length + " comentários";
 
     lista_de_comentarios.append(n_comentarios)

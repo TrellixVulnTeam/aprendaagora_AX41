@@ -62,11 +62,6 @@ class TesteModeloUsuario(unittest.TestCase):
         self.assertFalse(u.confirmar(token))
 
 
-
-
-
-
-
     
     def teste_role_usuario(self):
         u = Usuario(email='joao@exemplo.com', senha='gato')

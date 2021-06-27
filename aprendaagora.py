@@ -10,7 +10,7 @@ if os.path.exists(dotenv_path):
 
 
 from flask_migrate import Migrate, upgrade
-from app import criar_app, db, socketio
+from app import criar_app, db  #, socketio
 from app.modelos import Permissao, Role, Usuario, Publicacao, Tag
 
 app = criar_app(os.getenv('FLASK_CONFIG') or 'padrao')
@@ -53,8 +53,11 @@ def profile(length, profile_dir):
     app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[length],
                                       profile_dir=profile_dir)
     
-    socketio.run(app)
-    #app.run()
+    """
+    #socketio.run(app)
+    """
+
+    app.run()
 
 
 

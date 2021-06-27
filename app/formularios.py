@@ -25,7 +25,9 @@ class MultiCheckboxField(SelectMultipleField):
 class formularioPublicacaoMural(FlaskForm):
 
     titulo = StringField("Título da publicação", validators=[DataRequired()])
+
     conteudo = PageDownField("Conteúdo da publicação", validators=[DataRequired()])
+    
     tags = MultiCheckboxField("Assunto da publicação", coerce=int)
 
     enviar = SubmitField("Enviar")
@@ -50,4 +52,5 @@ class formularioPublicacaoMural(FlaskForm):
 class formularioComentarioPublicacao(FlaskForm):
 
     conteudo = StringField('', validators=[DataRequired()])
+
     enviar = SubmitField('Enviar')

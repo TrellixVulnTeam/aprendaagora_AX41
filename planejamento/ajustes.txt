@@ -1,5 +1,5 @@
 Coisas para concertar:
 
 
-1. A testagem da função teste_role_usuario falha na primeira testagem.
+[ ] - A testagem da função teste_role_usuario falha na primeira testagem.
 

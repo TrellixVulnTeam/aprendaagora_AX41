@@ -263,8 +263,6 @@ class Usuario(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True,)
     nome_usuario = db.Column(db.String(25), unique=True, index=True)
     senha_hash = db.Column(db.String(128))
-    
-    # Informação adicional do usuário
     nome = db.Column(db.String(64))
     sobrenome = db.Column(db.String(64))
     localizacao = db.Column(db.String(64))
@@ -272,6 +270,7 @@ class Usuario(UserMixin, db.Model):
     
     #  Id do 'role' do usuário
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    
     # Conta confirmada
     confirmado = db.Column(db.Boolean, default=False)
 
@@ -279,6 +278,7 @@ class Usuario(UserMixin, db.Model):
     membro_desde = db.Column(db.DateTime(), default=datetime.utcnow)
     ultimo_acesso = db.Column(db.DateTime(), default=datetime.utcnow)
 
+    # Gravatar
     avatar_hash = db.Column(db.String(32))
 
     # Usuario.publicacoes retorna a lista de publicações escritas pelo usuário
@@ -307,15 +307,18 @@ class Usuario(UserMixin, db.Model):
 
             # Caso o email do usuário seja o email do administrador
             if self.email == current_app.config['APRENDA_AGORA_ADMIN']:
+
                 # Define o 'role' do usuário como sendo 'Administrador'
                 self.role = Role.query.filter_by(nome='Administrador').first()
             
             # Senão, defina o 'role' do usuário como sendo o 'role' padrão
             if self.role is None:
+
                 self.role = Role.query.filter_by(padrao=True).first()
 
         # Se o usuário tiver um email vinculado e o 'avatar_hash' não estiver definido
         if self.email is not None and self.avatar_hash is None:
+
             # Crie o 'avatar_hash' do usuário
             self.avatar_hash = self.gravatar_hash()
 
@@ -363,11 +366,14 @@ class Usuario(UserMixin, db.Model):
     def gerar_token_confirmacao(self, expiracao=3600):
 
         s = Serializer(current_app.config['SECRET_KEY'], expiracao)
+
         return s.dumps({'confirmado': self.id}).decode('utf-8')
     
+    # Confirma a conta de um usuário
     def confirmar(self, token):
 
         s = Serializer(current_app.config['SECRET_KEY'])
+
         try:
             dados = s.loads(token.encode('utf-8'))
         except:
@@ -377,7 +383,9 @@ class Usuario(UserMixin, db.Model):
             return False
         
         self.confirmado = True
+
         db.session.add(self)
+
         return True
 
     # Cria um token para redefinir a senha do usuário
@@ -387,9 +395,12 @@ class Usuario(UserMixin, db.Model):
         # Retorna o token
         return s.dumps({'id_usuario': self.id}).decode('utf-8')
 
+    # Redefine a senha do usuário
     @staticmethod
     def redefinir_senha(token, nova_senha):
+
         s = Serializer(current_app.config['SECRET_KEY'])
+
         try:
             dados = s.loads(token.encode('utf-8'))
         except:
@@ -406,13 +417,13 @@ class Usuario(UserMixin, db.Model):
 
         return True
 
+    # Gera o token usado na troca de email
     def gerar_token_trocar_email(self, novo_email, expiracao=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiracao)
         return s.dumps(
             {'id_usuario': self.id, 'novo_email': novo_email}).decode('utf-8')
 
     # Redefine o email de um usuário
-    # Comentar a função
     def trocar_email(self, token):
 
         s = Serializer(current_app.config['SECRET_KEY'])
@@ -434,9 +445,12 @@ class Usuario(UserMixin, db.Model):
             return False
 
         self.email = novo_email
+
         # Redefine o 'avatar_hash' baseado no novo email
         self.avatar_hash = self.gravatar_hash()
+
         db.session.add(self)
+
         return True
 
     # Um dos requisitos do serviço Gravatar é que o endereço de email através do qual o hash MD5 é obtido deve estar em letras minúsculas, por isso usamos a função 'String.lower()'
@@ -492,20 +506,13 @@ class Publicacao(db.Model):
 
     __tablename__ = 'publicacoes'
 
+    # Dados básicos
     id = db.Column(db.Integer, primary_key=True)
-
-    # Título da publicação em formato string
     titulo = db.Column(db.String(100))
-    
-    # Conteúdo da publicação em formato string
     conteudo = db.Column(db.Text)
-
     conteudo_html = db.Column(db.Text)
-    
     data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    
     idioma = db.Column(db.String(8))
-
     autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
     # Publicacao.tags retorna as tags às quais ma publicação está associada
@@ -524,6 +531,7 @@ class Publicacao(db.Model):
                             secondary='publicacoes_amei',
                             backref=db.backref('publicacao', lazy='dynamic'))
 
+
     # Converte texto em Markdown para HTML
     # Primeiro, a função markdown() faz uma conversão inicial para HTML
     # O resultado da conversão inicial é passado para a função clean(), juntamente com a lista de tags permitidas. A função clean() remove todas as tags não permitidas
@@ -531,11 +539,15 @@ class Publicacao(db.Model):
     # Este último passo é necessário por que geração automática de links não é uma ferramenta oficial do Markdown, mas é uma funcionalidade muito conveniente
     @staticmethod
     def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
+
+        # Define as tags permitidas no Markdown
         tags_permitidas = ['a', 'abbr', 'b', 'blockquote', 'code', 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h3', 'p']
 
-        target.conteudo_html = bleach.linkify(bleach.clean(
-            markdown(conteudo, output_format='html'),
-            tags=tags_permitidas, strip=True))
+        target.conteudo_html = bleach.linkify(
+                               bleach.clean(
+                                    markdown(conteudo, output_format='html'),
+                                    tags=tags_permitidas, strip=True)
+                            )
 
 
     # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
@@ -571,6 +583,7 @@ class Comentario(db.Model):
 
     __tablename__ = 'comentarios'
     
+    # Dados básicos
     id = db.Column(db.Integer, primary_key=True)
     conteudo = db.Column(db.Text)
     conteudo_html = db.Column(db.Text)
@@ -583,13 +596,19 @@ class Comentario(db.Model):
     # id da publicação onde o comentário foi feito
     publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
 
+
+    # Função para ser chamada quando o conteúdo de um comentário for alterado
     @staticmethod
     def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
+
+        # Define as tags permitidas no Markdown
         tags_permitidas = ['a', 'abbr', 'b', 'code', 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',]
 
-        target.conteudo_html = bleach.linkify(bleach.clean(
-            markdown(conteudo, output_format='html'),
-            tags=tags_permitidas, strip=True))
+        target.conteudo_html = bleach.linkify(
+                               bleach.clean(
+                                    markdown(conteudo, output_format='html'),
+                                    tags=tags_permitidas, strip=True)
+                            )
 
 
 class PublicacaoAmei(db.Model):
@@ -601,8 +620,6 @@ class PublicacaoAmei(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
     publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
-
-
 
 
 # As tags de uma publicação podem ser acessadas com publicacao.tags
@@ -636,6 +653,7 @@ class Tag(db.Model):
             'Estudo': 'estudo',
         }
 
+        # Para cada conjunto chave-valor
         for t, nome in tags.items():
 
             # Consulte o banco de dados procurando por uma 'tag' que tenha o nome igual ao de uma das 'tags' definidas no dicionnário 'tags'
@@ -643,12 +661,15 @@ class Tag(db.Model):
 
             # Se NÃO existir uma 'tag' com o nome informado
             if tag is None:
+
                 # Crie uma nova 'tag'
                 tag = Tag(nome=nome)
 
             db.session.add(tag)
 
         db.session.commit()
+
+
 
 
 # Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
@@ -662,12 +683,16 @@ class UsuarioAnonimo(AnonymousUserMixin):
     def e_administrador(self):
         return False
 
+
+
 # O decorador login_manager.user_loader registra a função com Flask-Login, que o chamará quando precisar acessar informação sobre um usuário conectado.  A função recebe o id do usuário e retorna o objeto usuario, ou None se o id do usuário for inválido ou algum outro erro ocorrer
 @login_manager.user_loader
 def carregar_usuario(usuario_id):
     return Usuario.query.get(int(usuario_id))
 
 
+
+# Define o modelo que representa 'anonymous_user'
 login_manager.anonymous_user = UsuarioAnonimo
 
 
