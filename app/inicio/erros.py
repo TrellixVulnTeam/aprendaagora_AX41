@@ -3,14 +3,22 @@
 from flask import render_template
 from . import inicio
 
+
+
+# Gerencia o erro de acesso proibido
 @inicio.app_errorhandler(403)
 def proibido(e):
     return render_template('erros/403.html'), 403
 
+
+
 # Gerencia o erro de página não encontrada
 @inicio.app_errorhandler(404)
 def pagina_nao_encontrada(e):
+
     return render_template('erros/404.html'), 404
+
+
 
 # Gerencia o erro interno de servidor
 @inicio.app_errorhandler(500)

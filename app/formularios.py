@@ -49,6 +49,31 @@ class formularioPublicacaoMural(FlaskForm):
         self.idioma = idioma
 
 
+class formularioPublicacaoBlog(FlaskForm):
+
+    titulo = StringField("Título da publicação", validators=[DataRequired()])
+
+    subtitulo = StringField("Subtítulo da publicação", validators=[DataRequired()])
+
+    conteudo = PageDownField("Conteúdo da publicação", validators=[DataRequired()])
+
+    tags = MultiCheckboxField("Assunto da publicação", coerce=int)
+
+    def __init__(self, *args, **kwargs):
+
+        super(formularioPublicacaoBlog, self).__init__(*args, *kwargs)
+
+        # Seleciona as tags (TODAS!)
+
+        """
+        Como selecionar o id e o nome das tags
+        """
+        # tag.id será o valor do input
+        # tag.nome será o label
+        self.tags.choices = [(tag.id, tag.nome)
+                              for tag in Tag.query.order_by(Tag.id).all()]
+
+
 class formularioComentarioPublicacao(FlaskForm):
 
     conteudo = StringField('', validators=[DataRequired()])

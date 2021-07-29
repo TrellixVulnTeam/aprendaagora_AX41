@@ -9,51 +9,55 @@
 <!-- Conteúdo da Página-->
 {% block conteudo_pagina %}
 
+    <!-- Se o cliente não for ADMINISTRADOR -->
     {% if not current_user.e_administrador() %}
-    <!-- Exibe o formulário de login -->
-    <form method="POST" action="" class="form" role="form">
 
-        {{ formulario.hidden_tag() }}
-        
-        {{ exibir_campo(formulario.nome_usuario) }}
+        <!-- Exibe o formulário de login -->
+        <form method="POST" action="" class="form" role="form">
 
-        {{ exibir_campo(formulario.nome) }}
+            {{ formulario.hidden_tag() }}
+            
+            {{ exibir_campo(formulario.nome_usuario) }}
 
-        {{ exibir_campo(formulario.sobrenome) }}
+            {{ exibir_campo(formulario.nome) }}
 
-        {{ exibir_campo(formulario.localizacao) }}
+            {{ exibir_campo(formulario.sobrenome) }}
 
-        {{ exibir_campo(formulario.sobre) }}
+            {{ exibir_campo(formulario.localizacao) }}
 
-        {{ exibir_botao(formulario.enviar) }}
+            {{ exibir_campo(formulario.sobre) }}
 
-    </form>
-    {% else %}
-    <form method="POST" action="" class="form" role="form">
+            {{ exibir_botao(formulario.enviar) }}
 
-        {{ formulario.hidden_tag() }}
-
-        {{ exibir_campo(formulario.email) }}
-        
-        {{ exibir_campo(formulario.nome_usuario) }}
-
-        {{ exibir_campo(formulario.confirmado) }}
-
-        {{ exibir_campo(formulario.role) }}
-
-        {{ exibir_campo(formulario.nome) }}
-
-        {{ exibir_campo(formulario.sobrenome) }}
-
-        {{ exibir_campo(formulario.localizacao) }}
-
-        {{ exibir_campo(formulario.sobre) }}
-
-        {{ exibir_botao(formulario.enviar) }}
-    </form>
-
-    {% endif%}
-
+        </form>
     
+    <!-- Se o cliente for ADMINISTRADOR-->
+    {% else %}
+
+        <form method="POST" action="" class="form" role="form">
+
+            {{ formulario.hidden_tag() }}
+
+            {{ exibir_campo(formulario.email) }}
+            
+            {{ exibir_campo(formulario.nome_usuario) }}
+
+            {{ exibir_campo(formulario.confirmado) }}
+
+            {{ exibir_campo(formulario.role) }}
+
+            {{ exibir_campo(formulario.nome) }}
+
+            {{ exibir_campo(formulario.sobrenome) }}
+
+            {{ exibir_campo(formulario.localizacao) }}
+
+            {{ exibir_campo(formulario.sobre) }}
+
+            {{ exibir_botao(formulario.enviar) }}
+
+        </form>
+        
+    {% endif%}
 
 {% endblock %}

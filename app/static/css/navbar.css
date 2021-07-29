@@ -1,0 +1,198 @@
+
+
+/*******************************************************************************************/
+/********************************* BARRA DE NAVEGAÇÃO MOBILE *******************************/
+/*******************************************************************************************/
+
+
+#nav-desktop {
+    display: none;
+}
+
+/* Em telas a partir do tamanho médio, a barra de navegação desktop é exibida */
+@media only screen and (min-width: 845px) {
+
+    #nav-mobile {
+        display: none;
+    }
+    
+
+    #nav-desktop {
+        display: block;
+    }
+}
+
+
+#barra-navegacao {
+    padding: 0px 0px 0 0px;
+    background-color: #29ba13;
+    overflow: visible;
+    color: white;
+    font-size: 2.5em;
+}
+
+#barra-navegacao > div.col {
+    padding: 5px;
+}
+
+#barra-navegacao > div.col:hover {
+    background-color: rgb(11, 110, 11);
+}
+
+#barra-navegacao a {
+    color: white;
+}
+
+#barra-navegacao > * {
+    padding: 0;
+    margin: 0;
+}
+
+#barra-navegacao .logo-span {
+    padding: 6px 8px;
+    font-weight: bold;
+    text-shadow: black 1px 1px;
+    font-size: 1.7rem;
+    border-radius: 50px;
+}
+
+
+.navbar-toggler {
+    border: white 1px solid!important;
+}
+
+.navbar-toggler-icon {
+    border: 0;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.navbar-sub-lista  li {
+    font-family: 'Unica One', cursive;
+    font-size: 2rem; 
+    text-align: center;
+    padding: 0.5em;
+}
+
+.navbar-sub-lista  a {
+    color: black;
+}
+
+.navbar-sub-lista  li {
+    color: black;
+}
+
+.navbar-sub-lista  a:hover {
+    text-decoration: none;
+    background-color: rgb(223, 223, 223);
+}
+
+.navbar {
+    font-family: 'Unica One', cursive;
+}
+
+.nav-item {
+    display: inline-block;
+}
+
+.nav-link {
+    padding-left: 1rem!important;
+    padding-right: 1rem!important;
+}
+
+
+.dropdown-menu { 
+    padding: 0;
+}
+
+.dropdown-item {
+    margin: 0;
+    padding: 8px 8px 8px 12px;
+}
+
+#botao-pesquisa {
+    border: 1px white solid;
+}
+
+
+/* FIM BARRA DE NAVEGAÇÃO MOBILE */
+
+
+/*******************************************************************************************/
+/****************************** BARRA DE NAVEGAÇÃO DESKTOP *********************************/
+/*******************************************************************************************/
+
+
+#barra-navegacao-desktop {
+    padding: 0px;
+    background-color: #29ba13;
+    overflow: visible;
+    font-size: 1em;
+}
+
+#barra-navegacao-desktop > * {
+    padding: 0;
+    margin: 0;
+}
+
+#barra-navegacao-desktop a {
+    color: white;
+}
+
+#barra-navegacao-desktop .logo-span {
+    padding: 3px 5px;
+    font-weight: bold;
+    text-shadow: black 1px 1px;
+    font-size: 1.3rem;
+    border-radius: 50px;
+}
+
+
+#barra-navegacao-desktop .dropdown-item {
+    color: rgb(61, 61, 61);
+}
+
+
+
+.navbar-brand-desktop {
+    font-family: 'Merienda', cursive;
+    text-shadow: black 1px 1px;
+}
+
+.navbar-brand-desktop span {
+    background-color: rgb(30, 172, 2);
+    border:white 1px solid;
+    border-radius: 20px;
+    padding: 3px 5px;
+}
+
+.nav-item-desktop {
+    text-align: center;
+    border: 0px;
+    border-radius: 0px;
+    border-bottom: 2px #29ba13 solid;
+}
+
+
+.nav-item-desktop:hover {
+    background-color: rgb(255, 255, 255);
+    border-bottom: 2px green solid;
+}
+
+
+.nav-item-desktop:hover a {
+    color: rgb(37, 37, 37)!important;
+}
+
+
+
+.custom-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  }
+
+.navbar-toggler-icon-desktop {
+   border: white 1px solid;
+}
+
+/* FIM BARRA DE NAVEGAÇÃO DESKTOP */
+
+

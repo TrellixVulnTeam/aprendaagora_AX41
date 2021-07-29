@@ -41,9 +41,13 @@ def inicio():
 
     # Seleciona as publicações do mural (ao mesmo tempo vinculando o autor de cada publicação) e pagina elas (divide em porções)
     # A consulta ao banco de dados retorna uma lista de elementos do tipo 'sqlalchemy.util._collections.result' (?). Cada um destes, por sua vez, possuem duas instâncias, uma do modelo Publicacao e outra do modelo Usuario 
-    paginacao = db.session.query(Publicacao, Usuario).join(Usuario).order_by(Publicacao.data.desc()).paginate(
+    
+
+    # Seleciona apenas as publicações com as tags 'ingles', 'vocabulario', 'gramatica', 'pronuncia', 'cultura'
+    paginacao = db.session.query(Publicacao, Usuario).join(Usuario).filter(Publicacao.tags.any(Tag.id <= 5)).order_by(Publicacao.data.desc()).paginate(
         pagina, per_page=current_app.config['MURAL_PUBLICACOES_POR_PAGINA'],
-        error_out=False)
+        error_out=False
+    )
     
 
     # Seleciona as publicações da página selecionada
@@ -52,57 +56,11 @@ def inicio():
     publicacoes = paginacao.items
     
 
-    
-    # Para cada publicação na lista de publicações, trunque o texto
     print("---------------------------------------------")
+    
+
+    # Para cada publicação na lista de publicações, trunque o texto
     for publicacao in publicacoes:
-
-        print("Objeto publicação e autor:")
-        print(publicacao)
-        print()
-
-        print("Objeto publicação:")
-        print(publicacao[0])
-        print()
-
-        print("Objeto autor:")
-        print(publicacao[1])
-        print()
-
-        print("Id da Publicação:")
-        print(publicacao[0].id)
-        print()
-
-        print("Tags da Publicação:")
-        print(publicacao[0].tags)
-        print()
-
-        print("Comentários da publicação:")
-        print(publicacao[0].comentarios)
-        print()
-
-        n_comentarios = 0
-        for c in publicacao[0].comentarios:
-            n_comentarios += 1
-        
-
-
-        print("Número de comentários:")
-        print(n_comentarios)
-        print()
-
-        print("Número da ameis:")
-        print(len(publicacao[0].ameis))
-
-
-
-        publicacao[0].n_comentarios = n_comentarios
-        publicacao[0].n_ameis = len(publicacao[0].ameis)
-
-        print()
-        print("---------------------------------------------")
-        print()
-
         if publicacao[0].conteudo_html:
             texto = publicacao[0].conteudo_html
             publicacao[0].conteudo_html = truncar_texto(texto)
@@ -110,9 +68,15 @@ def inicio():
             texto = publicacao[0].conteudo
             publicacao[0].conteudo = truncar_texto(texto)
 
+
     # Exibe a página do idioma INGLÊS, enviando o formulário do mural e a lista de publicações
     return render_template('ingles.html', formulario=formulario, publicacoes=publicacoes, paginacao=paginacao)
 
+
+###########################################################################################
+
+
+""" ROTAS DE PUBLICAÇÃO NO MURAL """
 
 # Página de uma publicação
 @bp.route('/publicacao/<int:id>')
@@ -205,37 +169,38 @@ def json_publicacao():
         # Seleciona o representação da publicação em formato JSON
         publicacao_json = publicacao.json()
 
-        print("Publicação JSON: ")
-        print(publicacao_json)
-        print()
-
+        # Inicializa um vetor que conterá os comentários
         publicacao_json['comentarios'] = []
 
-        print("Comentários da publicação: ")
-        print(publicacao.comentarios)
-
+        # Seleciona os comentários da publicação
         comentarios = publicacao.comentarios
         
-        print(type(comentarios))
-
+        # Define o número de comentários na publicação como sendo 0 (zero)
         publicacao_json['n_comentarios'] = 0
 
+        # Para cada comentário na lista de comentários
         for c in comentarios:
 
-            print(c)
-
+            # Define um objeto representado o comentário
             comentario = {'conteudo': c.conteudo,
                           'data': c.data,
                           'autor': Usuario.query.filter_by(id=c.autor_id).first().nome_usuario}
 
+            # Adiciona o comentário na lista de comentários que será enviada para o cliente
             publicacao_json['comentarios'].append(comentario)
+
+            # Incrementa o número de comentários
+            publicacao_json['n_comentarios'] += 1
+
 
         # Se o cliente for o autor da publicação, autor_cliente será True
         try:
             # Tente imprimir o id do usuário atual
             print(current_user.id)
+        # Se houver um erro (se o usuário atual não possuir id, ou seja, usuário anônimo)
         except Exception as e:
             publicacao_json['autor_cliente'] = False
+        # Se não houver erros
         else:
             publicacao_json['autor_cliente'] = (current_user.id == publicacao_json['id_autor'])
 
@@ -260,62 +225,61 @@ def interagir_publicacao(publicacao_id, acao):
     # Se a ação enviada for 'amar'
     if acao == 'amar':
 
+        # Chama o método de amar publicação no usuário atual
         current_user.amar_publicacao(publicacao)
 
+        # Salva alterações
         db.session.commit()
     
     # Se a ação enviada for 'desfazer_amar'
     if acao == 'desfazer_amar':
 
+        # Chama o método desfazer amar publicação no usuário atual
         current_user.desfazer_amar_publicacao(publicacao)
 
+        # Salva alterações
         db.session.commit()
     
 
-    print("Publicação amada")
-
-    # Inicializa um dicionário
-    resposta = {}
-
-    # Define 'confirma' como sendo verdadeiro
-    resposta['confirma'] = True
-
-    # Retorna reposta
-    return jsonify(resposta)
+    # Retorna JSON confirmando interação
+    return jsonify({"confirma": True})
 
 
-
-@bp.route('/publicacao/comentar', methods=['GET', 'POST'])
+# Rota POST para registrar comentário
+@bp.route('/publicacao/comentar', methods=['POST'])
 def comentar_publicacao():
     
     try:
         # Seleciona o JSON enviado através do pedido do cliente
         json_enviado = request.get_json()
-        print(json_enviado)
-
+        
         # Converte e armazena a propriedade 'publicacao_id' para um int
         publicacao_id = int(json_enviado['publicacao_id'])
-        print(publicacao_id)
-
+   
+        # Seleciona o conteúdo do comentário
         conteudo = json_enviado['conteudo']
-        print(conteudo)
-
-        print(f"O usuário atual é: {current_user.id}")
 
 
-        usuario = Usuario.query.filter_by(id=current_user.id).first()
-        print(usuario)
-        print(usuario.nome_usuario)
+        # Registra o comentário no banco de dados
+        registrar_comentario(
 
+            publicacao_id,
+            current_user.id,
+            conteudo
+        )
 
-        registrar_comentario(publicacao_id, current_user.id, conteudo)
-
+        # Retorna JSON confirmando registro do comentário
         return jsonify({"confirma": True})
 
     except Exception as e:
 
         print("AJAX exceção " + str(e))
         return(str(e))
+
+
+###########################################################################################
+
+
 
 
 

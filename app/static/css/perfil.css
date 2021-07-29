@@ -1,0 +1,24 @@
+
+
+/*******************************************************************************************/
+/******************************** PÁGINA DE PERFIL DO USUÁRIO ******************************/
+/*******************************************************************************************/
+
+
+/* Crachá do usuário (avatar e nome de usuário) na página de perfil */
+.chacha-perfil {
+    position: absolute;
+}
+
+#container-lista-estatisticas-usuario {
+    background-color: rgb(230, 230, 230);
+}
+
+#lista-estatisticas-usuario li {
+    padding: 5px;
+}
+
+/* FIM PÁGINA DE PERFIL DO USUÁRIO */
+
+
+

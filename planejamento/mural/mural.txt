@@ -58,4 +58,6 @@ Funcionalidades para implementar no Mural
 		[ ] - Exibir somente publicações do último mês (últimos 30 dias) quando botão correspondente for clicado
 
 		[ ] - Exibir somente publicações dos últimos 12 meses quando botão correspondente for clicado
+	
+	[ ] - Alterar modelo de publicação para que 'idioma' deixe de ser uma coluna e passa a ser vinculada como chave estranheira da tabela publicacoes_tags, assim como as tags gramatica, vocabulario, etc
 

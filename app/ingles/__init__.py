@@ -7,7 +7,6 @@ from . import rotas, erros
 from ..modelos import Permissao
 
 
-
 @ingles.app_context_processor
 def inserir_permissoes():
     return dict(Permissao=Permissao)

@@ -7,6 +7,7 @@ from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 
+
 from flask_pagedown import PageDown
 from flask_login import LoginManager
 
@@ -22,6 +23,7 @@ mail = Mail()
 moment = Moment()
 db = SQLAlchemy()
 pagedown = PageDown()
+
 
 
 """
@@ -52,6 +54,7 @@ def criar_app(nome_configuracao):
     db.init_app(app)
     login_manager.init_app(app)
     pagedown.init_app(app)
+    
 
 
     """
@@ -66,7 +69,7 @@ def criar_app(nome_configuracao):
 
     ######################################################################
 
-    """ Rotas """
+    """ BLUEPRINTS """
 
     # Registra o blueprint 'inicio'
     from .inicio import inicio as inicio_blueprint
@@ -79,6 +82,12 @@ def criar_app(nome_configuracao):
     # Registra o blueprint 'ingles'
     from .ingles import ingles as ingles_blueprint
     app.register_blueprint(ingles_blueprint, url_prefix='/ingles')
+
+
+    from .blog import blog as blog_blueprint
+    app.register_blueprint(blog_blueprint, url_prefix='/blog')
+
+
 
     """
     # Registra o blueprint 'chat'

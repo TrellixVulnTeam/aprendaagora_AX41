@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+
+
+{% block conteudo_pagina %}
+
+<div class="container-artigo" style="background-color: rgb(243, 243, 243);">
+
+    <header style="width: 100%; height: 500px; position: relative; overflow: hidden;">
+
+        <img style="position: absolute; width: 100%; left: 50%; top: 30%; transform: translateY(-90%) translateX(-50%);-webkit-transform: translateY(-50%) translateX(-50%);" src="{{ url_for('static', filename='cabecalho1.jpg') }}" alt="">
+        
+    </header>
+
+    <main style="position: relative; top: -300px;  margin: 0 auto; width: 70%;">
+
+        <div style="margin-bottom: 3em; font-family: 'Unica One';">
+
+            <h1 style="font-size: 2em; margin-bottom: 0;"><span style="padding: 5px; background-color: blue; color: white;">{{ artigo.titulo|upper }}</span></h1>
+
+            <h1 style="font-size: 2em; margin-bottom: 0;"><span style="padding: 5px; background-color: blue; color: white;">{{ artigo.subtitulo|upper }}</span></h1>
+        
+            <div style="display: flex; color: white;" id="perfil-autor-artigo">
+
+                <span style="background-color: rgb(0, 89, 255); padding: 5px;">1 DE JANEIRO DE 2021 • 1000 PALAVRAS ESCRITAS POR RAMON RODRIGUES • ARTE CRIADA POR WESLON SILVA</span>
+        
+            </div>
+        </div>
+
+
+        <div style="background-color: white; padding: 2em;" id="container-conteudo-artigo">
+            {{ artigo.conteudo_html|safe }}
+        </div>
+    </main>
+
+</div>
+
+{% endblock %}

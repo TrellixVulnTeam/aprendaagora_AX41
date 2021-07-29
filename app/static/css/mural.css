@@ -1,0 +1,368 @@
+
+
+
+/*******************************************************************************************/
+/************************************ MURAL DE PUBLICAÇÕES *********************************/
+/*******************************************************************************************/
+
+/* Visualização de uma publicação sendo escrita */
+.flask-pagedown-preview {
+
+    /* O preview do conteúdo é inicializado como 'hidden' para que ele não seja exibido se conteúdo quando a página carregar */
+    visibility: hidden;
+
+    /* Bordas, fundo, curvatura das bordas e padding estilizados de forma aparecer-se com o modal   */
+    border: 1px rgb(5, 192, 5) solid;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0.2rem;
+    padding: 1em;
+}
+
+
+#conteudo-preview ul {
+    padding-left: 2em;
+}
+
+
+#conteudo-preview blockquote {
+    padding-left: 3em;
+    font-size: 1em;
+}
+
+
+#lista-publicacoes {
+    /* Remove a estilização de ponto das publicações da lista */
+    list-style-type: none;
+}
+
+/* FIM ESTILIZAÇÃO MURAL DE PUBLICAÇÕES */
+
+
+
+/*******************************************************************************************/
+/********************************** PUBLICAÇÃO NO MURAL ************************************/
+/*******************************************************************************************/
+
+
+.publicacao-mural:hover {
+    /* Para indicar que a publicação é clicável*/
+    cursor: pointer;
+    
+}
+
+/* Botão de editar publicação e botão de apagar publicação */
+.opcoes-publicacao {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Botão que indica que o cliente é o autor da publicação */
+.icone-editar-publicacao {
+    text-align: center;
+    line-height: 1em;
+    font-size: 1em;
+    color: rgb(75, 75, 75);
+}
+
+/* Botão para o autor de uma publicação apagar a publicação */
+.icone-apagar-publicacao {
+    text-align: center;
+    line-height: 1em;
+    font-size: 1.3em;
+    color: rgb(248, 31, 31);
+    border-radius: 3px;
+}
+
+/* Reduz o tamanho dos Headings presentes no certão da publicação para que a exibição dos Headings no mural não fiquem com um tamanho grande  */
+.paragrafo-publicacao h1, h2, h3 {
+    font-size: 1.5rem;
+}
+
+.rodape-publicacao {
+    
+    /* Display: table; está sendo usado para que a classe .perfil-autor-link possa ter height 100% */
+    display: table;
+
+    /*overflow: hidden;*/
+}
+
+.perfil-autor-link {
+    /* Display:table-cell; está sendo usado para que o elemento possa ter height 100% */
+    display: table-cell;
+    height: 100%;
+}
+
+.perfil-autor-link a:hover {
+    /* Remove o sublinhado no link do autor da publicação durante evento 'hover' */
+    text-decoration: none;
+}
+
+.bandeira-idioma {
+
+    /* Bandeira posicionada 2 pixels acima abaixo */
+    position: relative;
+    top: 2px;
+    font-size: 18px;
+}
+
+.opcoes-reagir {
+
+    /* Opções de "comentário" e "amei" posicionado 1 pixel abaixo */
+    position: relative;
+    top: 1px;
+}
+
+/* FIM  ESTILIZAÇÃO PUBLICAÇÃO NO MURAL*/
+
+
+/*******************************************************************************************/
+/********************************** MODAL DA PUBLICAÇÃO ************************************/
+/*******************************************************************************************/
+
+
+/* MODAL DA PUBLICAÇÃO COM CONTEÚDO COMPLETO E COMENTÁRIOS DE UMA PUBLICAÇÃO */
+
+.modal-publicacao {
+
+    /*
+        Posição, referência ao lado esquerdo, referência ao lado direito, largura e altura definidas de forma que o modal preencha a tela toda
+    */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    /*
+        Cor de fundo verde e levemente transparente para que o modal da publicação não perca o contexto em que está inserido (o usuário ainda consegue ver parte das publicações atrás do modal)
+    */
+    background-color: rgba(60, 153, 42, 0.9);
+    
+    visibility: hidden;
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+
+
+.exibir-modal {
+
+    /* Classe adicionada ao modal (através do script JS) para que ele seja exibido após as configurações forem definidas */
+    
+    display: block;
+    visibility: visible;
+    transform: scale(1.0);
+    transition: visibility 0s linear 0s, opacity 0.5s 0s, transform 0.25s;
+}
+
+
+.publicacao-modal {
+    /* Cores */
+    border: 1px rgb(0, 245, 0) solid;
+    background-color: rgb(255, 255, 255);
+    /* Largura e altura */
+    width: 2px;
+    height: 2px;
+
+    overflow: auto;
+    
+    /* Estas definições dos atributos position, top, left, e transform garantem que o container da publicação seja centralizado no modal*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    transition: width 0.1s, height 0.1s;
+}
+
+/* Remove a barra de scroll (mas funcionalidade de scroll ainda fica habilitada) */
+.publicacao-modal::-webkit-scrollbar {display:none;}
+
+
+/* Configurações dos elementos secundários da publicação no modal */
+.publicacao-modal img.avatar-autor {
+
+    width: 18px;
+    display: inline-block;
+}
+
+.publicacao-modal ul {
+    padding-left: 3em;
+}
+
+.publicacao-modal blockquote {
+    padding-left: 3em;
+    font-size: 0.9em;
+}
+/* FIM Configurações secundárias da publicação no modal */
+
+
+.padding-publicacao-modal {
+    /*
+        Padding adiciona à publicação no modal após a animação de redimensionamento iniciar
+        Dessa forma, a animação inicia com a publicação sem padding (o que influenciaria nas dimensões da publicação)    
+    */
+    padding: 15px;
+}
+
+.icone-idioma-modal {
+    /* Margem à esquerda para que a bandeira não fique colada à data da publicação */
+    margin-left: 5px;
+}
+
+.botao-fechar {
+    position: absolute;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    
+    z-index: 100;
+
+    border-radius: 1rem;
+}
+
+.botao-fechar:hover {
+    background-color: rgb(90, 88, 88);
+}
+
+
+
+.botao-amei-modal {
+    color: red;
+    float: right;
+    font-size: 2em;
+}
+
+.botao-amei-modal:hover {
+    cursor: pointer;
+}
+
+
+
+
+
+/* EM TELAS PEQUENAS */
+@media only screen and (max-width: 767px) {
+
+
+    .publicacao-modal {
+        /* Curvatura das bordas */
+        border-radius: 0.5rem;
+    }
+
+    .publicacao-modal-expandido {
+        /* Publicação ocupa quase a tela toda */
+        width: 95%;
+        height: 95%;
+    }
+    
+    .botao-fechar {
+
+        /* Cores */
+        background-color: rgb(122, 121, 121);
+        border: white 1px solid;
+
+        /* Botão posicionado no canto inferior esquerdo */
+        bottom: 4px;
+        left: 4px;
+
+        /* Tamanho do botão */
+        width: 2rem;
+        line-height: 2rem;
+        font-size: 2rem;
+    }
+}
+
+/* EM TELAS LARGAS */
+@media only screen and (min-width: 768px) {
+
+    .publicacao-modal {
+        /* Curvatura das bordas */
+        border-radius: 0.2rem;
+    }
+
+    .publicacao-modal-expandido {
+        /* Publicação com largura igual a "metade" do modal */
+        width: 60%;
+        height: 95%;
+    }
+
+    .botao-fechar {
+
+        position: absolute;
+
+        /* Botão posicionado no canto superior direito */
+        top: 10px;
+        right: 10px;
+
+        /* Tamanho 0.5rem menor do que em telas pequenas */
+        width: 1.5rem;
+        line-height: 1.5rem;
+        font-size: 1.5rem;  
+    }
+}
+
+/* Remove a funcionalidade de scroll */
+.body-no-scroll {
+    overflow-y: hidden;
+}
+
+/* Devolve a funcionalidade de scroll (entretanto a barra de scroll não é exibida pois ela foi "escondida" na seção GLOBAL) */
+.body-scroll {
+    overflow-y: visible;
+}
+
+
+/* FIM MODAL DE PUBLICAÇÃO */
+
+
+
+
+/*******************************************************************************************/
+/*********************************** PAGINAÇÃO DO MURAL ************************************/
+/*******************************************************************************************/
+
+
+/* PAGINAÇÃO DO MURAL */
+
+ul.paginacao {
+    display: table;
+    margin: 0 auto;
+}
+
+ul.paginacao > a:hover {
+    text-decoration: none;
+}
+
+
+.paginacao li {
+
+    font-weight: bold;
+
+    border: grey 1px solid;
+
+    display:table-cell;
+
+    vertical-align: middle;
+
+    text-align: center;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+}
+
+.ativo {
+    color: black;
+    cursor: not-allowed;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+.desabilitado {
+    color: grey;
+    cursor: not-allowed;
+    text-decoration: none;
+    pointer-events: none;
+}
+
+/* FIM PAGINAÇÃO MURAL */
+

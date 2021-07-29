@@ -62,6 +62,7 @@ class InscricaoFeuRosa(db.Model):
 
 
 class Role(db.Model):
+
     __tablename__ = 'roles'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -81,13 +82,16 @@ class Role(db.Model):
 
     # 'permissoes' é um valor inteiro que define a lista de permissoes de um 'role' de forma compacta. Considerando que SQLAlchemy vai definir este campo como None por padrão, um construtor de classe é adicionado para definir o campo 'permissoes' como sendo 0 caso um valor inicial não seja providenciado nos argumentos do construtor
     def __init__(self, **kwargs):
+
         super(Role, self).__init__(**kwargs)
+
         if self.permissoes is None:
+
             self.permissoes = 0
 
 
     # A função inserir_roles() não cria novos objetos 'role' diretamente. Ao invés disso, ela tenta encontrar 'roles' existentes e atulizar as permissões desses 'roles'. Um novo objeto 'role' é criado apenas para para os 'roles' que ainda não existem no banco de dados. Isso é feito de forma que a lista de 'roles' possa ser atualizada no futuro quando mudanças precisarem ser feitas. Para adicionar um novo role ou mudar a lista de permissões de um 'role', altere o dicionário 'roles' definido no topo da função e execute a função novamente. Perceba que o 'role' anônimo não precisa ser representado no banco de dados, já que ele é o 'role' que representa usuários desconhecidos e que portanto não estão no banco de dados.
-    # Perceba também que inserir_roles() é um método estático, um tipo especial de método que não exige que um objeto seja criado pois ele pode ser invocado a partir da classe, escrevendo por exemplo Role.inserir_roles(). Métodos estáticos não recebem um argumento 'self' como métodos de instâncias.
+    # Perceba também que inserir_roles() é um método estático, um tipo especial de método que não exige que um objeto seja criado pois ele pode ser invocado a partir da classe, escrevendo Role.inserir_roles(). Métodos estáticos não recebem um argumento 'self' como métodos de instâncias.
     @staticmethod
     def inserir_roles():
 
@@ -237,8 +241,10 @@ class Role(db.Model):
 
     # Remove uma permissão
     def remover_permissao(self, permissao):
+
         # Se o usuário possuir a permissão
         if self.tem_permissao(permissao):
+
             # Remova a permissão de sua lista de permissões
             self.permissoes -= permissao
     
@@ -256,16 +262,26 @@ class Role(db.Model):
 
 
 class Usuario(UserMixin, db.Model):
+
     __tablename__ = 'usuarios'
     
     # Dados básicos
     id = db.Column(db.Integer, primary_key=True)
+    
     email = db.Column(db.String(64), unique=True,)
+    
     nome_usuario = db.Column(db.String(25), unique=True, index=True)
+    
     senha_hash = db.Column(db.String(128))
+    
     nome = db.Column(db.String(64))
+    
     sobrenome = db.Column(db.String(64))
+
+    data_nascimento = db.Column(db.Date())
+    
     localizacao = db.Column(db.String(64))
+    
     sobre = db.Column(db.String(100))
     
     #  Id do 'role' do usuário
@@ -322,45 +338,30 @@ class Usuario(UserMixin, db.Model):
             # Crie o 'avatar_hash' do usuário
             self.avatar_hash = self.gravatar_hash()
 
+
+
+
+
     @property
     def senha(self):
         raise AttributeError('senha não é um atributo de leitura')
 
+    # Quando a propriedade 'senha' for definida/alterada
     @senha.setter
     def senha(self, senha):
+        # Redefine 'senha_hash' baseado em 'senha'
         self.senha_hash = generate_password_hash(senha)
 
 
-
-    # FUNÇÕES DE AMAR PUBLICAÇÃO
-
-    def amar_publicacao(self, publicacao):
-
-        if not self.amou_publicacao(publicacao):
-
-            amou = PublicacaoAmei(usuario_id=self.id, publicacao_id=publicacao.id)
-            
-            db.session.add(amou)
-
-    def desfazer_amar_publicacao(self, publicacao):
-
-        if self.amou_publicacao(publicacao):
-
-            PublicacaoAmei.query.filter_by(
-                usuario_id=self.id,
-                publicacao_id=publicacao.id).delete()
-
-    def amou_publicacao(self, publicacao):
-
-        return PublicacaoAmei.query.filter(
-                PublicacaoAmei.usuario_id == self.id,
-                PublicacaoAmei.publicacao_id == publicacao.id).count() > 0
+    """###########################################################################################################"""
+    """########################################### MÉTODOS DE AUTENTICAÇÃO #######################################"""
 
 
     # Este método recebe a senha e passa ela na função check_password_hash() para a comparar com a hash armazenada no modelo 'Usuario'.
     # Se retornar True, a senha está correta
     def verificar_senha(self, senha):
         return check_password_hash(self.senha_hash, senha)
+
 
     # Gera um token para o usuário confirmar sua conta
     def gerar_token_confirmacao(self, expiracao=3600):
@@ -369,6 +370,7 @@ class Usuario(UserMixin, db.Model):
 
         return s.dumps({'confirmado': self.id}).decode('utf-8')
     
+
     # Confirma a conta de um usuário
     def confirmar(self, token):
 
@@ -388,6 +390,7 @@ class Usuario(UserMixin, db.Model):
 
         return True
 
+
     # Cria um token para redefinir a senha do usuário
     def gerar_token_redefinir_senha(self, expiracao=3600):
         # Cria o token
@@ -395,63 +398,132 @@ class Usuario(UserMixin, db.Model):
         # Retorna o token
         return s.dumps({'id_usuario': self.id}).decode('utf-8')
 
+
     # Redefine a senha do usuário
     @staticmethod
     def redefinir_senha(token, nova_senha):
 
-        s = Serializer(current_app.config['SECRET_KEY'])
+        # Instância do serializador
+        serializador = Serializer(current_app.config['SECRET_KEY'])
 
         try:
-            dados = s.loads(token.encode('utf-8'))
+            dados = serializador.loads(token.encode('utf-8'))
         except:
             return False
         
+        # Seleciona o usuário usando o id
         usuario = Usuario.query.get(dados.get('id_usuario'))
 
+        # Se a consulta não retornar um usuário
         if usuario is None:
             return False
 
+        #
         usuario.senha = nova_senha
         
         db.session.add(usuario)
 
         return True
 
+
     # Gera o token usado na troca de email
     def gerar_token_trocar_email(self, novo_email, expiracao=3600):
-        s = Serializer(current_app.config['SECRET_KEY'], expiracao)
-        return s.dumps(
-            {'id_usuario': self.id, 'novo_email': novo_email}).decode('utf-8')
+
+        # Instância do serializador
+        serializador = Serializer(current_app.config['SECRET_KEY'], expiracao)
+
+        # Retorna um objeto serializado, contendo o id do usuário e o novo email
+        return serializador.dumps(
+            {'id_usuario': self.id, 'novo_email': novo_email}
+        ).decode('utf-8')
+
 
     # Redefine o email de um usuário
     def trocar_email(self, token):
 
-        s = Serializer(current_app.config['SECRET_KEY'])
+        # Instância do serializador
+        serializador = Serializer(current_app.config['SECRET_KEY'])
 
+        # Tente
         try:
-            dados = s.loads(token.encode('utf-8'))
+            # Desserializa o token que contém o id do usuário e o novo email
+            dados = serializador.loads(token.encode('utf-8'))
+
+        # Se houver erro
         except:
+            
             return False
 
+        # Se a propriedade 'id_objeto' do objeto desserializado for diferente do id deste usuário
         if dados.get('id_usuario') != self.id:
+
             return False
 
+        # Seleciona o novo email
         novo_email = dados.get('novo_email')
 
+        # Checagem de erro
         if novo_email is None:
             return False
-
+    
+        # Se já houver um usuário com o novo email digitado
         if self.query.filter_by(email=novo_email).first() is not None:
+
             return False
 
+        # Redefine o email do usuário
         self.email = novo_email
 
         # Redefine o 'avatar_hash' baseado no novo email
         self.avatar_hash = self.gravatar_hash()
 
+        # Adiciona o usuário à sessão 
         db.session.add(self)
 
+        
         return True
+
+
+
+    """###########################################################################################################"""
+    """########################################### MÉTODOS DE INTERAÇÃO ##########################################"""
+
+
+
+    def amar_publicacao(self, publicacao):
+
+        if not self.amou_publicacao(publicacao):
+
+            amou = PublicacaoAmei(usuario_id=self.id, publicacao_id=publicacao.id)
+            
+            db.session.add(amou)
+
+
+    def desfazer_amar_publicacao(self, publicacao):
+
+        if self.amou_publicacao(publicacao):
+
+            PublicacaoAmei.query.filter_by(
+
+                usuario_id=self.id,
+                publicacao_id=publicacao.id
+
+            ).delete()
+
+
+    def amou_publicacao(self, publicacao):
+
+        return PublicacaoAmei.query.filter(
+
+                PublicacaoAmei.usuario_id == self.id,
+                PublicacaoAmei.publicacao_id == publicacao.id
+
+        ).count() > 0
+
+
+    """###########################################################################################################"""
+    """######################################## OUTROS MÉTODOS ###################################################"""
+
 
     # Um dos requisitos do serviço Gravatar é que o endereço de email através do qual o hash MD5 é obtido deve estar em letras minúsculas, por isso usamos a função 'String.lower()'
     def gravatar_hash(self):
@@ -489,8 +561,11 @@ class Usuario(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    # String que representa o usuário
     def __repr__(self):
         return '<Usuário %r>' % self.nome_usuario
+
+
 
 # Relação entre publicações e tags
 publicacoes_tags = db.Table(
@@ -502,26 +577,42 @@ publicacoes_tags = db.Table(
     db.Column('publicacao_id', db.Integer, db.ForeignKey('publicacoes.id'), primary_key=True)
 )
 
+
+
 class Publicacao(db.Model):
 
     __tablename__ = 'publicacoes'
 
     # Dados básicos
     id = db.Column(db.Integer, primary_key=True)
+
     titulo = db.Column(db.String(100))
+
+    # Usado em artigos do blog e lições (não é usado para publicações no mural)
+    subtitulo = db.Column(db.String(100))
+    
     conteudo = db.Column(db.Text)
+    
     conteudo_html = db.Column(db.Text)
+    
+    #! alterar nome para 'data_criacao' em todas as menções
     data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    idioma = db.Column(db.String(8))
+    
     autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
-    # Publicacao.tags retorna as tags às quais ma publicação está associada
+
+    #! Transformar o vínculo com um idioma em uma tag
+    idioma = db.Column(db.String(8))
+
+
+
+    # Publicacao.tags retorna as tags às quais a publicação está associada
     tags = db.relationship('Tag',
                            secondary=publicacoes_tags,
                            lazy='subquery',
                            backref=db.backref('publicacoes'))
 
-    
+
     comentarios = db.relationship('Comentario',
                                   backref='publicacao',
                                   lazy='dynamic')
@@ -530,6 +621,8 @@ class Publicacao(db.Model):
     ameis = db.relationship('Usuario',
                             secondary='publicacoes_amei',
                             backref=db.backref('publicacao', lazy='dynamic'))
+
+
 
 
     # Converte texto em Markdown para HTML
@@ -541,13 +634,21 @@ class Publicacao(db.Model):
     def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
 
         # Define as tags permitidas no Markdown
-        tags_permitidas = ['a', 'abbr', 'b', 'blockquote', 'code', 'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h3', 'p']
+        tags_permitidas = ['a', 'abbr', 'b', 'blockquote', 'code', 'em', 'i', 'img', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h3', 'p']
+
+        atributos_permitidos = {'*': ['class'],
+                                'a': ['href', 'rel'],
+                                'img': ['src', 'alt']
+        }
+
 
         target.conteudo_html = bleach.linkify(
                                bleach.clean(
                                     markdown(conteudo, output_format='html'),
-                                    tags=tags_permitidas, strip=True)
-                            )
+                                    tags=tags_permitidas,
+                                    attributes=atributos_permitidos,
+                                    strip=False)
+        )
 
 
     # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
@@ -583,11 +684,17 @@ class Comentario(db.Model):
 
     __tablename__ = 'comentarios'
     
+
     # Dados básicos
+    
     id = db.Column(db.Integer, primary_key=True)
+    
     conteudo = db.Column(db.Text)
+    
     conteudo_html = db.Column(db.Text)
+    
     data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    
     desativado = db.Column(db.Boolean)
 
     # id do autor do comentário
@@ -620,6 +727,7 @@ class PublicacaoAmei(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
     publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
+
 
 
 # As tags de uma publicação podem ser acessadas com publicacao.tags
@@ -665,10 +773,11 @@ class Tag(db.Model):
                 # Crie uma nova 'tag'
                 tag = Tag(nome=nome)
 
+            # Adiciona a tag à sessão
             db.session.add(tag)
 
+        # Salva as alterações no banco de dados
         db.session.commit()
-
 
 
 

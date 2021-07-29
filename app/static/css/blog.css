@@ -1,0 +1,74 @@
+
+#container-lista-cartao-artigos {
+
+}
+
+.lista-cartao-artigos {
+    list-style-type: none;
+    padding: 0;
+}
+
+.container-cartao-artigo:hover {
+    
+}
+
+.cartao-artigo {
+    display: block;
+    position: relative;
+    min-height: 8em;
+    padding: 1em;
+}
+
+.cartao-artigo:hover {
+    text-decoration: none;
+    background-color:rgb(240, 240, 240);
+}
+
+
+
+.imagem-cartao-artigo {
+    width: 6em;
+    border-radius: 6px;
+}
+
+.container-tags-titulos-cartao-artigo {
+    margin-left: 7em;
+    color: black;
+    font-family: 'Unica One', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; 
+    text-transform: uppercase;
+}
+
+
+.tag-cartao-artigo {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    font-family: Arial;
+    background-color: blue;
+    color: white;
+    border: navy;
+}
+
+.titulo-cartao-artigo {
+    margin-bottom: 0;
+}
+
+.subtitulo-cartao-artigo {
+    color: grey; font-size: 1.3em;
+}
+
+
+
+
+
+
+
+
+
+

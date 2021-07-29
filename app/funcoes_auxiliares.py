@@ -8,10 +8,10 @@ def criar_publicacao(formulario):
     # Cria uma nova publicação usando o modelo 'Publicacao'
     publicacao = Publicacao(
 
-            titulo=formulario.titulo.data,
-            conteudo=formulario.conteudo.data,
-            idioma=formulario.idioma,
-            autor=current_user._get_current_object()
+        titulo=formulario.titulo.data,
+        conteudo=formulario.conteudo.data,
+        idioma=formulario.idioma,
+        autor=current_user._get_current_object()
     )
 
     # Imprime o id das tags selecionadas
@@ -30,6 +30,35 @@ def criar_publicacao(formulario):
     # Retorna o objeto que representa a publicação
     return publicacao
 
+"""
+A função criar_artigo() é igual à funcão criar_publicacao(), entretanto não define um idioma da publicação
+"""
+
+
+def criar_artigo(formulario):
+
+    artigo = Publicacao(
+
+        titulo = formulario.titulo.data,
+        subtitulo = formulario.subtitulo.data,
+        conteudo=formulario.conteudo.data,
+        autor=current_user._get_current_object()
+    )
+
+    print(formulario.tags.data)
+
+    for tag in formulario.tags.data:
+
+        # Seleciona a tag no banco de dados de acordo com o que foi selecionado
+        t = Tag.query.filter_by(id=tag).first()
+
+        # Adiciona a tag selecionada à lista de tags da publicação
+        artigo.tags.append(t)
+
+    return artigo
+
+
+
 
 # Cria um comentário em uma publicação
 def registrar_comentario(publicacao_id, autor_id, conteudo):
@@ -37,9 +66,9 @@ def registrar_comentario(publicacao_id, autor_id, conteudo):
     # Cria um novo comentário
     novo_comentario = Comentario(
 
-            publicacao_id=publicacao_id,
-            autor_id=autor_id,
-            conteudo=conteudo
+        publicacao_id=publicacao_id,
+        autor_id=autor_id,
+        conteudo=conteudo
     )
 
     # Adiciona comentário à sessão

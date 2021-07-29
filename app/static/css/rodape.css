@@ -1,0 +1,31 @@
+
+
+/*******************************************************************************************/
+/***************************************** RODAPÉ ******************************************/
+/*******************************************************************************************/
+
+
+#secao-rodape {
+    margin: 20px;
+    background-color: #9c9c9c;
+    border-top: 5px rgb(223, 223, 223) solid;
+}
+
+.footer-heading {
+    font-family: 'Merienda One', cursive;
+    font-size: .8em;
+}
+
+#secao-rodape .fa {
+    margin-right: 10px;
+}
+
+#secao-rodape li.list-group-item {
+    border: none;
+}
+
+#botao-batepapo {
+    font-family: 'Merienda One', cursive;
+}
+
+/* FIM ESTILIZAÇÃO RODAPÉ */

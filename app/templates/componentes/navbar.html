@@ -4,7 +4,7 @@
 <div id="nav-mobile">
     <nav id="barra-navegacao" class="row navbar text-center">
 
-        <a class="navbar-brand navbar-brand-desktop p-2" href="http://google.com">
+        <a class="navbar-brand navbar-brand-desktop p-2" href="{{ url_for('blog.inicio') }}">
             <div class="col"><!-- Logo na barra de navegação -->
                 <span class="logo-span">A+</span>
             </div>
@@ -30,11 +30,11 @@
         
             <ul class="navbar-sub-lista navbar-nav borda-sub-menu">
                 <li><i class="fa fa-coffee"></i> Blog</li>
-                <a href=""><li>🌎 Brasil</li></a>
-                <a href=""><li><i class="fa fa-hashtag text-danger"></i> Séries</li></a>
-                <a href=""><li>📚 Estudo</li></a>
-                <a href=""><li>✈️ Viagem</li></a>
-                <a href=""><li><i class="fa fa-comments text-success"></i> Entrevistas</li></a>
+                <a href="{{ url_for('blog.brasil') }}"><li>🌎 Brasil</li></a>
+                <a href="{{ url_for('blog.series') }}"><li><i class="fa fa-hashtag text-danger"></i> Séries</li></a>
+                <a href="{{ url_for('blog.estudo') }}"><li>📚 Estudo</li></a>
+                <a href="{{ url_for('blog.viagem') }}"><li>✈️ Viagem</li></a>
+                <a href="{{ url_for('blog.entrevistas') }}"><li><i class="fa fa-comments text-success"></i> Entrevistas</li></a>
             </ul>
         </div>
     
@@ -42,12 +42,14 @@
             <ul class="navbar-sub-lista navbar-nav mr-auto borda-sub-menu">
                 <li><i class="fa fa-language"></i> Idiomas</li>
                 <a href="{{ url_for('ingles.inicio') }}"><li>🇺🇸 Inglês</li></a>
-                <a href="#"><li>🇫🇷 Francês</li></a>
-                <a href="#"><li>🇪🇸 Espanhol</li></a>
+                <!--
+                <a href=""><li>🇫🇷 Francês</li></a>
+                <a href=""><li>🇪🇸 Espanhol</li></a>
                 <a href=""><li>🇮🇹 Italiano</li></a>
                 <a href=""><li>🇩🇪 Alemão</li></a>
                 <a href=""><li>🇨🇳 Chinês</li></a>
                 <a href=""><li>🇯🇵 Japonês</li></a>
+                -->
             </ul>
         </div>
     
@@ -55,14 +57,20 @@
             
             <ul class="navbar-sub-lista navbar-nav">
                 <li><i class="fa fa-laptop"></i> Tecnologia</li>
-                <a href=""><li>🐱 Introdução à Ciências da Computação</li></a>
-                <a href=""><li>💻 Desenvolvimento Web com Python e JavaScript</li></a>
-                <a href=""><li>🧠 Inteligência Artificial com Python</li></a>
-                <a href=""><li>🎮 Desenvolvimento de Games</li></a>
-                <a href=""><li>📈 Ciências da Computação para Empresários</li></a>
-                <a href=""><li>💼 Ciências da Computação para Advogados</li></a>
+                <a href="https://cs50xemportugues.github.io"><li>🐱 Introdução à Ciências da Computação</li></a>
+                <a href="https://cs50xemportugues.github.io/web"><li>💻 Desenvolvimento Web com Python e JavaScript</li></a>
+                <a href="https://cs50xemportugues.github.io/ia"><li>🧠 Inteligência Artificial com Python</li></a>
+                <a href="https://cs50xemportugues.github.io/games"><li>🎮 Desenvolvimento de Games</li></a>
+                <a href="https://cs50xemportugues.github.io/business"><li>📈 Ciências da Computação para Empresários</li></a>
+                <a href="https://cs50xemportugues.github.io/direito"><li>💼 Ciências da Computação para Advogados</li></a>
             </ul>
         </div>
+
+        
+                
+                
+                
+                
     
         <div class="collapse navbar-collapse bg-white borda-sub-menu" id="menu-lista">
     
@@ -97,11 +105,15 @@
     </nav>
 </div>
 
+
+
+
+
 <div id="nav-desktop">
 
     <nav id="barra-navegacao-desktop" class="navbar navbar-expand-md">
 
-        <a class="navbar-brand navbar-brand-desktop ml-1 mr-1" href="http://google.com"><span class="logo-span">A+</span></a>
+        <a class="navbar-brand navbar-brand-desktop ml-1 mr-1" href="{{ url_for('blog.inicio') }}"><span class="logo-span">A+</span></a>
         
         <!-- Botão hamburger -->
         <button class="navbar-toggler custom-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,61 +126,73 @@
                 <!-- Links do blog -->
                 <li class="nav-item nav-item-desktop dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-item-texto">Blog <i class="fa fa-coffee"></i></span>
+                        <span class="nav-item-texto">Blog <i class="fa fa-coffee"></i></span>
                     </a>
+
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#"><i class="fa fa-hashtag text-danger"></i> Séries</a>
-                    <a class="dropdown-item" href="#">✈️ Viagem</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-comments text-success"></i> Entrevistas</a>
-                    <a class="dropdown-item" href="#">🌎 Brasil</a>
-                    <a class="dropdown-item" href="#">📚 Estudo</a>
+                        <a class="dropdown-item" href="{{ url_for('blog.series') }}"><i class="fa fa-hashtag text-danger"></i> Séries</a>
+                        <a class="dropdown-item" href="{{ url_for('blog.viagem') }}">✈️ Viagem</a>
+                        <a class="dropdown-item" href="{{ url_for('blog.entrevistas') }}"><i class="fa fa-comments text-success"></i> Entrevistas</a>
+                        <a class="dropdown-item" href="{{ url_for('blog.brasil') }}">🌎 Brasil</a>
+                        <a class="dropdown-item" href="{{ url_for('blog.estudo') }}">📚 Estudo</a>
                     </div>
                 </li>
         
                 <!-- Link dos idiomas -->
                 <li class="nav-item nav-item-desktop dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-item-texto">Idiomas <i class="fa fa-language"></i></span>
+                        <span class="nav-item-texto">Idiomas <i class="fa fa-language"></i></span>
                     </a>
+
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ url_for('ingles.inicio') }}">🇺🇸 Inglês</a>
-                    <a class="dropdown-item" href="#">🇫🇷 Francês</a>
-                    <a class="dropdown-item" href="#">🇪🇸 Espanhol</a>
-                    <a class="dropdown-item" href="#">🇮🇹 Italiano</a>
-                    <a class="dropdown-item" href="#">🇩🇪 Alemão</a>
-                    <a class="dropdown-item" href="#">🇨🇳 Chinês</a>
-                    <a class="dropdown-item" href="#">🇯🇵 Japonês</a>
+                        <a class="dropdown-item" href="{{ url_for('ingles.inicio') }}">🇺🇸 Inglês</a>
+                        <!--
+                        <a class="dropdown-item" href="">🇫🇷 Francês</a>
+                        <a class="dropdown-item" href="">🇪🇸 Espanhol</a>
+                        <a class="dropdown-item" href="">🇮🇹 Italiano</a>
+                        <a class="dropdown-item" href="">🇩🇪 Alemão</a>
+                        <a class="dropdown-item" href="">🇨🇳 Chinês</a>
+                        <a class="dropdown-item" href="">🇯🇵 Japonês</a>
+                        -->
                     </div>
                 </li>
         
                 <!-- Link para os cursos do CS50 -->
                 <li class="nav-item nav-item-desktop dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="nav-item-texto">Tech <i class="fa fa-laptop"></i></span>
+                        <span class="nav-item-texto">Tech <i class="fa fa-laptop"></i></span>
                     </a>
+
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="https://cs50xemportugues.github.io/2020/">🐱 Introdução à Ciências da Computação </a>
-                    <a class="dropdown-item" href="https://cs50.harvard.edu/web/2020/">💻 Desenvolvimento Web com Python e JavaScript</a>
-                    <a class="dropdown-item" href="https://cs50.harvard.edu/ai/2020/">🧠 Inteligência Artificial com Python</a>
-                    <a class="dropdown-item" href="https://cs50.harvard.edu/games/2018/">🎮 Desenvolvimento de Games</a>
-                    <a class="dropdown-item" href="https://cs50.harvard.edu/law/2019/">💼 Ciências da Computação para Advogados</a>
-                    <a class="dropdown-item" href="https://cs50.harvard.edu/business/2017/">📈 Ciências da Computação para Empresários</a>
+                        <a class="dropdown-item" href="https://cs50xemportugues.github.io">🐱 Introdução à Ciências da Computação </a>
+                        <a class="dropdown-item" href="https://cs50xemportugues.github.io/web">💻 Desenvolvimento Web com Python e JavaScript</a>
+                        <a class="dropdown-item" href="https://cs50xemportugues.github.io/ia">🧠 Inteligência Artificial com Python</a>
+                        <a class="dropdown-item" href="https://cs50xemportugues.github.io/games">🎮 Desenvolvimento de Games</a>
+                        <a class="dropdown-item" href="https://cs50xemportugues.github.io/business">📈 Ciências da Computação para Empresários</a>
+                        <a class="dropdown-item" href="https://cs50xemportugues.github.io/direito">💼 Ciências da Computação para Advogados</a>
                     </div>
                 </li>
-        
+                
+
                 <!-- Link para a página da equipe -->
                 <li class="nav-item nav-item-desktop nav-item-texto">
-                    <a class="nav-link" href="">Equipe <i class="fa fa-users"></i></a>
+                    <a class="nav-link" href="{{ url_for('inicio.equipe') }}">Equipe <i class="fa fa-users"></i></a>
                 </li>
         
                 <!-- Link para a página de contato -->
                 <li class="nav-item nav-item-desktop nav-item-texto">
-                    <a class="nav-link" href="">Contato <i class="fa fa-phone"></i></a>
+                    <a class="nav-link" href="{{ url_for('inicio.contato') }}">Contato <i class="fa fa-phone"></i></a>
+                </li>
+
+
+                <!-- Link para a página da loja -->
+                <li class="nav-item nav-item-desktop nav-item-texto">
+                    <a class="nav-link" href="{{ url_for('inicio.loja') }}">Loja <i class="fa fa-shopping-cart"></i></a>
                 </li>
         
                 <!-- Link para a página com informações adicionais -->
                 <li class="nav-item nav-item-desktop nav-item-texto">
-                    <a class="nav-link" href="">Sobre <i class="fa fa-info-circle"></i></a>
+                    <a class="nav-link" href="{{ url_for('inicio.sobre') }}">Sobre <i class="fa fa-info-circle"></i></a>
                 </li>
         
                 <!-- Se o cliente estiver logado -->
@@ -195,11 +219,11 @@
                 {% else %}
                     <!-- Link para o cliente criar uma conta -->
                     <li class="nav-item nav-item-desktop nav-item-texto">
-                        <a class="nav-link" href="{{ url_for('autorizar.inscricao')}}">Se inscrever</a>
+                        <a class="nav-link" href="{{ url_for('autorizar.inscricao')}}">Se Inscrever <i class="fa fa-key"></i></a>
                     </li>
                     <!-- Link para o cliente entrar na sua conta -->
                     <li class="nav-item nav-item-desktop nav-item-texto">
-                        <a class="nav-link" href="{{ url_for('autorizar.entrar') }}">Entrar</a>
+                        <a class="nav-link" href="{{ url_for('autorizar.entrar') }}">Entrar <i class="fa fa-user-circle"></i></a>
                     </li>
                 {% endif %}
             </ul>

@@ -1,0 +1,78 @@
+
+/*******************************************************************************************/
+/***************************************** LIÇÕES ******************************************/
+/*******************************************************************************************/
+
+
+#secao-licoes div {
+    /*border: black solid 1px;*/
+    margin-bottom: 1em;
+    padding: 5px;
+}
+
+#secao-licoes li {
+    list-style-type: square;
+    list-style-position: inside;
+    font-size: large;
+    padding-left: 10px;
+}
+
+
+#secao-licoes-nivel-a1 li:hover {
+    color: white;
+    background-color: rgb(0, 127, 255);
+}
+
+
+/*
+#secao-licoes-nivel-a2 li:hover {
+    color: white;
+    background-color:  rgb(0, 0, 255);
+}
+
+#secao-licoes-nivel-b1 li:hover {
+    color: white;
+    background-color: rgb(127, 0, 255);
+}
+
+#secao-licoes-nivel-b2 li:hover {
+    color: white;
+    background-color: rgb(255, 0, 255);
+}
+
+#secao-licoes-nivel-c1 li:hover {
+    color: white;
+    background-color: rgb(255, 0, 127);
+}
+
+#secao-licoes-nivel-c2 li:hover {
+    color: white;
+    background-color: rgb(255, 0, 0);
+}
+
+*/
+
+
+#secao-licoes-nivel-a1 {
+    color: rgb(0, 127, 255);
+}
+
+#secao-licoes-nivel-a2 {
+    color: rgb(0, 0, 255);
+}
+
+#secao-licoes-nivel-b1 {
+    color: rgb(127, 0, 255);
+}
+
+#secao-licoes-nivel-b2 {
+    color: rgb(255, 0, 255);
+}
+
+#secao-licoes-nivel-c1 {
+    color: rgb(255, 0, 127);
+}
+
+#secao-licoes-nivel-c2 {
+    color: rgb(255, 0, 0);
+}

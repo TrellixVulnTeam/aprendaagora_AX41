@@ -18,8 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const tech_icone = document.querySelector('#tech-icone');
     const menu_icone = document.querySelector('#menu-icone');
 
+
+    /********************************************************************************/
+    /********************************************************************************/
+    /********************************************************************************/
+
+
     blog_botao.addEventListener('click', e => {
-    
+
         secao_principal.classList.add('margem-secao-principal');
 
         if (blog_botao.style.backgroundColor == 'white')
@@ -55,7 +61,15 @@ document.addEventListener('DOMContentLoaded', () => {
         $('#tech-lista').collapse('hide');
         $('#menu-lista').collapse('hide');
         $('#blog-lista').collapse('toggle');
+
     });
+
+
+    /********************************************************************************/
+    /********************************************************************************/
+    /********************************************************************************/
+
+
 
     idiomas_botao.addEventListener('click', e => {
     
@@ -98,6 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
         $('#idiomas-lista').collapse('toggle');
     });
 
+
+    /********************************************************************************/
+    /********************************************************************************/
+    /********************************************************************************/
+
+
     tech_botao.addEventListener('click', e => {
     
         secao_principal.classList.add('margem-secao-principal');
@@ -139,6 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
         $('#tech-lista').collapse('toggle');
     });
 
+
+    /********************************************************************************/
+    /********************************************************************************/
+    /********************************************************************************/
+
+    
+
     menu_botao.addEventListener('click', e => {
         
         secao_principal.classList.add('margem-secao-principal');
@@ -177,6 +204,11 @@ document.addEventListener('DOMContentLoaded', () => {
         $('#tech-lista').collapse('hide');
         $('#menu-lista').collapse('toggle');
     });
+
+
+    /********************************************************************************/
+    /********************************************************************************/
+    /********************************************************************************/
   
     secao_principal.addEventListener('click', e => {
 

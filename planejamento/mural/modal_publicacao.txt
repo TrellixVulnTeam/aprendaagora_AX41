@@ -1,4 +1,23 @@
 
+Estilo
+	[ ] - Aumentar o padding dos comentários no modal para ficar mais legível
+	[ ] - Mudar cursor para ponteiro quando estiver em cima do botão de comentar
+	[ ] - Aumentar o tamanho do botão de like em comentário
+	[ ] - Trocar cor da borda do textarea de escrever comentário
+	[ ] - Adicionar espaço entre o icone de amei e o número de amei da publicação
+	[ ] -
+	[ ] -
+	[ ] -
+	[ ] -
+	[ ] - 
+	[ ] -
+	[ ] -
+	[ ] -
+	[ ] -
+	[ ] - 
+
+
+
 
 
 Elementos/Informações/Dados para exibir na publicação no modal
@@ -44,5 +63,6 @@ Funcionalidades para implementar na publicação no modal
 
 	[ ] - Abrir formulário de edição de comentário quando o botão de edição for clicado
 
+	[ ] - Incrementar o número de comentários em 1 quando o usuário escrever um comentário
 
-
+	[ ] - Impedir envio de comentário caso o textarea esteja vazio

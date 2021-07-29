@@ -12,38 +12,9 @@ from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin, fo
 
 
 
+###########################################################################################
 
-"""  ROTAS COMUNS  """
-
-# Página de Login
-@bp.route('/', methods=['GET', 'POST'])
-def inicio():
-
-    formulario = formularioInscricaoFeuRosa()
-
-    # Se o método for POST
-    if formulario.validate_on_submit():
-
-        # Cria uma nova inscrição e envia para o banco de dados
-
-        nova_inscricao = InscricaoFeuRosa(nome=formulario.nome.data, email=formulario.email.data, numero_telefone=formulario.numero_telefone.data, curso=formulario.opcao_curso.data, horario=formulario.horario.data)
-
-        db.session.add(nova_inscricao)
-        db.session.commit()
-
-        return render_template('confirmar_inscricao.html')
-
-
-    # Se o método for GET
-    return render_template('temporario.html', formulario=formulario)
-
-
-
-
-
-
-
-
+""" REDES SOCIAIS """
 
 
 # Página no Instagram
@@ -63,9 +34,58 @@ def grupo_youtube():
 
 
 
+###########################################################################################
+
+"""  ROTAS COMUNS  """
+
+
+# Página de Inscrição para os cursos em FEU ROSA
+@bp.route('/', methods=['GET', 'POST'])
+def inicio():
+
+    # Seleciona o formulário de inscrição
+    formulario = formularioInscricaoFeuRosa()
+
+    # Se o método for POST
+    if formulario.validate_on_submit():
+
+        # Cria uma nova inscrição e envia para o banco de dados
+        nova_inscricao = InscricaoFeuRosa(
+                            nome=formulario.nome.data,
+                            email=formulario.email.data,
+                            numero_telefone=formulario.numero_telefone.data,
+                            curso=formulario.opcao_curso.data,
+                            horario=formulario.horario.data
+        )
+
+        db.session.add(nova_inscricao)
+        db.session.commit()
+
+        return render_template('autorizar/confirmar_inscricao.html')
+
+    # Se o método for GET
+    return render_template('temporario.html', formulario=formulario)
 
 
 
+@bp.route('/equipe')
+def equipe():
+    return render_template('blog/index.html')
+
+
+@bp.route('/contato')
+def contato():
+    return render_template('blog/index.html')
+
+
+@bp.route('/sobre')
+def sobre():
+    return render_template('blog/index.html')
+
+
+@bp.route('/loja')
+def loja():
+    return render_template('blog/index.html')
 
 
 
@@ -77,11 +97,25 @@ def grupo_youtube():
 def perfil():
 
     # Seleciona o usuário no banco de dados ou retorna um erro 404
-    usuario = Usuario.query.filter_by(nome_usuario=current_user._get_current_object().nome_usuario).first_or_404()
+    usuario = Usuario.query.filter_by(
 
-    publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
+            nome_usuario=current_user._get_current_object().nome_usuario
+    ).first_or_404()
 
-    return render_template('usuario.html', usuario=current_user._get_current_object(), publicacoes=publicacoes)
+    # Seleciona as publicacoes do usuário
+    publicacoes = usuario.publicacoes.order_by(
+
+            Publicacao.data.desc()
+    ).all()
+
+    # Exibe a página de perfil do usuário
+    return render_template(
+            'usuario.html',
+            usuario=current_user._get_current_object(),
+            publicacoes=publicacoes
+    )
+
+
 
 # Exibe a página de perfil de um usuário qualquer
 @bp.route('/usuario/<nome_usuario>')
@@ -92,43 +126,67 @@ def usuario(nome_usuario):
 
     # Se o usuário atual estiver conectado
     if current_user.is_authenticated:
+
+        # Se o usuário atual for usuário da página acessada
         if (current_user._get_current_object().nome_usuario == nome_usuario):
+
+            # Redirecione para a rota 'perfil'
             return redirect(url_for('inicio.perfil'))
 
+    # Seleciona as publicações do usuário
     publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
 
     # Exibe a página de usuário, fornecendo os dados do usuário como argumentos
-    return render_template('usuario.html', usuario=usuario, publicacoes=publicacoes)
+    return render_template(
+            'usuario.html',
+            usuario=usuario,
+            publicacoes=publicacoes
+    )
 
 
+
+# Rota para o usuário conectado editar seu perfil
 @bp.route('/perfil/editar', methods=['GET', 'POST'])
 @login_required
 def editar_perfil():
 
+    # Seleciona o formulário de editar perfil
     formulario = formularioEditarPerfil()
 
+    # Se o método for POST (se estiver salvando as alterações)
     if formulario.validate_on_submit():
 
+        # Define os dados do usuário
         current_user.nome_usuario = formulario.nome_usuario.data
         current_user.nome = formulario.nome.data
         current_user.sobrenome = formulario.sobrenome.data
         current_user.localizacao = formulario.localizacao.data
         current_user.sobre = formulario.sobre.data
 
+        # Adiciona o usuário alterado
         db.session.add(current_user._get_current_object())
+
+        # Salva as alterações no banco de dados
         db.session.commit()
 
-        flash("As alterações no seu perfil foram salvas.")
+        # Mensagem de aviso
+        flash("As alterações no seu perfil foram salvas.", 'alert-success')
 
+        # Redireciona para a página de perfil
         return redirect(url_for('inicio.perfil'))
 
+    # Atribui os dados do usuário aos campos do formulário
     formulario.nome_usuario.data = current_user.nome_usuario
     formulario.nome.data = current_user.nome
     formulario.sobrenome.data = current_user.sobrenome
     formulario.localizacao.data = current_user.localizacao
     formulario.sobre.data = current_user.sobre
 
-    return render_template('editar_perfil.html', formulario=formulario)
+    # Exibe a página de editar perfil
+    return render_template(
+            'editar_perfil.html',
+            formulario=formulario
+    )
 
 
 
@@ -173,7 +231,11 @@ def apagar_publicacao():
         return(str(e))
 
 
+
+###########################################################################################
+
 """  ROTAS DOS PROFESSORES E DOS ADMINS  """
+
 
 # Rota para um Professor escrever no Blog
 @bp.route('/escrever')
@@ -181,6 +243,8 @@ def apagar_publicacao():
 @permissao_necessaria(Permissao.ESCREVER_BLOG)
 def apenas_professores():
     return "Apenas Professores!"
+
+
 
 # Rota do painel do Administrador
 
@@ -191,8 +255,9 @@ def apenas_professores():
 def apenas_admins():
     return "Apenas Administradores!"
 
-# Rota para um Administrador editar a conta de outro usuário
 
+
+# Rota para um Administrador editar a conta de outro usuário
 @bp.route('/editar-perfil/<int:id>', methods=['GET', 'POST'])
 @login_required
 @admin_necessario
@@ -220,7 +285,7 @@ def editar_perfil_admin(id):
         db.session.add(usuario)
         db.session.commit()
 
-        flash("As alterações no perfil foram salvas.")
+        flash("As alterações no perfil foram salvas.", 'alert-success')
 
         print("Método POST")
 
