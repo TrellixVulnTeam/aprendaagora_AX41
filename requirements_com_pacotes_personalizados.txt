@@ -21,8 +21,6 @@ Flask-Session==0.3.2
 Flask-SocketIO==5.1.0
 Flask-SQLAlchemy==2.2
 Flask-SSLify==0.1.5
-Flask-Script
-Flask-WTF
 greenlet==1.1.0
 gunicorn==19.7.1
 html5lib==0.999999999
@@ -45,3 +43,5 @@ visitor==0.1.3
 webencodings==0.5.1
 Werkzeug==2.0.1
 WTForms==2.1
+git+https://github.com/ramonrodriguesomero/flask-script.git
+git+https://github.com/ramonrodriguesomero/flask-wtf.git
