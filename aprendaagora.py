@@ -21,7 +21,16 @@ migrate = Migrate(app, db)
 # Flask Shell
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, Permissao=Permissao, Role=Role, Usuario=Usuario, Publicacao=Publicacao, Tag=Tag)
+
+    return dict(
+        db=db,
+        Permissao=Permissao,
+        Role=Role,
+        Usuario=Usuario,
+        Publicacao=Publicacao,
+        Tag=Tag
+    )
+
 
 # Command line interface
 @app.cli.command()

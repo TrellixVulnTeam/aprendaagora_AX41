@@ -1,14 +1,13 @@
 {% extends 'layout.html' %}
 
-{% block titulo %}Escrever Publicação{% endblock %}
-
-{% block cabecalho %}
-    <h1>Escrever uma publicação para o Blog</h1>
-{% endblock %}
+{% block titulo %}Escreva uma publicação{% endblock %}
 
 <!-- Conteúdo da Página-->
 {% block conteudo_pagina %}
-    <p>Nova publicação</p>
+    <div class="escrever__container">
+        <h1>Nova publicação</h1>
 
-    {{ exibir_formulario_escrever_artigo(formulario) }}
+        {{ exibir_formulario_escrever_artigo(formulario) }}
+    </div>
+    
 {% endblock %}

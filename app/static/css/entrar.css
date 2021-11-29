@@ -1,0 +1,101 @@
+
+.entrar__container {
+    width: 100vw;
+    height: 100vh;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.entrar__wrap {
+    width: 70%;
+    height: 70%;
+    display: flex;
+}
+
+.entrar__esquerda, .entrar__direita {
+    flex: 1;
+    display: flex;
+    color: white;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.entrar__logo {
+    font-size:50px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px black;
+    font-family: 'Merienda One', sans-serif;
+}
+
+.entrar_descricao {
+    font-size: 24px;
+}
+
+.entrar__formulario {
+    height: 300px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.entrar__input {
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid gray;
+    font-size: 18px;
+    padding-left: 20px;
+    margin-bottom: 10px;
+}
+
+.entrar__input:focus {
+    outline: none;
+}
+
+.entrar__botao-entrar {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #1775ee;
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.entrar__esqueci-senha {
+    text-align: center;
+    color: #1775ee;
+    margin-bottom: 10px;
+}
+
+.entrar__botao-registrar {
+    width: 60%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+
+    background-image: linear-gradient(to right, darkgreen, green);
+
+    transition: background-image 5s ease-out;
+
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.entrar__botao-registrar:hover {
+    background-image: linear-gradient(to right, green, darkgreen);
+} 
+
+.entrar__botao-registrar a {
+    color: white !important;
+}

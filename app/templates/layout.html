@@ -3,9 +3,13 @@
 <!-- Extensão para gerenciar Formulários -->
 {% import "bootstrap/wtf.html" as wtf %}
 
+
+<!-- MACROS DO BLOG -->
+{% from "auxiliares/auxiliares_blog.html" import exibir_formulario_escrever_artigo %}
+
+
 <!-- Macros específicos das páginas de idiomas -->
 {% from "auxiliares/jinja_auxiliares.html" import exibir_formulario %}
-{% from "auxiliares/jinja_auxiliares.html" import exibir_formulario_escrever_artigo %}
 {% from "auxiliares/jinja_auxiliares.html" import exibir_campo %}
 {% from "auxiliares/jinja_auxiliares.html" import exibir_campo_selecao_tag %}
 {% from "auxiliares/jinja_auxiliares.html" import exibir_botao %}
@@ -57,10 +61,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/fontes.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_mobile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/entrar.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mural.css') }}">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/artigo.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/artigo.css') }}">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/escrever.css') }}"> 
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/licoes.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/rodape.css') }}">
 

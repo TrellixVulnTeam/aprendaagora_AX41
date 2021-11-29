@@ -184,7 +184,6 @@ class Publicacao {
 }
 
 
-
 class Modal {
 
     constructor(conteudo="Este é um modal") {
@@ -367,6 +366,11 @@ function selecionar_icone_idioma(idioma) {
     }
 }
 
+
+/***************************************************************************
+******************************* TAGS PÍLULA ********************************
+***************************************************************************/ 
+
 // Funções que criam tags estilo "pílula"
 function criar_tag_vocabulario () {
 
@@ -432,7 +436,11 @@ function criar_tag_cultura () {
     return span_tag;
 }
 
-// Funções que criam os componentes de uma publicação no modal
+
+/***************************************************************************
+******************* COMPONENTES PUBLICAÇÃO MODAL ***************************
+***************************************************************************/ 
+
 function criar_container_id_publicacao (publicacao) {
 
     let id_publicacao = document.createElement('small');

@@ -6,15 +6,38 @@ from flask_login import login_required, current_user
 from sqlalchemy import desc
 
 from . import blog as bp
+from .formularios import formularioPublicacaoBlog
+
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
 from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
 from ..email import enviar_email
-from ..formularios import formularioPublicacaoBlog
-
-#from ..formularios import formularioPublicacaoBlog
-
 from ..funcoes_auxiliares import criar_artigo, registrar_comentario, truncar_texto
+
+"""
+    ROTAS
+
+
+    inicio()
+
+    escrever_artigo()
+
+    editar_artigo(id_artigo)
+
+    artigo(id_artigo)
+
+    series()
+
+    viagem()
+
+    brasil()
+
+    estudo()
+
+    entrevistas()
+"""
+
+
 
 
 # Página inicial do BLOG
@@ -32,7 +55,7 @@ def inicio():
 @bp.route('/escrever', methods=['GET', 'POST'])
 @login_required
 @permissao_necessaria(Permissao.ESCREVER_BLOG)
-def escrever_publicacao():
+def escrever_artigo():
 
     formulario = formularioPublicacaoBlog()
 
@@ -61,6 +84,23 @@ def escrever_publicacao():
 
 
 
+
+"""
+!!! NÃO FOI IMPLEMENTADA
+"""
+# Página que edita um artigo
+@bp.route('/editar/<int:id_artigo>', methods=['GET'])
+@login_required
+@permissao_necessaria(Permissao.ESCREVER_BLOG)
+def editar_artigo(id_artigo):
+
+    artigo = Publicacao.query.filter_by(id=id_artigo).first_or_404()
+
+    return render_template('blog/artigo.html', artigo=artigo)
+
+
+
+# Página que exibe um artigo
 @bp.route('/artigo/<int:id_artigo>', methods=['GET'])
 def artigo(id_artigo):
 
@@ -71,13 +111,17 @@ def artigo(id_artigo):
 
 
 
+##################
+# SEÇÕES DO BLOG #
+##################
+
 # Página de SÉRIES
 @bp.route('/series')
 def series():
 
     artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.nome == 'series')).all()
 
-    return render_template('blog/index.html', artigos=artigos)
+    return render_template('blog/index.html', artigos=artigos, assunto='Séries')
 
 
 # Página de VIAGEM
@@ -86,7 +130,7 @@ def viagem():
 
     artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.nome == 'viagem')).all()
 
-    return render_template('blog/index.html', artigos=artigos)
+    return render_template('blog/index.html', artigos=artigos, assunto='Viagem')
 
 
 # Página de BRASIL
@@ -95,7 +139,7 @@ def brasil():
 
     artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.nome == 'brasil')).all()
 
-    return render_template('blog/index.html', artigos=artigos)
+    return render_template('blog/index.html', artigos=artigos, assunto='Brasil')
 
 
 # Página de ESTUDO
@@ -104,8 +148,7 @@ def estudo():
     
     artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.nome == 'estudo')).all()
 
-    return render_template('blog/index.html', artigos=artigos)
-
+    return render_template('blog/index.html', artigos=artigos, assunto='Estudo')
 
 
 # Página de ENTREVISTAS
@@ -114,5 +157,5 @@ def entrevistas():
 
     artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.nome == 'entrevistas')).all()
 
-    return render_template('blog/index.html', artigos=artigos)
+    return render_template('blog/index.html', artigos=artigos, assunto='Entrevistas')
 

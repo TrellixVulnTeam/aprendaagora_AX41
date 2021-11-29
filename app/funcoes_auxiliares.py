@@ -5,6 +5,8 @@ from . import db
 # Esta função cria uma publicação após receber um pedido POST, de um cliente conectado, a partir um formulário de publicar em mural 
 def criar_publicacao(formulario):
 
+   
+
     # Cria uma nova publicação usando o modelo 'Publicacao'
     publicacao = Publicacao(
 
@@ -37,12 +39,19 @@ A função criar_artigo() é igual à funcão criar_publicacao(), entretanto nã
 
 def criar_artigo(formulario):
 
+    n_palavras = len(formulario.conteudo.data.split())
+
+    print("\n\nLOG\n\n")
+    print(n_palavras)
+    print("\n\nFIM LOG\n\n")
+
     artigo = Publicacao(
 
         titulo = formulario.titulo.data,
         subtitulo = formulario.subtitulo.data,
         conteudo=formulario.conteudo.data,
-        autor=current_user._get_current_object()
+        autor=current_user._get_current_object(),
+        n_palavras=n_palavras
     )
 
     print(formulario.tags.data)

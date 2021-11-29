@@ -1,0 +1,7 @@
+
+[ ] - Cria um manual para o MarkDown para instruir os membros da equipe
+
+[ ] - Implementar FERRAMENTA DE CRIAÇÃO DE ARTIGOS para o blog a partir da página de perfil de professores
+
+	Os artigos devem conter nome do autor, avatar do autor, tags associadas, imagens ilustrativas e o conteúdo escrito.
+

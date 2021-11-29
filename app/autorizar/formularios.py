@@ -14,10 +14,14 @@ class formularioEntrar(FlaskForm):
     email = StringField('E-mail', validators=[
         DataRequired(message="É necessário informar o seu endereço de email."),
         Length(1, 64),
-        Email()]
+        Email()],
+        render_kw={"placeholder": "Digite seu email"}
     )
 
-    senha = PasswordField('Senha', validators=[DataRequired(message="É necessário informar a sua senha.")])
+    senha = PasswordField('Senha', validators=[
+        DataRequired(message="É necessário informar a sua senha.")],
+        render_kw={"placeholder": "Digite sua senha"}
+    )
     
     lembrar_me = BooleanField('Manter-me conectado')
 

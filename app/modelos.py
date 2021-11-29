@@ -594,6 +594,8 @@ class Publicacao(db.Model):
     conteudo = db.Column(db.Text)
     
     conteudo_html = db.Column(db.Text)
+
+    n_palavras = db.Column(db.Integer)
     
     #! alterar nome para 'data_criacao' em todas as menções
     data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
@@ -764,7 +766,7 @@ class Tag(db.Model):
         # Para cada conjunto chave-valor
         for t, nome in tags.items():
 
-            # Consulte o banco de dados procurando por uma 'tag' que tenha o nome igual ao de uma das 'tags' definidas no dicionnário 'tags'
+            # Consulte o banco de dados procurando por uma 'tag' que tenha o nome igual ao de uma das 'tags' definidas no dicionário 'tags'
             tag = Tag.query.filter_by(nome=nome).first()
 
             # Se NÃO existir uma 'tag' com o nome informado

@@ -1,0 +1,11 @@
+[ ] - Criar um TEMPLATE PARA AS PÁGINAS DOS ARTIGOS do Blog.  Talvez seja necessário criar templates diferentes dependendo do tópico (séries, viagem, entrevistas, brasil, estudo)
+
+[ ] - Linkar nome do autor do artigo para sua página de perfil no site
+
+[ ] - Criar componente para exibir tags do artigo
+
+[ ] - Implementar botão para dar like na publicação
+
+[ ] - Implementar formulário para escrever comentário
+
+[ ] - Implementar lista de comentários

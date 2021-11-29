@@ -1,0 +1,1 @@
+[ ] - Atualizar número de palavras de um artigo quando ele for editado

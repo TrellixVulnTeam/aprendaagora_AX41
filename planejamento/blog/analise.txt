@@ -1,0 +1,5 @@
+[ ] - Implementar FERRAMENTA DE ACOMPANHAMENTO E ANÁLISE DE DESEMPENHO de lições e artigos escritos por um professor.
+	
+	O que essa ferramenta de acompanhamento e análise de desempenho de LIÇÕES deve incluir?
+	
+	O que essa ferramenta de acompanhamento e análise de desempenho de ARTIGOS deve incluir?

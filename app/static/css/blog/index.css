@@ -1,0 +1,66 @@
+.blog__container {
+    width: 60%;
+    margin: 0 auto;
+}
+
+
+.blog__lista-artigos {
+    list-style-type: none;
+    padding: 0;
+}
+
+.blog__cartao-artigo {
+    display: block;
+    position: relative;
+    min-height: 8em;
+    padding: 1em;
+}
+
+.blog__cartao-artigo:hover {
+    text-decoration: none;
+    background-color:rgb(240, 240, 240);
+}
+
+.blog__container-imagem {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6em;
+    margin: 1em;
+}
+
+.blog__artigo-imagem {
+    width: 6em;
+    border-radius: 6px;
+}
+
+.blog__artigo-info {
+    margin-left: 7em;
+    color: black;
+    font-family: 'Unica One', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif; 
+    text-transform: uppercase;
+}
+
+.blog__artigo-tag {
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    font-family: Arial;
+    background-color: blue;
+    color: white;
+    border: navy;
+}
+
+.blog__artigo-titulo {
+    margin-bottom: 0;
+}
+
+.blog__artigo-subtitulo {
+    color: grey; font-size: 1.3em;
+}

@@ -1,117 +1,32 @@
+{% macro exibir_formulario_entrar(formulario) %}
+    <!-- Exibe o formulário de login -->
+    <form method="POST" action="" class="entrar__formulario" role="form">
 
-{% macro exibir_formulario_escrever_artigo(formulario) %}
+        {{ formulario.hidden_tag() }}
 
-<form action="" method="post">
+        {{ formulario.email(class="entrar__input") }}
 
+        {{ formulario.senha(class="entrar__input") }}
+        
 
-
-    {{ formulario.hidden_tag() }}
-
-    <!-- Exibe o input do título da publicação -->
-    {{ exibir_campo(formulario.titulo) }}
-
-    {{ exibir_campo(formulario.subtitulo) }}
-
-
-    <div class="form-group">
-
-        <!-- Exiba o nome do campo -->
-        <label class="text-dark" for="conteudo">Conteúdo da Artigo</label>
-    
-        <!-- Se houver erros vinculados ao campo -->
-    
-        <!-- Exiba o campo normalmente -->
-        <div class="flask-pagedown">
-            <textarea class="form-control mb-5 flask-pagedown-input" id="flask-pagedown-conteudo" name="conteudo" required></textarea>
+        <div class="form-group">
+            {{ formulario.lembrar_me }}
+            {{ formulario.lembrar_me.label(class="text-muted") }}
         </div>
+        
+   
+        {{ formulario.enviar(class="entrar__botao-entrar") }}
 
-        <div class="flask-pagedown-preview" id="flask-pagedown-conteudo-preview">
-            <h4 id="titulo-preview"></h4>
-            <div id="conteudo-preview"></div>
-        </div>
-
-        <script type="text/javascript">
-
-        f = function() {
-
-            if (typeof flask_pagedown_converter === "undefined")
-            {
-                flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
-            }
-
-            /* Seleciona o input do titulo da publicação */
-            let titulo_input = document.querySelector('#titulo');
-
-            /* Seleciona o preview da publicacao */
-            let conteudo_input = document.querySelector('#flask-pagedown-conteudo');
-
-            /* Seleciona o preview da publicacao */
-            let conteudo_preview = document.querySelector('#conteudo-preview');
-
-            /* Seleciona o preview da publicacao */
-            let publicacao_preview = document.querySelector('#flask-pagedown-conteudo-preview');
-
-            let titulo_preview = document.querySelector('#titulo-preview');
-
-
-
-            titulo_input.addEventListener('keyup', () => {
+        <span class="entrar__esqueci-senha">
+            <a href="{{ url_for('autorizar.redefinir_senha_pedido') }}">Esqueceu sua senha? Clique aqui</a>
             
-                titulo_preview.innerHTML = titulo_input.value;
-
-                if (titulo_input.value == '' && conteudo_input.value == '')
-                {
-                    publicacao_preview.style.visibility = 'hidden';
-                }
-                else
-                {
-                    publicacao_preview.style.visibility = 'visible';
-                }
-            })
-
-            conteudo_input.addEventListener('keyup', () => {
-
-                conteudo_preview.innerHTML = flask_pagedown_converter(conteudo_input.value);
-
-                if (titulo_input.value == '' && conteudo_input.value == '')
-                {
-                    publicacao_preview.style.visibility = 'hidden';
-                }
-                else
-                {
-                    publicacao_preview.style.visibility = 'visible';
-                }
-            })
-        }
-
-        if (document.readyState === 'complete')
-            f();
-        else if (window.addEventListener)
-            window.addEventListener("load", f, false);
-        else if (window.attachEvent)
-            window.attachEvent("onload", f);
-        else
-            f();
-
-        </script>
+        </span>
     
-    </div>
+        <button class="entrar__botao-registrar">
+            <a href="{{ url_for('autorizar.inscricao')}}">Criar uma nova conta</a> 
+        </button>
 
-
-    <!-- Seção do formulário com caixas de seleção das tags e botão de enviar -->
-    <div class="form-row p-0">
-
-        <!-- Exibe as tags -->
-        {{ exibir_campo_selecao_tag_blog(formulario.tags) }}
-
-        <!-- Exibe o botão enviar -->
-        <div class="col-sm-4 mt-0 pl-3 mt-2 mt-sm-0">
-            <button id="btnEnviarPost" type="submit" class="btn btn-primary float-sm-right h-100 w-50">Publicar <i class="fa fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-</form>
-
+    </form>
 {% endmacro %}
 
 
@@ -250,7 +165,7 @@
     <!-- Se não houver erros-->
     {% else %}
         <!-- Exiba o campo normalmente -->
-        {{ campo(class="form-control mb-5") }}
+        {{ campo(class="form-control") }}
     {% endif %}
 </div>
 {% endmacro %}
@@ -265,33 +180,6 @@
 
 
 
-<!-- Exibe as tags Vocabulário, Gramática, Pronúncia e Cultura no formulário para escrever uma publicação no mural -->
-{% macro exibir_campo_selecao_tag_blog(campo) %}
-<div class="col-sm">
-
-    {{ campo.label(class="text-dark") }}
-
-    <div class="row m-0 ml-1">
-
-        <div class="col-lg-6 p-0 mb-1">
-
-            <!-- Para cada opção de tag-->
-            {% for opcao in campo %}
-                <div class="form-check p-0 mb-1" style="display: inline-block;">
-                    
-                    <!-- Exiba a caixa de seleção (elemento input) -->
-                    {{ opcao }}
-
-                    <div class="bg-dark text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
-                        <label class="form-check-label" for="{{ opcao.id }}"> {{ opcao.label }}</label>
-                    </div>
-                    
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
-{% endmacro %}
 
 
 
@@ -389,7 +277,7 @@
         <!-- borda que melhora o reconhecimento do agrupameno de elementos que compõem o cartão -->
         
         <!-- data-publicacao e data-autor -->
-        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ autor.nome_usuario }}" data-data="{{ publicacao.data }}" class="publicacao-mural border bg-white w-100">
+        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ autor.nome_usuario }}" data-data="{{ publicacao.data }}" class="publicacao-mural border w-100">
 
             <!-- Publicação -->
             <section class="card-body p-0 pl-2 pr-1">

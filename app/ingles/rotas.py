@@ -12,6 +12,40 @@ from ..email import enviar_email
 from ..formularios import formularioPublicacaoMural
 from ..funcoes_auxiliares import criar_publicacao, registrar_comentario, truncar_texto
 
+"""
+
+DOCUMENTAÇÃO DAS ROTAS/FUNÇÕES
+
+--------------------------------------
+
+inicio()
+
+--------------------------------------
+
+publicacao(id)
+
+--------------------------------------
+
+editar_publicacao()
+
+--------------------------------------
+
+json_publicacao()
+
+--------------------------------------
+
+interagir_publicacao()
+
+--------------------------------------
+
+comentar_publicacao()
+
+
+
+"""
+
+
+
 
 # Página inicial de INGLÊS
 @bp.route('/', methods=['GET', 'POST'])

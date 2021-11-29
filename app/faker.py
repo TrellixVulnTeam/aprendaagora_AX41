@@ -25,15 +25,25 @@ def usuarios(n_usuarios=100):
     for i in range(n_usuarios):
 
         # Cria um usuário fake
-        u = Usuario(email=fake.email(),
+        u = Usuario(
+                email=fake.email(),
+
                 nome_usuario=fake.user_name(),
+                
                 senha='password',
+                
                 confirmado=True,
+                
                 nome=fake.name(),
+                
                 sobrenome=fake.name(),
+                
                 localizacao=fake.city(),
+                
                 sobre=fake.sentence(),
-                membro_desde=fake.past_date())
+                
+                membro_desde=fake.past_date()
+            )
 
         # Adiciona o usuário à sessão
         db.session.add(u)
@@ -48,7 +58,7 @@ def usuarios(n_usuarios=100):
         db.session.rollback()
 
 # Cria publicações
-def publicacoes(n_publicacoes=100):
+def publicacoes(n_publicacoes=100): 
 
     # Instância 'Faker' com linguagem definida para português-brasileiro
     fake = Faker('pt_BR')
@@ -92,7 +102,6 @@ def publicacoes(n_publicacoes=100):
 
         # Reverte alterações
         db.session.rollback()
-
 
 # Cria comentários em publicações
 def comentarios_publicacoes(n_comentarios=100):

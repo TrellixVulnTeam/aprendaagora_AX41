@@ -1,16 +1,10 @@
 
-#container-lista-cartao-artigos {
-
-}
 
 .lista-cartao-artigos {
     list-style-type: none;
     padding: 0;
 }
 
-.container-cartao-artigo:hover {
-    
-}
 
 .cartao-artigo {
     display: block;

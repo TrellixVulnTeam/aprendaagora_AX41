@@ -1,39 +1,29 @@
-{% extends 'layout.html' %}
+{% extends 'layout2.html' %}
 
 {% block titulo %}Entrar{% endblock %}
 
-{% block cabecalho %}
-<h1>Acesse sua conta</h1>
-{% endblock %}
 
 <!-- Conteúdo da Página-->
-{% block conteudo_pagina %}
+{% block content %}
 
-    <!-- Exibe o formulário de login -->
-    <form method="POST" action="" class="form" role="form">
+<div class="entrar__container">
+    <div class="entrar__wrap">
+        <div class="entrar__esquerda">
+            <h3 class="entrar__logo">
+                Aprenda Agora
+            </h3>
 
-        {{ formulario.hidden_tag() }}
-        
-        {{ exibir_campo(formulario.email) }}
-
-        {{ exibir_campo(formulario.senha) }}
-
-        <div class="form-group">
-            {{ formulario.lembrar_me }}
-            {{ formulario.lembrar_me.label(class="text-muted") }}
+            <span class="entrar__descricao">
+                Aprenda idiomas e conecte-se com o mundo.
+            </span>
         </div>
-        
 
-        {{ exibir_botao(formulario.enviar) }}
+        <div class="entrar__direita">
 
-    </form>
+            {{ exibir_formulario_entrar(formulario) }}
 
-    <br>
-
-    <p>Esqueceu sua senha? <a href="{{ url_for('autorizar.redefinir_senha_pedido') }}">Clique aqui para redefinir sua senha</a></p>
-
-
-    <!-- Redireciona o cliente para a página de inscrição-->
-    <p class="mt-2"><small ><a href="{{ url_for('autorizar.inscricao')}}">Clique aqui para se inscrever</a></small></p>
-
+        </div>
+    </div>
+</div>  
+    
 {% endblock %}

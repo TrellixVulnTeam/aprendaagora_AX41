@@ -38,10 +38,14 @@ def grupo_youtube():
 
 """  ROTAS COMUNS  """
 
-
-# Página de Inscrição para os cursos em FEU ROSA
-@bp.route('/', methods=['GET', 'POST'])
+@bp.route('/')
 def inicio():
+    return redirect(url_for("blog.inicio"))
+
+
+# Página de Inscrição para os cursos em FEU ROSA/ONLINE
+@bp.route('/inscricao_curso', methods=['GET', 'POST'])
+def inscricao_curso():
 
     # Seleciona o formulário de inscrição
     formulario = formularioInscricaoFeuRosa()
@@ -116,7 +120,6 @@ def perfil():
     )
 
 
-
 # Exibe a página de perfil de um usuário qualquer
 @bp.route('/usuario/<nome_usuario>')
 def usuario(nome_usuario):
@@ -142,7 +145,6 @@ def usuario(nome_usuario):
             usuario=usuario,
             publicacoes=publicacoes
     )
-
 
 
 # Rota para o usuário conectado editar seu perfil
@@ -187,7 +189,6 @@ def editar_perfil():
             'editar_perfil.html',
             formulario=formulario
     )
-
 
 
 @bp.route('/publicacao/apagar', methods=['POST'])

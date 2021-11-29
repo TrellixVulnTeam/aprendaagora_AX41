@@ -1,9 +1,15 @@
 
 
 
+
+
+
+
 /*******************************************************************************************/
 /************************************ MURAL DE PUBLICAÇÕES *********************************/
 /*******************************************************************************************/
+
+
 
 /* Visualização de uma publicação sendo escrita */
 .flask-pagedown-preview {
@@ -44,7 +50,13 @@
 /*******************************************************************************************/
 
 
+.publicacao-mural {
+    background-color: white;
+    border-radius: 5px;
+}
+
 .publicacao-mural:hover {
+   
     /* Para indicar que a publicação é clicável*/
     cursor: pointer;
     
@@ -79,7 +91,7 @@
 }
 
 .rodape-publicacao {
-    
+    padding: 5px;
     /* Display: table; está sendo usado para que a classe .perfil-autor-link possa ter height 100% */
     display: table;
 

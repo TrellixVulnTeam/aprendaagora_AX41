@@ -51,31 +51,40 @@
 
 {% block conteudo_pagina %}
 
-<section id="container-lista-cartao-artigos">
+<section class="blog__container">
 
-    <ol class="lista-cartao-artigos">
+    <!-- Se houver um assunto (tag) selecionado -->
+    {% if assunto %}
+        <h1 style="text-align: center">Últimas publicações do assunto "{{ assunto }}"</h1>
+    {% else %}
+    <!-- Senão, exiba o cabeçalho comum do blog --->
+        <h1 style="text-align: center">Últimas publicações do Blog</h1>
+    {% endif %}
+
+
+    
+    <ol class="blog__lista-artigos">
         {% for artigo in artigos %}
 
-            <li class="container-cartao-artigo" data-id_artigo="{{ artigo.id }}">
-                <a class="cartao-artigo"
+            <li data-id_artigo="{{ artigo.id }}">
+                <a class="blog__cartao-artigo"
                 href="{{ url_for('blog.artigo', id_artigo=artigo.id) }}">
 
-                    <div class="container-imagem-cartao-artigo" style="position: absolute; top: 0; left: 0; width: 6em; margin: 1em;">
-                        <img class="imagem-cartao-artigo" src="{{ url_for('static', filename='imagem1.jpg') }}" alt="">
+                    <div class="blog__container-imagem">
+                        <img class="blog__artigo-imagem" src="{{ url_for('static', filename='imagem1.jpg') }}" alt="">
                     </div>
 
+                    <div class="blog__artigo-info">
 
-
-                    <div class="container-tags-titulos-cartao-artigo">
-
-                        <div class="lista-tags-cartao-artigo">
+                        <div>
                             {% for tag in artigo.tags %}
-                            <span class="tag-cartao-artigo">{{ tag.nome }}</span>
+                            <span class="blog__artigo-tag">{{ tag.nome }}</span>
                             {% endfor %}
+                            <span>{{ moment(artigo.data).format('LLL') }}</span>
                         </div> 
 
-                        <h3 class="titulo-cartao-artigo">{{ artigo.titulo }}</h3>
-                        <h2 class="subtitulo-cartao-artigo">{{ artigo.subtitulo }}</h2>
+                        <h3 class="blog__artigo-titulo">{{ artigo.titulo }}</h3>
+                        <h2 class="blog__artigo-subtitulo">{{ artigo.subtitulo }}</h2>
                     </div>
                 </a>
             </li>

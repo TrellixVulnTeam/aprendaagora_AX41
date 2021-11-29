@@ -31,10 +31,15 @@ class formularioInscricaoFeuRosa(FlaskForm):
 class formularioEditarPerfil(FlaskForm):
 
     nome_usuario = StringField("Nome de usuário", validators=[Length(0, 20)])
+
     nome = StringField("Nome", validators=[Length(0, 64)])
+    
     sobrenome = StringField("Sobrenome", validators=[Length(0, 64)])
+    
     localizacao = StringField("Localização", validators=[Length(0, 64)])
+    
     sobre = TextAreaField("Sobre mim", validators=[Length(0, 100)])
+    
     enviar = SubmitField("Salvar alterações")
 
 class formularioEditarPerfilAdmin(FlaskForm):
