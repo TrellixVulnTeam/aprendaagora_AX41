@@ -28,6 +28,8 @@ class Configuracao:
 
     MURAL_PUBLICACOES_POR_PAGINA = 16
 
+    ARTIGO_COMENTARIOS_POR_PAGINA = 10
+
     SSL_REDIRECT = False
 
     @staticmethod

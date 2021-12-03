@@ -11,6 +11,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_pagedown import PageDown
 from flask_login import LoginManager
 
+
+from flask_uploads import configure_uploads
+
 """
 from flask_socketio import SocketIO
 """
@@ -40,11 +43,19 @@ login_manager.login_message = "Entre na sua conta para acessar esta página"
 ######################################################################
 
 
+
+from app.blog.rotas import fotos
+
+
+
 def criar_app(nome_configuracao):
 
     app = Flask(__name__)
 
     app.config.from_object(configuracao[nome_configuracao])
+
+    app.config['UPLOADED_PHOTOS_DEST'] = 'app/static/imagens/artigos'
+
     
     configuracao[nome_configuracao].init_app(app)
 
@@ -56,6 +67,8 @@ def criar_app(nome_configuracao):
     pagedown.init_app(app)
     
 
+    configure_uploads(app, fotos)
+    
 
     """
     #socketio.init_app(app)

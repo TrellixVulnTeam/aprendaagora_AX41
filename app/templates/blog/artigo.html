@@ -4,11 +4,12 @@
 {% block conteudo_pagina %}
 
 <div class="artigo__container">
+   
 
     <header class="artigo__cabecalho">
         <img
             class="artigo__cabecalho-imagem"
-            src="{{ url_for('static', filename='cabecalho1.jpg') }}"
+            src="/static/imagens/artigos/cabecalho/{{artigo.nome_foto}}"
             alt=""
         >
     </header>
@@ -27,13 +28,89 @@
 
         
             <div class="artigo__info">
-                <span>{{ moment(artigo.data).format('LLL') }} • {{ artigo.n_palavras }} PALAVRAS ESCRITAS POR RAMON RODRIGUES • ARTE CRIADA POR WESLON SILVA</span>
+                <span>{% for tag in artigo.tags %} {{ tag.nome }} {% endfor %} • {{ moment(artigo.data).format('LLL') }}</span>
+            </div>
+            <div class="artigo__info">
+                <span>{{ artigo.n_palavras }} PALAVRAS ESCRITAS POR RAMON RODRIGUES • ARTE CRIADA POR WESLON SILVA</span>
             </div>
         </div>
 
 
         <div class="artigo__conteudo">
             {{ artigo.conteudo_html|safe }}
+
+            <div style="margin-bottom: 10px">
+                <!-- Your share button code -->
+                <div class="fb-share-button" 
+                data-href="{{ url_for('blog.artigo', artigo_id=artigo.id) }}" 
+                data-layout="button_count">
+                </div>
+            </div>
+
+            <div>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweetar</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+
+            <!-- INFO DO AUTOR -->
+            <div>
+                <a href="{{ url_for('inicio.usuario', nome_usuario=artigo.autor.nome_usuario) }}" style="display: flex; align-items: center">
+                    <img style="width: 30px; height: 30px; border-radius: 50%;" src="{{ url_for('static', filename='imagens/ramon.jpg') }}" alt="">
+                    <span style="font-size: 30px">@{{ artigo.autor.nome_usuario }}</span>
+                </a>
+            </div>
+        </div>
+
+
+        
+        
+
+        <!-- FORMULÁRIO DE COMENTÁRIOS -->
+        <div>
+            <span><i class="far fa-comment-alt"></i> {{ artigo.comentarios.count() }} comentários</span>
+            
+            <!-- Exibe o formulário de login -->
+            <form method="POST" action="" class="form" role="form" style="margin-bottom: 1em">
+
+                {{ formulario.hidden_tag() }}
+                
+                {{ exibir_campo(formulario.conteudo) }}
+                
+                {{ exibir_botao(formulario.enviar) }}
+
+            </form>
+        </div>
+
+
+        <!-- LISTA DE COMENTÁRIOS -->
+        <div>
+            {% for comentario in comentarios %}
+                <div style="margin-bottom: 5px; ; display: flex; align-items: center">
+
+                    <div style="display: flex; flex-direction: column; align-items: center; padding: 5px; margin-right: 5px; color: grey">
+                        <i class="fas fa-sort-up"></i>
+                        <i class="fas fa-sort-down"></i>
+                    </div>
+
+                    <div style="background-color: white; border: 1px solid rgb(204, 204, 204); border-radius: 3px; width: 100%; padding: 5px">
+                        <div>
+                            <a class="" href="{{ url_for('inicio.usuario', nome_usuario=comentario.autor.nome_usuario) }}">
+                                <span class="perfil-autor-link float-left pr-1 h-100">
+                                        <!-- Avatar miniatura do autor da publicação -->
+                                        <img src="{{ comentario.autor.gravatar(size=18) }}" alt="" class="img-rounded profile-thumbnail">
+                                        <!-- Nome de usuário do autor da publicação -->
+                                        <small>@{{ comentario.autor.nome_usuario }}</small>   
+                                </span>
+                            </a>
+                            <span>
+                                <i class="fa fa-clock"></i>
+                                {{ moment(comentario.data).fromNow(refresh=True) }}
+                            </span>
+                        </div>
+                        
+                        <span style="display: block">{{ comentario.conteudo }}</span>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </main>
 

@@ -37,7 +37,7 @@ A função criar_artigo() é igual à funcão criar_publicacao(), entretanto nã
 """
 
 
-def criar_artigo(formulario):
+def criar_artigo(formulario, nome_foto):
 
     n_palavras = len(formulario.conteudo.data.split())
 
@@ -45,11 +45,14 @@ def criar_artigo(formulario):
     print(n_palavras)
     print("\n\nFIM LOG\n\n")
 
+    print(formulario)
+
     artigo = Publicacao(
 
         titulo = formulario.titulo.data,
         subtitulo = formulario.subtitulo.data,
         conteudo=formulario.conteudo.data,
+        nome_foto=nome_foto,
         autor=current_user._get_current_object(),
         n_palavras=n_palavras
     )

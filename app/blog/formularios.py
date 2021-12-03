@@ -1,7 +1,9 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired
 from wtforms import StringField, SelectField, SelectMultipleField, BooleanField, SubmitField, widgets
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from wtforms import ValidationError
+
 from ..modelos import Usuario, Role, Publicacao, Tag
 
 from flask_pagedown.fields import PageDownField
@@ -20,7 +22,7 @@ class MultiCheckboxField(SelectMultipleField):
     option_widget = widgets.CheckboxInput()
 
 
-class formularioPublicacaoBlog(FlaskForm):
+class formularioArtigoBlog(FlaskForm):
 
     titulo = StringField("Título da publicação", validators=[DataRequired()])
 
@@ -28,11 +30,13 @@ class formularioPublicacaoBlog(FlaskForm):
 
     conteudo = PageDownField("Conteúdo da publicação", validators=[DataRequired()])
 
+    foto = FileField(validators=[FileRequired()])
+
     tags = MultiCheckboxField("Assunto da publicação", coerce=int)
 
     def __init__(self, *args, **kwargs):
 
-        super(formularioPublicacaoBlog, self).__init__(*args, *kwargs)
+        super(formularioArtigoBlog, self).__init__(*args, *kwargs)
 
         # Seleciona as tags (TODAS!)
 
@@ -44,3 +48,9 @@ class formularioPublicacaoBlog(FlaskForm):
         self.tags.choices = [(tag.id, tag.nome)
                               for tag in Tag.query.order_by(Tag.id).all()]
 
+
+
+
+class formularioComentarioArtigo(FlaskForm):
+    conteudo = StringField(validators=[DataRequired()])
+    enviar = SubmitField('Enviar')

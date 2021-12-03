@@ -186,7 +186,7 @@ def editar_perfil():
 
     # Exibe a página de editar perfil
     return render_template(
-            'editar_perfil.html',
+            'autorizar/editar_perfil.html',
             formulario=formulario
     )
 
@@ -304,4 +304,8 @@ def editar_perfil_admin(id):
     formulario.sobre.data = usuario.sobre
 
     # Exibe a página com o formulário para editar o perfil
-    return render_template('editar_perfil.html', formulario=formulario, usuario=usuario)
+    return render_template(
+        'autorizar/editar_perfil.html',
+        formulario=formulario,
+        usuario=usuario
+    )

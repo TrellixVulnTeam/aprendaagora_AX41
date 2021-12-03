@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 [ ] - Criar um TEMPLATE PARA AS PÁGINAS DOS ARTIGOS do Blog.  Talvez seja necessário criar templates diferentes dependendo do tópico (séries, viagem, entrevistas, brasil, estudo)
 
 [ ] - Linkar nome do autor do artigo para sua página de perfil no site
@@ -6,6 +13,21 @@
 
 [ ] - Implementar botão para dar like na publicação
 
+[ ] - Adicionar botão de compartilhar no facebook
+
+[ ] - Adicionar botão de compartilhar do instagram
+
+[ ] - Adicionar botão de compartilhar no twitter
+
+[ ] - Adicionar botão de favoritar publicação
+
+
+
+
+COMENTÁRIOS
+
 [ ] - Implementar formulário para escrever comentário
 
 [ ] - Implementar lista de comentários
+
+[ ] - Acertar o estilo dos comentários nos artigos

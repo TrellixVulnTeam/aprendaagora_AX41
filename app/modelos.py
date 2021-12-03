@@ -595,6 +595,8 @@ class Publicacao(db.Model):
     
     conteudo_html = db.Column(db.Text)
 
+    nome_foto = db.Column(db.String(100))
+
     n_palavras = db.Column(db.Integer)
     
     #! alterar nome para 'data_criacao' em todas as menções

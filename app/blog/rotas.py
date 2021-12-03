@@ -6,13 +6,17 @@ from flask_login import login_required, current_user
 from sqlalchemy import desc
 
 from . import blog as bp
-from .formularios import formularioPublicacaoBlog
+from .formularios import formularioArtigoBlog, formularioComentarioArtigo
 
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
 from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
 from ..email import enviar_email
 from ..funcoes_auxiliares import criar_artigo, registrar_comentario, truncar_texto
+
+from flask_uploads import UploadSet, IMAGES
+
+fotos = UploadSet('photos', IMAGES)
 
 """
     ROTAS
@@ -57,19 +61,34 @@ def inicio():
 @permissao_necessaria(Permissao.ESCREVER_BLOG)
 def escrever_artigo():
 
-    formulario = formularioPublicacaoBlog()
-
+    formulario = formularioArtigoBlog()
 
     # Se o método for POST e o cliente tiver permissão para escrever no mural
     if formulario.validate_on_submit():
 
         try:
+            # Seleciona a foto
+            foto = request.files['foto']
 
-            artigo = criar_artigo(formulario)
+            # Formata o nome do arquivo
+            nome_arquivo = foto.filename
+            nome_arquivo2 = nome_arquivo.replace("'", "")
+            nome_arquivo3 = nome_arquivo2.replace(" ", "_")
+            
+            # Se a extensão do arquivo for permitida
+            if nome_arquivo3.lower().endswith(('.png', '.jpg', '.jpeg')):
 
-            db.session.add(artigo)
+                # Tenta salvar a foto em app/static/image/produto
+                salvar_foto = fotos.save(foto, folder="cabecalho")
+                
+                # Se a foto tiver sido salva corretamente
+                if salvar_foto:
 
-            db.session.commit()
+                    artigo = criar_artigo(formulario, nome_arquivo3)
+
+                    db.session.add(artigo)
+
+                    db.session.commit()
 
             flash("Artigo criado com sucesso", 'alert-success')
 
@@ -101,12 +120,50 @@ def editar_artigo(id_artigo):
 
 
 # Página que exibe um artigo
-@bp.route('/artigo/<int:id_artigo>', methods=['GET'])
-def artigo(id_artigo):
+@bp.route('/artigo/<int:artigo_id>', methods=['GET', 'POST'])
+def artigo(artigo_id):
 
-    artigo = Publicacao.query.filter_by(id=id_artigo).first_or_404()
+    artigo = Publicacao.query.filter_by(id=artigo_id).first_or_404()
 
-    return render_template('blog/artigo.html', artigo=artigo)
+    formulario = formularioComentarioArtigo()
+
+    if formulario.validate_on_submit():
+
+        try:
+
+            # Registra o comentário no banco de dados
+            registrar_comentario(
+                artigo_id,
+                current_user.id,
+                formulario.conteudo.data
+            )
+
+            flash("Seu comentário foi publicado")
+            return redirect(url_for('.artigo', artigo_id=artigo.id, pagina=-1))
+        except (erro):
+            flash("Um erro ocorreu durante a criação do comentário")
+            return redirect(url_for('.artigo', artigo_id=artigo.id, pagina=-1))
+
+    pagina = request.args.get('pagina', 1, type=int)
+
+    if pagina == -1:
+
+        pagina = (artigo.comentarios.count() - 1) // current_app.config['ARTIGO_COMENTARIOS_POR_PAGINA'] + 1
+
+    paginacao = artigo.comentarios.order_by(Comentario.data.asc()).paginate(
+            pagina, per_page=current_app.config['ARTIGO_COMENTARIOS_POR_PAGINA'],
+            error_out=False
+        )
+
+    comentarios = paginacao.items
+
+    return render_template(
+        'blog/artigo.html',
+        artigo=artigo,
+        formulario=formulario,
+        comentarios=comentarios,
+        paginacao=paginacao
+    )
 
 
 

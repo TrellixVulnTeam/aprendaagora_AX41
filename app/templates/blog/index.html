@@ -68,10 +68,20 @@
 
             <li data-id_artigo="{{ artigo.id }}">
                 <a class="blog__cartao-artigo"
-                href="{{ url_for('blog.artigo', id_artigo=artigo.id) }}">
+                href="{{ url_for('blog.artigo', artigo_id=artigo.id) }}">
 
                     <div class="blog__container-imagem">
-                        <img class="blog__artigo-imagem" src="{{ url_for('static', filename='imagem1.jpg') }}" alt="">
+
+
+                        {% if artigo.nome_foto %}
+
+                            <img class="blog__artigo-imagem" src="{{ url_for('static', filename='imagens/artigos/cabecalho/'+artigo.nome_foto) }}" alt="">
+
+                        {% else %}
+
+                            <img class="blog__artigo-imagem" src="{{ url_for('static', filename='imagens/imagem1.jpg') }}" alt="">
+
+                        {% endif %}
                     </div>
 
                     <div class="blog__artigo-info">

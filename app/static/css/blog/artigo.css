@@ -11,10 +11,7 @@
 
 .artigo__cabecalho-imagem {
     position: absolute;
-    width: 100%; left: 50%;
-    top: 30%;
-    transform: translateY(-90%) translateX(-50%);
-    -webkit-transform: translateY(-50%) translateX(-50%);
+    width: 100%;
 }
 
 .artigo__container-conteudo {

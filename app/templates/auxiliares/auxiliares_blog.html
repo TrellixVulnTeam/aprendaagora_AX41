@@ -2,9 +2,11 @@
 
 
 {% macro exibir_formulario_escrever_artigo(formulario) %}
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
 
     {{ formulario.hidden_tag() }}
+
+    {{ exibir_campo(formulario.foto) }}
 
     <!-- Exibe o input do título da publicação -->
     {{ exibir_campo(formulario.titulo) }}

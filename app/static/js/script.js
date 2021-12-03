@@ -261,7 +261,9 @@ function criar_modal(publicacao) {
     function criar_publicacao_modal(publicacao_modal, publicacao) {
 
         console.log(publicacao);
-        console.log("Número de comentários" + publicacao.comentarios.length);
+        console.log("Comentários " + publicacao.comentarios);
+        console.log("Número de comentários " + publicacao.comentarios.length);
+        console.log("Número de ameis " + publicacao.n_ameis);
 
         // CONTAINER DA PUBLICAÇÃO */
         let container_publicacao = criar_container_publicacao();
@@ -311,10 +313,10 @@ function criar_modal(publicacao) {
         botao_amei.classList.add('botao-amei-modal');
 
         let n_ameis = document.createElement('span');
-        n_ameis.innerText = 0;
+        n_ameis.innerText = publicacao.n_ameis;
 
         let icone_coracao = document.createElement('i');
-        icone_coracao.classList.add('fa', 'fa-heart');
+        icone_coracao.classList.add('fa', 'fa-heart', 'ml-2');
 
         botao_amei.append(n_ameis);
         botao_amei.append(icone_coracao);
@@ -1202,9 +1204,6 @@ function criar_modal(publicacao) {
         // Retorna o formulário de envio de comentário */
         return div_formulario_comentario;
     }
-
-    
-
 } // FIM FUNÇÃO CRIAR_MODAL()
 
 
@@ -1313,7 +1312,7 @@ function criar_elemento_comentario (comentario_conteudo, comentario_autor, comen
 
     rodape.append(link_autor);
     rodape.append(data);
-    rodape.append(botao_amei);
+    //rodape.append(botao_amei);
 
 
     

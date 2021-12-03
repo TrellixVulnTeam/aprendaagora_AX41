@@ -31,9 +31,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='imagens/favicon.ico') }}" type="image/x-icon">
     
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='imaggens/favicon.ico') }}" type="image/x-icon">
 
 
     <!-- Bootstrap CSS-->
@@ -58,21 +58,34 @@
     
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/fontes.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar_mobile.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/entrar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mural.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/utilidades/fontes.css') }}">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+
+    <!-- COMPONENTES -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/componentes/navbar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/componentes/navbar_mobile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/componentes/rodape.css') }}">
+
+
+
+    <!-- AUTORIZAR -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/autorizar/entrar.css') }}">
+
+    <!-- INICIO -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio/perfil.css') }}">
+
+    <!-- IDIOMA -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/idioma/mural.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/idioma/licoes.css') }}">
+
+    <!-- BLOG -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/blog.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/index.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/artigo.css') }}">
-   <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/escrever.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/blog/escrever.css') }}"> 
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/licoes.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/rodape.css') }}">
 
+   
 
     <script>
 
@@ -118,6 +131,40 @@
 
 <!-- Bloco de Conteúdo (entre a barra de navegação e o rodapé) -->
 {% block content %}
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+
+    <script>
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.0";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+
+    <!-- Twitter -->
+    <script>
+        window.twttr = (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0],
+            t = window.twttr || {};
+            if (d.getElementById(id)) return t;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        
+            t._e = [];
+            t.ready = function(f) {
+            t._e.push(f);
+            };
+        
+            return t;
+        }(document, "script", "twitter-wjs"));
+    </script>
 
 
     {% with avisos = get_flashed_messages(with_categories=true) %}

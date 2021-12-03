@@ -91,7 +91,16 @@ def inicio():
     
 
     print("---------------------------------------------")
-    
+
+
+    # Calcula o número de comentários e de ameis em uma publicação
+    # Isto era pra ser calculado automaticamente, mas algo por conta do valor do atributo 'lazy' set 'dynamic', esse valor não vem automaticamente
+    for publicacao in publicacoes:
+        publicacao[0].n_comentarios = len(publicacao[0].comentarios.all())
+
+        publicacao[0].n_ameis = len(publicacao[0].ameis)
+
+
 
     # Para cada publicação na lista de publicações, trunque o texto
     for publicacao in publicacoes:
@@ -104,7 +113,12 @@ def inicio():
 
 
     # Exibe a página do idioma INGLÊS, enviando o formulário do mural e a lista de publicações
-    return render_template('ingles.html', formulario=formulario, publicacoes=publicacoes, paginacao=paginacao)
+    return render_template(
+        'ingles.html',
+        formulario=formulario,
+        publicacoes=publicacoes,
+        paginacao=paginacao
+    )
 
 
 ###########################################################################################
@@ -225,6 +239,10 @@ def json_publicacao():
 
             # Incrementa o número de comentários
             publicacao_json['n_comentarios'] += 1
+
+
+        publicacao_json['n_ameis'] = len(publicacao.ameis)
+
 
 
         # Se o cliente for o autor da publicação, autor_cliente será True

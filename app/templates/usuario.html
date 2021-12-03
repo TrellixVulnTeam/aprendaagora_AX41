@@ -73,11 +73,6 @@
             </div>
 
         </div>
-
-
-        
-
-
     </div>
 
 
@@ -99,20 +94,7 @@
 
     <div>
         <a href="{{ url_for('blog.escrever_artigo') }}"><button class="btn btn-success">Criar publicação para o Blog</button></a>
-        
     </div>
-
-
-    <!-- Lista de publicações no MURAL -->
-    <ul id="lista-publicacoes" class="row w-100 posts">
-
-        <!-- Para cada par publicação-autor -->
-        {% for publicacao in publicacoes %}
-
-            <!-- Exiba a publicação -->
-            {{ exibir_publicacao_perfil(publicacao) }}
-        {% endfor %}
-    </ul>
 
 
 {% endblock %}
