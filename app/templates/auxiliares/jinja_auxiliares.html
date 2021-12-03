@@ -1,6 +1,14 @@
 {% macro exibir_formulario_entrar(formulario) %}
+
+
     <!-- Exibe o formulário de login -->
     <form method="POST" action="" class="entrar__formulario" role="form">
+
+        {% for field, errors in formulario.errors.items() %}
+            <div class="alert alert-error" style="color: red">
+                <i class="fas fa-exclamation-triangle"></i> {{ formulario[field].label }}: {{ ', '.join(errors) }}
+            </div>
+        {% endfor %}
 
         {{ formulario.hidden_tag() }}
 
@@ -28,6 +36,55 @@
 
     </form>
 {% endmacro %}
+
+
+
+{% macro exibir_formulario_registrar(formulario) %}
+
+
+    <!-- Exibe o formulário de login -->
+    <form method="POST" action="" class="entrar__formulario" role="form">
+
+        <style>
+            label {
+                margin-bottom: 0;
+            }
+        </style>
+
+        {% for field, errors in formulario.errors.items() %}
+            <div class="alert alert-error" style="color: red; line-height:1em">
+                <i class="fas fa-exclamation-triangle"></i> {{ formulario[field].label }}: {{ ', '.join(errors) }}
+            </div>
+        {% endfor %}
+
+        {{ formulario.hidden_tag() }}
+
+        {{ formulario.email(class="entrar__input") }}
+
+        {{ formulario.nome_usuario(class="entrar__input") }}
+
+        {{ formulario.senha(class="entrar__input") }}
+
+        {{ formulario.senha2(class="entrar__input") }}
+        
+        {{ formulario.enviar(class="entrar__botao-entrar") }}
+
+        <button class="entrar__botao-registrar">
+            <a href="{{ url_for('autorizar.entrar')}}">Acessar minha conta</a> 
+        </button>
+
+    </form>
+{% endmacro %}
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- Exibe o formulário para publicar nos mural -->

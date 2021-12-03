@@ -20,7 +20,11 @@
 
         <div class="entrar__direita">
 
-            {{ exibir_formulario_entrar(formulario) }}
+            
+
+            {% block formulario_autorizar %}
+                {{ exibir_formulario_entrar(formulario) }}
+            {% endblock %}
 
         </div>
     </div>

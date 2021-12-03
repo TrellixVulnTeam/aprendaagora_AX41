@@ -1,0 +1,7 @@
+Modelos e Banco de Dados
+
+##############################################
+
+[ ] - Criar o modelo para emblemas/insígnias
+[ ] - Criar o modelo para cumprimento das lições
+

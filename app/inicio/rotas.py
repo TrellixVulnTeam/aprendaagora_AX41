@@ -114,7 +114,7 @@ def perfil():
 
     # Exibe a página de perfil do usuário
     return render_template(
-            'usuario.html',
+            'inicio/usuario.html',
             usuario=current_user._get_current_object(),
             publicacoes=publicacoes
     )
@@ -141,7 +141,7 @@ def usuario(nome_usuario):
 
     # Exibe a página de usuário, fornecendo os dados do usuário como argumentos
     return render_template(
-            'usuario.html',
+            'inicio/usuario.html',
             usuario=usuario,
             publicacoes=publicacoes
     )

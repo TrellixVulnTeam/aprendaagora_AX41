@@ -765,6 +765,30 @@ class Tag(db.Model):
             'Estudo': 'estudo',
         }
 
+        """
+        
+        Tópicos de IDIOMAS 
+        
+        Gramática
+        Escrita
+        Pronúncia
+        Leitura
+        Vocabulário
+        
+        Conjugação de Verbo
+        Pronomes
+        Verbos
+        Preposição
+        Advérbio
+        Expressões Idiomáticas
+
+
+        Tópicos de TECNOLOGIA
+
+
+
+        """
+
         # Para cada conjunto chave-valor
         for t, nome in tags.items():
 

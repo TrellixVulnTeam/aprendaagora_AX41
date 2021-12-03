@@ -1,8 +1,30 @@
 Blueprint Perfil
 
-[ ] - Exibir lista de notificações do sistema
+################################################################
 
-[ ] - Na página de perfil de um ESTUDANTE
+DADOS & INFORMAÇÕES:
+
+Usuário
+[ ] - Nome de Usuário
+[ ] - Data de inscrição
+[ ] - Descrição
+[ ] - Último acesso
+[ ] - O que o usuário está aprendendo
+
+[ ] - Publicações Escritas pelo Usuário
+
+[ ] - Lições Completadas pelo Usuário
+
+[ ] - Comentários Escritos pelo Usuário
+
+[ ] - Emblemas & Metas/Objetivos alcançados
+
+[ ] - Lista de notificações do sistema
+
+################################################################
+################################################################
+
+AÇÕES:
 
 [ ] - Criar seções na página de perfil do usuário onde serão exibidos:
 
@@ -11,14 +33,3 @@ Blueprint Perfil
 	Publicações criadas pelos amigos do usuário, comentários em lições escritos pelos amigos do usuário
 	Comentários em artigos escrios pelos amigos do usuário
 	Salas de bate papo que amigos do usuário estão participando (exibição desta informação deve ser em tempo real)
-
-[ ] - PROGRESSO NOS CURSOS
-	Exibir progresso/pontuação nos cursos que o estudante está incrito.
-	Exemplo:   (INGLÊS Nível 30/100) (FRANCÊS Nível 60/100)
-
-[ ] - RANKING mostrando a colocação do usuário e de seus amigos e exibir na página de perfil do usuário
-
-	A exibição da pontuação do usuário juntamente com a pontuação dos amigos é para estimular a competitividade entre os usuários para ver quem aprende mais.
-
-[ ] - INSÍGNIAS/CONQUISTAS que o usuário pode desbloquear e que serão exibidas no perfil do usuário
-

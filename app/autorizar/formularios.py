@@ -32,31 +32,31 @@ class formularioEntrar(FlaskForm):
 class formularioInscricao(FlaskForm):
 
     email = StringField('Email', validators=[
-
         DataRequired(message="É necessário informar um endereço de email."),
         Length(1, 64),
-        Email(message="O endereço de email informado é inválido.")]
+        Email(message="O endereço de email informado é inválido.")],
+        render_kw={"placeholder": "Digite seu email"}
     )
 
     # O validador Regexp está sendo usado para garantir que o campo 'nome_usuario' começa com uma letra e contém apenas letras, números, undercores e pontos
     nome_usuario = StringField('Nome de Usuário', validators=[
-
         DataRequired(message="É necessário informar um nome de usuário."),
         Length(1, 64),
         Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
-        "Seu nome de usuário deve começar com uma letra e só pode conter letras, números, pontos, e o símbolo traço baixo (a-z, A-Z, 0-9, '.' e '_').")]
+        "Seu nome de usuário deve começar com uma letra e só pode conter letras, números, pontos, e o símbolo traço baixo (a-z, A-Z, 0-9, '.' e '_').")],
+        render_kw={"placeholder": "Digite um nome de usuário"}
     )
 
     # O campo 'senha' possui um validador EqualTo que testa se os campos 'senha' e 'senha2' contém o mesmo conteúdo
     senha = PasswordField('Senha', validators=[
-
         DataRequired(),
-        EqualTo('senha2',  message="As senhas devem ser iguais.")]
+        EqualTo('senha2',  message="As senhas devem ser iguais.")],
+        render_kw={"placeholder": "Digite sua senha"}
     )
     
     senha2 = PasswordField('Confirmar senha', validators=[
-
-        DataRequired()]
+        DataRequired()],
+        render_kw={"placeholder": "Confirme sua senha"}
     )
 
     enviar = SubmitField('Se Inscrever')
