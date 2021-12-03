@@ -8,7 +8,7 @@ click==8.0
 distlib==0.3.2
 dominate==2.3.1
 filelock==3.0.12
-Flask==1.1.4
+Flask==2
 Flask-Bootstrap==3.3.7.1
 Flask-Cors==3.0.10
 Flask-HTTPAuth==3.2.3
@@ -21,7 +21,6 @@ Flask-Session==0.3.2
 Flask-SocketIO==5.1.0
 Flask-SQLAlchemy==2.2
 Flask-SSLify==0.1.5
-Flask-Script
 Flask-WTF
 greenlet==1.1.0
 gunicorn==19.7.1
@@ -42,6 +41,8 @@ six==1.10.0
 SQLAlchemy==1.4.18
 virtualenv==20.0.31
 visitor==0.1.3
+wheel
 webencodings==0.5.1
 Werkzeug==2.0
 WTForms==2.1
+git+https://github.com/ramonrodriguesomero/flask-script.git
