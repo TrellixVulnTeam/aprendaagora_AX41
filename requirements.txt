@@ -26,7 +26,7 @@ Flask-WTF
 greenlet==1.1.0
 gunicorn==19.7.1
 html5lib==0.999999999
-itsdangerous==2.0.1
+itsdangerous==2.0
 Jinja2==3.0
 Mako==1.0.7
 Markdown==2.6.8
