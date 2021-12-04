@@ -17,7 +17,7 @@
 .artigo__container-conteudo {
     position: relative;
     top: -300px;
-    margin: 0 10px;
+    margin: 0 5px;
 }
 
 
@@ -63,8 +63,16 @@
     display: block;
     margin: 20px auto;
     background-color: white !important;
-    padding: 2em;
+    padding: 5px
 }
+
+
+@media (min-width: 768px) {
+    .artigo__conteudo {
+        padding: 2em;
+    }
+}
+
 
 .artigo__container-formulario-comentario {
     font-size: 1.5em
