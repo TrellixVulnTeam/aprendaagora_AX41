@@ -94,7 +94,7 @@ def sair():
     flash('Você saiu da sua conta.', 'alert-secondary')
 
     # Redireciona o usuário para a página inicial
-    return redirect(url_for('inicio.inicio'))
+    return redirect(url_for('autorizar.entrar'))
 
 
 # Página para criação de uma nova conta

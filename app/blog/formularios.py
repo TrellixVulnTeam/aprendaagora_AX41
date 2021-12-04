@@ -52,5 +52,5 @@ class formularioArtigoBlog(FlaskForm):
 
 
 class formularioComentarioArtigo(FlaskForm):
-    conteudo = StringField(validators=[DataRequired()])
+    conteudo = StringField(validators=[DataRequired('É necessário digitar algo no comentário')])
     enviar = SubmitField('Enviar')

@@ -1,37 +1,78 @@
 
 .entrar__container {
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: green;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    
     justify-content: center;
+    padding: 20px;
 }
 
-.entrar__wrap {
-    width: 70%;
-    height: 70%;
-    display: flex;
+
+@media (min-width: 768px) {
+
+    .entrar__container {
+        align-items: center;
+        padding: 0;
+    }
 }
+
+
+
+.entrar__wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+@media (min-width: 768px) {
+
+    .entrar__wrap {
+        width: 70%;
+        height: 70%;
+        flex-direction: row;
+    }
+}
+
+
 
 .entrar__esquerda, .entrar__direita {
     flex: 1;
     display: flex;
     color: white;
     flex-direction: column;
+    padding: 10px;
+}
+
+.entrar__esquerda {
+    text-align: center;
     justify-content: center;
+    
+}
+
+@media (min-width: 768px) {
+
+    .entrar__esquerda {
+        justify-content: center;
+    }
 }
 
 .entrar__logo {
     font-size:50px;
     font-weight: 800;
+    line-height:0.9em;
     margin-bottom: 10px;
     text-shadow: 1px 1px black;
     font-family: 'Merienda One', sans-serif;
 }
 
-.entrar_descricao {
-    font-size: 24px;
+.entrar__descricao {
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 
@@ -42,7 +83,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
 .entrar__input {
@@ -78,6 +119,7 @@
 
 .entrar__botao-registrar {
     width: 60%;
+    height: auto;
     align-self: center;
     height: 50px;
     border-radius: 10px;
