@@ -2,22 +2,36 @@
 
 {% block titulo %}Confirme sua conta{% endblock %}
 
-
 <!-- Conteúdo da Página-->
 {% block conteudo_pagina %}
 
-    <h1>
-        Hello, {{ current_user.nome_usuario }}!
-    </h1>
-    <h3>Você ainda não confirmou sua conta.</h3>
-    <p>
-        Antes de acessar este conteúdo, você precisa confirmar sua conta.
-        Olhe a caixa de mensagens do seu email, nós te enviamos uma mensagem com o link de confirmação.
-    </p>
-    <p>
-        Precisa de outro email de confirmação?
-        <a href="{{ url_for('autorizar.reenviar_confirmacao') }}">Clique aqui</a>
-    </p>
+    <div class="naoconfirmado__container">
+
+        <div class="naoconfirmado__esquerda">
+            <img class="naoconfirmado__imagem" src="{{ url_for('static', filename='imagens/email_celular.svg') }}" alt="">
+        </div>
+
+        <div class="naoconfirmado__direita">
+
+            <h1>
+                Olá, {{ current_user.nome_usuario }}!
+            </h1>
+
+            <h3>Você ainda não confirmou sua conta. 🤔</h3>
+
+            <p>
+                Antes de acessar este conteúdo, você precisa confirmar sua conta.
+                Olhe a caixa de mensagens do seu email, nós te enviamos uma mensagem com o link de confirmação.
+            </p>
+
+            <p>
+                Precisa de outro email de confirmação?
+                <a href="{{ url_for('autorizar.reenviar_confirmacao') }}">Clique aqui</a>
+            </p>
+
+        </div>
+
+    </div>
 
 {% endblock %}
 

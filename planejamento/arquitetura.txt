@@ -1,54 +1,14 @@
 
 
-Adaptar os nomes das classes para a arquitetura BEM
+Remover todos os estilos em linha e criar classes para eles, adaptando os nomes das classes para a arquitetura BEM
 
     [ ] - admin/index
 
     [ ] - autorizar/confirmar_inscricao
     [ ] - autorizar/editar_perfil
     [ ] - autorizar/entrar
-    [ ] - autorizar/inscricao
-    [ ] - autorizar/naoconfirmado
-    [ ] - autorizar/redefinir_senha
-    [ ] - autorizar/trocar_email
-    [ ] - autorizar/trocar_senha
-    [ ] - autorizar/email/confirmacao
-    [ ] - autorizar/email/redefinir_senha
-    [ ] - autorizar/email/trocar_email
-    
-    [ ] - auxiliares/auxiliares_blog
-    [ ] - auxiliares/auxiliares_mural
-    [ ] - auxiliares/jinja_auxiliares
-
-    [ ] - blog/artigo
-    [ ] - blog/escrever
-    [ ] - blog/index
-
-    [ ] - componentes/navbar
-    [ ] - componentes/rodape
-    [ ] - componentes/scripts
-
-    [ ] - email/novo_usuario
-
-
-    [ ] - erros/403
-    [ ] - erros/404
-    [ ] - erros/500
-
-    [ ] - ingles.html
-    [ ] - layout
-    [ ] - layout2
-    [ ] - publicacao
-    [ ] - temporario
-Remover todos os estilos em linha e criar classes para eles ou adicionar os estilos em classes existentes
-
-    [ ] - admin/index
-
-    [ ] - autorizar/confirmar_inscricao
-    [ ] - autorizar/editar_perfil
-    [ ] - autorizar/entrar
-    [ ] - autorizar/inscricao
-    [ ] - autorizar/naoconfirmado
+    [x] - autorizar/inscricao
+    [x] - autorizar/naoconfirmado
     [ ] - autorizar/redefinir_senha
     [ ] - autorizar/trocar_email
     [ ] - autorizar/trocar_senha

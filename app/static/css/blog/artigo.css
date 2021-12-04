@@ -17,8 +17,15 @@
 .artigo__container-conteudo {
     position: relative;
     top: -300px;
-    margin: 0 auto;
-    width: 70%; 
+    margin: 0 10px;
+}
+
+
+@media (min-width: 768px) {
+    .artigo__container-conteudo {
+        width: 70%;
+        margin: 0 auto;
+    }
 }
 
 .artigo__container-titulo {
@@ -31,14 +38,13 @@
     margin-bottom: 0;
 }
 
-.artigo__titulo--destaque {
+.artigo__titulo span {
     padding: 5px; 
     background-color: blue; 
     color: white
 }
 
 .artigo__info {
-    display: flex;
     color: white;
 }
 
@@ -47,9 +53,118 @@
     padding: 5px;
 }
 
+.artigo__info-tags {
+    display: flex;
+    margin-top: 10px;
+    color: white;
+}
+
 .artigo__conteudo {
     display: block;
-    margin: 30px auto;
+    margin: 20px auto;
     background-color: white !important;
     padding: 2em;
 }
+
+.artigo__container-formulario-comentario {
+    font-size: 1.5em
+}
+
+
+.artigo__formulario-comentario {
+    margin-top: 10px;
+    margin-bottom: 1em
+}
+
+
+
+
+.artigo__container-comentario {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+
+.artigo__container-reacao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    margin-right: 5px;
+    color: grey;
+}
+
+.artigo__comentario {
+    background-color: white;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+    width: 100%;
+    padding: 5px;
+}
+
+
+.artigo__info-autor {
+    border-top: 5px solid rgb(228, 228, 228);
+    margin-top: 1em;
+    padding-top: 1em;
+}
+
+.artigo__link-autor {
+    display: flex;
+    align-items: center;
+    color: rgb(54, 54, 54);
+    text-decoration: none;
+}
+
+.artigo__link-autor:hover {
+    color: rgb(54, 54, 54);
+    text-decoration: none;
+}
+
+.artigo__imagem-autor {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.artigo__descricao-autor {
+    color: grey;
+    font-family: 'Glegoo';
+    margin-top: 10px;
+}
+
+.artigo__autor-redes-sociais {
+    color: rgb(54, 54, 54);
+}
+
+
+
+
+
+
+.artigo__comentarios {
+   
+}
+
+.artigo__container-comentario {
+    
+}
+
+.artigo__comentario-rodape {
+    color: rgb(179, 179, 179);
+    font-size: 13px;
+}
+
+.artigo__comentario-rodape a {
+    text-decoration: none;
+}
+
+
+
+
+
+
+
+

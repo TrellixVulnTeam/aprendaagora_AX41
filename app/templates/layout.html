@@ -14,6 +14,7 @@
 <!-- Macros específicos das páginas de idiomas -->
 {% from "auxiliares/jinja_auxiliares.html" import exibir_formulario %}
 {% from "auxiliares/jinja_auxiliares.html" import exibir_campo %}
+{% from "auxiliares/jinja_auxiliares.html" import exibir_campo_sem_label %}
 {% from "auxiliares/jinja_auxiliares.html" import exibir_campo_selecao_tag %}
 {% from "auxiliares/jinja_auxiliares.html" import exibir_botao %}
 
@@ -54,6 +55,8 @@
     <!-- Fonte Merienda-->
     <link href="https://fonts.googleapis.com/css2?family=Merienda&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Glegoo&display=swap" rel="stylesheet">
+
     <!-- Ícones -->
     <script src="https://kit.fontawesome.com/ececd7af37.js" crossorigin="anonymous"></script>
     <!--<script src="https://use.fontawesome.com/e7993babb1.js"></script>-->
@@ -73,6 +76,7 @@
 
     <!-- AUTORIZAR -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/autorizar/entrar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/autorizar/naoconfirmado.css') }}">
 
     <!-- INICIO -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/inicio/perfil.css') }}">
@@ -91,16 +95,12 @@
    
 
     <script>
-
         // Define as informações do usuário se estiver conectado
         {% if current_user is defined and current_user.id %}
             
             var usuario_conectado = true;
-
             var usuario_id = {{ current_user.id }};
-            
             var usuario_gravatar = "{{ current_user.gravatar(size=18) }}";
-
             var usuario_nome = "{{ current_user.nome_usuario }}";
 
         {% else %}
@@ -171,10 +171,8 @@
 
 
     {% with avisos = get_flashed_messages(with_categories=true) %}
-
         <!-- Se houver avisos -->
         {% if avisos %}
-
             <!-- Exibe mensagens de erro, avisos, etc (notificações) -->
             <div id="lista-de-avisos" class="">
 
@@ -189,18 +187,14 @@
 
                 {% endfor %}
             </div>
-
         {% endif %}
     {% endwith %}
     
     
-    
-
     <main class="m-0">
 
         {% block carrossel_cabecalho %}
         {% endblock %}
-
 
         <div id="secao-principal">
             <!-- Conteúdo da Página-->
@@ -210,14 +204,12 @@
     </main>
 
 
-
     <!-- Rodapé (Footer) 
     {% block rodape %}
         {% include 'componentes/rodape.html' %}
     {% endblock %}
     -->
 {% endblock %}
-
 
 
 <!-- Scripts presentes no final do body -->

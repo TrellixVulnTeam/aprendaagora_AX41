@@ -2,12 +2,12 @@
 
 {% block titulo %}Entrar{% endblock %}
 
-
-<!-- Conteúdo da Página-->
 {% block content %}
 
 <div class="entrar__container">
+
     <div class="entrar__wrap">
+
         <div class="entrar__esquerda">
             <h3 class="entrar__logo">
                 Aprenda Agora
@@ -19,15 +19,13 @@
         </div>
 
         <div class="entrar__direita">
-
-            
-
             {% block formulario_autorizar %}
                 {{ exibir_formulario_entrar(formulario) }}
             {% endblock %}
-
         </div>
+
     </div>
+    
 </div>  
     
 {% endblock %}

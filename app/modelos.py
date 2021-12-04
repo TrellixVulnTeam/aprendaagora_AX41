@@ -283,6 +283,12 @@ class Usuario(UserMixin, db.Model):
     localizacao = db.Column(db.String(64))
     
     sobre = db.Column(db.String(100))
+
+    twitter = db.Column(db.String(15))
+
+    instagram = db.Column(db.String(30))
+
+    facebook = db.Column(db.String(50))
     
     #  Id do 'role' do usuário
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))

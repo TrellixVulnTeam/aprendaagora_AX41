@@ -19,25 +19,34 @@
         <div class="artigo__container-titulo">
 
             <h1 class="artigo__titulo">
-                <span class="artigo__titulo--destaque">{{ artigo.titulo|upper }}</span>
+                <span>{{ artigo.titulo|upper }}</span>
             </h1>
 
             <h1 class="artigo__titulo">
-                <span class="artigo__titulo--destaque">{{ artigo.subtitulo|upper }}</span>
+                <span>{{ artigo.subtitulo|upper }}</span>
             </h1>
 
-        
             <div class="artigo__info">
-                <span>{% for tag in artigo.tags %} {{ tag.nome }} {% endfor %} • {{ moment(artigo.data).format('LLL') }}</span>
+                <span>{{ artigo.n_palavras }} PALAVRAS ESCRITAS POR {{ artigo.autor.nome }} {{ artigo.autor.sobrenome }} EM{{ moment(artigo.data).format('LLL') }} • ARTE CRIADA POR WESLON SILVA</span>
             </div>
-            <div class="artigo__info">
-                <span>{{ artigo.n_palavras }} PALAVRAS ESCRITAS POR RAMON RODRIGUES • ARTE CRIADA POR WESLON SILVA</span>
+
+            <div class="artigo__info-tags">
+                <span>{% for tag in artigo.tags %} <span style="color: white; background-color: red; border-radius: 5px; padding: 2px; font-weight: bold">{{ tag.nome }}</span> {% endfor %}</span>
             </div>
         </div>
 
 
         <div class="artigo__conteudo">
+
+
             {{ artigo.conteudo_html|safe }}
+
+            <div style="color: grey; font-size: 2em; margin-top: 1em">
+                <i onClick="(function(){
+                    alert('Este botão ainda não funciona. Em breve 😉');
+                    return false;
+                })();return false;" class="far fa-heart"></i>
+            </div>
 
             <div style="margin-bottom: 10px">
                 <!-- Your share button code -->
@@ -52,62 +61,65 @@
             </div>
 
             <!-- INFO DO AUTOR -->
-            <div>
-                <a href="{{ url_for('inicio.usuario', nome_usuario=artigo.autor.nome_usuario) }}" style="display: flex; align-items: center">
-                    <img style="width: 30px; height: 30px; border-radius: 50%;" src="{{ url_for('static', filename='imagens/ramon.jpg') }}" alt="">
-                    <span style="font-size: 30px">@{{ artigo.autor.nome_usuario }}</span>
+            <div class="artigo__info-autor">
+
+                <a class="artigo__link-autor" href="{{ url_for('inicio.usuario', nome_usuario=artigo.autor.nome_usuario) }}">
+
+                    <img class="artigo__imagem-autor" src="{{ url_for('static', filename='imagens/ramon.jpg') }}" alt="">
+
+                    <span style="font-size: 30px">{{ artigo.autor.nome }} {{ artigo.autor.sobrenome }}</span>
+
                 </a>
+                
+                <p class="artigo__descricao-autor">Ramon produz conteúdo educativo de alta qualidade e gratuito desde 1 de Janeiro de 2016, quando fundou o Aprenda Agora. Ele trabalha diariamente com outros idiomas e atualmente faz pesquisas sobre a interseção entre a linguagem natural e a tecnologia.</p>
+
+                <div class="artigo__autor-redes-sociais ">
+                    <i class="fab fa-facebook"></i>&nbsp;&nbsp;<i class="fab fa-instagram"></i>&nbsp;&nbsp;<i class="fab fa-twitter"></i>
+                </div>
             </div>
         </div>
 
 
-        
-        
-
         <!-- FORMULÁRIO DE COMENTÁRIOS -->
-        <div>
+        <div class="artigo__container-formulario-comentario">
             <span><i class="far fa-comment-alt"></i> {{ artigo.comentarios.count() }} comentários</span>
             
             <!-- Exibe o formulário de login -->
-            <form method="POST" action="" class="form" role="form" style="margin-bottom: 1em">
-
+            <form method="POST" action="" class="form artigo__formulario-comentario" role="form">
                 {{ formulario.hidden_tag() }}
-                
-                {{ exibir_campo(formulario.conteudo) }}
-                
+                {{ exibir_campo_sem_label(formulario.conteudo) }}
                 {{ exibir_botao(formulario.enviar) }}
-
             </form>
         </div>
 
 
         <!-- LISTA DE COMENTÁRIOS -->
-        <div>
+        <div class="artigo__comentarios">
             {% for comentario in comentarios %}
-                <div style="margin-bottom: 5px; ; display: flex; align-items: center">
+                <div class="artigo__container-comentario">
 
-                    <div style="display: flex; flex-direction: column; align-items: center; padding: 5px; margin-right: 5px; color: grey">
+                    <div onClick="(function(){
+                        alert('Este botão ainda não funciona. Em breve 😉');
+                        return false;
+                    })();return false;" class="artigo__container-reacao">
                         <i class="fas fa-sort-up"></i>
                         <i class="fas fa-sort-down"></i>
                     </div>
 
-                    <div style="background-color: white; border: 1px solid rgb(204, 204, 204); border-radius: 3px; width: 100%; padding: 5px">
-                        <div>
-                            <a class="" href="{{ url_for('inicio.usuario', nome_usuario=comentario.autor.nome_usuario) }}">
-                                <span class="perfil-autor-link float-left pr-1 h-100">
-                                        <!-- Avatar miniatura do autor da publicação -->
-                                        <img src="{{ comentario.autor.gravatar(size=18) }}" alt="" class="img-rounded profile-thumbnail">
-                                        <!-- Nome de usuário do autor da publicação -->
-                                        <small>@{{ comentario.autor.nome_usuario }}</small>   
-                                </span>
-                            </a>
-                            <span>
-                                <i class="fa fa-clock"></i>
-                                {{ moment(comentario.data).fromNow(refresh=True) }}
-                            </span>
-                        </div>
+                    <div class="artigo__comentario">
                         
-                        <span style="display: block">{{ comentario.conteudo }}</span>
+                        <div>{{ comentario.conteudo }}</div>
+
+                        <div class="artigo__comentario-rodape">
+
+                            <a href="{{ url_for('inicio.usuario', nome_usuario=comentario.autor.nome_usuario) }}">
+                                
+                                <!-- Nome de usuário do autor da publicação -->
+                                <span>@{{ comentario.autor.nome_usuario }}</span>   
+                            </a>
+
+                            <i class="fa fa-clock"></i> {{ moment(comentario.data).fromNow(refresh=True) }}
+                        </div>
                     </div>
                 </div>
             {% endfor %}

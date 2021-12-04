@@ -1,6 +1,4 @@
 {% macro exibir_formulario_entrar(formulario) %}
-
-
     <!-- Exibe o formulário de login -->
     <form method="POST" action="" class="entrar__formulario" role="form">
 
@@ -30,18 +28,18 @@
             
         </span>
     
-        <button class="entrar__botao-registrar">
-            <a href="{{ url_for('autorizar.inscricao')}}">Criar uma nova conta</a> 
-        </button>
+        
 
     </form>
+
+    <button class="entrar__botao-registrar">
+        <a href="{{ url_for('autorizar.inscricao')}}">Criar uma nova conta <i class="fas fa-key"></i></a> 
+    </button>
 {% endmacro %}
 
 
 
 {% macro exibir_formulario_registrar(formulario) %}
-
-
     <!-- Exibe o formulário de login -->
     <form method="POST" action="" class="entrar__formulario" role="form">
 
@@ -69,21 +67,14 @@
         
         {{ formulario.enviar(class="entrar__botao-entrar") }}
 
-        <button class="entrar__botao-registrar">
-            <a href="{{ url_for('autorizar.entrar')}}">Acessar minha conta</a> 
-        </button>
+       
 
     </form>
+
+    <button  class="entrar__botao-registrar">
+        <a href="{{ url_for('autorizar.entrar')}}">Acessar minha conta <i class="fas fa-door-open"></i></a> 
+    </button>
 {% endmacro %}
-
-
-
-
-
-
-
-
-
 
 
 
@@ -228,7 +219,29 @@
 {% endmacro %}
 
 
+<!-- Exibe um campo simples de um formulário (e os erros vinculados ao campo) -->
+{% macro exibir_campo_sem_label(campo) %}
+<div class="form-group">
 
+    <!-- Se houver erros vinculados ao campo -->
+    {% if campo.errors %}
+        <!-- Exiba o campo com a marcação de inválido -->
+        {{ campo(class="form-control is-invalid") }}
+
+        <!-- Exiba a lista de errros em cor vermelha (classe invalid-feedback) -->
+        <div class="invalid-feedback">
+            <!-- Para cada erro na lista de erros do campo -->
+            {% for erro in campo.errors %}
+                <span>{{ erro }}</span>
+            {% endfor %}
+        </div>
+    <!-- Se não houver erros-->
+    {% else %}
+        <!-- Exiba o campo normalmente -->
+        {{ campo(class="form-control") }}
+    {% endif %}
+</div>
+{% endmacro %}
 
 
 
