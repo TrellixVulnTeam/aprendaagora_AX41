@@ -76,7 +76,7 @@ def entrar():
             return redirect(next)
         
         # Aviso que será exibido no topo da página
-        flash("Nome de usuário e/ou senha inválido(s).", 'alert-danger')
+        flash("Nome de usuário e/ou senha inválido(s). 🙁", 'alert-danger')
     
     # Se o método for GET
     return render_template('autorizar/entrar.html', formulario=formulario)
@@ -91,7 +91,7 @@ def sair():
     logout_user()
 
     # Aviso que será exibido no topo da página
-    flash('Você saiu da sua conta.', 'alert-secondary')
+    flash('Você saiu da sua conta. 🧐', 'alert-secondary')
 
     # Redireciona o usuário para a página inicial
     return redirect(url_for('autorizar.entrar'))
@@ -134,7 +134,7 @@ def inscricao():
         )
 
         # Aviso que será exibido no topo da página
-        flash("Um email de confirmação foi enviado para seu email.", 'alert-primary')
+        flash("Um email de confirmação foi enviado para seu email. 😄", 'alert-primary')
 
         # Sequência POST-REDIRECT-GET
         return redirect(url_for('inicio.inicio'))
@@ -162,11 +162,11 @@ def confirmar(token):
         db.session.commit()
 
         # Aviso que será exibido no topo da página
-        flash("Você confirmou sua conta. Obrigado!", 'alert-primary')
+        flash("Você confirmou sua conta. Obrigado! 😄", 'alert-primary')
     else:
 
         # Aviso que será exibido no topo da página
-        flash("O link de confirmação é inválido ou já expirou.", 'alert-danger')
+        flash("O link de confirmação é inválido ou já expirou. 🙁", 'alert-danger')
 
     # Redireciona para a página inicial
     return redirect(url_for('inicio.inicio'))
@@ -190,7 +190,7 @@ def reenviar_confirmacao():
     )
     
     # Aviso que será exibido no topo da página
-    flash("Um novo email de confirmação foi enviado para seu endereço de email.", 'alert-primary')
+    flash("Um novo email de confirmação foi enviado para seu endereço de email. 🙂", 'alert-primary')
     
     # Redireciona para a página inicial
     return redirect(url_for('inicio.inicio'))
@@ -219,7 +219,7 @@ def trocar_senha():
             db.session.commit()
 
             # Aviso que será exibido no topo da página
-            flash("Sua senha foi atualizada.", 'alert-success')
+            flash("Sua senha foi atualizada. 🙂", 'alert-success')
 
             # Redireciona para o início
             return redirect(url_for('inicio.inicio'))
@@ -227,7 +227,7 @@ def trocar_senha():
         else:
 
             # Aviso que será exibido no topo da página
-            flash("Senha incorreta.", 'alert-danger')
+            flash("Senha antiga incorreta. 🙁", 'alert-danger')
 
     # Se o método for GET
     return render_template("autorizar/trocar_senha.html", formulario=formulario)
@@ -269,7 +269,7 @@ def redefinir_senha_pedido():
             )
 
         # Aviso que será exibido no topo da página
-        flash("Um email com instruções sobre como redefinir sua senha foi enviado para seu email.", 'alert-primary')
+        flash("Um email com instruções sobre como redefinir sua senha foi enviado para seu email. 🙂", 'alert-primary')
 
         return redirect(url_for('autorizar.login'))
 
@@ -300,7 +300,7 @@ def redefinir_senha(token):
             db.session.commit()
 
             # Aviso que será exibido no topo da página
-            flash("Sua senha foi atualizada.", 'alert-success')
+            flash("Sua senha foi atualizada. 🙂", 'alert-success')
 
             # Redirecione o usuário para a rota 'inicio'
             return redirect(url_for('inicio.inicio'))
@@ -341,7 +341,7 @@ def trocar_email_pedido():
             )
 
             # Aviso que será exibido no topo da página
-            flash("Um email com instruções sobre como confirmar seu novo email foi enviado para você. Cheque a caixa de entrada do seu email.", 'alert-primary')
+            flash("Um email com instruções sobre como confirmar seu novo email foi enviado para você. Cheque a caixa de entrada do seu email. 🙂", 'alert-primary')
 
             # Redireciona para o início
             return redirect(url_for('inicio.inicio'))
@@ -349,7 +349,7 @@ def trocar_email_pedido():
         # Se a senha não for a senha do usuário
         else:
             # Aviso que será exibido no topo da página
-            flash("Email e/ou senha inválido(s). Tente novamente.", 'alert-danger')
+            flash("Email e/ou senha inválido(s). Tente novamente. 🙁", 'alert-danger')
     
     # Se o método for GET
     return render_template('autorizar/trocar_email.html', formulario=formulario)
@@ -366,13 +366,13 @@ def trocar_email(token):
         db.session.commit()
 
         # Aviso exibido após redirecionamento
-        flash("O endereço de email vinculado à conta foi trocado.", 'alert-success')
+        flash("O endereço de email vinculado à conta foi trocado. 🙂", 'alert-success')
 
     # Se o método retornar falso
     else:
 
         # Aviso
-        flash("Ação inválida.", 'alert-danger')
+        flash("Ação inválida. 🧐", 'alert-danger')
 
     # Redireciona para o início
     return redirect(url_for('inicio.inicio'))

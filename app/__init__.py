@@ -92,10 +92,12 @@ def criar_app(nome_configuracao):
     from .autorizar import autorizar as autorizar_blueprint
     app.register_blueprint(autorizar_blueprint, url_prefix='/autorizar')
 
+    from .painel import painel as painel_blueprint
+    app.register_blueprint(painel_blueprint, url_prefix='/painel')
+
     # Registra o blueprint 'ingles'
     from .ingles import ingles as ingles_blueprint
     app.register_blueprint(ingles_blueprint, url_prefix='/ingles')
-
 
     from .blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint, url_prefix='/blog')

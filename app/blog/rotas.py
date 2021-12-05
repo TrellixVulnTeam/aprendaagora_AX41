@@ -90,10 +90,10 @@ def escrever_artigo():
 
                     db.session.commit()
 
-            flash("Artigo criado com sucesso", 'alert-success')
+            flash("Artigo criado com sucesso. 🙂", 'alert-success')
 
         except:
-            flash("Um erro ocorreu durante a criação do artigo", 'alert-danger')
+            flash("Um erro ocorreu durante a criação do artigo. 🙁", 'alert-danger')
 
         return redirect(url_for('blog.inicio'))
         
@@ -138,10 +138,11 @@ def artigo(artigo_id):
                 formulario.conteudo.data
             )
 
-            flash("Seu comentário foi publicado")
+            flash("Seu comentário foi publicado. 🙂", 'alert-success')
+
             return redirect(url_for('.artigo', artigo_id=artigo.id, pagina=-1))
         except (erro):
-            flash("Um erro ocorreu durante a criação do comentário")
+            flash("Um erro ocorreu durante a criação do comentário. 🙁", 'alert-danger')
             return redirect(url_for('.artigo', artigo_id=artigo.id, pagina=-1))
 
     pagina = request.args.get('pagina', 1, type=int)

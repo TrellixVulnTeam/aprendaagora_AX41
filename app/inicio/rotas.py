@@ -172,7 +172,7 @@ def editar_perfil():
         db.session.commit()
 
         # Mensagem de aviso
-        flash("As alterações no seu perfil foram salvas.", 'alert-success')
+        flash("As alterações no seu perfil foram salvas. 🙂", 'alert-success')
 
         # Redireciona para a página de perfil
         return redirect(url_for('inicio.perfil'))
@@ -286,7 +286,7 @@ def editar_perfil_admin(id):
         db.session.add(usuario)
         db.session.commit()
 
-        flash("As alterações no perfil foram salvas.", 'alert-success')
+        flash("As alterações no perfil foram salvas. 🙂", 'alert-success')
 
         print("Método POST")
 

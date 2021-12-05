@@ -9,6 +9,25 @@ from . import db, login_manager
 from datetime import datetime
 
 
+class InscricaoFeuRosa(db.Model):
+    __tablename__ = 'inscricoes_feu_rosa'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nome = db.Column(db.String(64))
+
+    email = db.Column(db.String(32))
+
+    numero_telefone = db.Column(db.String(32))
+
+    curso = db.Column(db.String(16))
+
+    horario = db.Column(db.String(16))
+
+
+###########################################################
+###########################################################
+
 # Lista de permissões dos 'roles'
 class Permissao:
     # Seguir murais e usuários
@@ -43,22 +62,6 @@ class Permissao:
 
     # Permissões de administrador
     ADMIN = 262144
-
-
-class InscricaoFeuRosa(db.Model):
-    __tablename__ = 'inscricoes_feu_rosa'
-
-    id = db.Column(db.Integer, primary_key=True)
-
-    nome = db.Column(db.String(64))
-
-    email = db.Column(db.String(32))
-
-    numero_telefone = db.Column(db.String(32))
-
-    curso = db.Column(db.String(16))
-
-    horario = db.Column(db.String(16))
 
 
 class Role(db.Model):
@@ -319,6 +322,13 @@ class Usuario(UserMixin, db.Model):
                                        backref='usuario',
                                        lazy='dynamic')
 
+    licoes_amei = db.relationship('LicaoAmei',
+                                       foreign_keys='LicaoAmei.usuario_id',
+                                       backref='usuario',
+                                       lazy='dynamic')
+
+
+
     # Atribui o 'role' 'Estudante' à novos usuários, ou 'Administrador' caso o email do usuário está deinido em APRENDA_AGORA_ADMIN
     def __init__(self, **kwargs):
 
@@ -572,6 +582,10 @@ class Usuario(UserMixin, db.Model):
         return '<Usuário %r>' % self.nome_usuario
 
 
+###########################################################
+###########################################################
+
+# MANY TO MANY
 
 # Relação entre publicações e tags
 publicacoes_tags = db.Table(
@@ -582,6 +596,366 @@ publicacoes_tags = db.Table(
 
     db.Column('publicacao_id', db.Integer, db.ForeignKey('publicacoes.id'), primary_key=True)
 )
+
+# Relação entre lições e tags
+licoes_topicos = db.Table(
+    
+    'licoes_topicos',
+
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
+
+    db.Column('licao_id', db.Integer, db.ForeignKey('licoes.id'), primary_key=True)
+)
+
+# Relação entre questões e tags
+questoes_topicos = db.Table(
+    
+    'questoes_topicos',
+
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
+
+    db.Column('questao_id', db.Integer, db.ForeignKey('questoes.id'), primary_key=True)
+)
+
+###########################################################
+###########################################################
+
+
+# As tags de uma publicação podem ser acessadas com publicacao.tags
+class Materia(db.Model):
+    
+    __tablename__ = 'materias'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(16), unique=True)
+
+    @staticmethod
+    def inserir_materias():
+
+        # Lista de tags em formato chave-valor. O valor é o nome da tag que será armazenado
+        materias = {
+            'Ingles': 'ingles',
+            'Frances': 'frances',
+            'Espanhol': 'espanhol',
+            'Italiano': 'italiano',
+            'Alemao': 'alemao',
+            'Japones': 'japones',
+            'Chines': 'chines',
+
+            'Portugues': 'portugues',
+            'Matematica': 'matematica',
+
+            'Biologia': 'biologia',
+            'Quimica': 'quimica',
+            'Fisica': 'fisica',
+            
+            'Historia': 'historia',
+            'Geografia': 'geografia',
+            'Filosofia': 'filosofia',
+            'Sociologia': 'sociologia',
+
+            'Arte': 'arte',
+            'Educacao Fisica': 'educacao-fisica',
+        }
+
+        """
+        
+        Tópicos de IDIOMAS 
+        
+        Gramática
+        Escrita
+        Pronúncia
+        Leitura
+        Vocabulário
+        
+        Conjugação de Verbo
+        Pronomes
+        Verbos
+        Preposição
+        Advérbio
+        Expressões Idiomáticas
+
+
+        Tópicos de TECNOLOGIA
+
+
+
+        """
+
+        # Para cada conjunto chave-valor
+        for m, nome in materias.items():
+
+            # Consulte o banco de dados procurando por uma 'tag' que tenha o nome igual ao de uma das 'tags' definidas no dicionário 'tags'
+            materia = Materia.query.filter_by(nome=nome).first()
+
+            # Se NÃO existir uma 'tag' com o nome informado
+            if materia is None:
+
+                # Crie uma nova 'tag'
+                materia = Materia(nome=nome)
+
+            # Adiciona a tag à sessão
+            db.session.add(materia)
+
+        # Salva as alterações no banco de dados
+        db.session.commit()
+
+
+# As tags de uma publicação podem ser acessadas com publicacao.tags
+class Tag(db.Model):
+    
+    __tablename__ = 'tags'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nome = db.Column(db.String(16), unique=True)
+
+    materia = db.Column(db.Integer, db.ForeignKey('materias.id'))
+
+    @staticmethod
+    def inserir_tags():
+
+        # Lista de tags em formato chave-valor. O valor é o nome da tag que será armazenado
+        tags = {
+            'Series': 'series',
+            'Viagem': 'viagem',
+            'Entrevistas': 'entrevistas',
+            'Brasil': 'brasil',
+            'Estudo': 'estudo',
+
+            'Vocabulario': 'vocabulario',
+            'Gramatica': 'gramatica',
+            'Pronuncia': 'pronuncia',
+            'Cultura': 'cultura',
+
+            'Ingles': 'ingles',
+            'Frances': 'frances',
+            'Espanhol': 'espanhol',
+            'Italiano': 'italiano',
+            'Alemao': 'alemao',
+            'Japones': 'japones',
+            'Chines': 'chines',
+            'Russo': 'russo',
+            'Coreano': 'coreano',
+            'Árabe': 'arabe',
+            'Hindi': 'hindi',
+
+            'Tecnologia': 'tecnologia',
+            'Ciências da Computação': 'ciências da computação',
+            'Desenvolvimento Web': 'desenvolvimento web',
+            'Inteligência Artificial': 'artificial',
+            'Front-End': 'front-end',
+            'Back-End': 'back-end',
+            'Segurança Digital': 'segurança digital',
+            'Desenvolvimento de Games': 'desenvolvimento de games',
+            'Robótica': 'robotica',
+
+
+            'Portugues': 'portugues',
+            'Matematica': 'matematica',
+            'Biologia': 'biologia',
+            'Quimica': 'quimica',
+            'Fisica': 'fisica',
+            
+            'Historia': 'historia',
+            'Geografia': 'geografia',
+            'Filosofia': 'filosofia',
+            'Sociologia': 'sociologia',
+
+            'Arte': 'arte',
+            'Educacao Fisica': 'educacao-fisica',
+        }
+
+        """
+        
+        Tópicos de IDIOMAS 
+        
+        Gramática
+        Escrita
+        Pronúncia
+        Leitura
+        Vocabulário
+        
+        Conjugação de Verbo
+        Pronomes
+        Verbos
+        Preposição
+        Advérbio
+        Expressões Idiomáticas
+
+
+        Tópicos de TECNOLOGIA
+
+
+
+        """
+
+        # Para cada conjunto chave-valor
+        for t, nome in tags.items():
+
+            # Consulte o banco de dados procurando por uma 'tag' que tenha o nome igual ao de uma das 'tags' definidas no dicionário 'tags'
+            tag = Tag.query.filter_by(nome=nome).first()
+
+            # Se NÃO existir uma 'tag' com o nome informado
+            if tag is None:
+
+                # Crie uma nova 'tag'
+                tag = Tag(nome=nome)
+
+            # Adiciona a tag à sessão
+            db.session.add(tag)
+
+        # Salva as alterações no banco de dados
+        db.session.commit()
+
+
+
+class Licao(db.Model):
+
+    __tablename__ = 'licoes'
+
+    # Dados básicos
+    id = db.Column(db.Integer, primary_key=True)
+
+    titulo = db.Column(db.String(100))
+    subtitulo = db.Column(db.String(100))
+    
+    conteudo = db.Column(db.Text)
+    conteudo_html = db.Column(db.Text)
+
+    nome_foto = db.Column(db.String(100))
+
+    n_palavras = db.Column(db.Integer)
+    #! alterar nome para 'data_criacao' em todas as menções
+    data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    
+    autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+
+    #! Transformar o vínculo com um idioma em uma tag
+    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'))
+
+    # Publicacao.tags retorna as tags às quais a publicação está associada
+    topicos = db.relationship('Tag',
+                           secondary=licoes_topicos,
+                           lazy='subquery',
+                           backref=db.backref('licoes'))
+
+    comentarios = db.relationship('Comentario',
+                                  backref='licao',
+                                  lazy='dynamic')
+    
+    ameis = db.relationship('Usuario',
+                            secondary='licoes_amei',
+                            backref=db.backref('licao', lazy='dynamic'))
+
+
+    def __init__(self, **kwargs):
+
+        super(Usuario, self).__init__(**kwargs)
+
+        self.n_palavras =  len(self.conteudo.split())
+
+
+    # Converte texto em Markdown para HTML
+    # Primeiro, a função markdown() faz uma conversão inicial para HTML
+    # O resultado da conversão inicial é passado para a função clean(), juntamente com a lista de tags permitidas. A função clean() remove todas as tags não permitidas
+    # A conversão final é feita com a função linkify(), uma função oferecida pelo Bleach que converte todos os URL escritos em texto-claro em tags âncora <a>
+    # Este último passo é necessário por que geração automática de links não é uma ferramenta oficial do Markdown, mas é uma funcionalidade muito conveniente
+    @staticmethod
+    def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
+
+        # Define as tags permitidas no Markdown
+        tags_permitidas = ['a', 'abbr', 'b', 'blockquote', 'code', 'em', 'i', 'img', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h3', 'p']
+
+        atributos_permitidos = {'*': ['class'],
+                                'a': ['href', 'rel'],
+                                'img': ['src', 'alt']
+        }
+
+
+        target.conteudo_html = bleach.linkify(
+                               bleach.clean(
+                                    markdown(conteudo, output_format='html'),
+                                    tags=tags_permitidas,
+                                    attributes=atributos_permitidos,
+                                    strip=False)
+        )
+
+
+    # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
+    """
+    def json(self):
+
+        # Declara um array vazio
+        publicacao_tags = []
+
+        # Para cada tag atribuída à publicação
+        for tag in self.tags:
+            # Adicione o nome da tag ao array
+            publicacao_tags.append(tag.nome)
+
+        # data = moment.create(self.data)
+
+        # Retorne um objeto contendo as informações da publicação
+        return {
+            'id': self.id,
+            'titulo': self.titulo,
+            'conteudo': self.conteudo,
+            'conteudo_html': self.conteudo_html,
+            'tags': publicacao_tags,
+            'data': self.data,
+            'idioma': self.idioma,
+            'avatar_autor': self.autor.gravatar(size=50),
+            'id_autor': self.autor.id,
+            'comentarios': self.comentarios,
+            #'ameis': self.ameis
+        }
+    """
+
+
+
+class Questao(db.Model):
+
+    __tablename__ = 'questoes'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nome = db.Column(db.String(16))
+
+    materia = db.Column(db.Integer, db.ForeignKey('materias.id'))
+
+    # Publicacao.tags retorna as tags às quais a publicação está associada
+    topicos = db.relationship('Tag',
+                            secondary=questoes_topicos,
+                           lazy='subquery',
+                           backref=db.backref('questoes'))
+
+    titulo = db.Column(db.String(500))
+    conteudo = db.Column(db.String(2000))
+
+
+    # A opção 'a' é sempre a correta. Na hora da exibição das opções, as opções devem ser embaralhadas 
+    opcaoa = db.Column(db.String(2000))
+    opcaob = db.Column(db.String(2000))
+    opcaoc = db.Column(db.String(2000))
+    opcaod = db.Column(db.String(2000))
+    opcaoe = db.Column(db.String(2000))
+
+
+    explicacao = db.Column(db.String())
+    explicacao_markdown = db.Column(db.String())
+    explicacao_html = db.Column(db.String())
+    
+
+    # 0 - questao sem propósito específico
+    # 1 - questao para o enem
+    tipo = db.Column(db.Integer)
+
+
+    # Atributos próprios das questões do enem
+    ano = db.Column(db.Integer)
+    prova = db.Column(db.String(10)) # azul, amarelo, etc
+    dia = db.Column(db.Integer) # 1 ou 2
 
 
 
@@ -699,11 +1073,11 @@ class Publicacao(db.Model):
         }
 
 
+
 class Comentario(db.Model):
 
     __tablename__ = 'comentarios'
     
-
     # Dados básicos
     
     id = db.Column(db.Integer, primary_key=True)
@@ -722,6 +1096,9 @@ class Comentario(db.Model):
     # id da publicação onde o comentário foi feito
     publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
 
+    # id da lição onde o comentário foi feito
+    licao_id = db.Column(db.Integer, db.ForeignKey('licoes.id'))
+
 
     # Função para ser chamada quando o conteúdo de um comentário for alterado
     @staticmethod
@@ -737,6 +1114,7 @@ class Comentario(db.Model):
                             )
 
 
+
 class PublicacaoAmei(db.Model):
 
     __tablename__ = 'publicacoes_amei'
@@ -749,78 +1127,18 @@ class PublicacaoAmei(db.Model):
 
 
 
-# As tags de uma publicação podem ser acessadas com publicacao.tags
-class Tag(db.Model):
-    
-    __tablename__ = 'tags'
+class LicaoAmei(db.Model):
+
+    __tablename__ = 'licoes_amei'
 
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(16), unique=True)
 
-    @staticmethod
-    def inserir_tags():
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
-        # Lista de tags em formato chave-valor. O valor é o nome da tag que será armazenado
-        tags = {
-            'Vocabulario': 'vocabulario',
-            'Gramatica': 'gramatica',
-            'Pronuncia': 'pronuncia',
-            'Cultura': 'cultura',
-            'Ingles': 'ingles',
-            'Frances': 'frances',
-            'Espanhol': 'espanhol',
-            'Italiano': 'italiano',
-            'Alemao': 'alemao',
-            'Japones': 'japones',
-            'Chines': 'chines',
-            'Series': 'series',
-            'Viagem': 'viagem',
-            'Entrevistas': 'entrevistas',
-            'Brasil': 'brasil',
-            'Estudo': 'estudo',
-        }
-
-        """
-        
-        Tópicos de IDIOMAS 
-        
-        Gramática
-        Escrita
-        Pronúncia
-        Leitura
-        Vocabulário
-        
-        Conjugação de Verbo
-        Pronomes
-        Verbos
-        Preposição
-        Advérbio
-        Expressões Idiomáticas
-
-
-        Tópicos de TECNOLOGIA
+    licoe_id = db.Column(db.Integer, db.ForeignKey('licoes.id'))
 
 
 
-        """
-
-        # Para cada conjunto chave-valor
-        for t, nome in tags.items():
-
-            # Consulte o banco de dados procurando por uma 'tag' que tenha o nome igual ao de uma das 'tags' definidas no dicionário 'tags'
-            tag = Tag.query.filter_by(nome=nome).first()
-
-            # Se NÃO existir uma 'tag' com o nome informado
-            if tag is None:
-
-                # Crie uma nova 'tag'
-                tag = Tag(nome=nome)
-
-            # Adiciona a tag à sessão
-            db.session.add(tag)
-
-        # Salva as alterações no banco de dados
-        db.session.commit()
 
 
 
