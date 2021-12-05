@@ -74,7 +74,7 @@ def inscricao_curso():
 
 @bp.route('/equipe')
 def equipe():
-    return render_template('blog/index.html')
+    return render_template('inicio/equipe.html')
 
 
 @bp.route('/contato')

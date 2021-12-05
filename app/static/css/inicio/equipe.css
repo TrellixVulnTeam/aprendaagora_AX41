@@ -1,0 +1,99 @@
+.equipe__container-conteudo {
+    position: relative;
+    top: -200px;
+}
+
+
+@media (min-width: 768px) {
+    .equipe__container-conteudo {
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+
+.equipe__titulo {
+    font-family: 'Lato';
+    font-size: 2em;
+    text-align: center;
+    background-color: rgb(0, 161, 0);
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    border-radius:5px;
+}
+
+.equipe__grupo {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 30px;
+   
+}
+
+@media (min-width: 768px) {
+    .equipe__grupo {
+        grid-template-columns: auto auto auto;
+    }
+}
+
+
+
+
+.equipe__grupo-membro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    border: 1px solid rgb(240, 240, 240);
+    background-color: rgb(250, 250, 250);
+    padding: 10px;
+    text-align: center;
+    margin: 10px;
+    border-radius:5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    color: rgb(121, 121, 121);
+
+    transition: all 0.5 ease-in-out;
+}
+
+.equipe__grupo-membro:hover {
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.equipe__grupo-membro img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.equipe__membro-nome {
+    color: rgb(39, 39, 39);
+    margin: 5px 0px;
+}
+
+.equipe__membro-cargo {
+    font-size: 0.8em;
+}
+
+.equipe__membro-descricao {
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.equipe__membro-link {
+    color: rgb(121, 121, 121);;
+}
+
+.equipe__membro-link:hover {
+    text-decoration: none;
+    color: rgb(121, 121, 121);
+}
+
+.equipe__membro-redes {
+    width: 80%;
+    display: flex;
+    align-items:center;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}

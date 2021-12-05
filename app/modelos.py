@@ -608,12 +608,21 @@ class Publicacao(db.Model):
     #! alterar nome para 'data_criacao' em todas as menções
     data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     
+    """
+        Tipo de Publicação
+
+        0 - lição de um curso
+        1 - publiação mural
+        2 - artigo no blog
+    """
+    tipo = db.Column(db.Integer)
+
+
     autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
 
     #! Transformar o vínculo com um idioma em uma tag
     idioma = db.Column(db.String(8))
-
 
 
     # Publicacao.tags retorna as tags às quais a publicação está associada

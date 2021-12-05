@@ -2,9 +2,9 @@
 
 {% block conteudo_pagina %}
 
-    <div id="infoPerfil" class="page-header p-3 position-relative">
+    <div class="perfil__container page-header p-3 position-relative">
 
-        <div style="display: flex; flex-direction: row-reverse;">
+        <div class="perfil__opcoes">
             <!-- Se a página de perfil for da conta do cliente-->
             {% if usuario == current_user %}
                 <a class="btn btn-dark btn-sm"
@@ -18,9 +18,9 @@
             {% endif %}
         </div>
 
-        <div style="display: flex; flex-direction: row;">
+        <div class="perfil__info" style="">
 
-            <div class="cracha-perfil" style="padding: 5px">
+            <div class="perfil__cracha">
                 <img src="{{ usuario.gravatar(size=100) }}" alt="" class="img-rounded profile-thumbnail">
     
                 <span class="d-block pt-1">
@@ -29,8 +29,6 @@
                     </a>
                 </span>
             </div>
-
-
 
             <div style="padding: 5px">
                 <h4>
@@ -62,39 +60,45 @@
                     </div>
                 {% endif %}
         
-                
                 {% if usuario.sobre %}
                     <div id="sobreInfo" class="mb-2">
                         <p>{{ usuario.sobre }}</p>
                     </div>  
                 {% endif %}
+                <ul class="perfil__estatisticas-lista">
 
-                
+                    <li>9 <i class="fa fa-check-square"></i> Lições completas</li>
+    
+                    <li>9 <i class="fa fa-newspaper"></i> Publicações escritas</li>
+    
+                    <li>9 <i class="fa fa-comment"></i> Comentários escritos</li>
+    
+                    <li>9 <i class="fa fa-heart"></i> Amor recebido</li>
+                </ul>
+
             </div>
+        </div>
+
+
+
+
+        <!-- ESTATÍSTICAS -->
+
+        <div class="perfil__estatisticas">
+            
+        </div>
+
+        <div >
 
         </div>
+
+
+
+        <div class="perfil__menu-acoes">
+            <div>
+                <a href="{{ url_for('blog.escrever_artigo') }}"><button class="btn btn-success">Criar publicação para o Blog</button></a>
+            </div>
+        </div>
     </div>
-
-
-    <!-- ESTATÍSTICAS -->
-
-    <div id="container-lista-estatisticas-usuario" class="">
-        <ul id="lista-estatisticas-usuario" style="display: flex; flex-direction: row; justify-content: space-around; list-style-type: none;">
-
-            <li>9 <i class="fa fa-check-square"></i> Lições completas</li>
-
-            <li>9 <i class="fa fa-newspaper"></i> Publicações escritas</li>
-
-            <li>9 <i class="fa fa-comment"></i> Comentários escritos</li>
-
-            <li>9 <i class="fa fa-heart"></i> Amor recebido</li>
-        </ul>
-    </div>
-
-
-    <div>
-        <a href="{{ url_for('blog.escrever_artigo') }}"><button class="btn btn-success">Criar publicação para o Blog</button></a>
-    </div>
-
 
 {% endblock %}

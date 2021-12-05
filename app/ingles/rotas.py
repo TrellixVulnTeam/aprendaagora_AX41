@@ -70,6 +70,11 @@ def inicio():
         return redirect(url_for('ingles.inicio'))
 
 
+
+
+
+
+
     # Seleciona o número da página a partir do pedido
     pagina = request.args.get('pagina', 1, type=int)
 
@@ -79,18 +84,16 @@ def inicio():
 
     # Seleciona apenas as publicações com as tags 'ingles', 'vocabulario', 'gramatica', 'pronuncia', 'cultura'
     paginacao = db.session.query(Publicacao, Usuario).join(Usuario).filter(Publicacao.tags.any(Tag.id <= 5)).order_by(Publicacao.data.desc()).paginate(
+
         pagina, per_page=current_app.config['MURAL_PUBLICACOES_POR_PAGINA'],
         error_out=False
     )
     
-
     # Seleciona as publicações da página selecionada
     # paginacao.items representa os itens da página atual na paginação
     # Os itens da paginação são do tipo 'sqlalchemy.util._collections.result' (?). Cada um destes, por sua vez, possuem duas instâncias, uma do modelo Publicacao e outra do modelo Usuario 
     publicacoes = paginacao.items
     
-
-    print("---------------------------------------------")
 
 
     # Calcula o número de comentários e de ameis em uma publicação
@@ -121,10 +124,25 @@ def inicio():
     )
 
 
+
+###########################################################################################
 ###########################################################################################
 
+""" ROTAS DE PUBLICAÇÃO NO MURAL """
+
+@bp.route('/licao/escrever')
+def escrever_licao():
+
+    return render_template('licao/escrever.html')
+
+
+
+###########################################################################################
+###########################################################################################
 
 """ ROTAS DE PUBLICAÇÃO NO MURAL """
+
+
 
 # Página de uma publicação
 @bp.route('/publicacao/<int:id>')
@@ -330,7 +348,7 @@ def comentar_publicacao():
 
 
 ###########################################################################################
-
+###########################################################################################
 
 
 

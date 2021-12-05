@@ -1,0 +1,127 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Equipe{% endblock %}
+
+{% block conteudo_pagina %}
+    <img style="width: 100%;" src="/static/imagens/equipe/cabecalho.jpeg" alt="">
+
+    <div class="equipe__container-conteudo">
+
+        <p class="equipe__titulo">A Equipe do Aprenda Agora é composta por professores, designers, produtores, tradutores, ilustradores, desenvolvedores, cientistas da computação, linguistas, poliglotas e pesquisadores.</p>
+
+        <div class="equipe__grupo">
+
+            <div>
+
+                <div class="equipe__grupo-membro">
+
+                    <a class="equipe__membro-link" href="">
+                        <img src="{{ url_for('static', filename='imagens/equipe/ramon.jpg') }}" alt="">
+    
+                        <h3 class="equipe__membro-nome">Ramon Rodrigues</h3>
+                        <h4 class="equipe__membro-cargo">Fundador</h4>
+        
+                        <p class="equipe__membro-descricao">Ramon produz conteúdo educativo de alta qualidade e gratuito desde 1 de Janeiro de 2016, quando fundou o Aprenda Agora. Ele trabalha diariamente com vários idiomas e atualmente faz pesquisas sobre a interseção entre a linguagem natural e a tecnologia.</p>
+                    </a>
+                   
+                    <div class="equipe__membro-redes">
+                        <a target="_blank" href="https://www.instagram.com/ramonrodriguesomero/"><i class="fab fa-instagram"></i></a>
+                        <a target="_blank" href="https://www.linkedin.com/in/ramon-rodrigues-533021151/"><i class="fab fa-linkedin"></i></a>
+                        <a target="_blank" href="https://www.youtube.com/channel/UCo-122KSpoYersHovXL3Tow"><i class="fab fa-youtube"></i></a>
+                        <a target="_blank" href="https://github.com/ramonfrombr"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+
+            </div>
+           
+            
+            
+            <div>
+                <div class="equipe__grupo-membro">
+
+                    <img src="{{ url_for('static', filename='imagens/equipe/flavio.jpg') }}" alt="">
+    
+                    <h3 class="equipe__membro-nome">Flávio Andrade</h3>
+                    <h4 class="equipe__membro-cargo">Engenheiro de Software</h4>
+    
+                    <p class="equipe__membro-descricao">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deserunt excepturi suscipit omnis accusantium expedita nulla earum.</p>
+    
+                    <div class="equipe__membro-redes">
+                        <a target="_blank" href="https://www.instagram.com/flaavio.andrade/"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <div class="equipe__grupo-membro">
+
+                    <img src="{{ url_for('static', filename='imagens/equipe/gil.jpg') }}" alt="">
+    
+                    <h3 class="equipe__membro-nome">Gill Brito</h3>
+                    <h4 class="equipe__membro-cargo">Ilustrador</h4>
+    
+                    <p class="equipe__membro-descricao">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deserunt excepturi suscipit omnis accusantium expedita nulla earum.</p>
+    
+                    <div class="equipe__membro-redes">
+                        <a target="_blank" href="https://www.instagram.com/gillpixarte/"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="equipe__grupo-membro">
+                    <img src="{{ url_for('static', filename='imagens/equipe/rodrigo.jpg') }}" alt="">
+                    
+                    <h3 class="equipe__membro-nome">Rodrigo Stinguel</h3>
+                    <h4 class="equipe__membro-cargo">Professor de Idiomas e Tradutor</h4>
+    
+                    <p class="equipe__membro-descricao">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deserunt excepturi suscipit omnis accusantium expedita nulla earum.</p>
+    
+                    <div class="equipe__membro-redes">
+                        <a target="_blank" href="https://www.instagram.com/cotidianomediano/"><i class="fab fa-instagram"></i></a>
+                    </div>
+    
+                </div>
+            </div>      
+
+
+            <div>
+                <div class="equipe__grupo-membro">
+                    <img src="{{ url_for('static', filename='imagens/equipe/vini.jpg') }}" alt="">
+    
+                    <h3 class="equipe__membro-nome">Vini Soares</h3>
+                    <h4 class="equipe__membro-cargo">Professor de Idiomas e Tradutor</h4>
+    
+                    <p class="equipe__membro-descricao">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deserunt excepturi suscipit omnis accusantium expedita nulla earum.</p>
+    
+                    <div class="equipe__membro-redes">
+                        <a target="_blank" href="https://www.instagram.com/Vinnisoaress/"><i class="fab fa-instagram"></i></a>
+                    </div>
+    
+                </div>
+            </div>
+
+            <div>
+                <div class="equipe__grupo-membro">
+                    <img src="{{ url_for('static', filename='imagens/equipe/weslon.jpg') }}" alt="">
+                    
+                    <h3 class="equipe__membro-nome">Weslon Silva</h3>
+                    <h4 class="equipe__membro-cargo">Ilustrador</h4>
+    
+                    <p class="equipe__membro-descricao">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deserunt excepturi suscipit omnis accusantium expedita nulla earum.</p>
+    
+                    <div class="equipe__membro-redes">
+                        <a target="_blank" href="https://www.instagram.com/cotidianomediano/"><i class="fab fa-instagram"></i></a>
+                    </div>
+    
+                </div>
+            </div>   
+            
+                  
+
+
+            
+        </div>
+    </div>
+{% endblock %}
