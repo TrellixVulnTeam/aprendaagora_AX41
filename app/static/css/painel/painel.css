@@ -1,0 +1,91 @@
+
+
+.painel__container {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .painel__container {
+        width: 70%;
+        margin: 0 auto;
+    }
+}
+
+.painel__titulo {
+    text-align: center
+}
+
+.painel__container-botoes {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    
+}
+
+.painel__container-botao {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.painel__container-botao:hover {
+    text-decoration: none;
+    
+}
+
+.painel__botao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    width: 200px;
+    border-radius: 10px;
+    color: white;
+}
+
+
+.painel__botao-azul {
+    background-color:rgba(6, 24, 124, 0.726);
+    border: 3px solid rgb(0, 4, 219);
+}
+
+.painel__botao-verde {
+    background-color:rgba(6, 124, 32, 0.726);
+    border: 3px solid rgb(0, 219, 29);
+}
+
+.painel__botao-vermelho {
+    background-color:rgba(124, 6, 6, 0.726);
+    border: 3px solid rgb(219, 0, 0);
+}
+
+.painel__botao-roxo {
+    background-color:rgba(124, 6, 124, 0.726);
+    border: 3px solid rgb(219, 0, 219);
+}
+
+
+
+.painel__botao-amarelo {
+
+}
+
+.painel__botao-preto {
+    background-color:rgba(36, 36, 36, 0.726);
+    border: 3px solid rgb(110, 110, 110);
+}
+
+
+.painel__botao:hover {
+    cursor: pointer;
+}
+
+.painel__botao-icone {
+    font-size:80px;
+    margin-bottom: 10px;
+}
+
+.painel__botao-descricao {
+    font-weight: bold;
+}

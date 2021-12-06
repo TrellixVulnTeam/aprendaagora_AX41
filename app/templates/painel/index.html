@@ -3,10 +3,60 @@
 {% block titulo %}Painel{% endblock %}
 
 {% block conteudo_pagina %}
-    <h1>Painel</h1>
 
-    <button>Criar artigo para o BLOG</button>
-    <button>Criar tópico para um CURSO</button>
-    <button>Criar lição para um CURSO</button>
-    <button>Criar questão para um TÓPICO</button>
+    <div class="painel__container">
+
+        <h1 class="painel__titulo">Painel</h1>
+
+        <div class="painel__container-botoes">
+            <a class="painel__container-botao" href="{{ url_for('.criar_artigo') }}">
+                <button class="painel__botao painel__botao-azul"><i class="painel__botao-icone fas fa-scroll"></i><span class="painel__botao-descricao">Criar artigo para o BLOG</span></button>
+            </a>
+
+            <a class="painel__container-botao" href="{{ url_for('.criar_artigo') }}">
+                <button class="painel__botao painel__botao-azul">
+                    <i class="painel__botao-icone far fa-newspaper"></i>
+                    <span class="painel__botao-descricao">Listar artigos do BLOG</span>
+                </button>
+            </a>
+           
+            <a class="painel__container-botao" href="{{ url_for('.criar_licao') }}">
+                <button class="painel__botao painel__botao-verde"><i class="painel__botao-icone fas fa-sticky-note"></i><span class="painel__botao-descricao">Criar lição para um TÓPICO</span></button>
+            </a>
+
+            <a class="painel__container-botao" href="{{ url_for('.listar_licoes') }}">
+                <button class="painel__botao painel__botao-verde"><i class="painel__botao-icone fas fa-copy"></i><span class="painel__botao-descricao">Listar LIÇÕES</span></button>
+            </a>
+
+            <a class="painel__container-botao" href="{{ url_for('.criar_questao') }}">
+                <button class="painel__botao painel__botao-vermelho"><i class="painel__botao-icone fas fa-question"></i><span class="painel__botao-descricao">Criar questão para uma LIÇÃO</span></button>
+            </a>
+
+            <a class="painel__container-botao" href="{{ url_for('.listar_questoes') }}">
+                <button class="painel__botao painel__botao-vermelho"><i class="painel__botao-icone fas fa-file-alt"></i><span class="painel__botao-descricao">Listar QUESTÕES</span></button>
+            </a>
+
+            <a class="painel__container-botao" href="{{ url_for('.criar_topico') }}">
+                <button class="painel__botao painel__botao-roxo"><i class="painel__botao-icone fas fa-book"></i><span class="painel__botao-descricao">Criar um TÓPICO para um curso</span></button>
+            </a>
+
+            <a class="painel__container-botao" href="{{ url_for('.listar_topicos') }}">
+                <button class="painel__botao painel__botao-roxo"><i class="painel__botao-icone fas fa-scroll"></i><span class="painel__botao-descricao">Listar TÓPICOS</span></button>
+            </a>
+
+
+
+            <a class="painel__container-botao" href="{{ url_for('.criar_curso') }}">
+                <button class="painel__botao painel__botao-preto"><i class="painel__botao-icone fas fa-graduation-cap"></i><span class="painel__botao-descricao">Criar um CURSO</span></button>
+            </a>
+
+            <a class="painel__container-botao" href="{{ url_for('.listar_cursos') }}">
+                <button class="painel__botao painel__botao-preto"><i class="painel__botao-icone fas fa-university"></i><span class="painel__botao-descricao">Listar CURSOS</span></button>
+            </a>
+        </div>
+    </div>
+    
+
+    
+    
 {% endblock %}

@@ -28,6 +28,80 @@ class InscricaoFeuRosa(db.Model):
 ###########################################################
 ###########################################################
 
+# MANY TO MANY
+
+# Relação entre publicações e tags
+publicacoes_tags = db.Table(
+    
+    'publicacoes_tags',
+
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
+
+    db.Column('publicacao_id', db.Integer, db.ForeignKey('publicacoes.id'), primary_key=True)
+)
+
+# Relação entre PUBLICAÇÕES e MATÉRIAS
+usuarios_materias = db.Table(
+    'usuarios_materias',
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+    db.Column('materia_id', db.Integer, db.ForeignKey('materias.id'), primary_key=True)
+)
+
+# Relação entre USUÁRIOS e CURSOS
+usuarios_cursos = db.Table(
+    'usuarios_cursos',
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+    db.Column('curso_id', db.Integer, db.ForeignKey('cursos.id'), primary_key=True)
+)
+
+# Relação entre USUÁRIOS e TÓPICOS
+usuarios_topicos = db.Table(
+    'usuarios_topicos',
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+    db.Column('topico_id', db.Integer, db.ForeignKey('topicos.id'), primary_key=True)
+)
+
+# Relação entre USUÁRIOS e LIÇÕES
+usuarios_licoes = db.Table(
+    'usuarios_licoes',
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+    db.Column('licao_id', db.Integer, db.ForeignKey('licoes.id'), primary_key=True)
+)
+
+# Relação entre USUÁRIOS e LIÇÕES
+usuarios_questoes = db.Table(
+    'usuarios_questoes',
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+    db.Column('questao_id', db.Integer, db.ForeignKey('questoes.id'), primary_key=True)
+)
+
+# Relação entre USUÁRIOS e LIÇÕES
+usuarios_emblemas = db.Table(
+    'usuarios_emblemas',
+    db.Column('usuario_id', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
+    db.Column('emblema_id', db.Integer, db.ForeignKey('emblemas.id'), primary_key=True)
+)
+
+
+
+# Relação entre LIÇÕES e TAGS 
+licoes_tags = db.Table(
+    'licoes_tags',
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
+    db.Column('licao_id', db.Integer, db.ForeignKey('licoes.id'), primary_key=True)
+)
+
+# Relação entre QUESTÕES e TAGS
+questoes_tags = db.Table(
+    'questoes_tags',
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
+    db.Column('questao_id', db.Integer, db.ForeignKey('questoes.id'), primary_key=True)
+)
+
+
+###########################################################
+###########################################################
+
 # Lista de permissões dos 'roles'
 class Permissao:
     # Seguir murais e usuários
@@ -305,6 +379,14 @@ class Usuario(UserMixin, db.Model):
 
     # Gravatar
     avatar_hash = db.Column(db.String(32))
+
+    
+    # Publicacao.tags retorna as tags às quais a publicação está associada
+    licoes = db.relationship('Licao',
+                           secondary=usuarios_licoes,
+                           lazy='subquery',
+                           backref=db.backref('licoes'))
+
 
     # Usuario.publicacoes retorna a lista de publicações escritas pelo usuário
     publicacoes = db.relationship('Publicacao',
@@ -585,41 +667,6 @@ class Usuario(UserMixin, db.Model):
 ###########################################################
 ###########################################################
 
-# MANY TO MANY
-
-# Relação entre publicações e tags
-publicacoes_tags = db.Table(
-    
-    'publicacoes_tags',
-
-    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
-
-    db.Column('publicacao_id', db.Integer, db.ForeignKey('publicacoes.id'), primary_key=True)
-)
-
-# Relação entre lições e tags
-licoes_topicos = db.Table(
-    
-    'licoes_topicos',
-
-    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
-
-    db.Column('licao_id', db.Integer, db.ForeignKey('licoes.id'), primary_key=True)
-)
-
-# Relação entre questões e tags
-questoes_topicos = db.Table(
-    
-    'questoes_topicos',
-
-    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
-
-    db.Column('questao_id', db.Integer, db.ForeignKey('questoes.id'), primary_key=True)
-)
-
-###########################################################
-###########################################################
-
 
 # As tags de uma publicação podem ser acessadas com publicacao.tags
 class Materia(db.Model):
@@ -627,7 +674,10 @@ class Materia(db.Model):
     __tablename__ = 'materias'
 
     id = db.Column(db.Integer, primary_key=True)
+
     nome = db.Column(db.String(16), unique=True)
+
+    nome_foto = db.Column(db.String(100))
 
     @staticmethod
     def inserir_materias():
@@ -655,7 +705,6 @@ class Materia(db.Model):
             'Sociologia': 'sociologia',
 
             'Arte': 'arte',
-            'Educacao Fisica': 'educacao-fisica',
         }
 
         """
@@ -699,6 +748,203 @@ class Materia(db.Model):
 
         # Salva as alterações no banco de dados
         db.session.commit()
+
+  
+class Curso(db.Model):
+
+    __tablename__ = 'cursos'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nome = db.Column(db.String(100))
+
+    """
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+    """
+    nivel = db.Column(db.Integer)
+
+    nome_foto = db.Column(db.String(100))
+
+    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'))
+
+  
+class Topico(db.Model):
+
+    __tablename__ = 'topicos'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nome = db.Column(db.String(150))
+    
+    nome_foto = db.Column(db.String(100))
+
+    curso_id = db.Column(db.Integer, db.ForeignKey('cursos.id'))
+
+    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'))
+
+    comentarios = db.relationship('Comentario',
+                                  backref='topico',
+                                  lazy='dynamic')
+    
+    ameis = db.relationship('Usuario',
+                            secondary='topicos_amei',
+                            backref=db.backref('topico', lazy='dynamic'))
+
+
+class Licao(db.Model):
+
+    __tablename__ = 'licoes'
+
+    # Dados básicos
+    id = db.Column(db.Integer, primary_key=True)
+
+    titulo = db.Column(db.String(100))
+    subtitulo = db.Column(db.String(100))
+    conteudo = db.Column(db.Text)
+    conteudo_html = db.Column(db.Text)
+    nome_foto = db.Column(db.String(100))
+    n_palavras = db.Column(db.Integer)
+    data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    
+
+    autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    topico_id = db.Column(db.Integer, db.ForeignKey('topicos.id'))
+    curso_id = db.Column(db.Integer, db.ForeignKey('cursos.id'))
+    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'))
+
+
+    # Publicacao.tags retorna as tags às quais a publicação está associada
+    topicos = db.relationship('Tag',
+                           secondary=licoes_tags,
+                           lazy='subquery',
+                           backref=db.backref('licoes'))
+
+
+    comentarios = db.relationship('Comentario',
+                                  backref='licao',
+                                  lazy='dynamic')
+    
+    ameis = db.relationship('Usuario',
+                            secondary='licoes_amei',
+                            backref=db.backref('licao', lazy='dynamic'))
+
+
+    def __init__(self, **kwargs):
+
+        super(Usuario, self).__init__(**kwargs)
+
+        self.n_palavras =  len(self.conteudo.split())
+
+
+    # Converte texto em Markdown para HTML
+    # Primeiro, a função markdown() faz uma conversão inicial para HTML
+    # O resultado da conversão inicial é passado para a função clean(), juntamente com a lista de tags permitidas. A função clean() remove todas as tags não permitidas
+    # A conversão final é feita com a função linkify(), uma função oferecida pelo Bleach que converte todos os URL escritos em texto-claro em tags âncora <a>
+    # Este último passo é necessário por que geração automática de links não é uma ferramenta oficial do Markdown, mas é uma funcionalidade muito conveniente
+    @staticmethod
+    def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
+
+        # Define as tags permitidas no Markdown
+        tags_permitidas = ['a', 'abbr', 'b', 'blockquote', 'code', 'em', 'i', 'img', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h3', 'p']
+
+        atributos_permitidos = {'*': ['class'],
+                                'a': ['href', 'rel'],
+                                'img': ['src', 'alt']
+        }
+
+
+        target.conteudo_html = bleach.linkify(
+                               bleach.clean(
+                                    markdown(conteudo, output_format='html'),
+                                    tags=tags_permitidas,
+                                    attributes=atributos_permitidos,
+                                    strip=False)
+        )
+
+
+    # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
+    """
+    def json(self):
+
+        # Declara um array vazio
+        publicacao_tags = []
+
+        # Para cada tag atribuída à publicação
+        for tag in self.tags:
+            # Adicione o nome da tag ao array
+            publicacao_tags.append(tag.nome)
+
+        # data = moment.create(self.data)
+
+        # Retorne um objeto contendo as informações da publicação
+        return {
+            'id': self.id,
+            'titulo': self.titulo,
+            'conteudo': self.conteudo,
+            'conteudo_html': self.conteudo_html,
+            'tags': publicacao_tags,
+            'data': self.data,
+            'idioma': self.idioma,
+            'avatar_autor': self.autor.gravatar(size=50),
+            'id_autor': self.autor.id,
+            'comentarios': self.comentarios,
+            #'ameis': self.ameis
+        }
+    """
+
+
+class Questao(db.Model):
+
+    __tablename__ = 'questoes'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nome = db.Column(db.String(16))
+    titulo = db.Column(db.String(500))
+    conteudo = db.Column(db.String(2000))
+
+    # A opção 'a' é sempre a correta. Na hora da exibição das opções, as opções devem ser embaralhadas 
+    opcaoa = db.Column(db.Text)
+    opcaob = db.Column(db.Text)
+    opcaoc = db.Column(db.Text)
+    opcaod = db.Column(db.Text)
+    opcaoe = db.Column(db.Text)
+
+    explicacao = db.Column(db.Text)
+    explicacao_html = db.Column(db.Text)
+
+
+    autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    topico_id = db.Column(db.Integer, db.ForeignKey('topicos.id'))
+    curso_id = db.Column(db.Integer, db.ForeignKey('cursos.id'))
+    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'))
+
+
+    # Publicacao.tags retorna as tags às quais a publicação está associada
+    topicos = db.relationship('Tag',
+                            secondary=questoes_tags,
+                           lazy='subquery',
+                           backref=db.backref('questoes'))
+
+    comentarios = db.relationship('Comentario',
+                                  backref='questao',
+                                  lazy='dynamic')
+    
+    ameis = db.relationship('Usuario',
+                            secondary='questoes_amei',
+                            backref=db.backref('questao', lazy='dynamic'))
+
+    
+    # 0 - questao sem propósito específico
+    # 1 - questao para o enem
+    tipo = db.Column(db.Integer)
+
+    # Atributos próprios das questões do enem
+    ano = db.Column(db.Integer)
+    prova = db.Column(db.String(10)) # azul, amarelo, etc
+    dia = db.Column(db.Integer) # 1 ou 2
+
+
 
 
 # As tags de uma publicação podem ser acessadas com publicacao.tags
@@ -807,156 +1053,6 @@ class Tag(db.Model):
 
         # Salva as alterações no banco de dados
         db.session.commit()
-
-
-
-class Licao(db.Model):
-
-    __tablename__ = 'licoes'
-
-    # Dados básicos
-    id = db.Column(db.Integer, primary_key=True)
-
-    titulo = db.Column(db.String(100))
-    subtitulo = db.Column(db.String(100))
-    
-    conteudo = db.Column(db.Text)
-    conteudo_html = db.Column(db.Text)
-
-    nome_foto = db.Column(db.String(100))
-
-    n_palavras = db.Column(db.Integer)
-    #! alterar nome para 'data_criacao' em todas as menções
-    data = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    
-    autor_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
-
-    #! Transformar o vínculo com um idioma em uma tag
-    materia_id = db.Column(db.Integer, db.ForeignKey('materias.id'))
-
-    # Publicacao.tags retorna as tags às quais a publicação está associada
-    topicos = db.relationship('Tag',
-                           secondary=licoes_topicos,
-                           lazy='subquery',
-                           backref=db.backref('licoes'))
-
-    comentarios = db.relationship('Comentario',
-                                  backref='licao',
-                                  lazy='dynamic')
-    
-    ameis = db.relationship('Usuario',
-                            secondary='licoes_amei',
-                            backref=db.backref('licao', lazy='dynamic'))
-
-
-    def __init__(self, **kwargs):
-
-        super(Usuario, self).__init__(**kwargs)
-
-        self.n_palavras =  len(self.conteudo.split())
-
-
-    # Converte texto em Markdown para HTML
-    # Primeiro, a função markdown() faz uma conversão inicial para HTML
-    # O resultado da conversão inicial é passado para a função clean(), juntamente com a lista de tags permitidas. A função clean() remove todas as tags não permitidas
-    # A conversão final é feita com a função linkify(), uma função oferecida pelo Bleach que converte todos os URL escritos em texto-claro em tags âncora <a>
-    # Este último passo é necessário por que geração automática de links não é uma ferramenta oficial do Markdown, mas é uma funcionalidade muito conveniente
-    @staticmethod
-    def conteudo_alterado(target, conteudo, conteudo_antigo, initiator):
-
-        # Define as tags permitidas no Markdown
-        tags_permitidas = ['a', 'abbr', 'b', 'blockquote', 'code', 'em', 'i', 'img', 'li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h3', 'p']
-
-        atributos_permitidos = {'*': ['class'],
-                                'a': ['href', 'rel'],
-                                'img': ['src', 'alt']
-        }
-
-
-        target.conteudo_html = bleach.linkify(
-                               bleach.clean(
-                                    markdown(conteudo, output_format='html'),
-                                    tags=tags_permitidas,
-                                    attributes=atributos_permitidos,
-                                    strip=False)
-        )
-
-
-    # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
-    """
-    def json(self):
-
-        # Declara um array vazio
-        publicacao_tags = []
-
-        # Para cada tag atribuída à publicação
-        for tag in self.tags:
-            # Adicione o nome da tag ao array
-            publicacao_tags.append(tag.nome)
-
-        # data = moment.create(self.data)
-
-        # Retorne um objeto contendo as informações da publicação
-        return {
-            'id': self.id,
-            'titulo': self.titulo,
-            'conteudo': self.conteudo,
-            'conteudo_html': self.conteudo_html,
-            'tags': publicacao_tags,
-            'data': self.data,
-            'idioma': self.idioma,
-            'avatar_autor': self.autor.gravatar(size=50),
-            'id_autor': self.autor.id,
-            'comentarios': self.comentarios,
-            #'ameis': self.ameis
-        }
-    """
-
-
-
-class Questao(db.Model):
-
-    __tablename__ = 'questoes'
-
-    id = db.Column(db.Integer, primary_key=True)
-
-    nome = db.Column(db.String(16))
-
-    materia = db.Column(db.Integer, db.ForeignKey('materias.id'))
-
-    # Publicacao.tags retorna as tags às quais a publicação está associada
-    topicos = db.relationship('Tag',
-                            secondary=questoes_topicos,
-                           lazy='subquery',
-                           backref=db.backref('questoes'))
-
-    titulo = db.Column(db.String(500))
-    conteudo = db.Column(db.String(2000))
-
-
-    # A opção 'a' é sempre a correta. Na hora da exibição das opções, as opções devem ser embaralhadas 
-    opcaoa = db.Column(db.String(2000))
-    opcaob = db.Column(db.String(2000))
-    opcaoc = db.Column(db.String(2000))
-    opcaod = db.Column(db.String(2000))
-    opcaoe = db.Column(db.String(2000))
-
-
-    explicacao = db.Column(db.String())
-    explicacao_markdown = db.Column(db.String())
-    explicacao_html = db.Column(db.String())
-    
-
-    # 0 - questao sem propósito específico
-    # 1 - questao para o enem
-    tipo = db.Column(db.Integer)
-
-
-    # Atributos próprios das questões do enem
-    ano = db.Column(db.Integer)
-    prova = db.Column(db.String(10)) # azul, amarelo, etc
-    dia = db.Column(db.Integer) # 1 ou 2
-
 
 
 class Publicacao(db.Model):
@@ -1073,7 +1169,6 @@ class Publicacao(db.Model):
         }
 
 
-
 class Comentario(db.Model):
 
     __tablename__ = 'comentarios'
@@ -1096,8 +1191,14 @@ class Comentario(db.Model):
     # id da publicação onde o comentário foi feito
     publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
 
+    # id da publicação onde o comentário foi feito
+    topico_id = db.Column(db.Integer, db.ForeignKey('topicos.id'))
+
     # id da lição onde o comentário foi feito
     licao_id = db.Column(db.Integer, db.ForeignKey('licoes.id'))
+
+    # id da publicação onde o comentário foi feito
+    questao_id = db.Column(db.Integer, db.ForeignKey('questoes.id'))
 
 
     # Função para ser chamada quando o conteúdo de um comentário for alterado
@@ -1114,30 +1215,69 @@ class Comentario(db.Model):
                             )
 
 
+class Emblema(db.Model):
 
-class PublicacaoAmei(db.Model):
-
-    __tablename__ = 'publicacoes_amei'
-
+    __tablename__ = 'emblemas'
+    
+    # Dados básicos
+    
     id = db.Column(db.Integer, primary_key=True)
 
+    nome = db.Column(db.String(100))
+
+    descricao = db.Column(db.String(200))
+
+    data = db.Column(db.Date())
+
+    nome_foto = db.Column(db.String(100))
+
+
+
+
+class TopicoAmei(db.Model):
+    __tablename__ = 'topicos_amei'
+    id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
-
-    publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
-
-
+    topico_id = db.Column(db.Integer, db.ForeignKey('topicos.id'))
 
 class LicaoAmei(db.Model):
-
     __tablename__ = 'licoes_amei'
-
     id = db.Column(db.Integer, primary_key=True)
-
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
-
     licoe_id = db.Column(db.Integer, db.ForeignKey('licoes.id'))
 
+class QuestaoAmei(db.Model):
+    __tablename__ = 'questoes_amei'
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    questao_id = db.Column(db.Integer, db.ForeignKey('questoes.id'))
 
+class PublicacaoAmei(db.Model):
+    __tablename__ = 'publicacoes_amei'
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    publicacao_id = db.Column(db.Integer, db.ForeignKey('publicacoes.id'))
+
+class ComentarioAmei(db.Model):
+    __tablename__ = 'comentarios_amei'
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
+    comentario_id = db.Column(db.Integer, db.ForeignKey('comentarios.id'))
+
+
+######################################################################
+######################################################################
+
+
+# LOJA
+
+# Pedidos
+
+# Produto
+
+# Produto Caracteristicas
+
+# Produto Visita
 
 
 
@@ -1154,12 +1294,10 @@ class UsuarioAnonimo(AnonymousUserMixin):
         return False
 
 
-
 # O decorador login_manager.user_loader registra a função com Flask-Login, que o chamará quando precisar acessar informação sobre um usuário conectado.  A função recebe o id do usuário e retorna o objeto usuario, ou None se o id do usuário for inválido ou algum outro erro ocorrer
 @login_manager.user_loader
 def carregar_usuario(usuario_id):
     return Usuario.query.get(int(usuario_id))
-
 
 
 # Define o modelo que representa 'anonymous_user'

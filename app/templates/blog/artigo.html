@@ -85,7 +85,7 @@
             <span><i class="far fa-comment-alt"></i> {{ artigo.comentarios.count() }} comentários</span>
             
             <!-- Exibe o formulário de login -->
-            <form method="POST" action="" class="form artigo__formulario-comentario" role="form">
+            <form method="POST" autocomplete="off" action="" class="form artigo__formulario-comentario" role="form">
                 {{ formulario.hidden_tag() }}
                 {{ exibir_campo_sem_label(formulario.conteudo) }}
                 {{ exibir_botao(formulario.enviar) }}
