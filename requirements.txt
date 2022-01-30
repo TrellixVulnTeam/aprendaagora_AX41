@@ -7,6 +7,7 @@ cachelib==0.1.1
 click==8.0.0
 distlib==0.3.2
 dominate==2.3.1
+Faker==10.0.0
 filelock==3.0.12
 Flask==2.0.0
 Flask-Bootstrap==3.3.7.1
@@ -39,10 +40,11 @@ python-editor==1.0.3
 python-engineio==4.2.0
 python-socketio==5.3.0
 six==1.10.0
-SQLAlchemy==1.4.18
+SQLAlchemy==1.3.24
+text-unidecode==1.3
 virtualenv==20.0.31
 visitor==0.1.3
 webencodings==0.5.1
 Werkzeug==2.0.0
-WTForms==2.1
 git+https://github.com/ramonrodriguesomero/flask-script.git
+git+https://github.com/ramonrodriguesomero/flask-wtf.git
