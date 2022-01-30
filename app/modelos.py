@@ -1784,6 +1784,8 @@ class ComentarioAmei(db.Model):
 
 # Pedidos
 
+"""
+
 class Pedido(db.Model):
 
     __tablename__ = 'pedidos'
@@ -1819,7 +1821,7 @@ class PedidoItem(db.Model):
 class Produto(db.Model):
 
     __tablename__ = 'produtos'
-
+"""
 
 #class Entrega(db.Model)
 # Produto
