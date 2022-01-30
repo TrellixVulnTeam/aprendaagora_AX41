@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo_pagina %}
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+        <a class="painel__links-topo" href="{{ url_for('painel.topicos') }}">⇦ Lista de Tópicos</a>
+        <a class="painel__links-topo" href="{{ url_for('painel.curso', id=topico.curso.id) }}">⇦ Curso deste Tópico</a>
+
+
+        
+        <div class="painel__cabecalho">
+            <h1 class="painel__titulo">{{ topico.titulo }}</h1>
+
+            <ul class="painel__cabecalho-info">
+                <li><span style="color: red; font-weight: bold">Erro Appender Base Query</span> Lições</li>
+            </ul>
+        </div>
+
+        <h3>Lições</h3>
+
+        <ul class="painel__lista">
+            {% for licao in topico.licoes %}
+                <a href="{{ url_for('painel.licao', id=licao.id) }}">
+                    <li class="painel__lista-item">
+
+                        <img src="{{ url_for('static', filename='imagens/placeholder.jpg') }}" alt="">
+
+                        <div class="painel__item-info">
+
+                            <h3 class="painel__item-cabecalho">
+                                <span class="painel__item-nome">{{ licao.titulo }}</span>
+                                <span class="painel__item-tag">{{ licao.materia.emoji }} {{ licao.materia.nome }}</span>
+                                <span class="painel__item-tag">{{ licao.curso.nome }}</span>
+                                <span class="painel__item-tag">{{ licao.topico.titulo }}</span>
+                            </h3>
+
+                            <p class="painel__item-descricao">{{ licao.descricao }}</p>
+
+                            <ul class="painel__item-estatisticas">
+                                <li>🚩 Nível {{ licao.curso.nivel }}</li>
+                                <li>📝 99 Questões</li>
+                                <li>🎓 99 Estudantes Que Completaram (100%)</li>
+                            </ul>
+                        </div>
+                        
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+        
+    </div>
+    
+{% endblock %}

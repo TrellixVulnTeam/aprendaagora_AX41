@@ -4,7 +4,14 @@ from . import autorizar as bp
 from .. import db
 from ..modelos import Usuario, Role
 from ..email import enviar_email
-from .formularios import formularioEntrar, formularioInscricao, formularioTrocarSenha, formularioPedirRedefinirSenha, formularioRedefinirSenha, formularioTrocarEmail
+from .formularios import (
+    formularioEntrar,
+    formularioInscricao,
+    formularioTrocarSenha,
+    formularioPedirRedefinirSenha,
+    formularioRedefinirSenha,
+    formularioTrocarEmail
+)
 from datetime import datetime
 
 
@@ -30,18 +37,12 @@ def antes_do_pedido():
             return redirect(url_for('autorizar.nao_confirmado'))
 
 
-# Página que exige que o usuário confirme a conta antes de prosseguir
-@bp.route('/naoconfirmado')
-def nao_confirmado():
 
-    # Se o usuário atual for anônimo ou já estiver confirmado
-    if current_user.is_anonymous or current_user.confirmado:
-
-        # Redireciona para o unício
-        return redirect(url_for('inicio.inicio'))
-
-    # Exibe a página com o aviso para confirmação de conta
-    return render_template('autorizar/naoconfirmado.html')
+##### #   # ##### #####  ###  #####       #####  ###  ##### ##### 
+#     ##  #   #   #   # ## ## #   #       #     ## ##   #   #   # 
+##### # # #   #   ##### #   # #####       ##### #   #   #   ##### 
+#     #  ##   #   #  #  ##### #  #            # #####   #   #  #  
+##### #   #   #   #   # #   # #   #       ##### #   # ##### #   # 
 
 
 # Página para o usuário acessar sua conta
@@ -95,6 +96,27 @@ def sair():
 
     # Redireciona o usuário para a página inicial
     return redirect(url_for('autorizar.entrar'))
+
+
+##### #   # ##### ##### ##### ##### #####  ###  ##### 
+  #   ##  # #     #     #   #   #   #     ## ## #   # 
+  #   # # # ##### #     #####   #   #     #   # #   # 
+  #   #  ##     # #     #  #    #   #     ##### #   # 
+##### #   # ##### ##### #   # ##### ##### #   # ##### 
+
+
+# Página que exige que o usuário confirme a conta antes de prosseguir
+@bp.route('/naoconfirmado')
+def nao_confirmado():
+
+    # Se o usuário atual for anônimo ou já estiver confirmado
+    if current_user.is_anonymous or current_user.confirmado:
+
+        # Redireciona para o unício
+        return redirect(url_for('inicio.inicio'))
+
+    # Exibe a página com o aviso para confirmação de conta
+    return render_template('autorizar/naoconfirmado.html')
 
 
 # Página para criação de uma nova conta
@@ -195,6 +217,14 @@ def reenviar_confirmacao():
     # Redireciona para a página inicial
     return redirect(url_for('inicio.inicio'))
 
+
+##### ##### ####  ##### ##### ##### #   # ##### ##### 
+#   # #     #   # #     #       #   ##  #   #   #   # 
+##### ##### #   # ##### #####   #   # # #   #   ##### 
+#  #  #     #   # #     #       #   #  ##   #   #  #  
+#   # ##### ####  ##### #     ##### #   # ##### #   #
+
+
 # Página para trocar de senha
 @bp.route('/trocar_senha', methods=['GET', 'POST'])
 @login_required
@@ -231,7 +261,6 @@ def trocar_senha():
 
     # Se o método for GET
     return render_template("autorizar/trocar_senha.html", formulario=formulario)
-
 
 # Rota que redefine (reseta) a senha do usuário caso ele esqueça qual é a senha
 @bp.route('/redefinir_senha', methods=['GET, POST'])
@@ -376,3 +405,6 @@ def trocar_email(token):
 
     # Redireciona para o início
     return redirect(url_for('inicio.inicio'))
+
+
+

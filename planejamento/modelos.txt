@@ -2,6 +2,72 @@ Modelos e Banco de Dados
 
 ##############################################
 
-[ ] - Criar o modelo para emblemas/insígnias
-[ ] - Criar o modelo para cumprimento das lições
+[x] - Criar o modelo para emblemas/insígnias
+[x] - Criar o modelo para cumprimento das lições
+
+
+INSCRICAO FEU ROSA
+
+
+ROLE
+
+
+PERMISSAO
+
+
+
+
+USUARIO
+
+[ ] - Programar métodos de interação com PUBLICAÇÃO
+[ ] - Programar métodos de interação com COMENTÁRIO
+[ ] - Programar métodos de interação com MATÉRIA
+[ ] - Programar métodos de interação com CURSO
+[ ] - Programar métodos de interação com TÓPICO
+[ ] - Programar métodos de interação com LIÇÃO
+[ ] - Programar métodos de interação com QUESTÃO
+[ ] - Programar métodos de interação com EMBLEMA
+
+
+PUBLICACAO
+
+[ ] - Transformar o vínculo com um idioma em uma tag. Atualmente, o campo é definido como sendo uma string: idioma = db.Column(db.String(8))
+
+
+TAG
+
+
+COMENTARIO
+
+
+MATERIA
+
+
+CURSO
+
+
+TÓPICO
+
+
+LIÇÃO
+
+[x] - Atualizar o número de palavras quando o conteúdo for alterado
+
+
+QUESTÃO
+
+
+EMBLEMA
+
+
+TOPICO AMEI
+
+
+LICAO AMEI
+
+
+QUESTAO AMEI
+
+
+EMBLEMA AMEI
 

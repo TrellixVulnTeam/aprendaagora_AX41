@@ -317,22 +317,6 @@ botao_publicacao.addEventListener('click', (evento) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Retorna o emoji da bandeira do idioma
 function selecionar_icone_idioma(idioma) {
 

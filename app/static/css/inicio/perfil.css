@@ -19,26 +19,39 @@
 
 .perfil__info {
     display: flex;
-    flex-direction: column;
-    align-items: center
-}
-
-.perfil__estatisticas {
-    padding: 5px;
-}
-
-
-.perfil__estatisticas-lista {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    list-style-type: none;
+    flex-direction: row;
+    align-items: top;
 }
 
 
 /* Crachá do usuário (avatar e nome de usuário) na página de perfil */
-.perfil__chacha {
-    position: absolute;
-    padding: 5px
+.perfil__cracha {
+    padding: 5px;
 }
+
+.perfil__cracha img {
+    width: 100px;
+}
+
+
+.perfil__usuario-dados {
+    padding: 5px;
+}
+
+.perfil__estatisticas-lista {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: flex-start;
+    list-style-type: none;
+}
+
+.perfil__estatisticas-lista li {
+    border: 1px solid grey;
+    border-radius: 3px;
+    margin: 0 5px 5px 0;
+    padding: 2px;
+}
+
 

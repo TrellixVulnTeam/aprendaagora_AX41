@@ -7,7 +7,7 @@ ARQUITETURA DO APLICATIVO
 
 Páginas para serem criadas
 
-[ ] - Equipe
+[x] - Equipe
 [ ] - Sobre
 [ ] - Contato
 [ ] - Loja

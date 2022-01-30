@@ -12,10 +12,24 @@ from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin, fo
 
 
 
-###########################################################################################
+"""
+pagina_instagram
+canal_youtube
+grupo_facebook
 
-""" REDES SOCIAIS """
 
+
+"""
+
+
+
+"""
+##### ##### ####  ##### #####       ##### ##### ##### #####  ###  ##### ##### 
+#   # #     #   # #     #           #     #   # #       #   ## ##   #   #     
+##### ##### #   # ##### #####       ##### #   # #       #   #   #   #   ##### 
+#  #  #     #   # #         #           # #   # #       #   #####   #       # 
+#   # ##### ####  ##### #####       ##### ##### ##### ##### #   # ##### #####
+"""
 
 # Página no Instagram
 @bp.route('/instagram')
@@ -29,14 +43,19 @@ def canal_youtube():
 
 # Grupo no Facebook
 @bp.route('/facebook')
-def grupo_youtube():
+def grupo_facebook():
     return redirect("https://www.facebook.com/groups/aprendaagora")
 
 
 
-###########################################################################################
+"""
+##### ##### #####  ###  #####       ##### ##### #   # #   # #   # ##### 
+#   # #   #   #   ## ## #           #     #   # ## ## #   # ##  # #     
+##### #   #   #   #   # #####       #     #   # # # # #   # # # # ##### 
+#  #  #   #   #   #####     #       #     #   # #   # #   # #  ##     # 
+#   # #####   #   #   # #####       ##### ##### #   # ##### #   # #####
+"""
 
-"""  ROTAS COMUNS  """
 
 @bp.route('/')
 def inicio():
@@ -93,6 +112,12 @@ def loja():
 
 
 
+##### ##### ##### ##### ##### #     
+#   # #     #   # #       #   #     
+##### ##### ##### #####   #   #     
+#     #     #  #  #       #   #     
+#     ##### #   # #     ##### ##### 
+
 
 
 # Exibe a página de perfil do usuário conectado
@@ -109,7 +134,7 @@ def perfil():
     # Seleciona as publicacoes do usuário
     publicacoes = usuario.publicacoes.order_by(
 
-            Publicacao.data.desc()
+            Publicacao.data_criacao.desc()
     ).all()
 
     # Exibe a página de perfil do usuário
@@ -137,7 +162,7 @@ def usuario(nome_usuario):
             return redirect(url_for('inicio.perfil'))
 
     # Seleciona as publicações do usuário
-    publicacoes = usuario.publicacoes.order_by(Publicacao.data.desc()).all()
+    publicacoes = usuario.publicacoes.order_by(Publicacao.data_criacao.desc()).all()
 
     # Exibe a página de usuário, fornecendo os dados do usuário como argumentos
     return render_template(
@@ -187,7 +212,8 @@ def editar_perfil():
     # Exibe a página de editar perfil
     return render_template(
             'autorizar/editar_perfil.html',
-            formulario=formulario
+            formulario=formulario,
+            usuario=current_user
     )
 
 
@@ -292,6 +318,7 @@ def editar_perfil_admin(id):
 
         return redirect(url_for('.usuario', nome_usuario=usuario.nome_usuario))
 
+
     # Se o método for GET
     # Preencha o formulário com as informações do usuário cujo perfil deve ser editado
     formulario.email.data = usuario.email
@@ -305,7 +332,7 @@ def editar_perfil_admin(id):
 
     # Exibe a página com o formulário para editar o perfil
     return render_template(
-        'autorizar/editar_perfil.html',
+        'admin/editar_perfil.html',
         formulario=formulario,
         usuario=usuario
     )

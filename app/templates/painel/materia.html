@@ -1,0 +1,146 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo_pagina %}
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+        <a class="painel__links-topo" href="{{ url_for('painel.materias') }}">⇦ Lista de Matérias</a>
+
+        <div class="painel__cabecalho">
+            <h1 class="painel__titulo">{{ materia.emoji }} {{ materia.nome }}</h1>
+
+            <ul class="painel__cabecalho-info">
+                <li>{{ cursos | length }} Cursos</li>
+                <li>{{ topicos | length }} Tópicos</li>
+                <li>{{ licoes | length }} Lições</li>
+            </ul>
+        </div>
+        
+        {# SE HOUVER CURSOS #}
+        {% if cursos %}
+
+            
+
+            <h2 class="painel__cabecalho-lista painel__cabecalho-cursos">Cursos de {{ materia.nome }}</h2>
+
+            <ul class="painel__lista">
+                {% for curso in cursos %}
+                    <a href="{{ url_for('painel.curso', id=curso.id) }}">
+                        <li class="painel__lista-item">
+    
+                            <img src="{{ url_for('static', filename='imagens/cursos/'+curso.nome_foto) }}" alt="">
+    
+                            <div class="painel__item-info">
+    
+                                <h3 class="painel__item-cabecalho">
+                                    <span class="painel__item-nome">{{ curso.nome }}</span>
+                                    <span class="painel__item-tag">{{ curso.materia.emoji }} {{ curso.materia.nome }}</span>
+                                    
+                                </h3>
+    
+                                <ul class="painel__item-estatisticas">
+                                    <li>🚩 Nível {{ curso.nivel }}</li>
+                                    <li>📁 99 Tópicos</li>
+                                    <li>📄 99 Lições</li>
+                                    <li>📝 99 Questões</li>
+                                    <li>🙋 99 Estudantes Inscritos</li>
+                                    <li>🎓 99 Estudantes Graduados (Conversão: 100%)</li>
+                                </ul>
+                            </div>
+                            
+                        </li>
+                    </a>
+                {% endfor %}
+            </ul>
+        {# SE NÃO HOUVER CURSOS #}
+        {% else %}
+            <h2>Não há cursos para esta matéria.</h2>
+        {% endif %}
+
+
+
+        {# SE HOUVER TÓPICOS #}
+        {% if topicos %}
+
+            <h2 class="painel__cabecalho-lista painel__cabecalho-topicos">Tópicos de {{ materia.nome }}</h2>
+
+            <ul class="painel__lista">
+                {% for topico in topicos %}
+                    <a href="{{ url_for('painel.topico', id=topico.id) }}">
+                        <li class="painel__lista-item">
+    
+                            <img src="{{ url_for('static', filename='imagens/topicos/'+topico.nome_foto) }}" alt="">
+    
+                            <div class="painel__item-info">
+    
+                                <h3 class="painel__item-cabecalho">
+                                    <span class="painel__item-nome">{{ topico.titulo }}</span>
+                                    <span class="painel__item-tag">{{ topico.materia.emoji }} {{ topico.materia.nome }}</span>
+                                    <span class="painel__item-tag">{{ topico.curso.nome }}</span>
+                                    
+                                </h3>
+    
+                                <ul class="painel__item-estatisticas">
+                                    <li>🚩 Nível {{ topico.curso.nivel }}</li>
+                                    <li>📄 99 Lições</li>
+                                    <li>📝 99 Questões</li>
+                                    <li>🎓 99 Estudantes Que Completaram (100%)</li>
+                                </ul>
+                            </div>
+                            
+                        </li>
+                    </a>
+                {% endfor %}
+            </ul>
+        {# SE NÃO HOUVER TÓPICOS #}
+        {% else %}
+            <h2>Não há tópicos para esta matéria.</h2>
+        {% endif %}
+
+
+
+        {# SE HOUVER LIÇÕES #}
+        {% if licoes %}
+
+            <h2 class="painel__cabecalho-lista painel__cabecalho-licoes">Lições de {{ materia.nome }}</h2>
+
+            <ul class="painel__lista">
+                {% for licao in licoes %}
+                    <a href="{{ url_for('painel.licao', id=licao.id) }}">
+                        <li class="painel__lista-item">
+    
+                            <img src="{{ url_for('static', filename='imagens/placeholder.jpg') }}" alt="">
+    
+                            <div class="painel__item-info">
+    
+                                <h3 class="painel__item-cabecalho">
+                                    <span class="painel__item-nome">{{ licao.titulo }}</span>
+                                    <span class="painel__item-tag">{{ licao.materia.emoji }} {{ licao.materia.nome }}</span>
+                                    <span class="painel__item-tag">{{ licao.curso.nome }}</span>
+                                    <span class="painel__item-tag">{{ licao.topico.titulo }}</span>
+                                </h3>
+    
+                                <p class="painel__item-descricao">{{ licao.descricao }}</p>
+    
+                                <ul class="painel__item-estatisticas">
+                                    <li>🚩 Nível {{ licao.curso.nivel }}</li>
+                                    <li>📝 99 Questões</li>
+                                    <li>🎓 99 Estudantes Que Completaram (100%)</li>
+                                </ul>
+                            </div>
+                            
+                        </li>
+                    </a>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2>Não há lições para esta matéria.</h2>
+        {% endif %}
+
+        
+    </div>
+    
+{% endblock %}

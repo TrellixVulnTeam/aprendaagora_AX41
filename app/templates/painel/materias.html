@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo_pagina %}
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+
+        <h1 class="painel__titulo">Lista de Matérias</h1>
+
+        <ul class="painel__lista-materias">
+
+            {% for materia in materias %}
+                <a href="{{ url_for('painel.materia', nome_simples=materia.nome_simples) }}">
+                    <li>
+                        <span>{{ materia.emoji }}</span>
+                        <span>{{ materia.nome }}</span>
+                    </li>
+                </a>
+            {% endfor %}
+
+        </ul>
+
+    </div>
+    
+{% endblock %}

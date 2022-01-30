@@ -19,7 +19,7 @@
                     <span>{{ publicacao.autor.nome_usuario }}</span>
                 </a>
                 
-                <span class="text-secondary">&middot; <i class="fa fa-history"></i> escrito {{ moment(publicacao.data).fromNow(refresh=True) }}</span>
+                <span class="text-secondary">&middot; <i class="fa fa-history"></i> escrito {{ moment(Publicacao.data_criacao).fromNow(refresh=True) }}</span>
           
                 {% if publicacao.idioma == 'ingles' %}
                 <span>🇺🇸</span>

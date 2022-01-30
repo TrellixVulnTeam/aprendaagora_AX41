@@ -1,0 +1,260 @@
+{% from "auxiliares/jinja_auxiliares.html" import exibir_campo, exibir_botao %}
+
+
+{% macro exibir_formulario_criar_curso(formulario) %}
+<form action="" method="post" enctype="multipart/form-data">
+
+    {{ formulario.hidden_tag() }}
+
+    {{ exibir_campo(formulario.materia) }}
+
+    {{ exibir_campo(formulario.nome) }}
+
+    {{ exibir_campo(formulario.nivel) }}
+
+    {{ exibir_campo(formulario.instrutor) }}
+
+    {{ exibir_campo(formulario.foto) }}
+
+    {{ exibir_campo(formulario.descricao) }}
+
+    {{ exibir_botao(formulario.enviar) }}
+
+</form>
+{% endmacro %}
+
+
+{% macro exibir_formulario_criar_topico(formulario) %}
+<form action="" method="post" enctype="multipart/form-data">
+
+    {{ formulario.hidden_tag() }}
+
+    {{ exibir_campo(formulario.materia) }}
+
+    {{ exibir_campo(formulario.curso) }}
+
+    {{ exibir_campo(formulario.titulo) }}
+
+    {{ exibir_campo(formulario.descricao) }}
+
+    {{ exibir_campo(formulario.foto) }}
+
+    {{ exibir_botao(formulario.enviar) }}
+
+</form>
+{% endmacro %}
+
+
+{% macro exibir_formulario_criar_licao(formulario) %}
+<form action="" method="post" enctype="multipart/form-data">
+
+    {{ formulario.hidden_tag() }}
+
+    {{ exibir_campo(formulario.materia) }}
+
+    {{ exibir_campo(formulario.curso) }}
+
+    {{ exibir_campo(formulario.topico) }}
+
+    {{ exibir_campo(formulario.titulo) }}
+
+    {{ exibir_campo(formulario.subtitulo) }}
+
+    {{ exibir_campo(formulario.foto) }}
+
+    {{ exibir_campo(formulario.conteudo) }}
+
+    {{ exibir_botao(formulario.enviar) }}
+
+</form>
+{% endmacro %}
+
+
+{% macro exibir_formulario_criar_questao(formulario) %}
+<form action="" method="post" enctype="multipart/form-data">
+
+    {{ formulario.hidden_tag() }}
+
+    {{ exibir_campo(formulario.materia) }}
+    {{ exibir_campo(formulario.curso) }}
+    {{ exibir_campo(formulario.topico) }}
+    {{ exibir_campo(formulario.licao) }}
+
+    {{ exibir_campo(formulario.titulo) }}
+
+    {{ exibir_campo(formulario.enunciado) }}
+
+    
+    {{ exibir_campo(formulario.nivel) }}
+    {{ exibir_campo(formulario.opcaoa) }}
+    {{ exibir_campo(formulario.opcaob) }}
+    {{ exibir_campo(formulario.opcaoc) }}
+    {{ exibir_campo(formulario.opcaod) }}
+    {{ exibir_campo(formulario.opcaoe) }}
+    {{ exibir_campo(formulario.explicacao) }}
+
+    {{ exibir_campo(formulario.enem) }}
+    {{ exibir_campo(formulario.ano) }}
+    {{ exibir_campo(formulario.prova) }}
+    {{ exibir_campo(formulario.dia) }}
+    
+
+    <!-- Seção do formulário com caixas de seleção das tags e botão de enviar -->
+    <div class="form-row p-0">
+        <!-- Exibe as tags -->
+        {{ exibir_campo_selecao_tag(formulario.tags) }}
+    </div>
+    
+    {{ exibir_botao(formulario.enviar) }}   
+
+</form>
+{% endmacro %}
+
+
+{% macro exibir_formulario_criar_artigo(formulario) %}
+<form action="" method="post" enctype="multipart/form-data">
+
+    {{ formulario.hidden_tag() }}
+
+    {{ exibir_campo(formulario.foto) }}
+
+    <!-- Exibe o input do título da publicação -->
+    {{ exibir_campo(formulario.titulo) }}
+
+    {{ exibir_campo(formulario.subtitulo) }}
+
+
+    <div class="form-group">
+
+        <!-- Exiba o nome do campo -->
+        <label class="text-dark" for="conteudo">Conteúdo da Artigo</label>
+    
+        <!-- Se houver erros vinculados ao campo -->
+    
+        <!-- Exiba o campo normalmente -->
+        <div class="flask-pagedown">
+            <textarea class="form-control mb-5 flask-pagedown-input" id="flask-pagedown-conteudo" name="conteudo" required></textarea>
+        </div>
+
+        <div class="flask-pagedown-preview" id="flask-pagedown-conteudo-preview">
+            <h4 id="titulo-preview"></h4>
+            <div id="conteudo-preview"></div>
+        </div>
+
+        <script type="text/javascript">
+
+        f = function() {
+
+            if (typeof flask_pagedown_converter === "undefined")
+            {
+                flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
+            }
+
+            /* Seleciona o input do titulo da publicação */
+            let titulo_input = document.querySelector('#titulo');
+
+            /* Seleciona o preview da publicacao */
+            let conteudo_input = document.querySelector('#flask-pagedown-conteudo');
+
+            /* Seleciona o preview da publicacao */
+            let conteudo_preview = document.querySelector('#conteudo-preview');
+
+            /* Seleciona o preview da publicacao */
+            let publicacao_preview = document.querySelector('#flask-pagedown-conteudo-preview');
+
+            let titulo_preview = document.querySelector('#titulo-preview');
+
+
+
+            titulo_input.addEventListener('keyup', () => {
+            
+                titulo_preview.innerHTML = titulo_input.value;
+
+                if (titulo_input.value == '' && conteudo_input.value == '')
+                {
+                    publicacao_preview.style.visibility = 'hidden';
+                }
+                else
+                {
+                    publicacao_preview.style.visibility = 'visible';
+                }
+            })
+
+            conteudo_input.addEventListener('keyup', () => {
+
+                conteudo_preview.innerHTML = flask_pagedown_converter(conteudo_input.value);
+
+                if (titulo_input.value == '' && conteudo_input.value == '')
+                {
+                    publicacao_preview.style.visibility = 'hidden';
+                }
+                else
+                {
+                    publicacao_preview.style.visibility = 'visible';
+                }
+            })
+        }
+
+        if (document.readyState === 'complete')
+            f();
+        else if (window.addEventListener)
+            window.addEventListener("load", f, false);
+        else if (window.attachEvent)
+            window.attachEvent("onload", f);
+        else
+            f();
+
+        </script>
+    
+    </div>
+
+
+    <!-- Seção do formulário com caixas de seleção das tags e botão de enviar -->
+    <div class="form-row p-0">
+
+        <!-- Exibe as tags -->
+        {{ exibir_campo_selecao_tag(formulario.tags) }}
+
+        <!-- Exibe o botão enviar -->
+        <div class="col-sm-4 mt-0 pl-3 mt-2 mt-sm-0">
+            <button
+                id="btnEnviarPost"
+                type="submit"
+                class="btn btn-primary
+                float-sm-right p-5
+                ">Publicar <i class="fa fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+</form>
+{% endmacro %}
+
+
+<!-- Exibe as tags Vocabulário, Gramática, Pronúncia e Cultura no formulário para escrever uma publicação no mural -->
+{% macro exibir_campo_selecao_tag(campo) %}
+<div class="col-sm">
+
+    {{ campo.label(class="text-dark") }}
+
+    <div class="row m-0 ml-1">
+
+        <div class="col-lg-6 p-0 mb-1">
+
+            <!-- Para cada opção de tag-->
+            {% for opcao in campo %}
+                <div class="form-check p-0 mb-1" style="display: inline-block;">
+                    
+                    <!-- Exiba a caixa de seleção (elemento input) -->
+                    {{ opcao }}
+
+                    <div class="bg-dark text-white pl-2 pr-2 pt-1 pb-1 position-relative align-middle d-inline-block">
+                        <label class="form-check-label" for="{{ opcao.id }}"> {{ opcao.label }}</label>
+                    </div>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endmacro %}

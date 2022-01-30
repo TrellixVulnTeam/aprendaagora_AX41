@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo_pagina %}
+
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+
+        <h1 class="painel__titulo">Lista de Tópicos</h1>
+
+        <ul class="painel__lista">
+            {% for topico in topicos %}
+                <a href="{{ url_for('painel.topico', id=topico.id) }}">
+                    <li class="painel__lista-item">
+
+                        <img src="{{ url_for('static', filename='imagens/placeholder.jpg') }}" alt="">
+
+                        <div class="painel__item-info">
+
+                            <h3 class="painel__item-cabecalho">
+                                <span class="painel__item-nome">{{ topico.titulo }}</span>
+                                <span class="painel__item-tag">{{ topico.materia.emoji }} {{ topico.materia.nome }}</span>
+                                <span class="painel__item-tag">{{ topico.curso.nome }}</span>
+                            </h3>
+
+                            <ul class="painel__item-estatisticas">
+                                <li>🚩 Nível {{ topico.curso.nivel }}</li>
+                                <li>📄 {{ topico.licoes.count() }} Lições</li>
+                                <li>📝 {{ topico.questoes.count() }} Questões</li>
+                                <li>🎓 99 Estudantes Que Completaram (100%)</li>
+                            </ul>
+                        </div>
+                        
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+
+    </div>
+    
+{% endblock %}

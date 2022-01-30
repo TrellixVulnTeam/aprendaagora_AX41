@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Criar um Curso{% endblock %}
+
+<!-- Conteúdo da Página-->
+{% block conteudo_pagina %}
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+
+        <div class="painel__formulario-container">
+            
+            <h1>Novo Curso</h1>
+
+            {{ exibir_formulario_criar_curso(formulario) }}
+        </div>
+    </div>
+
+{% endblock %}

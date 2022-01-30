@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo_pagina %}
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+        <a class="painel__links-topo" href="{{ url_for('painel.licoes') }}">⇦ Voltar para a lista de Lições</a>
+
+
+        <h1 class="painel__titulo">{{ topico.titulo }}</h1>
+
+        <ul>
+            {% for questão in licao.questoes %}
+                <li>{{ questao.titulo }}</li>
+            {% endfor %}
+        </ul>
+        
+    </div>
+    
+{% endblock %}

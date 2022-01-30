@@ -11,6 +11,14 @@
 {% from "auxiliares/auxiliares_blog.html" import exibir_formulario_escrever_artigo %}
 
 
+<!-- MACROS DO PAINEL -->
+{% from "auxiliares/auxiliares_painel.html" import exibir_formulario_criar_artigo %}
+{% from "auxiliares/auxiliares_painel.html" import exibir_formulario_criar_curso %}
+{% from "auxiliares/auxiliares_painel.html" import exibir_formulario_criar_topico %}
+{% from "auxiliares/auxiliares_painel.html" import exibir_formulario_criar_licao %}
+{% from "auxiliares/auxiliares_painel.html" import exibir_formulario_criar_questao %}
+
+
 <!-- Macros específicos das páginas de idiomas -->
 {% from "auxiliares/jinja_auxiliares.html" import exibir_formulario %}
 {% from "auxiliares/jinja_auxiliares.html" import exibir_campo %}
@@ -41,10 +49,20 @@
 
 
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    
+
+
+
 
     <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-icons.css') }}">
+
+
+
+
+
 
     <!-- Fonte Roboto Slab -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
@@ -59,7 +77,6 @@
 
     <!-- Ícones -->
     <script src="https://kit.fontawesome.com/ececd7af37.js" crossorigin="anonymous"></script>
-    <!--<script src="https://use.fontawesome.com/e7993babb1.js"></script>-->
 
     
 
@@ -110,6 +127,7 @@
         {% else %}
             
             var usuario_conectado = false;
+            var usuario_nome = "";
 
         {% endif %}
 

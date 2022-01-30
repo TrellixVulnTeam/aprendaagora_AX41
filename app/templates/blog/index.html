@@ -114,7 +114,7 @@
 
                     <div class="blog__container-imagem">
                         {% if artigo.nome_foto %}
-                            <img class="blog__artigo-imagem" src="{{ url_for('static', filename='imagens/artigos/cabecalho/'+artigo.nome_foto) }}" alt="">
+                            <img class="blog__artigo-imagem" src="{{ url_for('static', filename='imagens/artigos/'+artigo.nome_foto) }}" alt="">
                         {% else %}
                             <img class="blog__artigo-imagem" src="{{ url_for('static', filename='imagens/imagem1.jpg') }}" alt="">
                         {% endif %}
@@ -149,7 +149,7 @@
                                  
                             </span>
                             {% endfor %}
-                            <span>{{ moment(artigo.data).format('LLL') }}</span>
+                            <span>{{ moment(artigo.data_criacao).format('LLL') }}</span>
                         </div> 
 
                         <h3 class="blog__artigo-titulo">{{ artigo.titulo }}</h3>

@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Editar Perfil{% endblock %}
+
+<!-- Conteúdo da Página-->
+{% block conteudo_pagina %}
+
+    <div class="painel__container">
+
+        <div class="painel__formulario-container">
+
+            <h1>Editar perfil de <a href="{{ url_for('inicio.usuario', nome_usuario=usuario.nome_usuario) }}">{{usuario.nome_usuario }}</a></h1>
+
+            <!-- Se o cliente for ADMINISTRADOR -->
+            {% if current_user.e_administrador() %}
+
+                <form method="POST" action="" class="form" role="form">
+
+                    {{ formulario.hidden_tag() }}
+
+                    {{ exibir_campo(formulario.email) }}
+                    
+                    {{ exibir_campo(formulario.nome_usuario) }}
+
+                    {{ exibir_campo(formulario.confirmado) }}
+
+                    {{ exibir_campo(formulario.role) }}
+
+                    {{ exibir_campo(formulario.nome) }}
+
+                    {{ exibir_campo(formulario.sobrenome) }}
+
+                    {{ exibir_campo(formulario.localizacao) }}
+
+                    {{ exibir_campo(formulario.sobre) }}
+
+                    {{ exibir_botao(formulario.enviar) }}
+
+                </form>
+            
+            {% endif%}
+        </div>
+    </div>
+    
+{% endblock %}

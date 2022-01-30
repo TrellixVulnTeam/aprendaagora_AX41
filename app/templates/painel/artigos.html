@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block titulo %}Painel{% endblock %}
+
+{% block conteudo_pagina %}
+
+    <div class="painel__container">
+        
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+
+        <h1 class="painel__titulo">Lista de Artigos</h1>
+        
+
+        <ul class="painel__lista">
+            {% for artigo in artigos %}
+                <a href="{{ url_for('painel.artigo', id=artigo.id) }}">
+                    <li class="painel__lista-item">
+
+                        <img src="{{ url_for('static', filename='imagens/artigos/'+artigo.nome_foto) }}" alt="">
+
+                        <div class="painel__item-info">
+
+                            <h3 class="painel__item-cabecalho">
+                                <span class="painel__item-nome">{{ artigo.titulo }}</span>
+                                <span class="painel__item-nome">{{ artigo.subtitulo }}</span>
+                                <span class="painel__item-tag">{{ artigo.n_palavras }} palavras</span>
+                                <span class="painel__item-tag">{{ artigo.data_criacao }}</span>
+                                
+                            </h3>
+
+                            <ul class="painel__item-estatisticas">
+                                <li>💬 99</li>
+                                <li>💙 99</li>
+                            </ul>
+                        </div>
+                        
+                    </li>
+                </a>
+            {% endfor %}
+        </ul>
+
+    </div>
+    
+{% endblock %}

@@ -1,5 +1,3 @@
-# Adicionar comentários
-
 from flask import Flask
 
 from flask_bootstrap import Bootstrap
@@ -40,6 +38,8 @@ login_manager.login_view = 'autorizar.entrar'
 # Mensagem exibida quando o erro 403 (Proibido) for causado
 login_manager.login_message = "Entre na sua conta para acessar esta página"
 
+login_manager.login_message_category = "alert-danger"
+
 ######################################################################
 
 
@@ -54,7 +54,7 @@ def criar_app(nome_configuracao):
 
     app.config.from_object(configuracao[nome_configuracao])
 
-    app.config['UPLOADED_PHOTOS_DEST'] = 'app/static/imagens/artigos'
+    app.config['UPLOADED_PHOTOS_DEST'] = 'app/static/imagens'
 
     
     configuracao[nome_configuracao].init_app(app)

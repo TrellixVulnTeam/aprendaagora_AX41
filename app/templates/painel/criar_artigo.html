@@ -1,10 +1,22 @@
 {% extends 'layout.html' %}
 
-{% block titulo %}Escreva um Artigo{% endblock %}
+{% block titulo %}Criar um Artigo{% endblock %}
 
 <!-- Conteúdo da Página-->
 {% block conteudo_pagina %}
-    <div class="escrever__container">
-        <h1>Novo Artigo</h1>
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+
+        <div class="painel__formulario-container">
+            
+            <h1>Novo Artigo</h1>
+
+            {{ exibir_formulario_criar_artigo(formulario) }}
+        </div>
     </div>
+    
+
+    
 {% endblock %}

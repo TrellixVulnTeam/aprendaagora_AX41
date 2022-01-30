@@ -4,8 +4,111 @@
 
 <!-- Conteúdo da Página-->
 {% block conteudo_pagina %}
-    <div class="escrever__container">
-        <h1>Novo Tópico</h1>
+
+    <div class="painel__container">
+
+        <a class="painel__links-topo" href="{{ url_for('painel.painel') }}">⇦ Painel</a>
+
+        <div class="painel__formulario-container">
+            
+            <h1>Novo Tópico</h1>
+
+            {{ exibir_formulario_criar_topico(formulario) }}
+        </div>
     </div>
+
+
+
+    <script>
+
+        // LISTA DE MATÉRIAS
+        let lista_materias = document.querySelector('select#materia');
+
+        // LISTA DE CURSOS
+        let lista_cursos = document.querySelector('select#curso');
+        
+        // Se uma matéria for selecionada
+        lista_materias.addEventListener('click', () => {
+
+            // Crie um novo pedido HTTP
+            let pedido = new XMLHttpRequest();
+
+            // Pega o nome simples da materia
+            let json_enviado = {'materia': lista_materias.value}
+
+            // Abra o pedido com método 'POST' na rota '/ingles/publicacao/comentar' */
+            pedido.open('POST', '/painel/materia/selecionar_cursos');
+
+            // ??? 
+            pedido.setRequestHeader('Content-Type', 'application/json');
+
+
+            // Quando o pedido for respondido
+            pedido.onload = function (e) {
+
+                /* 
+
+                    'pedido.readyState' representa o estado do pedido
+                    
+                    0 representa o estado UNSENT (Um cliente foi criado. Mas o método open() não foi chamado ainda).
+                    1 representa o estado OPENED (O método open() foi chamado).
+                    2 representa o estado HEADERS_RECEIVED (O método send() foi chamado e os cabeçalhos e status estão disponíveis.
+                    3 representa o estado LOADING (Baixando e pedido.responseText contém os dados parciais).
+                    4 representa o estado DONE (Operação concluída).
+
+                    'pedido.status' é o código de status de uma resposta HTTP. Ele indica se uma requisição HTTP foi concluída corretamente. Um status 200 indica que a operação foi concluída corretamente.
+                */
+
+                /* 
+                    Se o estado do pedido for DONE e o status da resposta for 200 (OK)
+                    O script terá acesso à resposta em formato JSON enviado pelo servidor    
+                */
+                if (pedido.readyState === 4 && pedido.status === 200) {
+
+                    /*
+                        A resposta do servidor, chamado de 'pedido.responseText',  é uma string que representa um objeto (em outras palavras, pedido.responseText é o json que o servidor enviou).
+                        A função JSON.parse() pode ser usada para converter essa string em um objeto JSON propriamente dito.
+
+                        O objeto recebido representa a publicação clicada
+                    */
+
+                    let resposta = JSON.parse(pedido.responseText);
+
+                    let cursos = resposta['cursos']
+
+                    console.log(cursos);
+
+                    lista_cursos.innerHTML = "";
+
+                    // Para cada curso na lista de cursos
+                    for (let curso of cursos) {
+
+                        console.log(curso);
+
+                        // Adicione uma opção para o curso na lista de seleção
+
+                        let opcao = document.createElement('option');
+
+                        opcao.value = curso.id;
+
+                        opcao.innerText = curso.nome;
+                        
+                        lista_cursos.append(opcao);
+
+                    }
+
+                // Se o pedido não ocorrer corretamente */
+                } else {
+
+                    alert("Não foi possível selecionar a matéria");
+                }
+            }
+
+            // Envie o pedido para o servidor o nome simples da matéria
+            console.log(json_enviado);
+            pedido.send(JSON.stringify(json_enviado));
+        })
+       
+    </script>
     
 {% endblock %}

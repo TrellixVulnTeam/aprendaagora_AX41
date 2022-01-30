@@ -1,0 +1,7 @@
+[ ] - Criar uma classe SelectFieldMaterias que já possui as opções (choices) de matérias definidas
+
+[ ] - Configurar o campo CONTEÚDO do formulário de nova LIÇÃO para a ferramenta Markdown
+
+[ ] - Configurar o campo ENUNCIADO do formulário de nova QUESTÃO para a ferramenta Markdown
+
+[ ] - Configurar o campo EXPLICAÇÃO do formulário de nova QUESTÃO para a ferramenta Markdown

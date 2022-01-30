@@ -1,25 +1,326 @@
-
+:root {
+    --cor-fundo-item-painel: rgb(246, 246, 246);
+    --cor-borda-item-painel: rgb(226, 226, 226);
+}
 
 .painel__container {
-    width: 100%;
+    width: 90%;
+    margin: 20px auto;
 }
 
 @media (min-width: 768px) {
     .painel__container {
         width: 70%;
-        margin: 0 auto;
     }
+}
+
+
+.painel__links-topo {
+    display: block;
+    color: white;
+    background-color: rgb(0, 89, 255);
+    width: fit-content;
+    padding: 10px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+}
+
+.painel__links-topo:hover {
+    color: white;
 }
 
 .painel__titulo {
     text-align: center
 }
 
+.painel__item-nome {
+    display: block;
+}
+
+
+
+
+
+/*****************************************
+************** CABEÇALHOS ****************
+*****************************************/
+
+
+
+.painel__cabecalho-info {
+    display: flex;
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.painel__cabecalho-info li {
+    border: 1px solid var(--cor-borda-item-painel);
+    background-color: var(--cor-fundo-item-painel);
+    color: rgb(88, 88, 88);
+    margin-right: 10px;
+    border-radius: 3px;
+    padding: 4px;
+}
+
+
+
+
+
+
+
+.painel__cabecalho-lista {
+    color: white;
+    padding: 5px 15px;;
+}
+
+
+.painel__cabecalho-cursos {
+    background-color: #fd3e3e;
+}
+
+.painel__cabecalho-topicos {
+    background-color: rgb(59, 177, 59);
+}
+
+
+
+.painel__cabecalho-licoes {
+    background-color: rgb(57, 103, 255);
+}
+
+
+
+
+/*****************************************
+************** FORMULÁRIO ****************
+*****************************************/
+
+.painel__formulario-container {
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.painel__formulario-container form {
+    width: 100%;
+}
+
+.painel__formulario-container form label {
+    margin-bottom: 0;
+}
+
+.painel__formulario-container form #enviar {
+    font-size: 2em;
+    display: block;
+    margin: 0 auto;
+}
+
+/*****************************************
+***************** MATÉRIAS ***************
+*****************************************/
+
+
+.painel__lista-materias {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.painel__lista-materias a {
+    display: block;
+    background-color: rgb(243, 249, 251);
+    border: 1px solid rgb(187, 187, 187);
+    border-radius: 4px;
+    margin: 10px;
+    width: 200px;
+    height: 200px;
+    text-decoration: none;
+    color: rgb(44, 44, 44);
+}
+
+.painel__lista-materias a:hover {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .4);
+}
+
+.painel__lista-materias a li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.painel__lista-materias a span {
+    display: block;
+    text-align: center;
+    font-size: 2em;
+}
+
+
+
+
+/*****************************************
+***************** CURSOS *****************
+*****************************************/
+
+
+.painel__lista a {
+    text-decoration: none;
+    color: black;
+    padding: 4px;
+    border: 1px solid var(--cor-borda-item-painel);
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: var(--cor-fundo-item-painel);
+}
+
+
+.painel__lista a:hover {
+    border: 1px solid rgb(230, 230, 230);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3)
+}
+
+.painel__lista-item {
+    display: flex;
+}
+
+.painel__lista-item img {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.painel_item-info {
+
+}
+
+.painel__item-cabecalho {
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+.painel__lista-item ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.painel__lista-item ul li {
+    background-color: rgb(156, 156, 156);  
+    font-size: 0.8em;  
+    color: white;
+    border: 1px solid darkgrey;
+    margin: 0 10px 5px 0;
+    padding: 4px;
+    border-radius: 3px;
+}
+
+.painel__item-tag {
+    background-color: grey;
+    color: white;
+    border-radius: 3px;
+    padding: 3px;
+    margin-right: 5px;
+    font-size: 0.7em;
+}
+
+/*****************************************
+***************** TÓPICOS ****************
+*****************************************/
+
+
+.painel__lista-topicos a {
+    text-decoration: none;
+    color: black;
+    padding: 4px;
+    border: 1px solid var(--cor-borda-item-painel);
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: var(--cor-fundo-item-painel);
+}
+
+
+.painel__lista-topicos a:hover {
+    border: 1px solid rgb(230, 230, 230);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3)
+}
+
+.painel__lista-topicos-item {
+    display: flex;
+}
+
+.painel__lista-topicos-item img {
+    width: 100px;
+    height: 100px;
+}
+
+.painel__lista-topicos-item ul {
+    list-style: none;
+    width: 100%;
+    margin-left: 10px;
+}
+
+
+/*****************************************
+***************** LIÇÕES *****************
+*****************************************/
+
+.painel__lista-licoes a {
+    text-decoration: none;
+    color: black;
+    padding: 4px;
+    border: 1px solid var(--cor-borda-item-painel);
+    display: block;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: var(--cor-fundo-item-painel);
+}
+
+
+.painel__lista-licoes a:hover {
+    border: 1px solid rgb(230, 230, 230);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .3)
+}
+
+.painel__lista-licoes-item {
+    display: flex;
+}
+
+.painel__lista-licoes-item img {
+    width: 100px;
+    height: 100px;
+}
+
+.painel__lista-licoes-item ul {
+    list-style: none;
+    width: 100%;
+    margin-left: 10px;
+}
+
+
+
+
+
+
+/*****************************************
+***************** BOTÕES *****************
+*****************************************/
+
 .painel__container-botoes {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    
 }
 
 .painel__container-botao {
@@ -44,7 +345,6 @@
     color: white;
 }
 
-
 .painel__botao-azul {
     background-color:rgba(6, 24, 124, 0.726);
     border: 3px solid rgb(0, 4, 219);
@@ -65,17 +365,10 @@
     border: 3px solid rgb(219, 0, 219);
 }
 
-
-
-.painel__botao-amarelo {
-
-}
-
 .painel__botao-preto {
     background-color:rgba(36, 36, 36, 0.726);
     border: 3px solid rgb(110, 110, 110);
 }
-
 
 .painel__botao:hover {
     cursor: pointer;
@@ -89,3 +382,4 @@
 .painel__botao-descricao {
     font-weight: bold;
 }
+

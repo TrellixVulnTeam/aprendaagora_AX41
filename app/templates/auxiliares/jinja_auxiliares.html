@@ -244,25 +244,6 @@
 {% endmacro %}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Exibe as tags Vocabulário, Gramática, Pronúncia e Cultura no formulário para escrever uma publicação no mural -->
 {% macro exibir_campo_selecao_tag(campo) %}
 <div class="col-sm-6">
@@ -329,8 +310,6 @@
 {% endmacro %}
 
 
-
-
 <!-- Exibe um botão -->
 {%  macro exibir_botao(button) %}
 {{ button(class="btn btn-success") }}
@@ -347,7 +326,7 @@
         <!-- borda que melhora o reconhecimento do agrupameno de elementos que compõem o cartão -->
         
         <!-- data-publicacao e data-autor -->
-        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ autor.nome_usuario }}" data-data="{{ publicacao.data }}" class="publicacao-mural border w-100">
+        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ autor.nome_usuario }}" data-data="{{ publicacao.data_criacao }}" class="publicacao-mural border w-100">
 
             <!-- Publicação -->
             <section class="card-body p-0 pl-2 pr-1">
@@ -391,7 +370,7 @@
                 </span>
                 </a>
 
-                <small class="publicacao-data text-secondary mr-1">&middot; <i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow(refresh=True) }}</small>
+                <small class="publicacao-data text-secondary mr-1">&middot; <i class="fa fa-history mr-0"></i> {{ moment(publicacao.data_criacao).fromNow(refresh=True) }}</small>
                 
 
                 <span class="tags-publicacao-mural">
@@ -441,7 +420,7 @@
     <div class="container-publicacao p-1">
         
         <!-- borda que melhora o reconhecimento do agrupameno de elementos que compõem o cartão -->
-        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ publicacao.autor.nome_usuario }}" data-data="{{ publicacao.data }}" class="border bg-white w-100">
+        <article data-id="{{ publicacao.id }}" data-titulo="{{ publicacao.titulo }}" data-autor="{{ publicacao.autor.nome_usuario }}" data-data="{{ publicacao.data_criacao }}" class="border bg-white w-100">
 
             <!-- Publicação -->
             <section class="card-body p-0 pl-2 pr-1">
@@ -476,7 +455,7 @@
             <!-- Rodapé da publicação no mural -->
             <footer class="rodape-publicacao bg-light m-0 w-100">
 
-                <small class="publicacao-data text-secondary mr-1">&middot; <i class="fa fa-history mr-0"></i> {{ moment(publicacao.data).fromNow() }}</small>
+                <small class="publicacao-data text-secondary mr-1">&middot; <i class="fa fa-history mr-0"></i> {{ moment(publicacao.data_criacao).fromNow() }}</small>
 
 
                 <span class="mr-1">

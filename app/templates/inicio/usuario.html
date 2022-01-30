@@ -18,11 +18,16 @@
             {% endif %}
         </div>
 
-        <div class="perfil__info" style="">
+        <div class="perfil__info">
 
             <div class="perfil__cracha">
-                <img src="{{ usuario.gravatar(size=100) }}" alt="" class="img-rounded profile-thumbnail">
+
+                <img src="{{ url_for('static', filename='imagens/placeholder.jpg') }}" alt="" class="img-rounded profile-thumbnail">
     
+                <!--
+                    <img src="{{ usuario.gravatar(size=100) }}" alt="" class="img-rounded profile-thumbnail">
+                -->
+                
                 <span class="d-block pt-1">
                     <a href="{{ url_for('inicio.usuario', nome_usuario=usuario.nome_usuario)}}">
                         @{% block titulo %}{{ usuario.nome_usuario }}{% endblock %}
@@ -30,7 +35,8 @@
                 </span>
             </div>
 
-            <div style="padding: 5px">
+            <div class="perfil__usuario-dados">
+
                 <h4>
                     {% if usuario.nome %}
                         {{ usuario.nome }}
@@ -65,39 +71,51 @@
                         <p>{{ usuario.sobre }}</p>
                     </div>  
                 {% endif %}
+
                 <ul class="perfil__estatisticas-lista">
 
-                    <li>9 <i class="fa fa-check-square"></i> Lições completas</li>
+                    <!--
+
+                        Cursos completados
+                        Tópicos completados
+                        Lições completadas
+                        Questões respondidas
+
+                        Publicações escritas
+                        Comentários escritos
+
+                        Amor recebido
+                    -->
+
+                    <li>📄 {{ usuario.licoes_completadas | length }} <i class="fa fa-check-square"></i> Lições completas</li>
     
                     <li>9 <i class="fa fa-newspaper"></i> Publicações escritas</li>
     
-                    <li>9 <i class="fa fa-comment"></i> Comentários escritos</li>
+                    <li>💬 {{ usuario.comentarios | length }} <i class="fa fa-comment"></i> Comentários escritos</li>
     
-                    <li>9 <i class="fa fa-heart"></i> Amor recebido</li>
+                    <li>💙 <i class="fa fa-heart"></i> Amor recebido</li>
+
+                    <li>📄 {{ usuario.licoes_completadas | length }} <i class="fa fa-check-square"></i> Lições completas</li>
+    
+                    <li>9 <i class="fa fa-newspaper"></i> Publicações escritas</li>
+    
+                    <li>💬 {{ usuario.comentarios | length }} <i class="fa fa-comment"></i> Comentários escritos</li>
+    
+                    <li>💙 <i class="fa fa-heart"></i> Amor recebido</li>
                 </ul>
 
             </div>
         </div>
 
-
-
-
-        <!-- ESTATÍSTICAS -->
-
-        <div class="perfil__estatisticas">
-            
-        </div>
-
-        <div >
-
-        </div>
-
-
-
+        <!-- AÇÕES -->
         <div class="perfil__menu-acoes">
-            <div>
-                <a href="{{ url_for('blog.escrever_artigo') }}"><button class="btn btn-success">Criar publicação para o Blog</button></a>
-            </div>
+            
+            {% if current_user == usuario and current_user.role.tem_permissao(Permissao.ADMIN) %}
+                <a href="{{ url_for('painel.painel') }}">
+                    <button class="btn btn-success">🧙 Acessar o Painel</button>
+                </a>
+            {% endif %}
+           
         </div>
     </div>
 

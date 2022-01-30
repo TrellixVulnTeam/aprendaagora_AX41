@@ -9,7 +9,7 @@
     <header class="artigo__cabecalho">
         <img
             class="artigo__cabecalho-imagem"
-            src="/static/imagens/artigos/cabecalho/{{artigo.nome_foto}}"
+            src="/static/imagens/artigos/{{artigo.nome_foto}}"
             alt=""
         >
     </header>
@@ -27,7 +27,7 @@
             </h1>
 
             <div class="artigo__info">
-                <span>{{ artigo.n_palavras }} PALAVRAS ESCRITAS POR {{ artigo.autor.nome }} {{ artigo.autor.sobrenome }} EM{{ moment(artigo.data).format('LLL') }} • ARTE CRIADA POR WESLON SILVA</span>
+                <span>{{ artigo.n_palavras }} PALAVRAS ESCRITAS POR {{ artigo.autor.nome }} {{ artigo.autor.sobrenome }} EM{{ moment(artigo.data_criacao).format('LLL') }} • ARTE CRIADA POR WESLON SILVA</span>
             </div>
 
             <div class="artigo__info-tags">
@@ -118,7 +118,7 @@
                                 <span>@{{ comentario.autor.nome_usuario }}</span>   
                             </a>
 
-                            <i class="fa fa-clock"></i> {{ moment(comentario.data).fromNow(refresh=True) }}
+                            <i class="fa fa-clock"></i> {{ moment(comentario.data_criacao).fromNow(refresh=True) }}
                         </div>
                     </div>
                 </div>

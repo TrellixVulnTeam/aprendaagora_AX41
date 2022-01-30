@@ -2,6 +2,16 @@
 const pagina = document.querySelector('body');
 
 
+/*
+
+#####  ###  #   #  ###  ##### ##### ##### ##### ##### ##### 
+   #  ## ## #   # ## ## #     #     #   #   #   #   #   #   
+   #  #   # #   # #   # ##### #     #####   #   #####   #   
+#  #  #####  # #  #####     # #     #  #    #   #       #   
+####  #   #   #   #   # ##### ##### #   # ##### #       #   
+
+*/
+
 // Quando o DOM for carregado */
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -729,6 +739,7 @@ function criar_modal(publicacao) {
 
             // PRÉVIA DA EDIÇÃO */
 
+            
             if (typeof flask_pagedown_converter === "undefined")
             {
                 flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
@@ -1273,6 +1284,8 @@ function criar_elemento_comentario (comentario_conteudo, comentario_autor, comen
     // Estilização do comentário
     comentario.classList.add('border', 'bg-white', 'mb-2', 'pl-1');
 
+    flask_pagedown_converter = Markdown.getSanitizingConverter().makeHtml;
+
     // Conteúdo do comentário formatado com Pagedown
     conteudo.innerHTML = flask_pagedown_converter(comentario_conteudo);
 
@@ -1337,7 +1350,7 @@ function criar_lista_de_comentarios(comentarios) {
     for (let comentario of comentarios)
     {
 
-        let c = criar_elemento_comentario(comentario.conteudo, comentario.autor, comentario.data);
+        let c = criar_elemento_comentario(comentario.conteudo, comentario.autor, comentario.data_criacao);
 
         lista_de_comentarios.append(c);
     }

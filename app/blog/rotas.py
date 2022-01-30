@@ -1,6 +1,8 @@
 # Blueprint BLOG
 
 from datetime import datetime
+import random
+import string
 from flask import render_template, session, redirect, url_for, current_app, flash, request, jsonify
 from flask_login import login_required, current_user
 from sqlalchemy import desc
@@ -12,7 +14,7 @@ from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
 from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
 from ..email import enviar_email
-from ..funcoes_auxiliares import criar_artigo, registrar_comentario, truncar_texto
+from ..funcoes_auxiliares import registrar_artigo, registrar_comentario, truncar_texto
 
 from flask_uploads import UploadSet, IMAGES
 
@@ -20,7 +22,6 @@ fotos = UploadSet('photos', IMAGES)
 
 """
     ROTAS
-
 
     inicio()
 
@@ -42,71 +43,31 @@ fotos = UploadSet('photos', IMAGES)
 """
 
 
+##### #   # ##### ##### ##### ##### 
+  #   ##  #   #   #       #   #   # 
+  #   # # #   #   #       #   #   # 
+  #   #  ##   #   #       #   #   # 
+##### #   # ##### ##### ##### ##### 
 
 
 # Página inicial do BLOG
 @bp.route('/')
 def inicio():
 
+    artigos = Publicacao.query.all()
     #artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.id >= 5))
-    artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.id >= 5)).order_by(desc(Publicacao.data)).all()
-    
+    #artigos = Publicacao.query.filter(Publicacao.tags.any(Tag.id >= 5)).order_by(desc(Publicacao.data_criacao)).all()
+
     return render_template('blog/index.html', artigos=artigos)
 
 
-
-# Rota para um Professor escrever no Blog
-@bp.route('/escrever', methods=['GET', 'POST'])
-@login_required
-@permissao_necessaria(Permissao.ESCREVER_BLOG)
-def escrever_artigo():
-
-    formulario = formularioArtigoBlog()
-
-    # Se o método for POST e o cliente tiver permissão para escrever no mural
-    if formulario.validate_on_submit():
-
-        try:
-            # Seleciona a foto
-            foto = request.files['foto']
-
-            # Formata o nome do arquivo
-            nome_arquivo = foto.filename
-            nome_arquivo2 = nome_arquivo.replace("'", "")
-            nome_arquivo3 = nome_arquivo2.replace(" ", "_")
-            
-            # Se a extensão do arquivo for permitida
-            if nome_arquivo3.lower().endswith(('.png', '.jpg', '.jpeg')):
-
-                # Tenta salvar a foto em app/static/image/produto
-                salvar_foto = fotos.save(foto, folder="cabecalho")
-                
-                # Se a foto tiver sido salva corretamente
-                if salvar_foto:
-
-                    artigo = criar_artigo(formulario, nome_arquivo3)
-
-                    db.session.add(artigo)
-
-                    db.session.commit()
-
-            flash("Artigo criado com sucesso. 🙂", 'alert-success')
-
-        except:
-            flash("Um erro ocorreu durante a criação do artigo. 🙁", 'alert-danger')
-
-        return redirect(url_for('blog.inicio'))
-        
-
-    return render_template('blog/escrever.html', formulario=formulario)
+##### ##### ##### ##### ##### ##### 
+#   # #   #   #     #   #     #   # 
+#   # #####   #     #   # ### #   # 
+##### #  #    #     #   #   # #   # 
+#   # #   #   #   ##### ##### ##### 
 
 
-
-
-
-"""
-!!! NÃO FOI IMPLEMENTADA
-"""
 # Página que edita um artigo
 @bp.route('/editar/<int:id_artigo>', methods=['GET'])
 @login_required
@@ -141,7 +102,7 @@ def artigo(artigo_id):
             flash("Seu comentário foi publicado. 🙂", 'alert-success')
 
             return redirect(url_for('.artigo', artigo_id=artigo.id, pagina=-1))
-        except (erro):
+        except Exception as e:
             flash("Um erro ocorreu durante a criação do comentário. 🙁", 'alert-danger')
             return redirect(url_for('.artigo', artigo_id=artigo.id, pagina=-1))
 
@@ -151,7 +112,7 @@ def artigo(artigo_id):
 
         pagina = (artigo.comentarios.count() - 1) // current_app.config['ARTIGO_COMENTARIOS_POR_PAGINA'] + 1
 
-    paginacao = artigo.comentarios.order_by(Comentario.data.asc()).paginate(
+    paginacao = artigo.comentarios.order_by(Comentario.data_criacao.asc()).paginate(
             pagina, per_page=current_app.config['ARTIGO_COMENTARIOS_POR_PAGINA'],
             error_out=False
         )
@@ -168,10 +129,11 @@ def artigo(artigo_id):
 
 
 
-
-##################
-# SEÇÕES DO BLOG #
-##################
+##### ##### ##### ##### ##### ##### 
+#     #     #     #   # #     #     
+##### ##### #     #   # ##### ##### 
+    # #     #     #   # #         # 
+##### ##### ##### ##### ##### ##### 
 
 # Página de SÉRIES
 @bp.route('/series')

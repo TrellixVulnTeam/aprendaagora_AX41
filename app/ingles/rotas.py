@@ -10,7 +10,7 @@ from ..decoradores import admin_necessario, permissao_necessaria
 from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
 from ..email import enviar_email
 from ..formularios import formularioPublicacaoMural
-from ..funcoes_auxiliares import criar_publicacao, registrar_comentario, truncar_texto
+from ..funcoes_auxiliares import registrar_publicacao, registrar_comentario, truncar_texto
 
 """
 
@@ -41,10 +41,14 @@ interagir_publicacao()
 comentar_publicacao()
 
 
-
 """
 
 
+#   # #   # #####  ###  #     
+## ## #   # #   # ## ## #     
+# # # #   # ##### #   # #     
+#   # #   # #  #  ##### #     
+#   # ##### #   # #   # ##### 
 
 
 # Página inicial de INGLÊS
@@ -58,7 +62,7 @@ def inicio():
     if formulario.validate_on_submit() and current_user.pode(Permissao.ESCREVER_MURAL):
 
         # Cria a publicação
-        publicacao = criar_publicacao(formulario)
+        publicacao = registrar_publicacao(formulario)
 
         # Adiciona a publicação è sessão do banco de dados
         db.session.add(publicacao)
@@ -70,11 +74,6 @@ def inicio():
         return redirect(url_for('ingles.inicio'))
 
 
-
-
-
-
-
     # Seleciona o número da página a partir do pedido
     pagina = request.args.get('pagina', 1, type=int)
 
@@ -83,7 +82,7 @@ def inicio():
     
 
     # Seleciona apenas as publicações com as tags 'ingles', 'vocabulario', 'gramatica', 'pronuncia', 'cultura'
-    paginacao = db.session.query(Publicacao, Usuario).join(Usuario).filter(Publicacao.tags.any(Tag.id <= 5)).order_by(Publicacao.data.desc()).paginate(
+    paginacao = db.session.query(Publicacao, Usuario).join(Usuario).filter(Publicacao.tags.any(Tag.id <= 5)).order_by(Publicacao.data_criacao.desc()).paginate(
 
         pagina, per_page=current_app.config['MURAL_PUBLICACOES_POR_PAGINA'],
         error_out=False
@@ -100,7 +99,6 @@ def inicio():
     # Isto era pra ser calculado automaticamente, mas algo por conta do valor do atributo 'lazy' set 'dynamic', esse valor não vem automaticamente
     for publicacao in publicacoes:
         publicacao[0].n_comentarios = len(publicacao[0].comentarios.all())
-
         publicacao[0].n_ameis = len(publicacao[0].ameis)
 
 
@@ -114,6 +112,7 @@ def inicio():
             texto = publicacao[0].conteudo
             publicacao[0].conteudo = truncar_texto(texto)
 
+    print(publicacoes)
 
     # Exibe a página do idioma INGLÊS, enviando o formulário do mural e a lista de publicações
     return render_template(
@@ -125,23 +124,11 @@ def inicio():
 
 
 
-###########################################################################################
-###########################################################################################
-
-""" ROTAS DE PUBLICAÇÃO NO MURAL """
-
-@bp.route('/licao/escrever')
-def escrever_licao():
-
-    return render_template('licao/escrever.html')
-
-
-
-###########################################################################################
-###########################################################################################
-
-""" ROTAS DE PUBLICAÇÃO NO MURAL """
-
+##### #   # ####  #     ##### #####  ###  #####  ###  ##### 
+#   # #   # #   # #       #   #     ## ## #     ## ## #   # 
+##### #   # ####  #       #   #     #   # #     #   # #   # 
+#     #   # #   # #       #   #     ##### #     ##### #   # 
+#     ##### ####  ##### ##### ##### #   # ##### #   # ##### 
 
 
 # Página de uma publicação
@@ -249,7 +236,7 @@ def json_publicacao():
 
             # Define um objeto representado o comentário
             comentario = {'conteudo': c.conteudo,
-                          'data': c.data,
+                          'data_criacao': c.data_criacao,
                           'autor': Usuario.query.filter_by(id=c.autor_id).first().nome_usuario}
 
             # Adiciona o comentário na lista de comentários que será enviada para o cliente
@@ -347,10 +334,34 @@ def comentar_publicacao():
         return(str(e))
 
 
-###########################################################################################
-###########################################################################################
 
 
+##### #   # ##### ##### ##### 
+#     #   # #   # #     #   # 
+#     #   # ##### ##### #   # 
+#     #   # #  #      # #   # 
+##### ##### #   # ##### ##### 
+
+
+####  ##### ##### ##### ##### #   #  ###  ##### ##### ##### 
+#   #   #   #       #   #   # ##  # ## ## #   #   #   #   # 
+#   #   #   #       #   #   # # # # #   # #####   #   #   # 
+#   #   #   #       #   #   # #  ## ##### #  #    #   #   # 
+####  ##### ##### ##### ##### #   # #   # #   # ##### ##### 
+
+
+##### #####  ###  ##### ##### ##### 
+#     #   # ## ## #     #     #     
+##### ##### #   # ##### ##### ##### 
+#     #  #  #####     # #         # 
+#     #   # #   # ##### ##### ##### 
+
+
+##### #####  ###  #   #  ###  ##### ##### #####  ###  
+#     #   # ## ## ## ## ## ##   #     #   #     ## ## 
+# ### ##### #   # # # # #   #   #     #   #     #   # 
+#   # #  #  ##### #   # #####   #     #   #     ##### 
+##### #   # #   # #   # #   #   #   ##### ##### #   # 
 
 
 

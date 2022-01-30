@@ -1,4 +1,17 @@
+@font-face {
+    font-family: 'Merienda One';
+    src: url(fontes/merienda_one/MeriendaOne-Regular.woff);
+}
 
+@font-face {
+    font-family: 'Unica One';
+    src: url(fontes/unica_one/UnicaOne-Regular.woff);
+}
+
+@font-face {
+    font-family: 'Roboto Slab';
+    src: url(fontes/roboto_slab/RobotoSlab-Regular.woff);
+}
 
 
 
@@ -170,9 +183,6 @@
 
 
 /* GLOBAL */
-
-/* Esconde a barra de scroll (mas scroll ainda fica habilitado) */
-body::-webkit-scrollbar {display:none;}
 
 p {
     overflow-wrap: break-word;

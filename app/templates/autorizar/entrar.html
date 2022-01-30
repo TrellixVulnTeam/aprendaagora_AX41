@@ -19,6 +19,27 @@
         </div>
 
         <div class="entrar__direita">
+
+            {% with avisos = get_flashed_messages(with_categories=true) %}
+                <!-- Se houver avisos -->
+                {% if avisos %}
+                    <!-- Exibe mensagens de erro, avisos, etc (notificações) -->
+                    <div id="lista-de-avisos" class="">
+
+                        <!-- Para cada mensagem declarada -->
+                        {% for categoria, mensagem in avisos %}
+
+                        <div class="alert mr-1 ml-1 mt-3 {{ categoria }}">
+                            <!-- Exiba a mensagem em um alerta -->
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ mensagem }}
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
             {% block formulario_autorizar %}
                 {{ exibir_formulario_entrar(formulario) }}
             {% endblock %}
