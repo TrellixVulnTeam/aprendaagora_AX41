@@ -46,5 +46,5 @@ virtualenv==20.0.31
 visitor==0.1.3
 webencodings==0.5.1
 Werkzeug==2.0.0
-git+https://github.com/ramonrodriguesomero/flask-script.git
-git+https://github.com/ramonrodriguesomero/flask-wtf.git
+git+https://github.com/ramonfrombr/flask-script.git
+git+https://github.com/ramonfrombr/flask-wtf.git
