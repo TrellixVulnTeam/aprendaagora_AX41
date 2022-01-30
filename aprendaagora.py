@@ -119,9 +119,7 @@ def deploy():
 
     # create or update user roles
     Role.inserir_roles()
-    
     Tag.inserir_tags()
-
     Materia.inserir_materias()
 
     
@@ -150,8 +148,6 @@ def reiniciar():
 
     db.drop_all()
     db.create_all()
-
-
 
 
 
