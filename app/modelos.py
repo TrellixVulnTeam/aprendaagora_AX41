@@ -2102,6 +2102,8 @@ class Produto(db.Model):
 # Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
 class UsuarioAnonimo(AnonymousUserMixin):
 
+    confirmado = False
+
     # Um usuário anônimo não possui permissões
     def pode(self, permissoes):
         return False
