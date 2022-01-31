@@ -537,3 +537,35 @@
     </a>
 </ul>
 {% endmacro %}
+
+
+
+{% macro ferramenta_paginacao_inicio(paginacao, ponto_inicial) %}
+<ul class="paginacao">
+    <a {% if not paginacao.has_prev %} class="desabilitado"{% endif %} href="{% if paginacao.has_prev %}{{ url_for(ponto_inicial, pagina = paginacao.page - 1, **kwargs) }}{% else %}#{% endif %}">
+        <li>&laquo; </li>
+    </a>
+    {% for p in paginacao.iter_pages() %}
+        {% if p %}
+            {% if p == paginacao.page %}
+                <a class="ativo" href="{{ url_for(ponto_inicial, pagina = p, **kwargs) }}">
+                    <li >{{ p }}</li>
+                </a>
+            {% else %}
+                <a href="{{ url_for(ponto_inicial, pagina = p, **kwargs) }}">
+                    <li>{{ p }}</li>
+                </a>
+            {% endif %}
+        {% else %}
+            <a class="desabilitado" href="#">
+                <li >&hellip;</li>
+            </a>
+        {% endif %}
+    {% endfor %}
+    <a {% if not paginacao.has_next %} class="desabilitado"{% endif %} href="{% if paginacao.has_next %}{{ url_for(ponto_inicial, pagina = paginacao.page + 1, **kwargs) }}{% else %}#{% endif %}">
+        <li>&raquo;</li>
+    </a>
+</ul>
+{% endmacro %}
+
+

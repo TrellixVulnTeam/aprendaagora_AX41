@@ -1,0 +1,35 @@
+
+
+
+{% macro exibir_publicacao_linha(publicacao) %}
+<div class="linha__publicacao-container">
+
+    <div class="linha__publicacao-cabecalho">
+        <a href="{{ url_for('.usuario', nome_usuario=publicacao.autor.nome_usuario) }}">
+            <img
+                src="{{ publicacao.autor.gravatar(size=20) }}"
+                alt=""
+            >
+
+            <span>@{{ publicacao.autor.nome_usuario }}</span>
+
+            <span>⌚️ {{ moment(publicacao.data_criacao).fromNow() }}</span>
+        </a>
+    </div>
+
+    <div class="linha__publicacao-conteudo">
+        {{publicacao.conteudo}}
+    </div>
+
+    <div class="linha__publicacao-rodape">
+
+        <div>
+            <span>{{publicacao.comentarios.count() }}</span>💬
+        </div>
+
+        <div>
+            <span>{{publicacao.ameis | length}}</span>💚
+        </div>
+    </div>
+</div>
+{% endmacro %}

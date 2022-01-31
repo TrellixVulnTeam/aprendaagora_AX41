@@ -78,12 +78,18 @@ class InscricaoFeuRosa(db.Model):
 
 
 
+
+"""
+##########################################################
+
 ##### ##### #      ###  ##### ##### ##### ##### 
 #   # #     #     ## ## #     #   # #     #     
 ##### ##### #     #   # #     #   # ##### ##### 
 #  #  #     #     ##### #     #   # #         # 
 #   # ##### ##### #   # ##### ##### ##### ##### 
 
+##########################################################
+"""
 
 # Relação entre USUÁRIOS e MATÉRIAS
 usuarios_materias = db.Table(
@@ -154,12 +160,17 @@ questoes_tags = db.Table(
     db.Column('questao_id', db.Integer, db.ForeignKey('questoes.id'), primary_key=True)
 )
 
+"""
+##########################################################
 
 #   # ##### #   #  ###  ##### ##### ##### 
 #   # #     #   # ## ## #   #   #   #   # 
 #   # ##### #   # #   # #####   #   #   # 
 #   #     # #   # ##### #  #    #   #   # 
 ##### ##### ##### #   # #   # ##### ##### 
+
+##########################################################
+"""
 
 
 
@@ -436,6 +447,28 @@ class Role(db.Model):
         return '<Role %r>' % self.nome
 
 
+class Seguir(db.Model):
+
+    __tablename__ = 'seguir'
+
+    seguidor_id = db.Column(
+        db.Integer,
+        db.ForeignKey('usuarios.id'),
+        primary_key=True
+    )
+
+    seguido_id = db.Column(
+        db.Integer,
+        db.ForeignKey('usuarios.id'),
+        primary_key=True
+    )
+
+    data_criacao = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
+
+
 class Usuario(UserMixin, db.Model):
 
     """
@@ -460,8 +493,14 @@ class Usuario(UserMixin, db.Model):
 
     __tablename__ = 'usuarios'
 
+    """    
+    ####   ###  ####  ##### ##### 
+    #   # ## ## #   # #   # #     
+    #   # #   # #   # #   # ##### 
+    #   # ##### #   # #   #     # 
+    ####  #   # ####  ##### ##### 
+    """
 
-    # Dados básicos
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True,)
     nome_usuario = db.Column(db.String(25), unique=True, index=True)
@@ -481,6 +520,15 @@ class Usuario(UserMixin, db.Model):
     avatar_hash = db.Column(db.String(32))
 
 
+    """
+    ##### ##### #      ###  ##### ##### ##### ##### 
+    #   # #     #     ## ## #     #   # #     #     
+    ##### ##### #     #   # #     #   # ##### ##### 
+    #  #  #     #     ##### #     #   # #         # 
+    #   # ##### ##### #   # ##### ##### ##### ##### 
+    """
+
+
     # Usuario.publicacoes retorna a lista de publicações escritas pelo usuário
     notificacoes = db.relationship('Notificacao',
                                   backref='notificado',
@@ -497,15 +545,26 @@ class Usuario(UserMixin, db.Model):
                                   backref='autor',
                                   lazy='subquery')
 
+    seguidos = db.relationship(
+        'Seguir',
+        foreign_keys=[Seguir.seguidor_id],
+        backref=db.backref('seguidor', lazy='joined'),
+        lazy='dynamic',
+        cascade='all, delete-orphan'
+    )
 
-
+    seguidores = db.relationship(
+        'Seguir',
+        foreign_keys=[Seguir.seguido_id],
+        backref=db.backref('seguido', lazy='joined'),
+        lazy='dynamic',
+        cascade='all, delete-orphan'
+    )
 
 
     cursos = db.relationship('Curso',
                             backref='instrutor',
                             lazy='dynamic')
-    
-
     
 
     licoes_criadas = db.relationship('Licao',
@@ -523,7 +582,6 @@ class Usuario(UserMixin, db.Model):
     questoes_criadas = db.relationship('Questao',
                                   backref='autor',
                                   lazy='dynamic')
-    
 
     # Usuario.questoes_respondidas retorna as questões que o usuário respondeu
     questoes_respondidas = db.relationship('Questao',
@@ -542,6 +600,15 @@ class Usuario(UserMixin, db.Model):
                                        backref='usuario',
                                        lazy='dynamic')
 
+
+
+    """ 
+    ##### #   # ##### ##### 
+      #   ##  #   #     #   
+      #   # # #   #     #   
+      #   #  ##   #     #   
+    ##### #   # #####   #   
+    """
 
 
     # Atribui o 'role' 'Estudante' à novos usuários, ou 'Administrador' caso o email do usuário está deinido em APRENDA_AGORA_ADMIN
@@ -568,6 +635,9 @@ class Usuario(UserMixin, db.Model):
 
             # Crie o 'avatar_hash' do usuário
             self.avatar_hash = self.gravatar_hash()
+        
+        # Segue a si mesmo para que as próprias publicações apareçam na linha do tempo
+        self.seguir(self)
 
 
     @property
@@ -580,10 +650,22 @@ class Usuario(UserMixin, db.Model):
         # Redefine 'senha_hash' baseado em 'senha'
         self.senha_hash = generate_password_hash(senha)
 
+    @property
+    def publicacoes_seguidos(self):
 
-    """###########################################################################################################"""
-    """########################################### MÉTODOS DE AUTENTICAÇÃO #######################################"""
+        return Publicacao.query.join(
+                Seguir, Seguir.seguido_id == Publicacao.autor_id
+            ).filter(
+                Seguir.seguidor_id == self.id
+            )
 
+    """  
+     ###  #   # ##### ##### #   # ##### ##### #####  ###  #####  ###  ##### 
+    ## ## #   #   #   #     ##  #   #     #   #     ## ## #     ## ## #   # 
+    #   # #   #   #   ##### # # #   #     #   #     #   # #     #   # #   # 
+    ##### #   #   #   #     #  ##   #     #   #     ##### #     ##### #   # 
+    #   # #####   #   ##### #   #   #   ##### ##### #   # ##### #   # ##### 
+    """
 
     # Este método recebe a senha e passa ela na função check_password_hash() para a comparar com a hash armazenada no modelo 'Usuario'.
     # Se retornar True, a senha está correta
@@ -713,19 +795,67 @@ class Usuario(UserMixin, db.Model):
         
         return True
 
+    """
+    ##### ##### ##### #   # ##### ##### 
+    #     #     #     #   #   #   #   # 
+    ##### ##### # ### #   #   #   ##### 
+        # #     #   # #   #   #   #  #  
+    ##### ##### ##### ##### ##### #   # 
+    """
+
+    def seguir(self, usuario):
+
+        if not self.seguindo(usuario):
+
+            s = Seguir(seguidor=self, seguido=usuario)
+
+            db.session.add(s)
+
+    def desfazer_seguir(self, usuario):
+
+        seguido = self.seguidos.filter_by(seguido_id=usuario.id).first()
+
+        if seguido:
+            db.session.delete(seguido)
 
 
-    """#################################################################"""
-    """##################### MÉTODOS DE INTERAÇÃO ######################"""
+    def seguindo(self, usuario):
 
+        if usuario.id is None:
+
+            return None
+
+        return self.seguidos.filter_by(
+            seguido_id=usuario.id).first() is not None
+        
+    def seguido_por(self, usuario):
+
+        if usuario.id is None:
+
+            return False
+        
+        return self.seguidores.filter_by(
+            seguidor_id=usuario.id).first() is not None
+
+    """
+    ##### #   # ##### ##### #####  ###  #####  ###  ##### 
+      #   ##  #   #   #     #   # ## ## #     ## ## #   # 
+      #   # # #   #   ##### ##### #   # #     #   # #   # 
+      #   #  ##   #   #     #  #  ##### #     ##### #   # 
+    ##### #   #   #   ##### #   # #   # ##### #   # ##### 
+    """
 
     # CURSOS
     def inscrever_curso(self, curso):
         return 1
 
+    # Desfaz a inscrição mas não apaga as lições completadas
     def desfazer_inscrever_curso(self, curso):
         return 1
 
+    # Apaga as lições completadas
+    def reiniciar_cruso(self, curso):
+        return 1
 
     # TÓPICOS
     def amar_topico(self, topico):
@@ -736,7 +866,6 @@ class Usuario(UserMixin, db.Model):
 
     def amou_topico(self, topico):
         return 1
-
 
     # LIÇÕES
     def amar_licao(self, licao):
@@ -832,11 +961,13 @@ class Usuario(UserMixin, db.Model):
         return 1
 
 
-
-
-    """####################################################"""
-    """############## OUTROS MÉTODOS ######################"""
-
+    """
+    ##### #   # ##### ##### ##### ##### 
+    #   # #   #   #   #   # #   # #     
+    #   # #   #   #   ##### #   # ##### 
+    #   # #   #   #   #  #  #   #     # 
+    ##### #####   #   #   # ##### ##### 
+    """
 
     # Um dos requisitos do serviço Gravatar é que o endereço de email através do qual o hash MD5 é obtido deve estar em letras minúsculas, por isso usamos a função 'String.lower()'
     def gravatar_hash(self):
@@ -879,12 +1010,18 @@ class Usuario(UserMixin, db.Model):
         return '<Usuário %r>' % self.nome_usuario
 
 
-##### ##### ##### #   # ####  ##### 
-#     #       #   #   # #   # #   # 
-##### #####   #   #   # #   # #   # 
-#         #   #   #   # #   # #   # 
-##### #####   #   ##### ####  ##### 
 
+"""
+##########################################################
+
+#   #  ###  ##### ##### ##### #####  ###  
+## ## ## ##   #   #     #   #   #   ## ## 
+# # # #   #   #   ##### #####   #   #   # 
+#   # #####   #   #     #  #    #   ##### 
+#   # #   #   #   ##### #   # ##### #   # 
+
+##########################################################
+"""
 
 # As tags de uma publicação podem ser acessadas com publicacao.tags
 class Materia(db.Model):
@@ -909,7 +1046,7 @@ class Materia(db.Model):
 
     nome_foto = db.Column(db.String(100))
 
-    emoji = db.Column(db.String(1))
+    emoji = db.Column(db.String(10))
 
 
     """
@@ -1083,6 +1220,18 @@ class Materia(db.Model):
         db.session.commit()
 
 
+"""
+##########################################################
+
+##### #   # ##### ##### ##### 
+#     #   # #   # #     #   # 
+#     #   # ##### ##### #   # 
+#     #   # #  #      # #   # 
+##### ##### #   # ##### ##### 
+
+##########################################################
+"""
+
 class Curso(db.Model):
 
     """
@@ -1138,6 +1287,19 @@ class Curso(db.Model):
                                   lazy='dynamic')
 
 
+
+"""
+##########################################################
+
+##### ##### ##### ##### ##### ##### 
+  #   #   # #   #   #   #     #   # 
+  #   #   # #####   #   #     #   # 
+  #   #   # #       #   #     #   # 
+  #   ##### #     ##### ##### ##### 
+
+##########################################################
+"""
+
 class Topico(db.Model):
 
     """
@@ -1184,6 +1346,19 @@ class Topico(db.Model):
     ameis = db.relationship('Usuario',
                             secondary='topicos_amei',
                             backref=db.backref('topico', lazy='dynamic'))
+
+
+"""
+##########################################################
+
+#     ##### #####  ###  ##### 
+#       #   #     ## ## #   # 
+#       #   #     #   # #   # 
+#       #   #     ##### #   # 
+##### ##### ##### #   # ##### 
+
+##########################################################
+"""
 
 
 class Licao(db.Model):
@@ -1276,6 +1451,18 @@ class Licao(db.Model):
         )
 
 
+"""
+##########################################################
+
+ ###  #   # ##### ##### #####  ###  ##### 
+#   # #   # #     #       #   ## ## #   # 
+#   # #   # ##### #####   #   #   # #   # 
+ ###  #   # #         #   #   ##### #   # 
+   ## ##### ##### #####   #   #   # ##### 
+
+##########################################################
+"""
+
 class Questao(db.Model):
 
 
@@ -1363,6 +1550,18 @@ class Questao(db.Model):
     dia = db.Column(db.Integer) # 1 ou 2
 
 
+"""
+##########################################################
+
+##### #   # ####  #     ##### #   #  ###  
+#     ## ## #   # #     #     ## ## ## ## 
+##### # # # ####  #     ##### # # # #   # 
+#     #   # #   # #     #     #   # ##### 
+##### #   # ####  ##### ##### #   # #   # 
+
+##########################################################
+"""
+
 class Emblema(db.Model):
 
     __tablename__ = 'emblemas'
@@ -1384,12 +1583,18 @@ class Emblema(db.Model):
     nome_imagem = db.Column(db.String(100))
 
 
+
+"""
+##########################################################
+
 ##### #   # ####  #     ##### #####  ###  #####  ###  ##### 
 #   # #   # #   # #       #   #     ## ## #     ## ## #   # 
 ##### #   # ####  #       #   #     #   # #     #   # #   # 
 #     #   # #   # #       #   #     ##### #     ##### #   # 
 #     ##### ####  ##### ##### ##### #   # ##### #   # ##### 
 
+##########################################################
+"""
 
 class Publicacao(db.Model):
 
@@ -1517,8 +1722,18 @@ class Publicacao(db.Model):
             #'ameis': self.ameis
         }
 
+"""
+##########################################################
 
-# As tags de uma publicação podem ser acessadas com publicacao.tags
+#####  ###  ##### 
+  #   ## ## #     
+  #   #   # # ### 
+  #   ##### #   # 
+  #   #   # ##### 
+
+##########################################################
+"""
+
 class Tag(db.Model):
     
     __tablename__ = 'tags'
@@ -1625,6 +1840,17 @@ class Tag(db.Model):
         # Salva as alterações no banco de dados
         db.session.commit()
 
+"""
+##########################################################
+
+##### ##### #   # ##### #   # #####  ###  ##### ##### ##### 
+#     #   # ## ## #     ##  #   #   ## ## #   #   #   #   # 
+#     #   # # # # ##### # # #   #   #   # #####   #   #   # 
+#     #   # #   # #     #  ##   #   ##### #  #    #   #   # 
+##### ##### #   # ##### #   #   #   #   # #   # ##### ##### 
+
+##########################################################
+"""
 
 class Comentario(db.Model):
 
@@ -1665,11 +1891,21 @@ class Comentario(db.Model):
                             )
 
 
-##### #   # ##### ##### #####  ###  ##### ##### ##### ##### 
-  #   ##  #   #   #     #   # ## ## #     #   # #     #     
-  #   # # #   #   ##### ##### #   # #     #   # ##### ##### 
-  #   #  ##   #   #     #  #  ##### #     #   # #         # 
-##### #   #   #   ##### #   # #   # ##### ##### ##### ##### 
+
+
+
+
+"""
+##########################################################
+
+#   # ##### ##### ##### ##### ##### #####  ###  #####  ###  ##### 
+##  # #   #   #     #   #       #   #     ## ## #     ## ## #   # 
+# # # #   #   #     #   #####   #   #     #   # #     #   # #   # 
+#  ## #   #   #     #   #       #   #     ##### #     ##### #   # 
+#   # #####   #   ##### #     ##### ##### #   # ##### #   # ##### 
+
+##########################################################
+"""
 
 """
   @@    @@    @@  
@@ -1678,6 +1914,7 @@ class Comentario(db.Model):
                   
   @@    @@    @@  
 """
+
 
 class Notificacao(db.Model):
 
@@ -1709,6 +1946,18 @@ class Notificacao(db.Model):
 
     lida = db.Column(db.Boolean)
 
+
+"""
+##########################################################
+
+##### #   # ##### ##### #####  ###  ##### ##### ##### ##### 
+  #   ##  #   #   #     #   # ## ## #     #   # #     #     
+  #   # # #   #   ##### ##### #   # #     #   # ##### ##### 
+  #   #  ##   #   #     #  #  ##### #     #   # #         # 
+##### #   #   #   ##### #   # #   # ##### ##### ##### ##### 
+
+##########################################################
+"""
 
 class TopicoAmei(db.Model):
 
@@ -1766,11 +2015,17 @@ class ComentarioAmei(db.Model):
 
 
 
+"""
+##########################################################
+
 #     ##### #####  ###  
 #     #   #    #  ## ## 
 #     #   #    #  #   # 
 #     #   # #  #  ##### 
 ##### ##### ####  #   # 
+
+##########################################################
+"""
 
 """
   @@    @@    @@  
@@ -1831,6 +2086,8 @@ class Produto(db.Model):
 # Produto Visita
 
 
+"""
+##########################################################
 
 ##### ##### #   # ##### ##### ##### 
 #     #   # ##  # #       #   #     
@@ -1838,6 +2095,8 @@ class Produto(db.Model):
 #     #   # #  ## #       #   #   # 
 ##### ##### #   # #     ##### ##### 
 
+##########################################################
+"""
 
 
 # Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'

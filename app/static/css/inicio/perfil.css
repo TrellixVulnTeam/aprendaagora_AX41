@@ -38,6 +38,10 @@
     padding: 5px;
 }
 
+.perfil__info-seguir {
+    margin: 1em 0;
+}
+
 .perfil__estatisticas-lista {
     display: flex;
     flex-direction: row;
@@ -48,9 +52,28 @@
 }
 
 .perfil__estatisticas-lista li {
-    border: 1px solid grey;
+    border: 1px solid rgb(117, 227, 255);
+    background: rgb(228, 242, 255);
     border-radius: 3px;
     margin: 0 5px 5px 0;
+    padding: 4px 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfil__estatisticas-lista span {
+    background-color: #5ea9ff;
+    font-family: 'Consolas', 'Courier New', monospace;
+    min-width: 1.2em;
+    height: 1.2em;
+    color: white;
+    border-radius:3px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 5px;
     padding: 2px;
 }
 

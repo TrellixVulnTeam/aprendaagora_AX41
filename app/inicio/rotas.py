@@ -1,34 +1,52 @@
-# Blueprint INÍCIO
 
-from flask import render_template, session, redirect, url_for, current_app, flash, request, jsonify
+from flask import (
+    render_template,
+    session,
+    redirect,
+    url_for,
+    current_app,
+    flash,
+    request,
+    jsonify,
+    make_response
+)
+
+from ..modelos import (
+    InscricaoFeuRosa,
+    Usuario,
+    Role,
+    Permissao,
+    Publicacao,
+    Tag,
+    UsuarioAnonimo
+)
+
+from .formularios import (
+    formularioEditarPerfil,
+    formularioEditarPerfilAdmin,
+    formularioInscricaoFeuRosa
+)
+
 from flask_login import login_required, current_user
 from datetime import datetime
 from . import inicio as bp
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
-from ..modelos import InscricaoFeuRosa, Usuario, Role, Permissao, Publicacao, Tag, UsuarioAnonimo
 from ..email import enviar_email
-from .formularios import formularioEditarPerfil, formularioEditarPerfilAdmin, formularioInscricaoFeuRosa
 
-
-
-"""
-pagina_instagram
-canal_youtube
-grupo_facebook
 
 
 
 """
+##########################################################
 
-
-
-"""
 ##### ##### ####  ##### #####       ##### ##### ##### #####  ###  ##### ##### 
 #   # #     #   # #     #           #     #   # #       #   ## ##   #   #     
 ##### ##### #   # ##### #####       ##### #   # #       #   #   #   #   ##### 
 #  #  #     #   # #         #           # #   # #       #   #####   #       # 
 #   # ##### ####  ##### #####       ##### ##### ##### ##### #   # ##### #####
+
+##########################################################
 """
 
 # Página no Instagram
@@ -48,18 +66,90 @@ def grupo_facebook():
 
 
 
+
 """
+##########################################################
+
 ##### ##### #####  ###  #####       ##### ##### #   # #   # #   # ##### 
 #   # #   #   #   ## ## #           #     #   # ## ## #   # ##  # #     
 ##### #   #   #   #   # #####       #     #   # # # # #   # # # # ##### 
 #  #  #   #   #   #####     #       #     #   # #   # #   # #  ##     # 
 #   # #####   #   #   # #####       ##### ##### #   # ##### #   # #####
-"""
 
+##########################################################
+"""
 
 @bp.route('/')
 def inicio():
-    return redirect(url_for("blog.inicio"))
+
+    pagina = request.args.get('pagina', 1, type=int)
+
+    exibir_seguidos = False
+
+    if current_user.confirmado:
+
+        exibir_seguidos = bool(request.cookies.get('exibir_seguidos', ''))
+
+    if exibir_seguidos:
+
+        consulta = current_user.publicacoes_seguidos
+
+    else:
+
+        consulta = Publicacao.query
+
+    paginacao = consulta.order_by(
+        Publicacao.data_criacao.desc()
+    ).paginate(
+        pagina,
+        per_page=current_app.config['MURAL_PUBLICACOES_POR_PAGINA'],
+        error_out=False
+    )
+
+    publicacoes = paginacao.items
+
+    return render_template(
+        'inicio/inicio.html',
+        publicacoes=publicacoes,
+        exibir_seguidos=exibir_seguidos,
+        paginacao=paginacao
+    )
+
+
+
+@bp.route('/exibir_todos')
+@login_required
+def exibir_todos():
+
+    resposta = make_response(redirect(url_for('.inicio')))
+
+    resposta.set_cookie('exibir_seguidos', '', max_age=30*24*60*60)
+
+    return resposta
+
+
+@bp.route('/exibir_seguidos')
+@login_required
+def exibir_seguidos():
+
+    resposta = make_response(redirect(url_for('.inicio')))
+
+    resposta.set_cookie('exibir_seguidos', '1', max_age=30*24*60*60)
+
+    return resposta
+
+
+
+# Página de uma publicação
+@bp.route('/publicacao/<int:id>')
+def publicacao(id):
+
+    # Seleciona uma publicação com o id informado
+    publicacao = Publicacao.query.get_or_404(id)
+
+    # Exibe a página da publicação
+    return render_template('publicacao.html', publicacao=publicacao)
+
 
 
 # Página de Inscrição para os cursos em FEU ROSA/ONLINE
@@ -112,12 +202,18 @@ def loja():
 
 
 
+
+"""
+##########################################################
+
 ##### ##### ##### ##### ##### #     
 #   # #     #   # #       #   #     
 ##### ##### ##### #####   #   #     
 #     #     #  #  #       #   #     
 #     ##### #   # #     ##### ##### 
 
+##########################################################
+"""
 
 
 # Exibe a página de perfil do usuário conectado
@@ -259,30 +355,89 @@ def apagar_publicacao():
 
 
 
-###########################################################################################
-
-"""  ROTAS DOS PROFESSORES E DOS ADMINS  """
-
-
-# Rota para um Professor escrever no Blog
-@bp.route('/escrever')
+@bp.route('/seguir/<nome_usuario>')
 @login_required
-@permissao_necessaria(Permissao.ESCREVER_BLOG)
-def apenas_professores():
-    return "Apenas Professores!"
+@permissao_necessaria(Permissao.SEGUIR)
+def seguir(nome_usuario):
+    
+    usuario = Usuario.query.filter_by(nome_usuario=nome_usuario).first()
+
+    # Checa se o usuário existe
+    if usuario is None:
+
+        flash('Usuário inválido.',  'alert-primary')
+
+        return redirect(url_for('.inicio'))
+
+    # Checa se o usário já é seguido
+    if current_user.seguindo(usuario):
+
+        flash('Você já está seguindo este usuário.',  'alert-primary')
+
+        return redirect(url_for('.usuario', nome_usuario=nome_usuario))
 
 
+    current_user.seguir(usuario)
 
-# Rota do painel do Administrador
+    db.session.commit()
 
-# De forma prática, o decorador 'route' deve ser declarado primeiro quando se está usando vários decoradores em uma função view. Os decoradores restantes devem ser declarados na orde que eles precisam ser avaliado quando a função view for chamada. Neste caso, o usuário deve estar conectado primeiro, considerando que o usuário deve ser redirecionado para a página de login caso ele não esteja conectado.
-@bp.route('/admin')
+    flash(f"Você agora está seguindo {nome_usuario}.",  'alert-primary')
+
+    return redirect(url_for('.usuario', nome_usuario=nome_usuario))
+
+
+@bp.route('/desfazer_seguir/<nome_usuario>')
 @login_required
-@admin_necessario
-def apenas_admins():
-    return "Apenas Administradores!"
+@permissao_necessaria(Permissao.SEGUIR)
+def desfazer_seguir(nome_usuario):
+    
+    usuario = Usuario.query.filter_by(nome_usuario=nome_usuario).first()
+
+    # Checa se o usuário existe
+    if usuario is None:
+
+        flash('Usuário inválido.',  'alert-primary')
+
+        return redirect(url_for('.inicio'))
+
+    # Checa se o usário não é seguido
+    if not current_user.seguindo(usuario):
+
+        flash('Você não está seguindo este usuário.',  'alert-primary')
+
+        return redirect(url_for('.usuario', nome_usuario=nome_usuario))
 
 
+    current_user.desfazer_seguir(usuario)
+
+    db.session.commit()
+
+    flash(f"Você parou de seguir {nome_usuario}.",  'alert-primary')
+
+    return redirect(url_for('.usuario', nome_usuario=nome_usuario))
+
+
+
+@bp.route('/seguidores/nome_usuario')
+def seguidores(nome_usuario):
+    return 1
+
+@bp.route('/seguidos')
+@login_required
+def seguidos(nome_usuario):
+    return 1
+
+
+
+"""
+  @@    @@    @@  
+  @@    @@    @@  
+  @@    @@    @@  
+                  
+  @@    @@    @@  
+
+Transferir a rota abaixo para o blueprint admin
+"""
 
 # Rota para um Administrador editar a conta de outro usuário
 @bp.route('/editar-perfil/<int:id>', methods=['GET', 'POST'])

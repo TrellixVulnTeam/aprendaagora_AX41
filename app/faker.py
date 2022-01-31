@@ -116,7 +116,56 @@ lista_palavras_materias = [
 
 
 
+# Cria usuários
+def usuarios(n_usuarios=20):
 
+    # Instância 'Faker' com linguagem definida para português-brasileiro
+    fake = Faker('pt_BR')
+
+    # Repita 'n_usuarios' vezes
+    for i in range(n_usuarios):
+
+        nome_usuario = fake.user_name()
+        email = fake.email()
+
+        # Se já ouver um usuário com o nome gerado
+        if (Usuario.query.filter_by(nome_usuario=nome_usuario).first() or Usuario.query.filter_by(email=email).first()):
+            continue
+        else:
+
+            # Cria um usuário fake
+            u = Usuario(
+                    email=email,
+
+                    nome_usuario=fake.user_name(),
+                    
+                    senha='password',
+                    
+                    confirmado=True,
+                    
+                    nome=fake.name(),
+                    
+                    sobrenome=fake.name(),
+                    
+                    localizacao=fake.city(),
+                    
+                    sobre=fake.sentence(),
+                    
+                    membro_desde=fake.past_date()
+                )
+
+            # Adiciona o usuário à sessão
+            db.session.add(u)
+
+        try:
+            # Salva usuários no banco de dados
+            db.session.commit()
+
+        except IntegrityError:
+
+            # Reverte alterações
+            db.session.rollback()
+         
 # Cria cursos
 def cursos(n_cursos=50):
 
@@ -160,9 +209,11 @@ def cursos(n_cursos=50):
         # Reverte alterações
         db.session.rollback()
 
+def comentarios_cursos(n_comentarios=10):
+    return 1
 
 # Cria tópicos
-def topicos(n_topicos=500):
+def topicos(n_topicos=100):
 
     """
         id
@@ -217,9 +268,11 @@ def topicos(n_topicos=500):
         # Reverte alterações
         db.session.rollback()
 
+def comentarios_topicos(n_topicos=100):
+    return 1
 
 # Cria lições
-def licoes(n_licoes=2000):
+def licoes(n_licoes=200):
     
 
     """
@@ -262,8 +315,8 @@ def licoes(n_licoes=2000):
         
         l = Licao(
             titulo=fake.sentence(nb_words=5, ext_word_list=palavras).capitalize(),
-            subtitulo=fake.sentence(nb_words=10, ext_word_list=palavras).capitalize(),
-            conteudo=fake.sentence(nb_words=500, ext_word_list=palavras).capitalize(),
+            subtitulo=fake.sentence(nb_words=5, ext_word_list=palavras).capitalize(),
+            conteudo=fake.sentence(nb_words=100, ext_word_list=palavras).capitalize(),
             nome_foto="placeholder.jpg",
             autor_id=1,
             topico_id=topico_id_escolhido,
@@ -283,65 +336,18 @@ def licoes(n_licoes=2000):
         # Reverte alterações
         db.session.rollback()
 
+def comentarios_licoes(n_comentarios):
+    return 1
 
 # Cria questões
 def questoes(n_licoes):
     return 1
 
-
-# Cria usuários
-def usuarios(n_usuarios=200):
-
-    # Instância 'Faker' com linguagem definida para português-brasileiro
-    fake = Faker('pt_BR')
-
-    # Repita 'n_usuarios' vezes
-    for i in range(n_usuarios):
-
-        nome_usuario = fake.user_name()
-        email = fake.email()
-
-        # Se já ouver um usuário com o nome gerado
-        if (Usuario.query.filter_by(nome_usuario=nome_usuario).first() or Usuario.query.filter_by(email=email).first()):
-            continue
-        else:
-
-            # Cria um usuário fake
-            u = Usuario(
-                    email=email,
-
-                    nome_usuario=fake.user_name(),
-                    
-                    senha='password',
-                    
-                    confirmado=True,
-                    
-                    nome=fake.name(),
-                    
-                    sobrenome=fake.name(),
-                    
-                    localizacao=fake.city(),
-                    
-                    sobre=fake.sentence(),
-                    
-                    membro_desde=fake.past_date()
-                )
-
-            # Adiciona o usuário à sessão
-            db.session.add(u)
-
-        try:
-            # Salva usuários no banco de dados
-            db.session.commit()
-
-        except IntegrityError:
-
-            # Reverte alterações
-            db.session.rollback()
-            
+def comentarios_questoes(n_comentarios):
+    return 1
 
 # Cria publicações
-def publicacoes(n_publicacoes=500): 
+def publicacoes(n_publicacoes=100): 
 
     # Instância 'Faker' com linguagem definida para português-brasileiro
     fake = Faker('pt_BR')
@@ -357,9 +363,9 @@ def publicacoes(n_publicacoes=500):
 
         # Cria um publicação com dados aleatórios
         p = Publicacao(
-            titulo=fake.sentence(nb_words=10, ext_word_list=lista_palavras).capitalize(),
-            subtitulo=fake.sentence(nb_words=10, ext_word_list=lista_palavras).capitalize(),
-            conteudo=fake.sentence(nb_words=500, ext_word_list=lista_palavras).capitalize(),
+            titulo=fake.sentence(nb_words=5, ext_word_list=lista_palavras).capitalize(),
+            subtitulo=fake.sentence(nb_words=5, ext_word_list=lista_palavras).capitalize(),
+            conteudo=fake.sentence(nb_words=100, ext_word_list=lista_palavras).capitalize(),
             data_criacao=fake.past_date(),
             autor=u,
             idioma='ingles',
@@ -441,4 +447,45 @@ def comentarios_publicacoes(n_comentarios=1000):
         # Reverte alterações
         db.session.rollback()
 
+def artigos(n_artigos=50):
+    return 1
 
+def comentarios_artigos():
+    return 1
+
+def seguir(n_seguir=100):
+    return 1
+
+
+def usuarios_materias():
+    return 1
+
+def usuarios_cursos():
+    return 1
+
+def usuarios_topicos():
+    return 1
+
+def usuarios_licoes():
+    return 1
+
+def usuarios_emblemas():
+    return 1
+
+def ameis_comentarios():
+    return 1
+
+def ameis_publicacoes():
+    return 1
+
+def ameis_artigos():
+    return 1
+
+def ameis_licoes():
+    return 1
+
+def ameis_topicos():
+    return 1
+
+def ameis_cursos():
+    return 1

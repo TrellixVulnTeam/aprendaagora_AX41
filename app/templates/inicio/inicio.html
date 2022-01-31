@@ -2,24 +2,133 @@
 
 {% block titulo %}Início{% endblock %}
 
-
 {% block conteudo_pagina %}
 
-    <!-- Mensagem de boas-vindas personalizada -->
-    <h2>Olá, {% if current_user.is_authenticated %}{{ current_user.nome_usuario }}{% else %}Desconhecido{% endif %}!</h2>
+<div style="background-color: rgb(233, 241, 255);">
 
-    <!-- Se nao houver uma seção gravada-->
-    {% if not current_user.is_authenticated %}
-        <p>Prazer em te conhecer!</p>
-    <!--- Se houver uma seção gravada-->
-    {% else %}
-        <p>Seja bem-vindo novamente!</p>
+    <div class="linha__container">
+
+        <div class="linha__menu-container">
+            <ul>
+                <li>📊 <span>Meu Desempenho</span></li>
+                <li>🕘 <span>Próximas Lições</span></li>
+                <li>📑 <span>Plano de Estudos</span></li>
+                <li>🔴 <span>Aulas ao Vivo</span></li>
+                <li>📖 <span>Cursos</span></li>
+                <li>🎉 <span>Eventos</span></li>
+                <li>📝 <span>Preparação ENEM</span></li>
+                <li>⚙️ <span>Configurações</span></li>
+            </ul>
+        </div>
+
+        <div class="linha__linha-container">
+            <!-- Mensagem de boas-vindas personalizada -->
+            <h2>Olá, {% if current_user.is_authenticated %}{{ current_user.nome_usuario }}{% else %}Desconhecido{% endif %}!</h2>
+
+            <!-- Se nao houver uma seção gravada-->
+            {% if not current_user.confirmado %}
+                <p>Prazer em te conhecer!</p>
+            <!--- Se houver uma seção gravada-->
+            {% else %}
+                <p>Seja bem-vindo novamente!</p>
+            {% endif %}
+            
+            <hr>
+
+            <div class="linha__container-abas">
+                
+                <ul class="linha__lista-abas">
+                    <a href="{{ url_for('.exibir_todos') }}">
+                        <li
+                        {% if not exibir_seguidos %} class="active"{% endif %}>
+                        Todos
+                    </li></a>
+                
+
+                    {% if current_user.confirmado %}
+                    <a href="{{ url_for('.exibir_seguidos') }}">
+                        <li
+                            {% if exibir_seguidos %} class="active"{% endif %}>
+                            Seguidos
+                        </li>
+                    </a>
+                    {% endif %}
+
+                    <a href="">
+                        <li>📊</li>
+                    </a>
+
+                    <a href="">
+                        <li>🌱</li>
+                    </a>
+
+                    <a href="">
+                        <li>🔥</li>
+                    </a>
+
+                    <a href="">
+                        <li>💡</li>
+                    </a>
+        
+                    <a href="">
+                        <li>⏳</li>
+                    </a>
+
+                    <a href="">
+                        <li>🌎</li>
+                    </a>
+
+                    <a href="">
+                        <li>💭</li>
+                    </a>
+
+                    <a href="">
+                        <li>👥</li>
+                    </a>
+
+                    <a href="">
+                        <li>🎨</li>
+                    </a>              
+                </ul>
+            </div>
+
+            <div class="linha__lista-publicacoes-container">
+                {% for publicacao in publicacoes %}
+                    {{ exibir_publicacao_linha(publicacao) }}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="linha__chats-container">
+
+            <div class="linha__chats-cabecalho">
+                <span>Bate-papo</span>
+
+                <img src="{{ url_for('static', filename='imagens/chat-icone.svg.png')}}" alt="">
+            </div>
+
+            <ul>
+                <li>🇺🇸 Inglês</li>
+                <li>🇪🇸 Espanhol</li>
+                <li>🇫🇷 Francês</li>
+                <li>🇮🇹 Italiano</li>
+                <li>🇩🇪 Alemão</li>
+                <li>🇯🇵 Japonês</li>
+                <li>🇨🇳 Chinês</li>
+                <li>🇧🇷 Português</li>
+            </ul>
+            
+        </div>
+    </div>
+
+    
+    
+   
+
+    {% if paginacao %}
+    <div class="paginacao">
+        {{ ferramenta_paginacao_inicio(paginacao, 'inicio.inicio') }}
+    </div>
     {% endif %}
-    
-    <hr>
-    
-    <!-- Datas -->
-    <p>A data e horário local é {{ moment(current_time).format('LLL') }}.</p>
-    <p>Isso foi {{ moment(current_time).fromNow(refresh=True) }}</p>
-
+</div>
 {% endblock %}

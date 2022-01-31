@@ -47,61 +47,66 @@
                     {% endif %}
                 </h4>
 
-                {% if usuario.localizacao %}
-                    <div id="localizacaoInfo" class="mb-2">
-                        <i class="fa fa-map-pin"></i>
-                        <a href="http://maps.google.com/?q={{ usuario.localizacao }}">
-                            {{ usuario.localizacao }}
-                        </a>
-                    </div>
-                {% endif %}
+                {#
 
-                <p><i class="fa fa-history"></i> Membro desde {{ moment(usuario.membro_desde).format('L') }}. Último acesso {{ moment(usuario.ultimo_acesso).fromNow() }}.</p>
+                !!! Informações adicionais do usuário devem ser realocadas para uma aba/página separada
+
+                        {% if usuario.localizacao %}
+                            <div id="localizacaoInfo" class="mb-2">
+                                <i class="fa fa-map-pin"></i>
+                                <a href="http://maps.google.com/?q={{ usuario.localizacao }}">
+                                    {{ usuario.localizacao }}
+                                </a>
+                            </div>
+                        {% endif %}
+
+                        <p><i class="fa fa-history"></i> Membro desde {{ moment(usuario.membro_desde).format('L') }}. Último acesso {{ moment(usuario.ultimo_acesso).fromNow() }}.</p>
+                
+                        <!-- Se o cliente for ADMINISTRADOR -->
+                        {% if current_user.e_administrador() %}
+                            <div id="emailInfo" class="mb-2">
+                                <h6 class="text-muted">Email</h6>
+                                <p><a href="mailto:{{ usuario.email }}">{{ usuario.email }}</a></p>
+                            </div>
+                        {% endif %}
+
+                        {% if usuario.sobre %}
+                            <div id="sobreInfo" class="mb-2">
+                                <p>{{ usuario.sobre }}</p>
+                            </div>  
+                        {% endif %}
+                #}
+
+                <div class="perfil__info-seguir">
+                    {% if current_user.pode(Permissao.SEGUIR) and usuario != current_user %}
+
+                        {% if not current_user.seguindo(usuario) %}
+                            <a href="{{ url_for('inicio.seguir', nome_usuario=usuario.nome_usuario) }}" class="btn btn-primary">Seguir</a>
+                        {% else %}
+                            <a href="{{ url_for('inicio.desfazer_seguir', nome_usuario=usuario.nome_usuario) }}" class="btn btn-secondary">Seguindo (Desfazer)</a>
+                        {% endif %}
+                    {% endif %}
+
+                    <span>Seguidores: <span class="badge badge-secondary">{{ usuario.seguidores.count() }}</span></span>
+
+                    <span>Seguindo: <span class="badge badge-secondary">{{ usuario.seguidos.count() }}</span></span>
+
+                    {% if current_user.confirmado and usuario != current_user and usuario.seguindo(current_user) %}
+                    | <span class="label label-default">Segue você</span>
+                    {% endif %}
+                </div>
         
-                <!-- Se o cliente for ADMINISTRADOR -->
-                {% if current_user.e_administrador() %}
-                    <div id="emailInfo" class="mb-2">
-                        <h6 class="text-muted">Email</h6>
-                        <p><a href="mailto:{{ usuario.email }}">{{ usuario.email }}</a></p>
-                    </div>
-                {% endif %}
-        
-                {% if usuario.sobre %}
-                    <div id="sobreInfo" class="mb-2">
-                        <p>{{ usuario.sobre }}</p>
-                    </div>  
-                {% endif %}
+                
 
                 <ul class="perfil__estatisticas-lista">
 
-                    <!--
-
-                        Cursos completados
-                        Tópicos completados
-                        Lições completadas
-                        Questões respondidas
-
-                        Publicações escritas
-                        Comentários escritos
-
-                        Amor recebido
-                    -->
-
-                    <li>📄 {{ usuario.licoes_completadas | length }} <i class="fa fa-check-square"></i> Lições completas</li>
+                    <li><span>{{ usuario.topicos_completados | length }}</span> 📝 Lições completas</li>
     
-                    <li>9 <i class="fa fa-newspaper"></i> Publicações escritas</li>
+                    <li><span>{{ usuario.licoes_completadas | length }}</span> 📰 Publicações escritas</li>
     
-                    <li>💬 {{ usuario.comentarios | length }} <i class="fa fa-comment"></i> Comentários escritos</li>
+                    <li><span>{{ usuario.comentarios | length }}</span> 💬 Comentários escritos</li>
     
-                    <li>💙 <i class="fa fa-heart"></i> Amor recebido</li>
-
-                    <li>📄 {{ usuario.licoes_completadas | length }} <i class="fa fa-check-square"></i> Lições completas</li>
-    
-                    <li>9 <i class="fa fa-newspaper"></i> Publicações escritas</li>
-    
-                    <li>💬 {{ usuario.comentarios | length }} <i class="fa fa-comment"></i> Comentários escritos</li>
-    
-                    <li>💙 <i class="fa fa-heart"></i> Amor recebido</li>
+                    <li><span>99</span> 💙 Amor recebido</li>
                 </ul>
 
             </div>
