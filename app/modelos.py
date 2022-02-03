@@ -991,11 +991,11 @@ class Usuario(UserMixin, db.Model):
 
     def to_json(self):
         json_usuario = {
-            'url': url_for('api.get_usuario', id=self.id),
+            'url': url_for('api.selecionar_usuario', id=self.id),
             'nome_usuario': self.nome_usuario,
             'membro_desde': self.membro_desde,
             'ultimo_acesso': self.ultimo_acesso,
-            'publicacoes_url': url_for('api.get_usuario_publicacoes', id=self.id),
+            'publicacoes_url': url_for('api.selecionar_usuario_publicacoes', id=self.id),
             'publicacoes_seguidos_url': url_for('api.get_publicacoes_seguidos', id=self.id),
             'n_publicacoes': self.publicacoes.count(),
         }
