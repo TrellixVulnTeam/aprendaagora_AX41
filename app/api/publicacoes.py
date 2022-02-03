@@ -7,7 +7,7 @@ from flask import (
 )
 
 from . import api
-from ..modelos import Publicacao, Permissao
+from ..modelos import Publicacao, Permissao, Usuario
 from .decoradores import permissao_necessaria
 from .. import db
 from .erros import proibido
@@ -105,3 +105,34 @@ def apagar_publicacao(id):
 
     return jsonify({'sucesso': True})
 
+
+
+@api.route('/usuarios/<int:id>/publicacoes', methods=['POST'])
+def selecionar_usuario_publicacoes(id):
+
+    usuario = Usuario.query.selecionar_or_404(id)
+
+    page = request.args.get('page', 1, type=int)
+    
+    pagination = usuario.publicacoes.order_by(Publicacao.data_criacao.asc()).paginate(
+        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        error_out=False)
+    
+    publicacoes = pagination.items
+    
+    anterior = None
+    
+    if pagination.has_prev:
+        anterior = url_for('api.selecionar_usuario_publicacoes', id=id, page=page-1)
+    
+    proximo = None
+    
+    if pagination.has_next:
+        proximo = url_for('api.selecionar_usuario_publicacoes', id=id, page=page+1)
+    
+    return jsonify({
+        'publicacoes': [publicacao.to_json() for publicacao in publicacoes],
+        'anterior': anterior,
+        'proximo': proximo,
+        'count': pagination.total
+    })

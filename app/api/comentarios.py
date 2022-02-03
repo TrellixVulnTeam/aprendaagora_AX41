@@ -46,9 +46,12 @@ def selecionar_publicacao_comentarios(id):
 
     page = request.args.get('page', 1, type=int)
     
-    pagination = publicacao.comentarios.order_by(Comentario.timestamp.asc()).paginate(
-        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
-        error_out=False)
+    pagination = publicacao.comentarios.order_by(
+        Comentario.data_criacao.asc()).paginate(
+            page,
+            per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+            error_out=False
+        )
     
     comentarios = pagination.items
     
