@@ -156,9 +156,9 @@ def fakear():
 
     print("\n\nComando click 'fakear' chamado.\n\n")
 
+    faker.usuarios()
     faker.cursos()
     faker.topicos()
     faker.licoes()
-    faker.usuarios()
     faker.publicacoes()
     faker.comentarios_publicacoes()

@@ -102,7 +102,8 @@ def criar_app(nome_configuracao):
     from .blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint, url_prefix='/blog')
 
-
+    from .api import api as api_blueprint
+    app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
     """
     # Registra o blueprint 'chat'

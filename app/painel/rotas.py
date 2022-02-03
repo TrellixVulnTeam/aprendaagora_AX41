@@ -1,6 +1,15 @@
 # Blueprint PAINEL
 
-from flask import render_template, session, redirect, url_for, current_app, flash, request, jsonify
+from flask import (
+    render_template,
+    session,
+    redirect,
+    url_for,
+    current_app,
+    flash,
+    request,
+    jsonify
+)
 from flask_login import login_required, current_user
 from datetime import datetime
 from . import painel as bp
@@ -20,6 +29,7 @@ from ..modelos import (
     UsuarioAnonimo
 )
 from ..email import enviar_email
+
 from .formularios import (
     formularioCursoPainel,
     formularioTopicoPainel,
@@ -28,8 +38,7 @@ from .formularios import (
     formularioArtigoPainel
 )
 
-
-from ..funcoes_auxiliares import (
+from ..funcoes_registrar import (
     registrar_curso,
     registrar_artigo,
     registrar_licao,

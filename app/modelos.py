@@ -3,10 +3,12 @@ from markdown import markdown
 import bleach
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask import current_app, request
+from flask import current_app, request, url_for
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 from datetime import datetime
+from .funcoes_auxiliares import truncar_texto
+from app.excecoes import ErroDeValidacao
 
 # Lista de Modelos
 """
@@ -795,6 +797,22 @@ class Usuario(UserMixin, db.Model):
         
         return True
 
+    def gerar_token_autorizacao(self, expiracao):
+        s = Serializer(current_app.config['SECRET_KEY'],
+                       expires_in=expiracao)
+
+        return s.dumps({'id': self.id}).decode('utf-8')
+
+    @staticmethod
+    def verificar_token_autorizacao(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+
+        try:
+            dados = s.loads(token)
+        except:
+            return None
+        return Usuario.query.get(dados['id'])
+
     """
     ##### ##### ##### #   # ##### ##### 
     #     #     #     #   #   #   #   # 
@@ -962,11 +980,37 @@ class Usuario(UserMixin, db.Model):
 
 
     """
+
+    ##### ##### ##### #   # 
+       #  #     #   # ##  # 
+       #  ##### #   # # # # 
+    #  #      # #   # #  ## 
+    ####  ##### ##### #   # 
+
+    """
+
+    def to_json(self):
+        json_usuario = {
+            'url': url_for('api.get_usuario', id=self.id),
+            'nome_usuario': self.nome_usuario,
+            'membro_desde': self.membro_desde,
+            'ultimo_acesso': self.ultimo_acesso,
+            'publicacoes_url': url_for('api.get_usuario_publicacoes', id=self.id),
+            'publicacoes_seguidos_url': url_for('api.get_publicacoes_seguidos', id=self.id),
+            'n_publicacoes': self.publicacoes.count(),
+        }
+
+        return json_usuario
+
+
+    """
+
     ##### #   # ##### ##### ##### ##### 
     #   # #   #   #   #   # #   # #     
     #   # #   #   #   ##### #   # ##### 
     #   # #   #   #   #  #  #   #     # 
     ##### #####   #   #   # ##### ##### 
+
     """
 
     # Um dos requisitos do serviço Gravatar é que o endereço de email através do qual o hash MD5 é obtido deve estar em letras minúsculas, por isso usamos a função 'String.lower()'
@@ -1009,6 +1053,29 @@ class Usuario(UserMixin, db.Model):
     def __repr__(self):
         return '<Usuário %r>' % self.nome_usuario
 
+
+# Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
+class UsuarioAnonimo(AnonymousUserMixin):
+
+    confirmado = False
+
+    # Um usuário anônimo não possui permissões
+    def pode(self, permissoes):
+        return False
+
+    # Um usuário anônimo não é Administrador
+    def e_administrador(self):
+        return False
+
+
+# Define o modelo que representa 'anonymous_user'
+login_manager.anonymous_user = UsuarioAnonimo
+
+
+# O decorador login_manager.user_loader registra a função com Flask-Login, que o chamará quando precisar acessar informação sobre um usuário conectado.  A função recebe o id do usuário e retorna o objeto usuario, ou None se o id do usuário for inválido ou algum outro erro ocorrer
+@login_manager.user_loader
+def carregar_usuario(usuario_id):
+    return Usuario.query.get(int(usuario_id))
 
 
 """
@@ -1550,6 +1617,9 @@ class Questao(db.Model):
     dia = db.Column(db.Integer) # 1 ou 2
 
 
+
+
+
 """
 ##########################################################
 
@@ -1625,6 +1695,7 @@ class Publicacao(db.Model):
     subtitulo = db.Column(db.String(100))
     conteudo = db.Column(db.Text)
     conteudo_html = db.Column(db.Text)
+    conteudo_truncado = db.Column(db.String(210))
     nome_foto = db.Column(db.String(100))
     n_palavras = db.Column(db.Integer)
     #! alterar nome para 'data_criacao' em todas as menções
@@ -1665,6 +1736,8 @@ class Publicacao(db.Model):
 
         self.n_palavras =  len(self.conteudo.split())
 
+        self.conteudo_truncado = truncar_texto(self.conteudo)
+
 
 
     # Converte texto em Markdown para HTML
@@ -1695,6 +1768,7 @@ class Publicacao(db.Model):
 
 
     # Retorna um dicionário representando dados da publicação que o cliente não consegue acessar localmente
+    # Usado no modal
     def json(self):
 
         # Declara um array vazio
@@ -1721,6 +1795,33 @@ class Publicacao(db.Model):
             'comentarios': self.comentarios,
             #'ameis': self.ameis
         }
+
+    def to_json(self):
+
+        json_publicacao = {
+            'url': url_for('api.selecionar_publicacao', id=self.id),
+            'conteudo': self.conteudo,
+            'conteudo_html': self.conteudo_html,
+            'data_criacao': self.data_criacao,
+            'autor_url': url_for('api.selecionar_usuario', id=self.autor_id),
+            'comentarios_url': url_for('api.selecionar_publicacao_comentarios', id=self.id),
+            'n_comentarios': self.comentarios.count()
+        }
+
+        return json_publicacao
+
+    @staticmethod
+    def from_json(json_publicacao):
+
+        conteudo = json_publicacao.get('conteudo')
+
+        if conteudo is None or conteudo == '':
+            raise ErroDeValidacao('publicação não possui conteúdo')
+        return Publicacao(conteudo=conteudo)
+
+# Esta função é invocada sempre que o campo 'conteudo' de uma publicação for alterado
+db.event.listen(Publicacao.conteudo, 'set', Publicacao.conteudo_alterado)
+
 
 """
 ##########################################################
@@ -1890,9 +1991,35 @@ class Comentario(db.Model):
                                     tags=tags_permitidas, strip=True)
                             )
 
+    def to_json(self):
+
+        json_comentario = {
+            'url': url_for('api.selecionar_comentario', id=self.id),
+            'publicacao_url': url_for('api.selecionar_publicacao', id=self.publicacao_id),
+            'conteudo': self.conteudo,
+            'conteudo_html': self.conteudo_html,
+            'data_criacao': self.data_criacao,
+            'autor_url': url_for('api.selecionar_usuario', id=self.autor_id)
+        }
+
+        return json_comentario
+
+
+    @staticmethod
+    def from_json(json_comentario):
+
+        conteudo = json_comentario.get('conteudo')
+
+        if conteudo is None or conteudo == '':
+
+            raise ErroDeValidacao('O comentário não possui conteúdo.')
+
+        return Comentario(conteudo=conteudo)
 
 
 
+# Esta função é invocada sempre que o campo 'conteudo' de um comentário for alterado
+db.event.listen(Comentario.conteudo, 'set', Comentario.conteudo_alterado)
 
 
 """
@@ -2099,33 +2226,6 @@ class Produto(db.Model):
 """
 
 
-# Esta classe, 'UsuarioAnonimo', permite chamar a função current_user.pode() e current_user.e_administrador() sem ter que checar se o usuário está conectado. E nós informamos à Flask-Login para usar a classe 'UsuarioAnonimo', ao definirmos o atributo 'login_manager.anonymous_user'
-class UsuarioAnonimo(AnonymousUserMixin):
-
-    confirmado = False
-
-    # Um usuário anônimo não possui permissões
-    def pode(self, permissoes):
-        return False
-
-    # Um usuário anônimo não é Administrador
-    def e_administrador(self):
-        return False
 
 
-# O decorador login_manager.user_loader registra a função com Flask-Login, que o chamará quando precisar acessar informação sobre um usuário conectado.  A função recebe o id do usuário e retorna o objeto usuario, ou None se o id do usuário for inválido ou algum outro erro ocorrer
-@login_manager.user_loader
-def carregar_usuario(usuario_id):
-    return Usuario.query.get(int(usuario_id))
 
-
-# Define o modelo que representa 'anonymous_user'
-login_manager.anonymous_user = UsuarioAnonimo
-
-
-# Esta função é invocada sempre que o campo 'conteudo' de uma publicação for alterado
-db.event.listen(Publicacao.conteudo, 'set', Publicacao.conteudo_alterado)
-
-
-# Esta função é invocada sempre que o campo 'conteudo' de um comentário for alterado
-db.event.listen(Comentario.conteudo, 'set', Comentario.conteudo_alterado)

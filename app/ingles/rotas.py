@@ -1,16 +1,39 @@
 # Blueprint INGLÊS
 
 from datetime import datetime
-from flask import render_template, session, redirect, url_for, current_app, flash, request, jsonify
+from flask import (
+    render_template,
+    session,
+    redirect,
+    url_for,
+    current_app,
+    flash,
+    request,
+    jsonify
+)
 from flask_login import login_required, current_user
 
 from . import ingles as bp
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
-from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
+from ..modelos import (
+    Usuario,
+    Role,
+    Permissao,
+    Publicacao,
+    Tag,
+    Comentario,
+    PublicacaoAmei
+)
 from ..email import enviar_email
 from ..formularios import formularioPublicacaoMural
-from ..funcoes_auxiliares import registrar_publicacao, registrar_comentario, truncar_texto
+from ..funcoes_auxiliares import truncar_texto
+
+from ..funcoes_registrar import (
+    registrar_publicacao,
+    registrar_comentario
+)
+
 
 """
 
@@ -43,12 +66,18 @@ comentar_publicacao()
 
 """
 
+"""
+##############################################
 
 #   # #   # #####  ###  #     
 ## ## #   # #   # ## ## #     
 # # # #   # ##### #   # #     
 #   # #   # #  #  ##### #     
 #   # ##### #   # #   # ##### 
+
+##############################################
+"""
+
 
 
 # Página inicial de INGLÊS
@@ -124,11 +153,17 @@ def inicio():
 
 
 
+"""
+##############################################
+
 ##### #   # ####  #     ##### #####  ###  #####  ###  ##### 
 #   # #   # #   # #       #   #     ## ## #     ## ## #   # 
 ##### #   # ####  #       #   #     #   # #     #   # #   # 
 #     #   # #   # #       #   #     ##### #     ##### #   # 
 #     ##### ####  ##### ##### ##### #   # ##### #   # ##### 
+
+##############################################
+"""
 
 
 # Página de uma publicação

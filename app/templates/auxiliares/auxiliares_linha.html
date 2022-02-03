@@ -15,10 +15,16 @@
 
             <span>⌚️ {{ moment(publicacao.data_criacao).fromNow() }}</span>
         </a>
+
+        <div class="linha__publicacao-tags">
+            {% for tag in publicacao.tags %}
+                <span class="linha__publicacao-tag">{{ tag.nome }}</span>
+            {% endfor %}
+        </div>
     </div>
 
     <div class="linha__publicacao-conteudo">
-        {{publicacao.conteudo}}
+        {{publicacao.conteudo_truncado}}
     </div>
 
     <div class="linha__publicacao-rodape">

@@ -12,8 +12,8 @@ from ..decoradores import admin_necessario, permissao_necessaria
 from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
 from ..email import enviar_email
 from ..formularios import formularioPublicacaoMural
-from ..funcoes_auxiliares import registrar_publicacao, truncar_texto
-
+from ..funcoes_registrar import registrar_publicacao
+from ..funcoes_auxiliares import truncar_texto
 
 
 

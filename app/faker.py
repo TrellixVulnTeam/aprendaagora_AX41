@@ -115,8 +115,16 @@ lista_palavras_materias = [
 
 
 
+"""
 
-# Cria usuários
+#   # ##### ####  ##### #     ##### ##### 
+## ## #   # #   # #     #     #   # #     
+# # # #   # #   # ##### #     #   # ##### 
+#   # #   # #   # #     #     #   #     # 
+#   # ##### ####  ##### ##### ##### ##### 
+
+"""
+
 def usuarios(n_usuarios=20):
 
     # Instância 'Faker' com linguagem definida para português-brasileiro
@@ -166,7 +174,7 @@ def usuarios(n_usuarios=20):
             # Reverte alterações
             db.session.rollback()
          
-# Cria cursos
+
 def cursos(n_cursos=50):
 
 
@@ -209,10 +217,7 @@ def cursos(n_cursos=50):
         # Reverte alterações
         db.session.rollback()
 
-def comentarios_cursos(n_comentarios=10):
-    return 1
 
-# Cria tópicos
 def topicos(n_topicos=100):
 
     """
@@ -268,10 +273,7 @@ def topicos(n_topicos=100):
         # Reverte alterações
         db.session.rollback()
 
-def comentarios_topicos(n_topicos=100):
-    return 1
 
-# Cria lições
 def licoes(n_licoes=200):
     
 
@@ -336,17 +338,11 @@ def licoes(n_licoes=200):
         # Reverte alterações
         db.session.rollback()
 
-def comentarios_licoes(n_comentarios):
-    return 1
 
-# Cria questões
 def questoes(n_licoes):
     return 1
 
-def comentarios_questoes(n_comentarios):
-    return 1
 
-# Cria publicações
 def publicacoes(n_publicacoes=100): 
 
     # Instância 'Faker' com linguagem definida para português-brasileiro
@@ -394,6 +390,61 @@ def publicacoes(n_publicacoes=100):
     except IntegrityError:
         # Reverte alterações
         db.session.rollback()
+
+
+def artigos(n_artigos=50):
+    return 1
+
+
+
+"""
+
+#   # ##### #   #  ###  ##### ##### ##### 
+#   # #     #   # ## ## #   #   #   #   # 
+#   # ##### #   # #   # #####   #   #   # 
+#   #     # #   # ##### #  #    #   #   # 
+##### ##### ##### #   # #   # ##### ##### 
+
+"""
+
+
+def seguir(n_seguir=100):
+    return 1
+
+
+def usuarios_materias():
+    return 1
+
+def usuarios_cursos():
+    return 1
+
+def usuarios_topicos():
+    return 1
+
+def usuarios_licoes():
+    return 1
+
+def usuarios_emblemas():
+    return 1
+
+
+"""
+
+##### ##### #   # ##### #   # #####  ###  ##### ##### ##### 
+#     #   # ## ## #     ##  #   #   ## ## #   #   #   #   # 
+#     #   # # # # ##### # # #   #   #   # #####   #   #   # 
+#     #   # #   # #     #  ##   #   ##### #  #    #   #   # 
+##### ##### #   # ##### #   #   #   #   # #   # ##### ##### 
+
+"""
+
+def comentarios_cursos(n_comentarios=10):
+    return 1
+
+
+def comentarios_topicos(n_topicos=100):
+    return 1
+
 
 # Cria comentários em publicações
 def comentarios_publicacoes(n_comentarios=1000):
@@ -447,30 +498,28 @@ def comentarios_publicacoes(n_comentarios=1000):
         # Reverte alterações
         db.session.rollback()
 
-def artigos(n_artigos=50):
-    return 1
 
 def comentarios_artigos():
     return 1
 
-def seguir(n_seguir=100):
+
+def comentarios_licoes(n_comentarios):
     return 1
 
 
-def usuarios_materias():
+def comentarios_questoes(n_comentarios):
     return 1
 
-def usuarios_cursos():
-    return 1
 
-def usuarios_topicos():
-    return 1
+"""
 
-def usuarios_licoes():
-    return 1
+ ###  #   # ##### ##### ##### 
+## ## ## ## #       #   #     
+#   # # # # #####   #   ##### 
+##### #   # #       #       # 
+#   # #   # ##### ##### ##### 
 
-def usuarios_emblemas():
-    return 1
+"""
 
 def ameis_comentarios():
     return 1

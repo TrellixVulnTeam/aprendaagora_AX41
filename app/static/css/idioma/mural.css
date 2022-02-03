@@ -347,17 +347,13 @@ ul.paginacao > a:hover {
 
 
 .paginacao li {
-
     font-weight: bold;
-
-    border: grey 1px solid;
-
+    border: rgb(225, 255, 250) 1px solid;
+    border-radius: 4px;
     display:table-cell;
-
     vertical-align: middle;
-
     text-align: center;
-    background-color: white;
+    background-color: rgb(243, 255, 254);
     width: 30px;
     height: 30px;
 }

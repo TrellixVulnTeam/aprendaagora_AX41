@@ -84,14 +84,20 @@
     margin-right: 5px;
 }
 
+.linha__lista-abas a:hover {
+    text-decoration: none;
+}
+
+
 .linha__lista-abas li {
-    background-color: rgb(195, 246, 243);
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(216, 250, 245);
     border-radius: 4px;
     padding: 4px 10px;
 }
 
 .linha__lista-publicacoes-container {
-margin-top: 20px;
+    margin-top: 20px;
 }
 
 .linha__publicacao-container {
@@ -108,7 +114,14 @@ margin-top: 20px;
     margin-bottom: 10px;
 }
 
-
+.linha__publicacao-tag {
+    color: white;
+    background-color:rgb(55, 128, 36);
+    border: 1px solid rgb(225, 255, 200);
+    border-radius: 4px;
+    padding: 0 1px;
+    font-size: 0.8em;
+}
 
 .linha__publicacao-conteudo {
 

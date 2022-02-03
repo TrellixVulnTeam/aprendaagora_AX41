@@ -100,10 +100,12 @@
 
                 <ul class="perfil__estatisticas-lista">
 
-                    <li><span>{{ usuario.topicos_completados | length }}</span> 📝 Lições completas</li>
+                    <li><span>{{ usuario.topicos_completados | length }}</span> 📝 Tópicos completos</li>
     
-                    <li><span>{{ usuario.licoes_completadas | length }}</span> 📰 Publicações escritas</li>
+                    <li><span>{{ usuario.licoes_completadas | length }}</span> 📰 Lições completas</li>
     
+                    <li><span>{{ usuario.publicacoes.count() }}</span> 📰 Publicações escritas</li>
+
                     <li><span>{{ usuario.comentarios | length }}</span> 💬 Comentários escritos</li>
     
                     <li><span>99</span> 💙 Amor recebido</li>

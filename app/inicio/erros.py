@@ -1,6 +1,6 @@
 # Adicionar comentários
 
-from flask import render_template
+from flask import render_template, request, jsonify
 from . import inicio
 
 
@@ -16,6 +16,12 @@ def proibido(e):
 @inicio.app_errorhandler(404)
 def pagina_nao_encontrada(e):
 
+    if request.accept_mimetypes.accept_json and \
+        not request.accept_mimetypes.accept_html:
+        resposta = jsonify({ 'erro': 'não encontrado' })
+        resposta.status_code = 404
+        return resposta
+
     return render_template('erros/404.html'), 404
 
 
@@ -23,7 +29,13 @@ def pagina_nao_encontrada(e):
 # Gerencia o erro interno de servidor
 @inicio.app_errorhandler(500)
 def erro_interno_servidor(e):
-    return render_template('erros/500.html'), 500
+    r
+    if request.accept_mimetypes.accept_json and \
+        not request.accept_mimetypes.accept_html:
+        resposta = jsonify({'erro': 'não erro interno do servidor'})
+        resposta.status_code = 404
+        return resposta
+    return render_template('500.html'), 500
 
 
 

@@ -3,7 +3,16 @@
 from datetime import datetime
 import random
 import string
-from flask import render_template, session, redirect, url_for, current_app, flash, request, jsonify
+from flask import (
+    render_template,
+    session,
+    redirect,
+    url_for,
+    current_app,
+    flash,
+    request,
+    jsonify
+)
 from flask_login import login_required, current_user
 from sqlalchemy import desc
 
@@ -12,9 +21,23 @@ from .formularios import formularioArtigoBlog, formularioComentarioArtigo
 
 from .. import db
 from ..decoradores import admin_necessario, permissao_necessaria
-from ..modelos import Usuario, Role, Permissao, Publicacao, Tag, Comentario, PublicacaoAmei
+from ..modelos import (
+    Usuario,
+    Role,
+    Permissao,
+    Publicacao,
+    Tag,
+    Comentario,
+    PublicacaoAmei
+)
 from ..email import enviar_email
-from ..funcoes_auxiliares import registrar_artigo, registrar_comentario, truncar_texto
+from ..funcoes_auxiliares import (
+    truncar_texto
+)
+from ..funcoes_registrar import (
+    registrar_artigo,
+    registrar_comentario,
+)
 
 from flask_uploads import UploadSet, IMAGES
 
