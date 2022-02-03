@@ -1812,6 +1812,7 @@ class Publicacao(db.Model):
     def to_json(self):
 
         json_publicacao = {
+            'id': self.id,
             'url': url_for('api.selecionar_publicacao', id=self.id),
             'conteudo': self.conteudo,
             'conteudo_html': self.conteudo_html,
