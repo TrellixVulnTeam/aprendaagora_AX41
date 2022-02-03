@@ -1,2 +1,2 @@
-git+https://github.com/ramonrodriguesomero/flask-script.git
-git+https://github.com/ramonrodriguesomero/flask-wtf.git
+git+https://github.com/ramonfrombr/flask-script.git
+git+https://github.com/ramonfrombr/flask-wtf.git
