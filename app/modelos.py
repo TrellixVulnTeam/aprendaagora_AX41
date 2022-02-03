@@ -991,6 +991,7 @@ class Usuario(UserMixin, db.Model):
 
     def to_json(self):
         json_usuario = {
+            'id': self.id,
             'url': url_for('api.selecionar_usuario', id=self.id),
             'nome_usuario': self.nome_usuario,
             'membro_desde': self.membro_desde,
