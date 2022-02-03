@@ -136,3 +136,35 @@ def selecionar_usuario_publicacoes(id):
         'proximo': proximo,
         'count': pagination.total
     })
+
+
+@api.route('/usuario/<int:id>/publicacoes/seguidos')
+def selecionar_usuario_publicacoes_seguidos(id):
+
+    usuario = Usuario.query.selecionar_or_404(id)
+
+    page = request.args.get('page', 1, type=int)
+    
+    pagination = usuario.publicacoes_seguidos.order_by(Publicacao.data_criacao.asc()).paginate(
+        page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
+        error_out=False)
+    
+    publicacoes = pagination.items
+    
+    anterior = None
+    
+    if pagination.has_prev:
+        anterior = url_for('api.selecionar_usuario_publicacoes_seguidos', id=id, page=page-1)
+    
+    proximo = None
+    
+    if pagination.has_next:
+        proximo = url_for('api.selecionar_usuario_publicacoes_seguidos', id=id, page=page+1)
+    
+    return jsonify({
+        'publicacoes': [publicacao.to_json() for publicacao in publicacoes],
+        'anterior': anterior,
+        'proximo': proximo,
+        'count': pagination.total
+    })
+

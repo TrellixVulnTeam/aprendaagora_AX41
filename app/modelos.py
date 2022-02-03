@@ -996,7 +996,7 @@ class Usuario(UserMixin, db.Model):
             'membro_desde': self.membro_desde,
             'ultimo_acesso': self.ultimo_acesso,
             'publicacoes_url': url_for('api.selecionar_usuario_publicacoes', id=self.id),
-            'publicacoes_seguidos_url': url_for('api.get_publicacoes_seguidos', id=self.id),
+            'publicacoes_seguidos_url': url_for('api.selecionar_publicacoes_seguidos', id=self.id),
             'n_publicacoes': self.publicacoes.count(),
         }
 
