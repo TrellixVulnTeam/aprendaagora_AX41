@@ -22,12 +22,10 @@ Flask-Migrate==2.0.4
 Flask-Moment==0.5.1
 Flask-PageDown==0.2.2
 Flask-Reuploaded==1.2.0
-Flask-Script==2.0.6
 Flask-Session==0.3.2
 Flask-SocketIO==5.1.0
 Flask-SQLAlchemy==2.2
 Flask-SSLify==0.1.5
-Flask-WTF==1.0.0
 greenlet==1.1.0
 gunicorn==19.7.1
 html5lib==0.999999999
@@ -59,3 +57,5 @@ visitor==0.1.3
 webencodings==0.5.1
 Werkzeug==2.0.0
 WTForms==2.1
+git+https://github.com/ramonrodriguesomero/flask-script.git
+git+https://github.com/ramonrodriguesomero/flask-wtf.git
