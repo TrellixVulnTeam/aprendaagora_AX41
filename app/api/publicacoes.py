@@ -31,7 +31,7 @@ def selecionar_publicacoes_paginado():
         error_out=False
     )
 
-    publicacoes = paginacao.items()
+    publicacoes = paginacao.items
 
     anterior = None
 
