@@ -10,19 +10,31 @@ autorizacao = HTTPBasicAuth()
 
 @autorizacao.verify_password
 def verificar_senha(email_ou_token, senha):
+
+    print("\n\n" + email_ou_token + "\n\n")
+
+    print("\n\n" + senha + "\n\n")
+
     if email_ou_token == '':
+
         return False
+
     if senha == '':
+
         g.current_user = Usuario.verificar_token_autorizacao(email_ou_token)
+
         g.token_usado = True
+
         return g.current_user is not None
 
     usuario = Usuario.query.filter_by(email=email_ou_token).first()
 
     if not usuario:
+
         return False
 
     g.current_user = usuario
+
     g.token_usado = False
 
     return usuario.verificar_senha(senha)
@@ -45,7 +57,11 @@ def antes_do_pedido():
 
 @api.route('/tokens/', methods=['POST'])
 def get_tokens():
+    
     if g.current_user.is_anonymous or g.token_usado:
         return nao_autorizado('Credenciais inválidas.')
 
-    return jsonify({'token': g.current_user.gerar_token_autorizacao(expiracao=3600), 'expiracao': 3600})
+    return jsonify({
+        'token': g.current_user.gerar_token_autorizacao(expiracao=3600),
+        'expiracao': 3600
+    })

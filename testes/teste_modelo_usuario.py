@@ -18,33 +18,33 @@ class TesteModeloUsuario(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def teste_senha_setter(self):
+    def test_senha_setter(self):
         u = Usuario(senha='gato')
         self.assertTrue(u.senha_hash is not None)
 
-    def teste_senha_bloqueada(self):
+    def test_senha_bloqueada(self):
         u = Usuario(senha='gato')
         with self.assertRaises(AttributeError):
             u.senha
 
-    def teste_senha_verificacao(self):
+    def test_senha_verificacao(self):
         u = Usuario(senha='gato')
         self.assertTrue(u.verificar_senha('gato'))
         self.assertFalse(u.verificar_senha('cachorro'))
 
-    def teste_senha_salts_sao_aleatorios(self):
+    def test_senha_salts_sao_aleatorios(self):
         u = Usuario(senha='gato')
         u2 = Usuario(senha='gato')
         self.assertTrue(u.senha_hash != u2.senha_hash)
 
-    def teste_token_confirmacao_valido(self):
+    def test_token_confirmacao_valido(self):
         u = Usuario(senha='gato')
         db.session.add(u)
         db.session.commit()
         token = u.gerar_token_confirmacao()
         self.assertTrue(u.confirmar(token))
     
-    def teste_token_confirmacao_invalido(self):
+    def test_token_confirmacao_invalido(self):
         u1 = Usuario(senha='gato')
         u2 = Usuario(senha='cachorro')
         db.session.add(u1)
@@ -53,7 +53,7 @@ class TesteModeloUsuario(unittest.TestCase):
         token = u1.gerar_token_confirmacao()
         self.assertFalse(u2.confirmar(token))
 
-    def teste_token_confirmacao_expirado(self):
+    def test_token_confirmacao_expirado(self):
         u = Usuario(senha='gato')
         db.session.add(u)
         db.session.commit()
@@ -63,7 +63,7 @@ class TesteModeloUsuario(unittest.TestCase):
 
 
     
-    def teste_role_usuario(self):
+    def test_role_usuario(self):
         u = Usuario(email='joao@exemplo.com', senha='gato')
         self.assertTrue(u.pode(Permissao.SEGUIR))
         self.assertTrue(u.pode(Permissao.COMENTAR))
@@ -84,7 +84,7 @@ class TesteModeloUsuario(unittest.TestCase):
         self.assertFalse(u.pode(Permissao.ESCREVER_BLOG))
         self.assertFalse(u.pode(Permissao.ADMIN))
 
-    def teste_usuario_anonimo(self):
+    def test_usuario_anonimo(self):
         u = UsuarioAnonimo()
         self.assertFalse(u.pode(Permissao.SEGUIR))
         self.assertFalse(u.pode(Permissao.COMENTAR))

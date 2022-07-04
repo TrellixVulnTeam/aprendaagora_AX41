@@ -26,26 +26,17 @@ from .modelos import (
     ComentarioAmei
 )
 
-# Lista de palavras relacionadas a estudo de idiomas
-lista_palavras = [
-    'palavra', 'verbo', 'frase', 'difícil', 'conjugação',
-    'pronúncia', 'inglês', 'escola', 'estudos', 'livro',
-    'cultura', 'gramática', 'vocabulário', 'fácil', 'estudantes',
-    'professor', 'exercício', 'prática', 'rápido', 'devagar', 'exterior',
-    'sotaque', 'poliglota', 'idioma', 'língua', 'semântica', 'linguística',
-    'literatura', 'expressão', 'linguagem', 'dialeto', 'fala', 'adjetivo',
-    'dicionário', 'gíria'
-]
+lista_palavras = ['soma', 'adição', 'subtração', 'divisão', 'multiplicação', 'quociente', 'fração', 'geometria', 'trigonometria', 'fator', 'ordem', 'decrescente', 'inteiro', 'número', 'problema', 'produto', 'metade', 'comprimento', 'equação', 'seno', 'cosseno', 'álgebra', 'probabilidade', 'probabilidade', 'estatística', 'finanças']
 
-lista_palavras_matematica = ['soma', 'adição', 'subtração', 'divisão', 'multiplicação', 'quociente', 'fração', 'geometria', 'trigonometria']
+lista_palavras_matematica = ['soma', 'adição', 'subtração', 'divisão', 'multiplicação', 'quociente', 'fração', 'geometria', 'trigonometria', 'fator', 'ordem', 'decrescente', 'inteiro', 'número', 'problema', 'produto', 'metade', 'comprimento', 'equação', 'seno', 'cosseno', 'álgebra', 'probabilidade', 'probabilidade', 'estatística', 'finanças']
 
-lista_palavras_biologia = ['fotossíntese', 'orgão', 'planta', 'semente', 'caule', 'sistema nervoso', 'sistema digestivo']
+lista_palavras_biologia = ['fotossíntese', 'orgão', 'planta', 'semente', 'caule', 'sistema nervoso', 'sistema digestivo', 'ecologia', 'botânica', 'embriologia', 'vida', 'seres vivos', 'animal', 'ervas', 'anfíbios', 'biodiversidade', 'fungos', 'célula', 'orgão', 'cérebro', 'ecologia']
 
-lista_palavras_quimica = ['reação', 'átomo', 'molécula', 'explosão']
+lista_palavras_quimica = ['reação', 'átomo', 'molécula', 'explosão', 'biocombustível', 'explosivos', 'transformação', 'mutação', 'conversão', 'solução', 'transição', 'chorume', 'minério', 'propriedade', 'metal', 'carbano', 'oxigênio', 'hélio', 'hidrogênio']
 
-lista_palavras_fisica = []
+lista_palavras_fisica = ['magnetismo', 'eletricidade', 'mecânica', 'atômico', 'matéria', 'objeto', 'substância', 'velocidade', 'pressão', 'gravidade', 'dinânica', 'inércia', 'metafísica', 'entropia', 'resiliência', 'atrito', 'astrofísica']
 
-lista_palavras_historia = ['guerra', 'comércio', 'colonização', 'governo', 'Estado']
+lista_palavras_historia = ['guerra', 'comércio', 'colonização', 'governo', 'Estado', 'pré-história']
 
 lista_palavras_geografia = ['terreno', 'escavação', 'bioma']
 
@@ -55,6 +46,9 @@ lista_palavras_sociologia = ['sociedade']
 
 lista_palavras_arte = ['tinta', 'barroco']
 
+
+
+"""
 lista_palavras_materias = [
     {
         'ingles': lista_palavras
@@ -112,7 +106,7 @@ lista_palavras_materias = [
         'arte': lista_palavras
     },
 ]
-
+"""
 
 
 """
@@ -145,7 +139,7 @@ def usuarios(n_usuarios=20):
             u = Usuario(
                     email=email,
 
-                    nome_usuario=fake.user_name(),
+                    nome_usuario=nome_usuario,
                     
                     senha='password',
                     
