@@ -1,15 +1,10 @@
 from flask import Flask
-
 from flask_bootstrap import Bootstrap
 from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
-
-
 from flask_pagedown import PageDown
 from flask_login import LoginManager
-
-
 from flask_uploads import configure_uploads
 
 """
@@ -18,7 +13,6 @@ from flask_socketio import SocketIO
 
 from config import configuracao
 
-
 bootstrap = Bootstrap()
 mail = Mail()
 moment = Moment()
@@ -26,11 +20,9 @@ db = SQLAlchemy()
 pagedown = PageDown()
 
 
-
 """
 #socketio = SocketIO(logger=True, engine_logger=True, cors_allowed_origins="*")
 """
-
 
 login_manager = LoginManager()
 # Define qual a rota para login
@@ -43,9 +35,7 @@ login_manager.login_message_category = "alert-danger"
 ######################################################################
 
 
-
 from app.blog.rotas import fotos
-
 
 
 def criar_app(nome_configuracao):
@@ -55,7 +45,6 @@ def criar_app(nome_configuracao):
     app.config.from_object(configuracao[nome_configuracao])
 
     app.config['UPLOADED_PHOTOS_DEST'] = 'app/static/imagens'
-
     
     configuracao[nome_configuracao].init_app(app)
 
@@ -66,9 +55,7 @@ def criar_app(nome_configuracao):
     login_manager.init_app(app)
     pagedown.init_app(app)
     
-
     configure_uploads(app, fotos)
-    
 
     """
     #socketio.init_app(app)

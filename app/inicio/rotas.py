@@ -1,4 +1,3 @@
-
 from flask import (
     render_template,
     session,
@@ -35,8 +34,6 @@ from ..decoradores import admin_necessario, permissao_necessaria
 from ..email import enviar_email
 
 
-
-
 """
 ##########################################################
 
@@ -65,8 +62,6 @@ def grupo_facebook():
     return redirect("https://www.facebook.com/groups/aprendaagora")
 
 
-
-
 """
 ##########################################################
 
@@ -87,17 +82,20 @@ def inicio():
     exibir_seguidos = False
 
     if current_user.confirmado:
-
         exibir_seguidos = bool(request.cookies.get('exibir_seguidos', ''))
 
+    """
     if exibir_seguidos:
-
         consulta = current_user.publicacoes_seguidos
-
     else:
+        consulta = Publicacao.query.all()
+    """
+    
+    consulta = Publicacao.query.all()
 
-        consulta = Publicacao.query
-
+    print(type(consulta))
+    
+    """
     paginacao = consulta.order_by(
         Publicacao.data_criacao.desc()
     ).paginate(
@@ -105,14 +103,17 @@ def inicio():
         per_page=current_app.config['MURAL_PUBLICACOES_POR_PAGINA'],
         error_out=False
     )
+    """
 
-    publicacoes = paginacao.items
+    #publicacoes = paginacao.items
+
+    publicacoes = consulta
 
     return render_template(
         'inicio/inicio.html',
         publicacoes=publicacoes,
         exibir_seguidos=exibir_seguidos,
-        paginacao=paginacao
+        #paginacao=paginacao
     )
 
 
@@ -122,9 +123,7 @@ def inicio():
 def exibir_todos():
 
     resposta = make_response(redirect(url_for('.inicio')))
-
     resposta.set_cookie('exibir_seguidos', '', max_age=30*24*60*60)
-
     return resposta
 
 
@@ -133,9 +132,7 @@ def exibir_todos():
 def exibir_seguidos():
 
     resposta = make_response(redirect(url_for('.inicio')))
-
     resposta.set_cookie('exibir_seguidos', '1', max_age=30*24*60*60)
-
     return resposta
 
 
@@ -229,7 +226,6 @@ def perfil():
 
     # Seleciona as publicacoes do usuário
     publicacoes = usuario.publicacoes.order_by(
-
             Publicacao.data_criacao.desc()
     ).all()
 

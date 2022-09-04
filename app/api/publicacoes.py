@@ -13,12 +13,13 @@ from .. import db
 from .erros import proibido
 
 
-@api.route('/publicacoes/')
+@api.route('/publicacoes')
 def selecionar_publicacoes():
     
     publicacoes = Publicacao.query.all()
-
+    
     return jsonify({ 'publicacoes': [publicacao.to_json() for publicacao in publicacoes]})
+
 
 @api.route('/publicacoes/paginado')
 def selecionar_publicacoes_paginado():
@@ -74,7 +75,6 @@ def nova_publicacao():
     return jsonify(publicacao.to_json()), 201, {'Location': url_for('api.selecionar_publicacao', id=publicacao.id)}
 
 
-
 @api.route('/publicacoes/', methods=['PUT'])
 @permissao_necessaria(Permissao.ESCREVER_BLOG)
 def editar_publicacao(id):
@@ -104,7 +104,6 @@ def apagar_publicacao(id):
     db.session.commit()
 
     return jsonify({'sucesso': True})
-
 
 
 @api.route('/usuarios/<int:id>/publicacoes', methods=['POST'])
