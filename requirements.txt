@@ -34,7 +34,7 @@ httpie==3.0.2
 idna==3.3
 itsdangerous==2.0.0
 Jinja2==3.0.0
-Mako==1.0.7
+Mako==1.2.2
 Markdown==2.6.8
 MarkupSafe==2.0.1
 multidict==6.0.2
